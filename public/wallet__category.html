@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mint Wallet</title>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			<div class="header__logo">
+				<a href="index.html" class="logo__container">
+					<span class="logo__container__icon"><i class="fa-solid fa-wallet fa-xl"></i></span> Mint Wallet 
+				</a>
+			</div>
+			<nav class="header__menu">
+				<ul class="header__menu-left">
+					<li class="header__menu-left-item">
+						<input type="checkbox" class="header__menu-left-item-checkbox" id="nav__checkbox">
+						<label for="nav__checkbox" class="nav__toggle">
+							<i class="fa-solid fa-bars-staggered fa-lg nav__toggle-menu"></i>
+							<i class="fa-solid fa-xmark fa-lg nav__toggle-close"></i>
+						</label>
+						<ul class="nav__categories">
+							<li class="nav__categories-list"><h2>MAIN</h2>
+								<ul class="nav__categories-list-menu">
+									<li class="nav__categories-list-menu-item">
+										<a href="index.html" class="nav__categories-link ">
+											<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
+										</a> 
+									</li>
+								</ul>
+							</li>
+							<li class="nav__categories-list">ADDITIONAL
+								<ul class="nav__categories-list-menu">
+									<li class="nav__categories-list-menu-item">
+										<a href="oil.html" class="nav__categories-link">
+											<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
+										</a> 
+									</li>
+									<li class="categories__list-menu-item">
+										<input type="checkbox" class="categories__list-show-hide" id="categories__list-show-hide">
+										<label for="categories__list-show-hide" class="categories__label list__item-active">
+											<i class="fa-solid fa-money-check-dollar fa-sm categories__list-icon"></i>My Wallet
+											<div class="categories__list-submenu">
+												<i class="fa-solid fa-chevron-right show__submenu"></i>
+												<i class="fa-solid fa-chevron-down hide__submenu"></i>
+											</div>
+										</label>
+										<ul class="component__submenu">
+											<li class="component__submenu-list">
+												<a href="wallet__category.html" class="component__submenu-list-link component__submenu-selected">Category</a>
+											</li>
+											<li class="component__submenu-list">
+												<a href="wallet__transaction.html" class="component__submenu-list-link">Transaction</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li class="header__menu-item-search">
+						<input type="text" class="search__text" placeholder="Search for anything...">
+						<button class="search__button">
+							<span class="search__icon"><i class="fa-solid fa-magnifying-glass fa-lg"></i></span>
+						</button>
+					</li>
+				</ul>
+				<ul class="header__menu-right">
+					<li class="header__menu-items">
+						<input type="checkbox" class="header__menu-item-toggle" id="item__toggle">
+						<label for="item__toggle" class="header__menu-item right__show">
+							<i class="fa-solid fa-bars fa-lg menu__show-toggle"></i>
+							<i class="fa-solid fa-chevron-up menu__hide-toggle"></i>
+						</label>
+						
+						<ul class="header__menu-right-bars">
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-lightbulb fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-minimize fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-bell fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-message fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-user-tie fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-gear fa-lg"></i>
+								</a>
+							</li>
+						</ul>	
+						
+					</li>
+				</ul>
+			</nav>
+		</header>
+		
+		<div class="sidebar">
+			<ul class="categories">
+				<li class="categories__list"><h2>MAIN</h2>
+					<ul class="categories__list-menu">
+						<li class="categories__list-menu-item">
+							<a href="#" class="categories__link">
+								<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
+							</a> 
+						</li>
+					</ul>
+				</li>
+				<li class="categories__list">ADDITIONAL
+					<ul class="categories__list-menu">
+						<li class="categories__list-menu-item">
+							<a href="oil.html" class="categories__link">
+								<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
+							</a> 
+						</li>
+						<li class="categories__list-menu-item">
+							<input type="checkbox" class="categories__list-show-hide" id="categories__list-show-hide-2nd">
+							<label for="categories__list-show-hide-2nd" class="categories__label list__item-active">
+								<i class="fa-solid fa-money-check-dollar fa-sm categories__list-icon"></i>My Wallet
+								<div class="categories__list-submenu">
+									<i class="fa-solid fa-chevron-right show__submenu"></i>
+									<i class="fa-solid fa-chevron-down hide__submenu"></i>
+								</div>
+							</label>
+							<ul class="component__submenu">
+								<li class="component__submenu-list">
+									<a href="wallet__category.html" class="component__submenu-list-link component__submenu-selected ">Category</a>
+								</li>
+								<li class="component__submenu-list">
+									<a href="wallet__transaction.html" class="component__submenu-list-link">Transaction</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="container">
+			<div class="header__container">
+				<div class="header__container-left">
+					<h2 class="header__container-left-title">My Wallet</h2>
+					<span class="header__container-left-link">Home /</span> 
+					<span class="header__container-left-link">My Wallet /</span>
+					<span class="header__container-left-link">Category</span>
+				</div>
+				<div class="header__container-right">
+					<button class="add__account-button">
+					  <i class="fa-solid fa-plus"></i> Add Category
+				    </button>
+					<button class="export-button">
+						<i class="fa-solid fa-file-export"></i> Export
+					</button>
+				</div>
+			</div>
+			<div class="main__content">
+				<div class="category__content">
+					<div class="category__content-item">
+						<div class="category__content-item-left">
+							<div class="category__content-item-left-header"><h1>Salary</h1></div>
+							<div class="category__content-item-left-desc">Salary of FRT</div>
+						</div>
+						<div class="category__content-item-right">
+							<div class="category__content-item-right-icon">
+								<i class="fa-solid fa-sack-dollar fa-sm"></i>
+							</div>
+							<div class="category__content-item-right-icon"></div>
+							<div class="category__content-item-right-icon"></div>
+						</div>
+					</div>	
+
+					<div class="category__content-item">
+						<div class="category__content-item-left">
+							<div class="category__content-item-left-header"><h1>Invoice</h1></div>
+							<div class="category__content-item-left-desc">Invoice of EVN</div>
+						</div>
+						<div class="category__content-item-right">
+							<div class="category__content-item-right-icon">
+								<i class="fa-solid fa-sack-dollar fa-sm"></i>
+							</div>
+							<div class="category__content-item-right-icon"></div>
+							<div class="category__content-item-right-icon"></div>
+						</div>
+					</div>
+
+					<div class="category__content-item">
+						<div class="category__content-item-left">
+							<div class="category__content-item-left-header"><h1>Salary</h1></div>
+							<div class="category__content-item-left-desc">Salary of FRT</div>
+						</div>
+						<div class="category__content-item-right">
+							<div class="category__content-item-right-icon">
+								<i class="fa-solid fa-sack-dollar fa-sm"></i>
+							</div>
+							<div class="category__content-item-right-icon"></div>
+							<div class="category__content-item-right-icon"></div>
+						</div>
+					</div>
+
+					<div class="category__content-item">
+						<div class="category__content-item-left">
+							<div class="category__content-item-left-header"><h1>Salary</h1></div>
+							<div class="category__content-item-left-desc">Salary of FRT</div>
+						</div>
+						<div class="category__content-item-right">
+							<div class="category__content-item-right-icon">
+								<i class="fa-solid fa-sack-dollar fa-sm"></i>
+							</div>
+							<div class="category__content-item-right-icon"></div>
+							<div class="category__content-item-right-icon"></div>
+						</div>
+					</div>
+			</div>
+		</div>
+		<footer class="footer">
+			<span class="footer__text">
+				Copyright &copy 2023. Designed width 
+				<span style="color: rgb(248, 38, 73);">&hearts;</span> by Mint
+			</span>
+		</footer>
+	</div>
+
+
+	<div class="dialog">
+		<div class="dialog__content">
+			<div class="dialog__content-header">
+				<h2 class="dialog__content-header-label">Add a new category</h2>
+				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
+			</div>
+			<div class="dialog__content-body">
+				<form action="#" class="dialog__form">
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="catname">Category Name</label>
+						<input class="dialog__form-input" type="text" name="catname" id="form__add-cat_name" placeholder="Category">
+					</div>				
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="catdesc">Description</label>
+						<input class="dialog__form-input" type="text" name="catdesc" id="form__add-desc" placeholder="Description">
+					</div>				
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="catcolor">Color</label>
+						<input class="dialog__form-input" name="catcolor" type="color" id="form__add-cat_color" value="#45aaf2" >
+					</div>				
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="caticon">Category Icon</label>
+						<select class="dialog__form-select" name="caticon" id="form__add-cat_icon">
+							<option value="#" selected="selected">-- Choose one --</option>
+							<option value="fa-solid fa-file-invoice-dollar fa-xl">Food & Drink &#xf2e7;</i></option>
+							<option value="fa-solid fa-utensils">Invoice &#xf571;</option>
+						</select>
+					</div>
+				</form>
+			</div>
+			<div class="dialog__content-footer">
+				<button class="add__transaction-button">
+					<i class="fa-solid fa-plus"></i> Add Category
+				</button>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/script.js"></script>
+</html>

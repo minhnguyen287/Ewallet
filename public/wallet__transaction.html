@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mint Wallet</title>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			<div class="header__logo">
+				<a href="index.html" class="logo__container">
+					<span class="logo__container__icon"><i class="fa-solid fa-wallet fa-xl"></i></span> Mint Wallet 
+				</a>
+			</div>
+			<nav class="header__menu">
+				<ul class="header__menu-left">
+					<li class="header__menu-left-item">
+						<input type="checkbox" class="header__menu-left-item-checkbox" id="nav__checkbox">
+						<label for="nav__checkbox" class="nav__toggle">
+							<i class="fa-solid fa-bars-staggered fa-lg nav__toggle-menu"></i>
+							<i class="fa-solid fa-xmark fa-lg nav__toggle-close"></i>
+						</label>
+						<ul class="nav__categories">
+							<li class="nav__categories-list"><h2>MAIN</h2>
+								<ul class="nav__categories-list-menu">
+									<li class="nav__categories-list-menu-item">
+										<a href="index.html" class="nav__categories-link">
+											<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
+										</a> 
+									</li>
+								</ul>
+							</li>
+							<li class="nav__categories-list">ADDITIONAL
+								<ul class="nav__categories-list-menu">
+									<li class="nav__categories-list-menu-item">
+										<a href="oil.html" class="nav__categories-link">
+											<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
+										</a> 
+									</li>
+									<li class="categories__list-menu-item">
+										<input type="checkbox" class="categories__list-show-hide" id="categories__list-show-hide">
+										<label for="categories__list-show-hide" class="categories__label list__item-active">
+											<i class="fa-solid fa-money-check-dollar fa-sm categories__list-icon"></i>My Wallet
+											<div class="categories__list-submenu">
+												<i class="fa-solid fa-chevron-right show__submenu"></i>
+												<i class="fa-solid fa-chevron-down hide__submenu"></i>
+											</div>
+										</label>
+										<ul class="component__submenu">
+											<li class="component__submenu-list">
+												<a href="wallet__category.html" class="component__submenu-list-link">Category</a>
+											</li>
+											<li class="component__submenu-list">
+												<a href="wallet__transaction.html" class="component__submenu-list-link component__submenu-selected">Transaction</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li class="header__menu-item-search">
+						<input type="text" class="search__text" placeholder="Search for anything...">
+						<button class="search__button">
+							<span class="search__icon"><i class="fa-solid fa-magnifying-glass fa-lg"></i></span>
+						</button>
+					</li>
+				</ul>
+				<ul class="header__menu-right">
+					<li class="header__menu-items">
+						<input type="checkbox" class="header__menu-item-toggle" id="item__toggle">
+						<label for="item__toggle" class="header__menu-item right__show">
+							<i class="fa-solid fa-bars fa-lg menu__show-toggle"></i>
+							<i class="fa-solid fa-chevron-up menu__hide-toggle"></i>
+						</label>
+						
+						<ul class="header__menu-right-bars">
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-lightbulb fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-minimize fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-bell fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-message fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-user-tie fa-lg"></i>
+								</a>
+							</li>
+							<li class="header__menu-item">
+								<a href="#" class="header__menu-link">
+									<i class="fa-solid fa-gear fa-lg"></i>
+								</a>
+							</li>
+						</ul>	
+						
+					</li>
+				</ul>
+			</nav>
+		</header>
+		
+		<div class="sidebar">
+			<ul class="categories">
+				<li class="categories__list"><h2>MAIN</h2>
+					<ul class="categories__list-menu">
+						<li class="categories__list-menu-item">
+							<a href="index.html" class="categories__link">
+								<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
+							</a> 
+						</li>
+					</ul>
+				</li>
+				<li class="categories__list">ADDITIONAL
+					<ul class="categories__list-menu">
+						<li class="categories__list-menu-item">
+							<a href="oil.html" class="categories__link">
+								<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
+							</a> 
+						</li>
+						<li class="categories__list-menu-item">
+							<input type="checkbox" class="categories__list-show-hide" id="categories__list-show-hide-2nd">
+							<label for="categories__list-show-hide-2nd" class="categories__label list__item-active">
+								<i class="fa-solid fa-money-check-dollar fa-sm categories__list-icon"></i>My Wallet
+								<div class="categories__list-submenu">
+									<i class="fa-solid fa-chevron-right show__submenu"></i>
+									<i class="fa-solid fa-chevron-down hide__submenu"></i>
+								</div>
+							</label>
+							<ul class="component__submenu">
+								<li class="component__submenu-list">
+									<a href="wallet__category.html" class="component__submenu-list-link">Category</a>
+								</li>
+								<li class="component__submenu-list">
+									<a href="wallet__transaction.html" class="component__submenu-list-link component__submenu-selected">Transaction</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="container">
+			<div class="header__container">
+				<div class="header__container-left">
+					<h2 class="header__container-left-title">My Wallet</h2>
+					<span class="header__container-left-link">Home /</span> 
+					<span class="header__container-left-link">My Wallet /</span> 
+					<span class="header__container-left-link">Transaction</span>
+				</div>
+				<div class="header__container-right">
+					<button class="add__account-button">
+					  <i class="fa-solid fa-plus"></i> Add Transaction
+				    </button>
+					<button class="export-button">
+						<i class="fa-solid fa-file-export"></i> Export
+					</button>
+				</div>
+			</div>
+			<div class="main__content">
+				<!-- Code something -->
+						<main class="layout-content">
+							<section class="layout_content table__header">
+								<h2>Wallet</h2>
+							</section>
+							<section class="layout_content table__body">
+								<div class="table__body-header">
+									<div class="table__body-header-show">
+										<span>Show</span>
+										<select name="table_record" id="table_record">
+											<option value="week">Week</option>
+											<option value="month" selected>Month</option>
+											<option value="quarter">Quarter.</option>
+										</select>
+									</div>
+									<div class="table__body-header-search">
+										<input type="text" placeholder="Search...">
+									</div>
+								</div>
+								<div class="table__body-content">
+									<table>
+									<thead class="table__transaction-label">
+										<tr>
+											<td class="table__label">
+												<h2 class="table__label-text">NO</h2>
+												</div>
+											</td>
+											<td class="table__label">
+												<h2 class="table__label-text">TRANSACTION TYPE</h2>
+											</td>
+											<td class="table__label">
+												<h2 class="table__label-text">TRANSACTION CATEGORY</h2>
+											</td>
+											<td class="table__label">
+												<h2 class="table__label-text">TRANSACTION NAME</h2>
+											</td>
+											<td class="table__label">
+												<h2 class="table__label-text">AMOUNT</h2>
+											</td>
+											<td class="table__label">
+												<h2 class="table__label-text">DESCRIPTION</h2>
+											</td>
+											<td class="table__label">
+												<h2 class="table__label-text">DATE</h2>
+											</td>
+											<td class="table__label">
+												<h2 class="table__label-text">ACTION</h2>
+											</td>
+										</tr>
+									</thead>
+									<tbody class="table__transaction">
+										<tr class="table__transaction-row">
+											<td class="table__transaction-column" data-cell="no">01.</td>
+											<td data-cell="transaction type" class=" table__transaction-column oil__table-status oil__table-status-good">RECEIPT</td>
+											<td class="table__transaction-column" data-cell="transaction category">SALARY</td>
+											<td class="table__transaction-column" data-cell="transaction name">FRT SALARY</td>
+											<td class="table__transaction-column" data-cell="amount">5.000.000</td>
+											<td class="table__transaction-column" data-cell="description">Salary of April 2023</td>
+											<td class="table__transaction-column" data-cell="date">14.05.2023</td>
+											<td class="table__transaction-column" data-cell="Action">
+												<div class="oil__table-action">
+													<button class="oil__table-action-edit">
+														<i class="fa-solid fa-pen fa-sm"></i>
+													</button>
+													<button class="oil__table-action-delete">
+														<i class="fa-solid fa-trash fa-sm"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr class="table__transaction-row">
+											<td class="table__transaction-column" data-cell="no">01.</td>
+											<td data-cell="transaction type" class=" table__transaction-column oil__table-status oil__table-status-good">RECEIPT</td>
+											<td class="table__transaction-column" data-cell="transaction category">SALARY</td>
+											<td class="table__transaction-column" data-cell="transaction name">FRT SALARY</td>
+											<td class="table__transaction-column" data-cell="amount">5.000.000</td>
+											<td class="table__transaction-column" data-cell="description">Salary of April 2023</td>
+											<td class="table__transaction-column" data-cell="date">14.05.2023</td>
+											<td class="table__transaction-column" data-cell="Action">
+												<div class="oil__table-action">
+													<button class="oil__table-action-edit">
+														<i class="fa-solid fa-pen fa-sm"></i>
+													</button>
+													<button class="oil__table-action-delete">
+														<i class="fa-solid fa-trash fa-sm"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr class="table__transaction-row">
+											<td class="table__transaction-column" data-cell="no">02.</td>
+											<td data-cell="transaction type" class=" table__transaction-column oil__table-status oil__table-status-expired">EXPENSES</td>
+											<td class="table__transaction-column" data-cell="transaction category">INVOIVE</td>
+											<td class="table__transaction-column" data-cell="transaction name">ELECTRIC</td>
+											<td class="table__transaction-column" data-cell="amount">1.000.000</td>
+											<td class="table__transaction-column" data-cell="description">Bill of April 2023</td>
+											<td class="table__transaction-column" data-cell="date">14.05.2023</td>
+											<td class="table__transaction-column" data-cell="Action">
+												<div class="oil__table-action">
+													<button class="oil__table-action-edit">
+														<i class="fa-solid fa-pen fa-sm"></i>
+													</button>
+													<button class="oil__table-action-delete">
+														<i class="fa-solid fa-trash fa-sm"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+
+									</tbody>
+									</table>
+								</div>
+								<div class="table__body-footer">
+									<div class="table__body-footer-show">
+										<span>Showing 1 to 5 of 5 entries</span>
+									</div>
+									<div class="table__body-footer-list">
+										<button>Previous</button>
+										<button>1</button>
+										<button>Next</button>
+									</div>
+								</div>
+							</section>
+						</main>
+			</div>
+		</div>
+		<footer class="footer">
+			<span class="footer__text">
+				Copyright &copy 2023. Designed width 
+				<span style="color: rgb(248, 38, 73);">&hearts;</span> by Mint
+			</span>
+		</footer>
+	</div>
+	<div class="dialog">
+		<div class="dialog__content">
+			<div class="dialog__content-header">
+				<h2 class="dialog__content-header-label">Add a new transaction</h2>
+				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
+			</div>
+			<div class="dialog__content-body">
+				<form action="#" class="dialog__form">
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="type">Transaction Type</label>
+						<select class="dialog__form-input" name="type" id="form__add-transaction-type">
+							<option value="#" selected="selected">-- Choose one --</option>
+							<option value="1">Receipt</option>
+							<option value="2">Expenses</option>
+						</select>
+					</div>			
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="category">Category</label>
+						<select class="dialog__form-input" name="category" id="form__add-transaction-category">
+							<option value="#" selected="selected">-- Choose one --</option>
+							<option value="1">Invoice</option>
+							<option value="2">Salary</option>
+						</select>
+					</div>						
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="name">Transaction Name</label>
+						<input class="dialog__form-input" type="text" name="name" id="form__add-transaction-name" placeholder="Name">
+					</div>			
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="description">Description</label>
+						<input class="dialog__form-input" name="description" type="text" id="form__add-transaction-desc" placeholder="Description">
+					</div>				
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="amount">Amount</label>
+						<input class="dialog__form-input" name="amount" type="number" id="form__add-transaction-amount" min="1000" step="1000" placeholder="Amount">
+					</div>				
+					
+					<div class="dialog__form-field">
+						<label class="dialog__form-label" for="date">Date</label>
+						<input class="dialog__form-input" name="date" type="date" id="form__add-transaction-date">
+					</div>
+				</form>
+			</div>
+			<div class="dialog__content-footer">
+				<button class="add__transaction-button">
+					<i class="fa-solid fa-plus"></i> Add Transaction
+				</button>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/script.js"></script>
+</html>
