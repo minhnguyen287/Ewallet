@@ -4,12 +4,14 @@
 	 */
 	class Home extends Controller
 	{
-		//This is function call default page
+		//This is function call default page // function trong controller dong vai tro action o trang dia chi
 		public function Dashboard()
 		{
 
 			$dash1 = $this->model("DashboardModel");
-			echo $dash1->ShowDashboard();
+			$this->view("MasterLayout",[
+				"Page"=>"DashboardView",
+				"post"=>$dash1->GetPost()]);
 		}
 
 		public function Show($a , $b)

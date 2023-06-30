@@ -6,7 +6,7 @@
 	{	
 		//http://localhost/Ewallet/Home/dashboard/1/2/2
 		protected $controller = "Home";
-		protected $action = "dashboard";
+		protected $action = "Dashboard";
 		protected $param = [];
 		
 		function __construct()
@@ -21,7 +21,7 @@
 				unset($arr[0]);
 			}
 			require_once("./mvc/controllers/".$this->controller.".php");
-			//Home = new Home; khoi tao 1 doi tuong Home
+			//Home = new Home;       khoi tao 1 doi tuong Home
 			$this->controller = new $this->controller;
 
 			

@@ -2,16 +2,19 @@
 	/**
 	 * 
 	 */
-	class Oil
+	class Oil extends Controller
 	{
 		
-		function dashboard()
+		public function Dashboard()
 		{
-			echo "This is Oil-Dashboard";
+			//Goi model
+			$oil1 = $this->model("OilModel");
+			//Goi view
+			$this->view("MasterLayout",[
+				"Page"=>"OilView"
+			]);
+
 		}
-		function show()
-		{
-			echo "This is Oil-Showboard";
-		}
+		
 	}
  ?>

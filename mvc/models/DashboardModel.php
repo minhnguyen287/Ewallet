@@ -3,7 +3,7 @@
 	/**
 	 * 
 	 */
-	class DashboardModel
+	class DashboardModel extends DB
 	{
 		public function ShowDashboard()
 		{
@@ -14,5 +14,10 @@
 		{
 			return $number1 + $number2;
 		}
+		public function GetPost(){
+			$q = "SELECT * FROM post";
+			return $this->con->query($q);
+		}
+		
 	}
  ?>
