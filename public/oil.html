@@ -377,13 +377,14 @@
 		</footer>
 	</div>
 	<div class="dialog">
+		<form action="">
 		<div class="dialog__content">
 			<div class="dialog__content-header">
 				<h2 class="dialog__content-header-label">Add a new transaction</h2>
 				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 			</div>
 			<div class="dialog__content-body">
-				<form action="#" class="dialog__form">
+				<div class="dialog__form">
 					<div class="dialog__form-field">
 						<label class="dialog__form-label" for="form__add-start_day">Start Day</label>
 						<input class="dialog__form-input" type="date" name="startdate" id="form__add-start_day" placeholder="Start day">
@@ -412,7 +413,7 @@
 						<label class="dialog__form-label" for="form__add-price">Price</label>
 						<input class="dialog__form-input" name="price" type="number" id="form__add-price" min="70000" step="1000" placeholder="Price">
 					</div>
-				</form>
+				</div>
 			</div>
 			<div class="dialog__content-footer">
 				<button class="add__transaction-button">
@@ -420,6 +421,7 @@
 				</button>
 			</div>
 		</div>
+		</form>
 	</div>
 </body>
 <script type="text/javascript" src="js/script.js"></script>

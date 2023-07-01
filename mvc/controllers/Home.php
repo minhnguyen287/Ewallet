@@ -8,10 +8,9 @@
 		public function Dashboard()
 		{
 
-			$dash1 = $this->model("DashboardModel");
+			//$dash1 = $this->model("DashboardModel");
 			$this->view("MasterLayout",[
-				"Page"=>"DashboardView",
-				"post"=>$dash1->GetPost()]);
+				"Page"=>"DashboardView"]);
 		}
 
 		public function Show($a , $b)

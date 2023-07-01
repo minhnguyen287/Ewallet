@@ -98,12 +98,16 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td data-cell="no">01.</td>
-									<td data-cell="product name">MOTUL SILVER</td>
-									<td data-cell="change date">15.05.2023</td>
-									<td data-cell="days">45</td>
-									<td data-cell="total km">1000</td>
-									<td data-cell="amount">80.000</td>
+									<?php 
+										$Statistical1 = json_decode($data["DataRow"])[0];
+										$id = $Statistical1->och_id;
+									 ?>
+									<td data-cell="no"></td>
+									<td data-cell="product name"></td>
+									<td data-cell="change date"></td>
+									<td data-cell="days"></td>
+									<td data-cell="total km"></td>
+									<td data-cell="amount"></td>
 									<td data-cell="status" class="oil__table-status oil__table-status-good">Good</td>
 									<td data-cell="Action">
 										<div class="oil__table-action">
@@ -210,47 +214,49 @@
 		</div>
 	</div>
 	<div class="dialog">
-		<div class="dialog__content">
-			<div class="dialog__content-header">
-				<h2 class="dialog__content-header-label">Add a new transaction</h2>
-				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
-			</div>
-			<div class="dialog__content-body">
-				<form action="#" method="post" class="dialog__form">
-					<div class="dialog__form-field">
-						<label class="dialog__form-label" for="form__add-start_day">Start Day</label>
-						<input class="dialog__form-input" type="date" name="startdate" id="form__add-start_day" placeholder="Start day">
-					</div>				
-					<div class="dialog__form-field">
-						<label class="dialog__form-label" for="form__add-end_day">End Day</label>
-						<input class="dialog__form-input" type="date" name="enddate" id="form__add-end_day" placeholder="End day">
-					</div>				
-					<div class="dialog__form-field">
-						<label class="dialog__form-label" for="form__add-start_kilometer">Start Kilometer</label>
-						<input class="dialog__form-input" name="startkilometer" type="text" id="form__add-start_kilometer" placeholder="Start kilometer">
-					</div>				
-					<div class="dialog__form-field">
-						<label class="dialog__form-label" for="form__add-end_kilometer">End Kilometer</label>
-						<input class="dialog__form-input" name="endkilometer" type="text" id="form__add-end_kilometer" placeholder="End kilometer">
-					</div>				
-					<div class="dialog__form-field">
-						<label class="dialog__form-label" for="form__add-oil_product-name">Oil Product</label>
-						<select class="dialog__form-input" name="product" id="form__add-oil_product-name">
-							<option value="#" selected="selected">-- Choose one --</option>
-							<option value="1">Motul Silver</option>
-							<option value="2">Idemitsu</option>
-						</select>
+		<form action="./Oil/AddNewTransaction" method="POST">
+			<div class="dialog__content">
+				<div class="dialog__content-header">
+					<h2 class="dialog__content-header-label">Add a new transaction</h2>
+					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
+				</div>
+				<div class="dialog__content-body">
+					<div class="dialog__form">
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__add-start_day">Start Day</label>
+							<input class="dialog__form-input" type="date" name="startday" id="form__add-start_day" placeholder="Start day">
+						</div>				
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__add-end_day">End Day</label>
+							<input class="dialog__form-input" type="date" name="endday" id="form__add-end_day" placeholder="End day">
+						</div>				
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__add-start_kilometer">Start Kilometer</label>
+							<input class="dialog__form-input" name="startkilometer" type="text" id="form__add-start_kilometer" placeholder="Start kilometer">
+						</div>				
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__add-end_kilometer">End Kilometer</label>
+							<input class="dialog__form-input" name="endkilometer" type="text" id="form__add-end_kilometer" placeholder="End kilometer">
+						</div>				
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__add-oil_product-name">Oil Product</label>
+							<select class="dialog__form-input" name="product" id="form__add-oil_product-name">
+								<option value="#" selected="selected">-- Choose one --</option>
+								<option value="1">Motul Silver</option>
+								<option value="2">Idemitsu</option>
+							</select>
+						</div>
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__add-price">Price</label>
+							<input class="dialog__form-input" name="price" type="number" id="form__add-price" min="70000" step="1000" placeholder="Price">
+						</div>
 					</div>
-					<div class="dialog__form-field">
-						<label class="dialog__form-label" for="form__add-price">Price</label>
-						<input class="dialog__form-input" name="price" type="number" id="form__add-price" min="70000" step="1000" placeholder="Price">
-					</div>
-				</form>
+				</div>
+				<div class="dialog__content-footer">
+					<button class="add__transaction-button" name="addTrBtn">
+						<i class="fa-solid fa-plus"></i> Add Transaction
+					</button>
+				</div>
 			</div>
-			<div class="dialog__content-footer">
-				<button class="add__transaction-button" name="addTrBtn">
-					<i class="fa-solid fa-plus"></i> Add Transaction
-				</button>
-			</div>
-		</div>
+		</form>
 	</div>	

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2023 at 01:52 PM
+-- Generation Time: Jul 01, 2023 at 02:55 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.24
 
@@ -42,13 +42,20 @@ CREATE TABLE `category` (
 
 CREATE TABLE `oil` (
   `och_id` int(11) NOT NULL,
-  `product_name` varchar(100) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `start_day` date NOT NULL,
   `end_day` date NOT NULL,
   `start_km` int(11) NOT NULL,
   `end_km` int(11) NOT NULL,
   `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `oil`
+--
+
+INSERT INTO `oil` (`och_id`, `product_id`, `start_day`, `end_day`, `start_km`, `end_km`, `price`) VALUES
+(3, 1, '2020-05-10', '2020-06-29', 50303, 52677, 80000);
 
 -- --------------------------------------------------------
 
@@ -102,7 +109,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `oil`
 --
 ALTER TABLE `oil`
-  MODIFY `och_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `och_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `transaction`

@@ -29,7 +29,7 @@
 							<li class="nav__categories-list"><h2>MAIN</h2>
 								<ul class="nav__categories-list-menu">
 									<li class="nav__categories-list-menu-item">
-										<a href="./Home/Dashboard" class="nav__categories-link list__item-active">
+										<a href="./Home" class="nav__categories-link list__item-active">
 											<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
 										</a> 
 									</li>
