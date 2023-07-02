@@ -460,6 +460,7 @@ tr{
 	}
 }
 .oil__table-status{
+	text-transform: capitalize;
 	&-good{
 		color: #0dad95;
 	}

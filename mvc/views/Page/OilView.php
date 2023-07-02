@@ -101,14 +101,25 @@
 									<?php 
 										$Statistical1 = json_decode($data["DataRow"])[0];
 										$id = $Statistical1->och_id;
+										$product_id = $Statistical1->product_id;
+										$start_day = $Statistical1->start_day;
+										$end_day = $Statistical1->end_day;
+										$day = floor( abs( strtotime($end_day) - strtotime($start_day) ) / (24*60*60));
+										$start_km = $Statistical1->start_km;
+										$end_km = $Statistical1->end_km;
+										$price = $Statistical1->price;
+										$status = "good";
+										if( ($end_km-$start_km) >= 1200 ){
+											$status = "expired";
+										}
 									 ?>
-									<td data-cell="no"></td>
-									<td data-cell="product name"></td>
-									<td data-cell="change date"></td>
-									<td data-cell="days"></td>
-									<td data-cell="total km"></td>
-									<td data-cell="amount"></td>
-									<td data-cell="status" class="oil__table-status oil__table-status-good">Good</td>
+									<td data-cell="no"><?php echo "0".$id."." ?></td>
+									<td data-cell="product name"><?php echo $product_id ?></td>
+									<td data-cell="change date"><?php echo $end_day ?></td>
+									<td data-cell="days"><?php echo $day ?></td>
+									<td data-cell="total km"><?php echo $end_km - $start_km ?></td>
+									<td data-cell="amount"><?php echo $price ?></td>
+									<td data-cell="status" <?php echo "class='oil__table-status oil__table-status-".$status."'>".$status;?></td>
 									<td data-cell="Action">
 										<div class="oil__table-action">
 											<button class="oil__table-action-edit">
