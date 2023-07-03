@@ -16,6 +16,7 @@
 			//Goi view
 			$this->view("MasterLayout",[
 				"Page"=>"OilView",
+				"Ohighlight"=>true,
 				"DataRow"=>$statistical1
 			]);
 

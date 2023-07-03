@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2023 at 02:55 PM
+-- Generation Time: Jul 03, 2023 at 02:47 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.24
 
@@ -46,16 +46,39 @@ CREATE TABLE `oil` (
   `start_day` date NOT NULL,
   `end_day` date NOT NULL,
   `start_km` int(11) NOT NULL,
-  `end_km` int(11) NOT NULL,
-  `price` int(11) NOT NULL
+  `end_km` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oil`
 --
 
-INSERT INTO `oil` (`och_id`, `product_id`, `start_day`, `end_day`, `start_km`, `end_km`, `price`) VALUES
-(3, 1, '2020-05-10', '2020-06-29', 50303, 52677, 80000);
+INSERT INTO `oil` (`och_id`, `product_id`, `start_day`, `end_day`, `start_km`, `end_km`) VALUES
+(1, 1, '2023-07-04', '2023-07-15', 50000, 50986),
+(2, 2, '2021-07-05', '2021-09-01', 50000, 51219),
+(3, 1, '2020-05-10', '2020-06-29', 50303, 52677);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oil_product`
+--
+
+CREATE TABLE `oil_product` (
+  `product_id` int(11) NOT NULL,
+  `product_name` varchar(100) NOT NULL,
+  `product_batch` date NOT NULL,
+  `product_img` varchar(100) NOT NULL,
+  `product_price` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `oil_product`
+--
+
+INSERT INTO `oil_product` (`product_id`, `product_name`, `product_batch`, `product_img`, `product_price`) VALUES
+(1, 'Motul Silver', '2020-05-10', 'motulsilver.png', 80000),
+(2, 'idemitsu', '2023-07-15', 'idemitsu.png', 70000);
 
 -- --------------------------------------------------------
 
@@ -90,6 +113,12 @@ ALTER TABLE `oil`
   ADD PRIMARY KEY (`och_id`);
 
 --
+-- Indexes for table `oil_product`
+--
+ALTER TABLE `oil_product`
+  ADD PRIMARY KEY (`product_id`);
+
+--
 -- Indexes for table `transaction`
 --
 ALTER TABLE `transaction`
@@ -110,6 +139,12 @@ ALTER TABLE `category`
 --
 ALTER TABLE `oil`
   MODIFY `och_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `oil_product`
+--
+ALTER TABLE `oil_product`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `transaction`

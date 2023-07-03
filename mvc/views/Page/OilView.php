@@ -79,149 +79,91 @@
 									<div class="table__label-icon">
 										<i class="fa-solid fa-arrow-up-long"></i>
 										<i class="fa-solid fa-arrow-down-long"></i>
-									</td>
-									<td class="table__label">
-										<h2 class="table__label-text">STATUS</h2>
-										<div class="table__label-icon">
-											<i class="fa-solid fa-arrow-up fa-sm"></i>
-											<i class="fa-solid fa-arrow-down fa-sm"></i>
-										</div>
-									</td>
-									<td class="table__label">
-										<h2 class="table__label-text">ACTION</h2>
-										<div class="table__label-icon">
-											<i class="fa-solid fa-arrow-up fa-sm"></i>
-											<i class="fa-solid fa-arrow-down fa-sm"></i>
-										</div>
-									</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<?php 
-										$Statistical1 = json_decode($data["DataRow"])[0];
-										$id = $Statistical1->och_id;
-										$product_id = $Statistical1->product_id;
-										$start_day = $Statistical1->start_day;
-										$end_day = $Statistical1->end_day;
-										$day = floor( abs( strtotime($end_day) - strtotime($start_day) ) / (24*60*60));
-										$start_km = $Statistical1->start_km;
-										$end_km = $Statistical1->end_km;
-										$price = $Statistical1->price;
-										$status = "good";
-										if( ($end_km-$start_km) >= 1200 ){
-											$status = "expired";
-										}
-									 ?>
-									<td data-cell="no"><?php echo "0".$id."." ?></td>
-									<td data-cell="product name"><?php echo $product_id ?></td>
-									<td data-cell="change date"><?php echo $end_day ?></td>
-									<td data-cell="days"><?php echo $day ?></td>
-									<td data-cell="total km"><?php echo $end_km - $start_km ?></td>
-									<td data-cell="amount"><?php echo $price ?></td>
-									<td data-cell="status" <?php echo "class='oil__table-status oil__table-status-".$status."'>".$status;?></td>
-									<td data-cell="Action">
+									</div>
+								</td>
+								<td class="table__label">
+									<h2 class="table__label-text">STATUS</h2>
+									<div class="table__label-icon">
+										<i class="fa-solid fa-arrow-up fa-sm"></i>
+										<i class="fa-solid fa-arrow-down fa-sm"></i>
+									</div>
+								</td>
+								<td class="table__label">
+									<h2 class="table__label-text">ACTION</h2>
+									<div class="table__label-icon">
+										<i class="fa-solid fa-arrow-up fa-sm"></i>
+										<i class="fa-solid fa-arrow-down fa-sm"></i>
+									</div>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+
+								$row = json_decode($data["DataRow"]);
+								for ($i=0; $i < count($row) ; $i++) { 
+									$status_noti = "good";
+									if ($row[$i]->total_km >= 1200 && $row[$i]->total_km <= 1500) {
+										$status_noti = "warning";
+									} elseif ($row[$i]->total_km >= 1500) {
+										$status_noti = "expired";
+									}
+									echo "<tr id ='".$row[$i]->och_id."'>";
+									echo'<td data-cell="no">0'.$row[$i]->och_id.'.</td>';
+									echo'<td data-cell="product name">'.$row[$i]->product_name.'</td>';
+									echo'<td data-cell="change date">'.$row[$i]->end_day.'</td>';
+									echo'<td data-cell="days">'.$row[$i]->total_days.'</td>';
+									echo'<td data-cell="total km">'.$row[$i]->total_km.'</td>';
+									echo'<td data-cell="amount">'.$row[$i]->product_price.'</td>';
+									echo'<td data-cell="status" class="oil__table-status oil__table-status-'.$status_noti.'">'.$status_noti.'</td>';
+									echo '<td data-cell="Action">
 										<div class="oil__table-action">
-											<button class="oil__table-action-edit">
-												<i class="fa-solid fa-pen fa-sm"></i>
-											</button>
-											<button class="oil__table-action-delete">
-												<i class="fa-solid fa-trash fa-sm"></i>
-											</button>
+										<button class="oil__table-action-edit">
+										<i class="fa-solid fa-pen fa-sm"></i>
+										</button>
+										<button class="oil__table-action-delete">
+										<i class="fa-solid fa-trash fa-sm"></i>
+										</button>
 										</div>
-									</td>
-								</tr>
-								<tr>
-									<td data-cell="no">01.</td>
-									<td data-cell="product name">MOTUL SILVER</td>
-									<td data-cell="change date">15.05.2023</td>
-									<td data-cell="days">45</td>
-									<td data-cell="total km">1000</td>
-									<td data-cell="amount">80.000</td>
-									<td data-cell="status" class="oil__table-status oil__table-status-good">Good</td>
-									<td data-cell="Action">
-										<div class="oil__table-action">
-											<button class="oil__table-action-edit">
-												<i class="fa-solid fa-pen fa-sm"></i>
-											</button>
-											<button class="oil__table-action-delete">
-												<i class="fa-solid fa-trash fa-sm"></i>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td data-cell="no">01.</td>
-									<td data-cell="product name">MOTUL SILVER</td>
-									<td data-cell="change date">15.05.2023</td>
-									<td data-cell="days">45</td>
-									<td data-cell="total km">1000</td>
-									<td data-cell="amount">80.000</td>
-									<td data-cell="status" class="oil__table-status oil__table-status-good">Good</td>
-									<td data-cell="Action">
-										<div class="oil__table-action">
-											<button class="oil__table-action-edit">
-												<i class="fa-solid fa-pen fa-sm"></i>
-											</button>
-											<button class="oil__table-action-delete">
-												<i class="fa-solid fa-trash fa-sm"></i>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td data-cell="no">01.</td>
-									<td data-cell="product name">MOTUL SILVER</td>
-									<td data-cell="change date">15.05.2023</td>
-									<td data-cell="days">45</td>
-									<td data-cell="total km">1000</td>
-									<td data-cell="amount">80.000</td>
-									<td data-cell="status" class="oil__table-status oil__table-status-good">Good</td>
-									<td data-cell="Action">
-										<div class="oil__table-action">
-											<button class="oil__table-action-edit">
-												<i class="fa-solid fa-pen fa-sm"></i>
-											</button>
-											<button class="oil__table-action-delete">
-												<i class="fa-solid fa-trash fa-sm"></i>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td data-cell="no">01.</td>
-									<td data-cell="product name">MOTUL SILVER</td>
-									<td data-cell="change date">15.05.2023</td>
-									<td data-cell="days">45</td>
-									<td data-cell="total km">1000</td>
-									<td data-cell="amount">80.000</td>
-									<td data-cell="status" class="oil__table-status oil__table-status-good">Good</td>
-									<td data-cell="Action">
-										<div class="oil__table-action">
-											<button class="oil__table-action-edit">
-												<i class="fa-solid fa-pen fa-sm"></i>
-											</button>
-											<button class="oil__table-action-delete">
-												<i class="fa-solid fa-trash fa-sm"></i>
-											</button>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+										</td>';
+									echo"</tr>";
+								}
+
+							?>
+							<!-- <tr>
+								<td data-cell="no">01.</td>
+								<td data-cell="product name">MOTUL SILVER</td>
+								<td data-cell="change date">15.05.2023</td>
+								<td data-cell="days">45</td>
+								<td data-cell="total km">1000</td>
+								<td data-cell="amount">80.000</td>
+								<td data-cell="status" class="oil__table-status oil__table-status-good">Good</td>
+								<td data-cell="Action">
+									<div class="oil__table-action">
+										<button class="oil__table-action-edit">
+											<i class="fa-solid fa-pen fa-sm"></i>
+										</button>
+										<button class="oil__table-action-delete">
+											<i class="fa-solid fa-trash fa-sm"></i>
+										</button>
+									</div>
+								</td>
+							</tr> -->							
+						</tbody>
+					</table>
+				</div>
+				<div class="table__body-footer">
+					<div class="table__body-footer-show">
+						<span>Showing 1 to 5 of 5 entries</span>
 					</div>
-					<div class="table__body-footer">
-						<div class="table__body-footer-show">
-							<span>Showing 1 to 5 of 5 entries</span>
-						</div>
-						<div class="table__body-footer-list">
-							<button>Previous</button>
-							<button>1</button>
-							<button>Next</button>
-						</div>
+					<div class="table__body-footer-list">
+						<button>Previous</button>
+						<button>1</button>
+						<button>Next</button>
 					</div>
-				</section>
-			</main>
+				</div>
+			</section>
+		</main>
 		</div>
 	</div>
 	<div class="dialog">
@@ -258,8 +200,12 @@
 							</select>
 						</div>
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-price">Price</label>
-							<input class="dialog__form-input" name="price" type="number" id="form__add-price" min="70000" step="1000" placeholder="Price">
+							<label class="dialog__form-label" for="form__add-batch">Product Batch</label>
+							<select class="dialog__form-input" name="batch" id="form__add-batch">
+								<option value="#" selected="selected">-- Choose one --</option>
+								<option value="1">10/05/2020</option>
+								<option value="2">15/07/2023</option>
+							</select>
 						</div>
 					</div>
 				</div>

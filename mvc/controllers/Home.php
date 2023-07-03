@@ -10,7 +10,8 @@
 
 			//$dash1 = $this->model("DashboardModel");
 			$this->view("MasterLayout",[
-				"Page"=>"DashboardView"]);
+				"Page"=>"DashboardView",
+				"Dhighlight"=>true]);
 		}
 
 		public function Show($a , $b)

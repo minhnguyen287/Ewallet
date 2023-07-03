@@ -6,7 +6,13 @@
 	{
 		
 		public function ShowHistory(){
-			$q = "SELECT * FROM oil";
+			$q = "SELECT o.och_id,p.product_name,o.end_day,p.product_price, ";
+			$q .= "DATEDIFF(o.end_day,o.start_day) AS total_days, ";
+			$q .= "(end_km-start_km) AS total_km ";
+			$q .= "FROM oil AS o ";
+			$q .= "JOIN oil_product AS p ";
+			$q .= "USING (product_id)";
+
 			$record1 = $this->con->query($q);
 			$arr = array();
 			while ($r1 = $record1->fetch_array(MYSQLI_ASSOC)) {

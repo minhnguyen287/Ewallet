@@ -407,6 +407,9 @@ table, tr, td {
 		height: 50px;
 	}
 }
+td[data-cell="product name"]{
+	text-transform: uppercase;
+}
 tr{
 	&:nth-child(even){
 		background: #37375b;
