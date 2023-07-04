@@ -625,6 +625,9 @@ tr{
 			padding: 0;
 			height: 45px;
 		}
+		&[name="product"]{
+			width: 40%;
+		}
 	}
 	&-select{
 		font-family: 'FontAwesome', 'Second Font name' !important;

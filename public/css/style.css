@@ -490,6 +490,8 @@ tr:nth-child(even) {
     .dialog__form-input[type="color"] {
       padding: 0;
       height: 45px; }
+    .dialog__form-input[name="product"] {
+      width: 40%; }
   .dialog__form-select {
     font-family: 'FontAwesome', 'Second Font name' !important;
     text-align: center;

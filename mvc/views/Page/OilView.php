@@ -199,14 +199,6 @@
 								<option value="2">Idemitsu</option>
 							</select>
 						</div>
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-batch">Product Batch</label>
-							<select class="dialog__form-input" name="batch" id="form__add-batch">
-								<option value="#" selected="selected">-- Choose one --</option>
-								<option value="1">10/05/2020</option>
-								<option value="2">15/07/2023</option>
-							</select>
-						</div>
 					</div>
 				</div>
 				<div class="dialog__content-footer">
