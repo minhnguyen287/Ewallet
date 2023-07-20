@@ -195,9 +195,11 @@
 							<label class="dialog__form-label" for="form__add-oil_product-name">Oil Product</label>
 							<select class="dialog__form-input" name="product" id="form__add-oil_product-name">
 								<option value="#" selected="selected">-- Choose one --</option>
-								<option value="1">Motul Silver</option>
-								<option value="2">Idemitsu</option>
+								
 							</select>
+							<template id="product-option">
+								<option value="{{value}}">{{name}}</option>
+							</template>
 						</div>
 					</div>
 				</div>

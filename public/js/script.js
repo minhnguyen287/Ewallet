@@ -18,13 +18,25 @@ btnAddTransaction[0].onclick = function(){
 	function handleResult(){
 		if (xhttp.readyState === XMLHttpRequest.DONE) {
 			//console.log(JSON.parse(xhttp.responseText)[0].product_id);
+			// var arr = [];
+			// arr = JSON.parse(xhttp.responseText);	
+			// var code = "<option value='#' selected='selected' disabled>--Choose one--</option>";
+			// for (var i = 0; i < arr.length; i++) {
+			// 	code += "<option value='"+arr[i].product_id+"'>"+arr[i].product_name+" ("+arr[i].product_batch+")</option>";
+			// }
+			// oilProduct.innerHTML = code;
 			var arr = [];
-			arr = JSON.parse(xhttp.responseText);	
-			var code = "<option value='#' selected='selected' disabled>--Choose one--</option>";
+			arr = JSON.parse(xhttp.responseText);
+			let templateFrag = document.querySelector("#product-option").content;
+
 			for (var i = 0; i < arr.length; i++) {
-				code += "<option value='"+arr[i].product_id+"'>"+arr[i].product_name+" ("+arr[i].product_batch+")</option>";
+				let tmpl = templateFrag.cloneNode(true);
+				tmpl.querySelector('option').setAttribute("value",arr[i].product_id);
+				tmpl.querySelector('option').innerText = arr[i].product_name+" ("+arr[i].product_batch+")";
+				oilProduct.appendChild(tmpl);
 			}
-			oilProduct.innerHTML = code;
+			
+
 		}
 	}
 };
