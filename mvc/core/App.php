@@ -8,18 +8,20 @@
 		protected $controller = "Home";
 		protected $action = "Dashboard";
 		protected $param = [];
+
 		
 		function __construct()
 		{
 			//Array ( [0] => Home )
 			$arr = $this->UrlProcess();
-			//print_r($arr)."<br/>";
+			//rint_r($arr)."<br/>";
 
 			//Xu li controller
 			if (!is_null($arr) && file_exists("./mvc/controllers/".$arr[0].".php")) {
 				$this->controller = $arr[0];
 				unset($arr[0]);
 			}
+			//echo $this->controller;
 			require_once("./mvc/controllers/".$this->controller.".php");
 			//Home = new Home;       khoi tao 1 doi tuong Home
 			$this->controller = new $this->controller;
@@ -32,6 +34,7 @@
 				}
 				unset($arr[1]);
 			}
+			//echo $this->action;
 			//Xu li param
 			$this->param = $arr? array_values($arr) : [];
 

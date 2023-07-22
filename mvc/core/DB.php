@@ -17,6 +17,8 @@
 			$this->con->query("SET NAMES 'utf8'");
 
 		}
+
+		
 	}
 	
  ?>

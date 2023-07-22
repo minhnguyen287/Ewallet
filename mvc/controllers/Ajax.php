@@ -13,6 +13,10 @@
 		public function ShowProductInfo(){
 			echo $this->OilModel->ShowProductInfo();
 		}
+		public function ShowLastOption()
+		{
+			echo $this->OilModel->ShowLastOption();
+		}
 	}
 
  ?>

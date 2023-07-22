@@ -45,6 +45,15 @@
 			}
 			return json_encode($mang);
 		}
+
+		public function ShowLastOption()
+		{
+			$q = "SELECT end_day, end_km FROM oil ORDER BY och_id DESC LIMIT 1 ";
+			$r = $this->con->query($q);
+			$data = $r->fetch_array(MYSQLI_ASSOC);
+			return json_encode($data);
+			
+		}
 	}
 
  ?>

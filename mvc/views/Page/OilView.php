@@ -194,7 +194,7 @@
 						<div class="dialog__form-field">
 							<label class="dialog__form-label" for="form__add-oil_product-name">Oil Product</label>
 							<select class="dialog__form-input" name="product" id="form__add-oil_product-name">
-								<option value="#" selected="selected">-- Choose one --</option>
+								<option value="" selected="selected">-- Choose one --</option>
 								
 							</select>
 							<template id="product-option">
