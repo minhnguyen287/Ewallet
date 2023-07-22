@@ -167,7 +167,7 @@
 		</div>
 	</div>
 	<div class="dialog">
-		<form action="./Oil/AddNewTransaction" method="POST">
+		<form id="AddNewTransaction" action="./Oil/AddNewTransaction" method="POST">
 			<div class="dialog__content">
 				<div class="dialog__content-header">
 					<h2 class="dialog__content-header-label">Add a new transaction</h2>
@@ -184,11 +184,15 @@
 							<input class="dialog__form-input" type="date" name="endday" id="form__add-end_day" placeholder="End day">
 						</div>				
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-start_kilometer">Start Kilometer</label>
+							<label class="dialog__form-label" for="form__add-start_kilometer">Start Kilometer
+								<span class="input_infor" id="start_km_info"></span>
+							</label>
 							<input class="dialog__form-input" name="startkilometer" type="text" id="form__add-start_kilometer" placeholder="Start kilometer">
 						</div>				
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-end_kilometer">End Kilometer</label>
+							<label class="dialog__form-label" for="form__add-end_kilometer">End Kilometer
+							<span class="input_infor" id="end_km_info"></span>
+						</label>
 							<input class="dialog__form-input" name="endkilometer" type="text" id="form__add-end_kilometer" placeholder="End kilometer">
 						</div>				
 						<div class="dialog__form-field">
@@ -204,7 +208,7 @@
 					</div>
 				</div>
 				<div class="dialog__content-footer">
-					<button class="add__transaction-button" name="addTrBtn">
+					<button class="add__transaction-button" name="addTrBtn" disabled="disabled">
 						<i class="fa-solid fa-plus"></i> Add Transaction
 					</button>
 				</div>

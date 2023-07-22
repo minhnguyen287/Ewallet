@@ -21,13 +21,7 @@
 			]);
 
 		}
-
-		//Hàm kiểm tra dữ liệu truyền vào có phải số không !
-		public function isNum($var){
-			if (isset($var)&&filter_var($var, FILTER_VALIDATE_INT, array('min_range' => 1))) {
-					return $var;
-			}
-		}
+		
 		
 		public function AddNewTransaction(){
 			//echo "AddNewRecord";
@@ -35,7 +29,7 @@
 			if ( isset($_POST["addTrBtn"]) ) {
 				$errors = array();
 
-				if (isNum($_POST["product"])) {
+				if (isset($_POST["product"])&&filter_var($_POST["product"], FILTER_VALIDATE_INT, array('min_range' => 1))) {
 					$product_id = $_POST["product"];
 				} else{
 					$errors[] = "product_id";
@@ -53,13 +47,13 @@
 					$errors[] = "end_day";
 				}
 
-				if (isNum($_POST["startkilometer"])) {
+				if (isset($_POST["startkilometer"])&&filter_var($_POST["startkilometer"], FILTER_VALIDATE_INT, array('min_range' => 1))) {
 					$start_km = $_POST["startkilometer"];
 				} else{
 					$errors[] = "start_km";
 				}
 
-				if (isNum($_POST["endkilometer"])) {
+				if (isset($_POST["endkilometer"])&&filter_var($_POST["endkilometer"], FILTER_VALIDATE_INT, array('min_range' => 1))) {
 					$end_km = $_POST["endkilometer"];
 				} else{
 					$errors[] = "end_km";
@@ -69,6 +63,8 @@
 				//2. insert database		
 				if(empty($errors)){		
 					$kq = $this->OilModel->AddNewRecord($product_id,$start_day,$end_day,$start_km,$end_km);
+				} else{
+					print_r($errors);
 				}
 				//3.thong bao ra man hinh
 				echo $kq;

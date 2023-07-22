@@ -25,7 +25,7 @@
 			$pid = $this->con->real_escape_string(strip_tags($product_id)); 
 			$sday = $this->con->real_escape_string(strip_tags($start_day));
 			$eday = $this->con->real_escape_string(strip_tags($end_day));
-			$skm = $this->con->real_escape_string(strip_tags($skm));
+			$skm = $this->con->real_escape_string(strip_tags($start_km));
 			$ekm = $this->con->real_escape_string(strip_tags($end_km));
 			$q = "INSERT INTO oil VALUES(null,$pid,'$sday','$eday',$skm,$ekm)";
 			$result = false;
