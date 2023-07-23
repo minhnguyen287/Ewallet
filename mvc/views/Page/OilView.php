@@ -167,7 +167,7 @@
 		</div>
 	</div>
 	<div class="dialog">
-		<form id="AddNewTransaction" action="./Oil/AddNewTransaction" method="POST">
+		<form id="AddNewTransaction" action="" method="POST">
 			<div class="dialog__content">
 				<div class="dialog__content-header">
 					<h2 class="dialog__content-header-label">Add a new transaction</h2>
@@ -196,7 +196,9 @@
 							<input class="dialog__form-input" name="endkilometer" type="text" id="form__add-end_kilometer" placeholder="End kilometer">
 						</div>				
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-oil_product-name">Oil Product</label>
+							<label class="dialog__form-label" for="form__add-oil_product-name">Oil Product
+								<span class="input_infor" id="product_info"></span>
+							</label>
 							<select class="dialog__form-input" name="product" id="form__add-oil_product-name">
 								<option value="" selected="selected">-- Choose one --</option>
 								
@@ -208,7 +210,7 @@
 					</div>
 				</div>
 				<div class="dialog__content-footer">
-					<button class="add__transaction-button" name="addTrBtn" disabled="disabled">
+					<button type="button" class="add__transaction-button" name="addTrBtn" disabled="disabled">
 						<i class="fa-solid fa-plus"></i> Add Transaction
 					</button>
 				</div>

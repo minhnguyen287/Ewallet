@@ -17,6 +17,9 @@
 		{
 			echo $this->OilModel->ShowLastOption();
 		}
+		public function AddNewTransaction(){
+			echo $this->OilModel->AddNewRecord();
+		}
 	}
 
  ?>

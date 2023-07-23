@@ -19,6 +19,7 @@ btnAddTransaction[0].onclick = function(){
 			document.getElementById("form__add-start_day").value = data.end_day;
 			document.getElementById("form__add-end_day").value = curentDate;
 			document.getElementById("form__add-start_kilometer").value = data.end_km;
+			document.getElementById("form__add-end_kilometer").value = null;
 		}
 	}
 };
@@ -63,44 +64,96 @@ window.addEventListener("load",(event)=>{
 })
 
 /* Validate dữ liệu nhập vào form Modal thêm 1 bản ghi lịch sử thay dầu */
-btnAddTransaction[0].addEventListener("click",function(){
+
 	var startKm = document.getElementById("form__add-start_kilometer");
 	var endKm = document.getElementById("form__add-end_kilometer");
-	var isCorrectInput = ["startKm","endKm"];
+	var product = document.getElementById("form__add-oil_product-name");
+	var isCorrectInput = ["product","endKm"];
+
+	function removeErrorCode(errArray,errKey){
+		if (errArray.indexOf(errKey)!=-1) {
+			errArray.splice(errArray.indexOf(errKey),1);
+		}
+	}
+
+	function addErrorCode(errArray,errKey){
+		if (errArray.indexOf(errKey)==-1) {
+			errArray.push(errKey);
+		}
+	}	
+
+	product.addEventListener("change",function(){
+		if (/^[0-9]+$/.test(product.value)) {
+			removeErrorCode(isCorrectInput,"product");
+		} else {
+			addErrorCode(isCorrectInput,"product");
+		}
+		product[0].style.display = "none";
+		if (isCorrectInput.length === 0) {
+			document.querySelector(".add__transaction-button").removeAttribute("disabled");
+			document.getElementById("product_info").innerText = "";
+		} else {
+			document.querySelector(".add__transaction-button").setAttribute("disabled","disabled");
+			document.getElementById("product_info").innerText = "Vui lòng chọn 1 tuỳ chọn hợp lệ";
+		}
+	})
 	
 	startKm.addEventListener("keyup",function(){
 		if(/^[0-9]+$/.test(startKm.value)){
 			document.getElementById("start_km_info").innerText = "";
-			if (isCorrectInput.indexOf("startKm")!=-1) {
-				isCorrectInput.splice(isCorrectInput.indexOf("startKm"),1);
-			}
+			removeErrorCode(isCorrectInput,"startKm");
 			
 		} else{
 			document.getElementById("start_km_info").innerText = "Định dạng số không hợp lệ";
-			if (isCorrectInput.indexOf("startKm")==-1) {
-				isCorrectInput.push("startKm");
-			}
-			
+			addErrorCode(isCorrectInput,"startKm");
+		}
+		if (isCorrectInput.length === 0) {
+			document.querySelector(".add__transaction-button").removeAttribute("disabled");
+		} else {
+			document.querySelector(".add__transaction-button").setAttribute("disabled","disabled");
 		}
 	})
+
 	endKm.addEventListener("keyup",function(){
 		if(/^[0-9]+$/.test(endKm.value)){
 			document.getElementById("end_km_info").innerText = "";
-			if (isCorrectInput.indexOf("endKm")!=-1) {
-				isCorrectInput.splice(isCorrectInput.indexOf("endKm"),1);
-			}
-			
+			removeErrorCode(isCorrectInput,"endKm")	
 		} else{
 			document.getElementById("end_km_info").innerText = "Định dạng số không hợp lệ";
-			if (isCorrectInput.indexOf("endKm")==-1) {
-				isCorrectInput.push("endKm");
+			addErrorCode(isCorrectInput,"endKm")	
+		}
+		if (isCorrectInput.length === 0) {
+			document.querySelector(".add__transaction-button").removeAttribute("disabled");
+		} else {
+			document.querySelector(".add__transaction-button").setAttribute("disabled","disabled");
+		}
+	})
+
+	let btnAddNewTrans = document.querySelector(".add__transaction-button");
+	btnAddNewTrans.addEventListener("click",function(){
+		if (isCorrectInput.length !== 0) {
+			if (isCorrectInput.indexOf("startKm")!=-1) {
+				document.getElementById("start_km_info").innerText = "Định dạng số không hợp lệ";
 			}
-			
+			if (isCorrectInput.indexOf("endKm")!=-1) {
+				document.getElementById("end_km_info").innerText = "Định dạng số không hợp lệ";
+			}
+			if (isCorrectInput.indexOf("product")!=-1) {
+				document.getElementById("product_info").innerText = "Vui lòng chọn 1 tuỳ chọn";
+			}
+		} else{
+			var xhr = new XMLHttpRequest();
+			var url = ('./Ajax/AddNewTransaction');
+			xhttp.onreadystatechange = handleResult;
+			xhttp.open('POST',url);
+			xhttp.send();
+			function handleResult(){
+
+			}
 		}
 	})
 
 
 
-})
 /*End */
 
