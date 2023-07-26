@@ -68,6 +68,9 @@ window.addEventListener("load",(event)=>{
 	var startKm = document.getElementById("form__add-start_kilometer");
 	var endKm = document.getElementById("form__add-end_kilometer");
 	var product = document.getElementById("form__add-oil_product-name");
+	var startDay = document.getElementById("form__add-start_day");
+	var endDay = document.getElementById("form__add-end_day");
+
 	var isCorrectInput = ["product","endKm"];
 
 	function removeErrorCode(errArray,errKey){
@@ -94,7 +97,6 @@ window.addEventListener("load",(event)=>{
 			document.getElementById("product_info").innerText = "";
 		} else {
 			document.querySelector(".add__transaction-button").setAttribute("disabled","disabled");
-			document.getElementById("product_info").innerText = "Vui lòng chọn 1 tuỳ chọn hợp lệ";
 		}
 	})
 	
@@ -129,29 +131,41 @@ window.addEventListener("load",(event)=>{
 		}
 	})
 
-	let btnAddNewTrans = document.querySelector(".add__transaction-button");
-	btnAddNewTrans.addEventListener("click",function(){
-		if (isCorrectInput.length !== 0) {
-			if (isCorrectInput.indexOf("startKm")!=-1) {
-				document.getElementById("start_km_info").innerText = "Định dạng số không hợp lệ";
-			}
-			if (isCorrectInput.indexOf("endKm")!=-1) {
-				document.getElementById("end_km_info").innerText = "Định dạng số không hợp lệ";
-			}
-			if (isCorrectInput.indexOf("product")!=-1) {
-				document.getElementById("product_info").innerText = "Vui lòng chọn 1 tuỳ chọn";
-			}
-		} else{
-			var xhr = new XMLHttpRequest();
-			var url = ('./Ajax/AddNewTransaction');
-			xhttp.onreadystatechange = handleResult;
-			xhttp.open('POST',url);
-			xhttp.send();
-			function handleResult(){
-
-			}
+let btnAddNewTrans = document.querySelector(".add__transaction-button");
+btnAddNewTrans.addEventListener("click",function(){
+	if (isCorrectInput.length !== 0) {
+		if (isCorrectInput.indexOf("startKm")!=-1) {
+			document.getElementById("start_km_info").innerText = "Định dạng số không hợp lệ";
 		}
-	})
+		if (isCorrectInput.indexOf("endKm")!=-1) {
+			document.getElementById("end_km_info").innerText = "Định dạng số không hợp lệ";
+		}
+		if (isCorrectInput.indexOf("product")!=-1) {
+			document.getElementById("product_info").innerText = "Vui lòng chọn 1 tuỳ chọn";
+		}
+	} else{
+		var data = {startDay:startDay.value,
+					endDay:endDay.value,
+					startKm:startKm.value,
+					endKm:endKm.value,
+					productId:product.value
+				};
+
+		json = JSON.stringify(data);
+	 	var xhr = new XMLHttpRequest();
+		var url = './Ajax/AddNewTransaction';
+		xhr.onreadystatechange = handleResult;
+		xhr.open('POST',url,true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		
+		xhr.send("ajaxSend="+json);	
+		//xhr.send(data);		
+		function handleResult(){
+			console.log(JSON.parse(xhr.responseText));
+		}
+	}
+
+})
 
 
 

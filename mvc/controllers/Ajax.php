@@ -18,7 +18,57 @@
 			echo $this->OilModel->ShowLastOption();
 		}
 		public function AddNewTransaction(){
-			echo $this->OilModel->AddNewRecord();
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["ajaxSend"],true);
+			//$arr là dạng mảng sau khi dùng hàm json_decode
+			//$this->OilModel->AddNewRecord();
+			//echo gettype($arr);
+			
+			if ( !empty($arr) ) {
+				$errors = array();
+
+				if (isset($arr['productId'])&&filter_var($arr['productId'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$product_id = $arr['productId'];
+				} else{
+					$errors[] = "product_id";
+				}
+
+				if (!empty($arr['startDay'])) {
+					$start_day = $arr['startDay'];
+				} else{
+					$errors[] = "start_day";
+				}
+
+				if (!empty($arr['endDay'])) {
+					$end_day = $arr['endDay'];
+				} else{
+					$errors[] = "end_day";
+				}
+
+				if (isset($arr['startKm'])&&filter_var($arr['startKm'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$start_km = $arr['startKm'];
+				} else{
+					$errors[] = "start_km";
+				}
+
+				if (isset($arr['endKm'])&&filter_var($arr['endKm'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$end_km = $arr['endKm'];
+				} else{
+					$errors[] = "end_km";
+				}
+		
+				// echo $product_name;
+				//2. insert database		
+				if(empty($errors)){		
+					$kq = $this->OilModel->AddNewRecord($product_id,$start_day,$end_day,$start_km,$end_km);
+				} else{
+					print_r($errors);
+				}
+				//3.thong bao ra man hinh
+				if($kq === true){
+					return json_encode($arr);
+				}
+			}
 		}
 	}
 
