@@ -56,19 +56,41 @@
 				} else{
 					$errors[] = "end_km";
 				}
-		
 				// echo $product_name;
 				//2. insert database		
 				if(empty($errors)){		
 					$kq = $this->OilModel->AddNewRecord($product_id,$start_day,$end_day,$start_km,$end_km);
+					if($kq == true){
+						echo $this->OilModel->ShowLastOption();
+					}
 				} else{
 					print_r($errors);
 				}
 				//3.thong bao ra man hinh
-				if($kq === true){
-					return json_encode($arr);
+				
+			}
+		}
+
+		public function ShowTransactionById()
+		{
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["id"],true);
+			if ( !empty($arr) ) {
+				$errors = array();
+
+				if (isset($arr['tranId'])&&filter_var($arr['tranId'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$id = $arr['tranId'];
+				} else{
+					$errors[] = "tranId";
 				}
 			}
+
+			if (empty($errors)) {
+				echo $this->OilModel->ShowARecordById($id);
+			} else{
+				print_r($errors);
+			}
+
 		}
 	}
 

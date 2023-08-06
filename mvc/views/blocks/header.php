@@ -12,6 +12,7 @@
 <body>
 	<div class="wrapper">
 		<header class="header">
+			<div class="header__noti">Thêm bản ghi</div>
 			<div class="header__logo">
 				<a href="./Home" class="logo__container">
 					<span class="logo__container__icon"><i class="fa-solid fa-wallet fa-xl"></i></span> Mint Wallet 

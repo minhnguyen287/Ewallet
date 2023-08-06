@@ -70,6 +70,30 @@ a {
       color: #fff;
       margin: 0 auto;
       font-size: 1rem; }
+  .header__noti {
+    font-size: 1rem;
+    line-height: 2;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    grid-column: 1 / span 5;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -100px);
+    min-width: 300px;
+    height: auto;
+    background: #22223d;
+    padding: 0.8rem;
+    border-radius: 0.75rem;
+    transition: transform 0.5s ease; }
+    .header__noti-success {
+      color: #18a592;
+      border: 1px solid #18a592;
+      transform: translate(-50%, 20px); }
+    .header__noti-failure {
+      color: #f82649;
+      border: 1px solid #f82649;
+      transform: translate(-50%, 20px); }
 
 .menu__hide-toggle {
   display: none;
@@ -157,13 +181,13 @@ input:focus {
     color: #4d59ca;
     font-size: 1rem; }
 
-.add__account-button, .export-button, .add__transaction-button {
+.add__account-button, .export-button, .add__transaction-button, .edit__transaction-button {
   height: calc(50rem / 16);
   color: #fff;
   border: none;
   border-radius: 0.4rem; }
 
-.add__account-button, .export-button, .add__transaction-button:hover {
+.add__account-button, .export-button, .add__transaction-button, .edit__transaction-button:hover {
   cursor: pointer; }
 
 .add__account-button {
@@ -177,6 +201,10 @@ input:focus {
 
 .add__transaction-button {
   background: #13bfa6;
+  padding: 0 10px 0 10px; }
+
+.edit__transaction-button {
+  background: #6259ca;
   padding: 0 10px 0 10px; }
 
 .dashboard__content {

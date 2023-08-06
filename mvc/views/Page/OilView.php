@@ -6,7 +6,7 @@
 			<span class="header__container-left-link">Oil Change History</span>
 		</div>
 		<div class="header__container-right">
-			<button class="add__account-button">
+			<button class="add__transaction-button">
 				<i class="fa-solid fa-plus"></i> Add Transaction
 			</button>
 			<button class="export-button">
@@ -130,6 +130,27 @@
 								}
 
 							?>
+							<template id="newRow">
+								<tr class="rowContent">
+									<td data-cell="no">01.</td>
+									<td data-cell="product name">MOTUL SILVER</td>
+									<td data-cell="change date">15.05.2023</td>
+									<td data-cell="days">45</td>
+									<td data-cell="total km">1000</td>
+									<td data-cell="amount">80.000</td>
+									<td data-cell="status" class="oil__table-status">Good</td>
+									<td data-cell="Action">
+										<div class="oil__table-action">
+											<button class="oil__table-action-edit">
+												<i class="fa-solid fa-pen fa-sm"></i>
+											</button>
+											<button class="oil__table-action-delete">
+												<i class="fa-solid fa-trash fa-sm"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+							</template>
 							<!-- <tr>
 								<td data-cell="no">01.</td>
 								<td data-cell="product name">MOTUL SILVER</td>
@@ -201,6 +222,60 @@
 							</label>
 							<select class="dialog__form-input" name="product" id="form__add-oil_product-name">
 								<option value="" selected="selected">-- Choose one --</option>
+								<template id="product-option">
+									<option value="{{value}}">{{name}}</option>
+								</template>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="dialog__content-footer">
+					<button type="button" class="add__transaction-button" name="addTrBtn" disabled="disabled">
+						<i class="fa-solid fa-plus"></i> Add Transaction
+					</button>
+					<button type="button" class="edit__transaction-button" name="editTrBtn" disabled="disabled">
+						<i class="fa-solid fa-pen fa-sm"></i> Update Transaction
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>	
+
+	<!-- <div class="dialog">
+		<form id="EditTransaction" action="" method="POST">
+			<div class="dialog__content">
+				<div class="dialog__content-header">
+					<h2 class="dialog__content-header-label">Edit transaction</h2>
+					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
+				</div>
+				<div class="dialog__content-body">
+					<div class="dialog__form">
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__edit-start_day">Start Day</label>
+							<input class="dialog__form-input" type="date" name="startday" id="form__edit-start_day" placeholder="Start day">
+						</div>				
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__edit-end_day">End Day</label>
+							<input class="dialog__form-input" type="date" name="endday" id="form__edit-end_day" placeholder="End day">
+						</div>				
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__edit-start_kilometer">Start Kilometer
+								<span class="input_infor" id="start_km_info"></span>
+							</label>
+							<input class="dialog__form-input" name="startkilometer" type="text" id="form__edit-start_kilometer" placeholder="Start kilometer">
+						</div>				
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__edit-end_kilometer">End Kilometer
+								<span class="input_infor" id="end_km_info"></span>
+							</label>
+							<input class="dialog__form-input" name="endkilometer" type="text" id="form__edit-end_kilometer" placeholder="End kilometer">
+						</div>				
+						<div class="dialog__form-field">
+							<label class="dialog__form-label" for="form__edit-oil_product-name">Oil Product
+								<span class="input_infor" id="product_info"></span>
+							</label>
+							<select class="dialog__form-input" name="product" id="form__edit-oil_product-name">
+								<option value="" selected="selected">-- Choose one --</option>
 								
 							</select>
 							<template id="product-option">
@@ -210,10 +285,10 @@
 					</div>
 				</div>
 				<div class="dialog__content-footer">
-					<button type="button" class="add__transaction-button" name="addTrBtn" disabled="disabled">
-						<i class="fa-solid fa-plus"></i> Add Transaction
+					<button type="button" class="edit__transaction-button" name="editTrBtn" disabled="disabled">
+						<i class="fa-solid fa-pen fa-sm"></i> Update Transaction
 					</button>
 				</div>
 			</div>
 		</form>
-	</div>	
+	</div> -->
