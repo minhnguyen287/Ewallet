@@ -221,7 +221,7 @@
 								<span class="input_infor" id="product_info"></span>
 							</label>
 							<select class="dialog__form-input" name="product" id="form__add-oil_product-name">
-								<option value="" selected="selected">-- Choose one --</option>
+								<option value="null" selected="selected">-- Choose one --</option>
 								<template id="product-option">
 									<option value="{{value}}">{{name}}</option>
 								</template>
@@ -233,7 +233,7 @@
 					<button type="button" class="add__transaction-button" name="addTrBtn" disabled="disabled">
 						<i class="fa-solid fa-plus"></i> Add Transaction
 					</button>
-					<button type="button" class="edit__transaction-button" name="editTrBtn" disabled="disabled">
+					<button type="button" class="edit__transaction-button" name="editTrBtn">
 						<i class="fa-solid fa-pen fa-sm"></i> Update Transaction
 					</button>
 				</div>
@@ -241,6 +241,32 @@
 		</form>
 	</div>	
 
+	<div class="dialog">
+		<form id="DeleteTransaction" action="" method="POST">
+			<div class="dialog__content">
+				<div class="dialog__content-header">
+					<h2 class="dialog__content-header-label">Delete transaction</h2>
+					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
+				</div>
+				<div class="dialog__content-body">
+					<div class="dialog__form">
+						<div class="dialog__form-field">
+							<span>Are you sure delete record of this transaction ?</span>
+						</div>				
+						
+					</div>
+				</div>
+				<div class="dialog__content-footer">
+					<button type="button" class="delete__transaction-button" name="delTrBtn">
+						<i class="fa-solid fa-trash fa-sm"></i> Delete
+					</button>
+					<button type="button" class="cancelAction__transaction-button" name="cancleActBtn">
+						<i class="fa-solid fa-file-export fa-sm"></i> Cancel
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>	
 	<!-- <div class="dialog">
 		<form id="EditTransaction" action="" method="POST">
 			<div class="dialog__content">
