@@ -68,8 +68,7 @@
 				} else{
 					print_r($errors);
 				}
-				//3.thong bao ra man hinh
-				
+				//3.thong bao ra man hinh		
 			}
 		}
 
@@ -92,7 +91,6 @@
 			} else{
 				print_r($errors);
 			}
-
 		}
 
 		public function UpdateTransaction()
@@ -178,6 +176,28 @@
 			}
 		}
 
+		public function NumberOfTransaction()
+		{
+			echo $this->OilModel->CountRecord();
+		}
+
+		public function Pagination()
+		{
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["data"],true);
+			//var_export($arr);
+			if (isset($arr['start'])&&filter_var($arr['start'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+				$start = $arr['start'];
+			} else{
+				$start = 0;
+			}
+			if (isset($arr['display'])&&filter_var($arr['display'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+				$display = $arr['display'];
+			} else{
+				$display = 10;
+			}
+			echo $this->OilModel->ShowHistory($start,$display);
+		}
 
 
 

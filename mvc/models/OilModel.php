@@ -5,14 +5,15 @@
 	class OilModel extends DB
 	{
 		
-		public function ShowHistory(){
+		public function ShowHistory($start,$display){
 			$q = "SELECT o.och_id,p.product_name,o.end_day,p.product_price, ";
 			$q .= "DATEDIFF(o.end_day,o.start_day) AS total_days, ";
 			$q .= "(end_km-start_km) AS total_km ";
 			$q .= "FROM oil AS o ";
 			$q .= "JOIN oil_product AS p ";
 			$q .= "USING (product_id) " ;
-			$q .= "ORDER BY o.och_id DESC";
+			$q .= "ORDER BY o.och_id ASC ";
+			$q .= "LIMIT $start, $display";
 
 			$record1 = $this->con->query($q);
 			$arr = array();
@@ -123,6 +124,20 @@
 			}
 			return json_encode($result);
 		}
+		
+		public function CountRecord()
+		{
+			$q = "SELECT COUNT(*) AS totalRecords FROM oil";
+			$r = $this->con->query($q);
+			$result = $r->fetch_array(MYSQLI_ASSOC);
+			return json_encode($result);
+		}
+
+
+
+
+
+
 	}
 
  ?>

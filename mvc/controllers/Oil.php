@@ -12,7 +12,7 @@
 		
 		public function Dashboard()
 		{
-			$statistical1 = $this->OilModel->ShowHistory();
+			$statistical1 = $this->OilModel->ShowHistory(0,10);
 			//Goi view
 			$this->view("MasterLayout",[
 				"Page"=>"OilView",

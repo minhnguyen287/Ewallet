@@ -108,8 +108,9 @@
 									} elseif ($row[$i]->total_km >= 1500) {
 										$status_noti = "expired";
 									}
+									$row[$i]->och_id < 10 ? $row_id = '0'.$row[$i]->och_id : $row_id = $row[$i]->och_id;
 									echo "<tr id ='".$row[$i]->och_id."'>";
-									echo'<td data-cell="no">0'.$row[$i]->och_id.'.</td>';
+									echo'<td data-cell="no">'.$row_id.'.</td>';
 									echo'<td data-cell="product name">'.$row[$i]->product_name.'</td>';
 									echo'<td data-cell="change date">'.$row[$i]->end_day.'</td>';
 									echo'<td data-cell="days">'.$row[$i]->total_days.'</td>';
@@ -129,8 +130,9 @@
 									echo"</tr>";
 								}
 
-							?>
-							<template id="newRow">
+							?>							
+						</tbody>
+						<template id="newRow">
 								<tr class="rowContent">
 									<td data-cell="no">01.</td>
 									<td data-cell="product name">MOTUL SILVER</td>
@@ -151,31 +153,11 @@
 									</td>
 								</tr>
 							</template>
-							<!-- <tr>
-								<td data-cell="no">01.</td>
-								<td data-cell="product name">MOTUL SILVER</td>
-								<td data-cell="change date">15.05.2023</td>
-								<td data-cell="days">45</td>
-								<td data-cell="total km">1000</td>
-								<td data-cell="amount">80.000</td>
-								<td data-cell="status" class="oil__table-status oil__table-status-good">Good</td>
-								<td data-cell="Action">
-									<div class="oil__table-action">
-										<button class="oil__table-action-edit">
-											<i class="fa-solid fa-pen fa-sm"></i>
-										</button>
-										<button class="oil__table-action-delete">
-											<i class="fa-solid fa-trash fa-sm"></i>
-										</button>
-									</div>
-								</td>
-							</tr> -->							
-						</tbody>
 					</table>
 				</div>
 				<div class="table__body-footer">
 					<div class="table__body-footer-show">
-						<span>Showing 1 to 5 of 5 entries</span>
+						<span id="count__record">Showing {{start}} to {{display}} of {{totals}} entries</span>
 					</div>
 					<div class="table__body-footer-list">
 						<button>Previous</button>
