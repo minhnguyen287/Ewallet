@@ -179,30 +179,30 @@
 				<div class="dialog__content-body">
 					<div class="dialog__form">
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-start_day">Start Day</label>
-							<input class="dialog__form-input" type="date" name="startday" id="form__add-start_day" placeholder="Start day">
+							<label class="dialog__form-label" for="form__start-day">Start Day</label>
+							<input class="dialog__form-input" type="date" name="startday" id="form__start-day" placeholder="Start day">
 						</div>				
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-end_day">End Day</label>
-							<input class="dialog__form-input" type="date" name="endday" id="form__add-end_day" placeholder="End day">
+							<label class="dialog__form-label" for="form__end-day">End Day</label>
+							<input class="dialog__form-input" type="date" name="endday" id="form__end-day" placeholder="End day">
 						</div>				
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-start_kilometer">Start Kilometer
+							<label class="dialog__form-label" for="form__start-kilometer">Start Kilometer
 								<span class="input_infor" id="start_km_info"></span>
 							</label>
-							<input class="dialog__form-input" name="startkilometer" type="text" id="form__add-start_kilometer" placeholder="Start kilometer">
+							<input class="dialog__form-input" name="startkilometer" type="text" id="form__start-kilometer" placeholder="Start kilometer">
 						</div>				
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-end_kilometer">End Kilometer
+							<label class="dialog__form-label" for="form__end-kilometer">End Kilometer
 							<span class="input_infor" id="end_km_info"></span>
 						</label>
-							<input class="dialog__form-input" name="endkilometer" type="text" id="form__add-end_kilometer" placeholder="End kilometer">
+							<input class="dialog__form-input" name="endkilometer" type="text" id="form__end-kilometer" placeholder="End kilometer">
 						</div>				
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__add-oil_product-name">Oil Product
+							<label class="dialog__form-label" for="form__product">Oil Product
 								<span class="input_infor" id="product_info"></span>
 							</label>
-							<select class="dialog__form-input" name="product" id="form__add-oil_product-name">
+							<select class="dialog__form-input" name="product" id="form__product">
 								<option value="null" selected="selected">-- Choose one --</option>
 								<template id="product-option">
 									<option value="{{value}}">{{name}}</option>
