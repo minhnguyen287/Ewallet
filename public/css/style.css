@@ -70,7 +70,7 @@ a {
       color: #fff;
       margin: 0 auto;
       font-size: 1rem; }
-  .header__noti {
+  .header__popup {
     font-size: 1rem;
     line-height: 2;
     font-weight: bold;
@@ -86,11 +86,11 @@ a {
     padding: 0.8rem;
     border-radius: 0.75rem;
     transition: transform 0.5s ease; }
-    .header__noti-success {
+    .header__popup-success {
       color: #18a592;
       border: 1px solid #18a592;
       transform: translate(-50%, 20px); }
-    .header__noti-failure {
+    .header__popup-failure {
       color: #f82649;
       border: 1px solid #f82649;
       transform: translate(-50%, 20px); }

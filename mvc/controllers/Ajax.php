@@ -19,7 +19,7 @@
 		}
 		public function AddNewTransaction(){
 			header("Content-Type: application/json");
-			$arr = json_decode($_POST["ajaxSend"],true);
+			$arr = json_decode($_POST["AjaxData"],true);
 			//$arr là dạng mảng sau khi dùng hàm json_decode
 			//$this->OilModel->AddNewRecord();
 			//echo gettype($arr);
@@ -75,7 +75,7 @@
 		public function ShowTransactionById()
 		{
 			header("Content-Type: application/json");
-			$arr = json_decode($_POST["id"],true);
+			$arr = json_decode($_POST["AjaxData"],true);
 			if ( !empty($arr) ) {
 				$errors = array();
 

@@ -3,6 +3,9 @@
 	https://completejavascript.com/chuyen-html-template-sang-dom-node/
 	https://codetot.net/javascript-delegation-event/#Event_Delegation_trong_Plain_Javascript
 	http://bdadam.com/blog/plain-javascript-event-delegation.html
+	== Callback==
+	https://www.youtube.com/watch?v=W8vJ-yOtSbE&t=236s
+	https://www.youtube.com/watch?v=LUt36WnREm0&t=222s
 */
 
 /* Chú thích 
@@ -77,25 +80,47 @@ function RetitleDialog(titleDialog,title,btnDisplays,btnHides){
 	}
 }
 
-/* Hiện Modal thêm 1 bản ghi lịch sử thay dầu khi click vào nút "Add Transaction" */
-btnAddTransaction[0].onclick = function(){
-	/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
-	RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnEditTransaction[0]])
-	ShowModal(dialog[0]);
-	/* Reload lại các phần tử dùng để thông báo */
-	headerPopup.setAttribute("class","header__noti");
-	headerPopup.removeAttribute("style");
-	labelField_endKm.innerText = "";
-	document.getElementById("dialogForm_product_info").innerText = "";
-	let url = ('./Ajax/ShowLastOption');
-	let xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = handleResult;
-	xhr.open("GET",url);
-	xhr.send();
+/* Function call AJAX load thông tin sản phẩm */
+function sendAjaxRequest(url,method,callback,data){
+	let xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = handleResult;
+	xhttp.open(method,url);
+	if (data !== null) {
+		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhttp.send("AjaxData="+data);
+		//console.log(data);
+	} else {
+		xhttp.send();
+	}
 	function handleResult(){
-		let curentDate = new Date().toJSON().slice(0, 10);
-		if (xhr.readyState === XMLHttpRequest.DONE) {
-			var responseData = JSON.parse(xhr.responseText);
+		if (this.readyState === XMLHttpRequest.DONE) {
+			if (typeof(callback) === 'function'){
+				callback(this.responseText);
+			}
+		}
+	}
+}
+/*Hàm xử lí dữ liệu load ra các option của thanh select được reponse sau khi gửi AJAX*/
+function dialogForm_showProductOption(data,output){
+	//if (typeof(data) == 'string') {
+		var arr = [];
+		arr = JSON.parse(data);
+		let templateFrag = document.querySelector("#product-option").content;
+
+		for (var i = 0; i < arr.length; i++) {
+			let tmpl = templateFrag.cloneNode(true);
+			tmpl.querySelector('option').setAttribute("value",arr[i].product_id);
+			tmpl.querySelector('option').innerText = arr[i].product_name+" ("+arr[i].product_batch+")";
+			output.appendChild(tmpl);
+		}
+	//}
+
+}
+
+/* Hiện Modal thêm 1 bản ghi lịch sử thay dầu khi click vào nút "Add Transaction" */
+function showAddDialog(data){
+	let curentDate = new Date().toJSON().slice(0, 10);
+	var responseData = JSON.parse(data);
 			//console.log(data);
 			dialogForm_startDay.value = responseData.end_day;
 			dialogForm_endDay.value = curentDate;
@@ -103,7 +128,21 @@ btnAddTransaction[0].onclick = function(){
 			dialogForm_endKm.value = null;
 			dialogForm_product.value = null;
 		}
-	} 
+
+
+btnAddTransaction[0].onclick = function(){
+	/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
+	RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnEditTransaction[0]])
+	ShowModal(dialog[0]);
+	/* Reload lại các phần tử dùng để thông báo */
+	headerPopup.setAttribute("class","header__popup");
+	headerPopup.removeAttribute("style");
+	labelField_endKm.innerText = "";
+	labelField_product.innerText = "";
+	let url = ('./Ajax/ShowLastOption');
+	let method = "GET";
+
+	sendAjaxRequest(url,method,showAddDialog);
 };
 
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
@@ -111,64 +150,28 @@ btnCloseModal[0].addEventListener("click",()=>HideModal(dialog[0]));
 
 /* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
 window.addEventListener("click",function(event){
-if (event.target == dialog[0]) {
+	if (event.target == dialog[0]) {
 		HideModal(dialog[0]);
 	}
 });
 
-/* Function call AJAX load thông tin sản phẩm */
-function sendRequestLoaddialogForm_product(url,method,callback){
-	let xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = handleResult;
-	xhttp.open(method,url);
-	xhttp.send();
-	function handleResult(){
-		if (xhttp.readyState === XMLHttpRequest.DONE) {
-			//console.log(JSON.parse(xhttp.responseText)[0].dialogForm_product_id);
-			callback(xhttp.responseText);
-			//console.log(typeof(xhttp.responseText));
-			//console.log(this.responseText);
-		}
-	}
-}
 
-function showdialogForm_productOption(data,output){
-	//if (typeof(data) == 'string') {
-		var arr = [];
-		arr = JSON.parse(data);
-		let templateFrag = document.querySelector("#dialogForm_product-option").content;
-
-		for (var i = 0; i < arr.length; i++) {
-			let tmpl = templateFrag.cloneNode(true);
-			tmpl.querySelector('option').setAttribute("value",arr[i].dialogForm_product_id);
-			tmpl.querySelector('option').innerText = arr[i].dialogForm_product_name+" ("+arr[i].dialogForm_product_batch+")";
-			output.appendChild(tmpl);
-		}
-	//}
-	
-}
 /*=========================================================================================================*/
 
-/* Tự động load ra thông tin sản phẩm dầu nhớt trong bảng tuỳ chọn thêm 1 bản ghi lịch sử thay dầu*/
+/* Tự động load ra thông tin sản phẩm dầu nhớt trong bảng tuỳ chọn thêm 1 bản ghi lịch sử thay dầu 
+ngay khi trang được load. */
 
-//var oildialogForm_product_editForm = document.getElementById("form__edit-oil_dialogForm_product-name");
 window.addEventListener("load",(event)=>{
 	let method = "GET";
-	let url = './Ajax/ShowdialogForm_productInfo';
-	//sendRequestLoaddialogForm_product(url,method,data => showdialogForm_productOption(data,dialogForm_product));
+	let url = './Ajax/ShowProductInfo';
+	sendAjaxRequest(url,method,data => dialogForm_showProductOption(data,dialogForm_product));
 
-	//sendRequestLoaddialogForm_product(url,method,showdialogForm_productOption);
-
-	// sendRequestLoaddialogForm_product(url,method, function(data){
-	// 	showdialogForm_productOption(data,dialogForm_product);
+	// sendAjaxRequest(url,method, function(data){
+	// 	dialogForm_showProductOption(data,dialogForm_product);
 	// })
 
-	// showdialogForm_productOption(sendRequestLoaddialogForm_product,dialogForm_product){
-	// 	var data = sendRequestLoaddialogForm_product(url,method);
-	// 	console.log(data);
-	// }
-
-	/* Hàm sendRequestLoaddialogForm_product được viết ngay phía trên để gọi AJAX */
+	/* data => dialogForm_showProductOption(data,dialogForm_product)) đóng vai trò là hàm callback 
+	được truyền trong hàm sendAjaxRequest(url,method,callback) */
 })
 /*=========================================================================================================*/
 
@@ -213,7 +216,7 @@ function showErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,c
 	let contentNoti = "Định dạng số không hợp lệ";
 
 	dialogForm_product.addEventListener("change",function(){
-		let errorLineNotification = document.getElementById("dialogForm_product_info");
+		let errorLineNotification = labelField_product;
 		let submitButton = document.querySelectorAll(".add__transaction-button");
 		let contentNoti = "Vui lòng chọn 1 tuỳ chọn";
 		showErrorNotification(pattern,dialogForm_product.value,errorLineNotification,submitButton[1],"dialogForm_product",contentNoti);
@@ -244,6 +247,48 @@ function assessmentStatuses (km){
 	return status_noti;
 }
 /* Code tính năng thêm 1 bản ghi lịch sử thay dầu */
+function addANewTransaction(data){
+	if (typeof(data)==="string") {
+		let responseData = JSON.parse(data);
+		if (responseData != "false") {
+			/*Hiển thị dòng dữ liệu mới thêm vào*/
+			let templateFrag = document.querySelector("#newRow").content;
+			let rowId;
+			responseData.och_id < 10 ? rowId = '0'+responseData.och_id : rowId = responseData.och_id;
+			templateFrag.querySelector("td").parentNode.setAttribute("id",responseData.och_id);
+			templateFrag.querySelector("td").innerText = rowId+".";
+			templateFrag.querySelector(".rowContent td:nth-child(2)").innerText = responseData.product_name;
+			templateFrag.querySelector(".rowContent td:nth-child(3)").innerText = responseData.end_day;
+			templateFrag.querySelector(".rowContent td:nth-child(4)").innerText = responseData.total_days;
+			templateFrag.querySelector(".rowContent td:nth-child(5)").innerText = responseData.total_km;
+			templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = responseData.product_price;
+			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
+			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+assessmentStatuses(responseData.total_km));
+			document.querySelector("tbody").appendChild(templateFrag);
+			/*In ra câu thông báo thành công*/
+			headerPopup.innerText = "A new transaction was added successfully !";
+			headerPopup.setAttribute("class","header__popup header__popup-success");
+			setTimeout(function(){
+				headerPopup.style.transform = 'translate(-50%,-100px)';
+			},2500);
+		} else {
+			headerPopup.innerText = "Cannot add new transaction, Please try again !";
+			headerPopup.setAttribute("class","header__popup header__popup-failure");
+			setTimeout(function(){
+				headerPopup.style.transform = 'translate(-50%,-100px)';
+			},2500);
+		}
+
+	} else {
+		/*In ra câu thông báo thất bại*/
+		headerPopup.innerText = "Cannot add new transaction, Please try again !";
+		headerPopup.setAttribute("class","header__popup header__popup-failure");
+		setTimeout(function(){
+			headerPopup.style.transform = 'translate(-50%,-100px)';
+		},2500);
+	}
+}
+
 let btnAddNewTrans = document.querySelectorAll(".add__transaction-button");
 btnAddNewTrans[1].addEventListener("click",function(){
 	//console.log(isCorrectInput);
@@ -255,72 +300,23 @@ btnAddNewTrans[1].addEventListener("click",function(){
 			labelField_endKm.innerText = "Định dạng số không hợp lệ";
 		}
 		if (isCorrectInput.indexOf("dialogForm_product")!=-1) {
-			document.getElementById("dialogForm_product_info").innerText = "Vui lòng chọn 1 tuỳ chọn";
+			labelField_product.innerText = "Vui lòng chọn 1 tuỳ chọn";
 		}
 
 	} else{
-		var data = {dialogForm_startDay:dialogForm_startDay.value,
-					dialogForm_endDay:dialogForm_endDay.value,
-					dialogForm_startKm:dialogForm_startKm.value,
-					dialogForm_endKm:dialogForm_endKm.value,
-					dialogForm_productId:dialogForm_product.value
+		var data = {startDay:dialogForm_startDay.value,
+					endDay:dialogForm_endDay.value,
+					startKm:dialogForm_startKm.value,
+					endKm:dialogForm_endKm.value,
+					productId:dialogForm_product.value
 				};
 
-		json = JSON.stringify(data);
-	 	let xhr = new XMLHttpRequest();
+		dataSend = JSON.stringify(data);
 		let url = './Ajax/AddNewTransaction';
-		xhr.onreadystatechange = handleResult;
-		xhr.open('POST',url,true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		
-		xhr.send("ajaxSend="+json);	
-		//xhr.send(data);		
-		function handleResult(){
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				let responseData = JSON.parse(xhr.responseText);
-				if (responseData != "false") {
-					//console.log(responseData);
-					/*Hiển thị dòng dữ liệu mới thêm vào*/
-					let templateFrag = document.querySelector("#newRow").content;
-					if(responseData.och_id < 10){
-						let rowId = '0'+responseData.och_id;
-					}
-					templateFrag.querySelector("td").parentNode.setAttribute("id",responseData.och_id);
-					templateFrag.querySelector("td").innerText = rowId+".";
-					templateFrag.querySelector(".rowContent td:nth-child(2)").innerText = responseData.dialogForm_product_name;
-					templateFrag.querySelector(".rowContent td:nth-child(3)").innerText = responseData.end_day;
-					templateFrag.querySelector(".rowContent td:nth-child(4)").innerText = responseData.total_days;
-					templateFrag.querySelector(".rowContent td:nth-child(5)").innerText = responseData.total_km;
-					templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = responseData.dialogForm_product_price;
-					templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
-					templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+assessmentStatuses(responseData.total_km));
-					document.querySelector("tbody").appendChild(templateFrag);
-					/*In ra câu thông báo thành công*/
-					headerPopup.innerText = "A new transaction was added successfully !";
-					headerPopup.setAttribute("class","header__noti header__noti-success");
-					setTimeout(function(){
-						headerPopup.style.transform = 'translate(-50%,-100px)';
-					},2500);
-				} else {
-					headerPopup.innerText = "Cannot add new transaction, Please try again !";
-					headerPopup.setAttribute("class","header__noti header__noti-failure");
-					setTimeout(function(){
-						headerPopup.style.transform = 'translate(-50%,-100px)';
-					},2500);
-				}
-				//console.log(data);
-			} else {
-				/*In ra câu thông báo thất bại*/
-				headerPopup.innerText = "Cannot add new transaction, Please try again !";
-				headerPopup.setAttribute("class","header__noti header__noti-failure");
-				setTimeout(function(){
-					headerPopup.style.transform = 'translate(-50%,-100px)';
-				},2500);
-			}
-		}
+		let method = "POST";		
+		sendAjaxRequest(url,method,addANewTransaction,dataSend);
 		HideModal(dialog[0]);
 	}
-
 	
 })
 /*======================================================================================================*/
@@ -366,23 +362,25 @@ function editTransaction(){
 		target = target.parentNode;
 	}
 	/* Reload lại các phần tử dùng để thông báo */
-	headerPopup.setAttribute("class","header__noti");
+	headerPopup.setAttribute("class","header__popup");
 	headerPopup.removeAttribute("style");
 	/* Gọi modal Update*/
 	ShowModal(dialog[0]);
 	labelField_startKm.innerText = "";
 	labelField_endKm.innerText = "";
-	document.getElementById("dialogForm_product_info").innerText = "";
+	labelField_product.innerText = "";
 	RetitleDialog(titleDialog,'Edit transaction',[btnEditTransaction[0]],[btnAddTransaction[1]]);
 	/* Gọi Ajax load dữ liệu của bản ghi tương ứng với số transactionId khi button Edit được click*/
 	let id = JSON.stringify({"tranId":transactionId});
 	//console.log(id);
 	let url = './Ajax/ShowTransactionById';
-	let xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = handleResult;
-	xhr.open("POST",url);
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhr.send("id="+id);
+	let method = "POST";
+	// let xhr = new XMLHttpRequest();
+	// xhr.onreadystatechange = handleResult;
+	// xhr.open("POST",url);
+	// xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	// xhr.send("id="+id);
+
 	function handleResult() {
 		if(xhr.readyState === this.DONE){
 			responseData = JSON.parse(xhr.responseText);
@@ -392,7 +390,9 @@ function editTransaction(){
 			document.getElementById("form__end-kilometer").value = responseData.end_km;
 			document.getElementById("form__add-oil_dialogForm_product-name").value = responseData.dialogForm_product_id;
 			btnEditTransaction[0].setAttribute("transactionId",transactionId);
-			/* Xoá ErrorCode trong mảng báo lỗi isCorrectInput*/
+			/* Xoá ErrorCode trong mảng báo lỗi isCorrectInput. Vì dùng chung 1 dialog. Nếu trước đó 
+			các chỉ mục label trong Add Form bị lỗi do nhập sai định dạng dữ liệu thì khi ấn vào btnEdit 
+			sẽ phải xoá lỗi ở các chỉ mục label thì mới hợp logic*/
 			let i = 0;
 			while(i < isCorrectInput.length){
 				isCorrectInput.pop();
@@ -437,7 +437,7 @@ btnEditTransaction[0].addEventListener('click',function(){
 			labelField_endKm.innerText = "Định dạng số không hợp lệ";
 		}
 		if (isCorrectInput.indexOf("dialogForm_product")!=-1) {
-			document.getElementById("dialogForm_product_info").innerText = "Vui lòng chọn 1 tuỳ chọn";
+			labelField_product.innerText = "Vui lòng chọn 1 tuỳ chọn";
 		}	
 	} else{
 		var data = {transId:btnEditTransaction[0].getAttribute("transactionId"),
@@ -476,13 +476,13 @@ btnEditTransaction[0].addEventListener('click',function(){
 
 					/*In ra câu thông báo thành công*/
 					headerPopup.innerText = "A new record was edited successfully !";
-					headerPopup.setAttribute("class","header__noti header__noti-success");
+					headerPopup.setAttribute("class","header__popup header__popup-success");
 					setTimeout(function(){
 						headerPopup.style.transform = 'translate(-50%,-100px)';
 					},2500);
 				} else {
 					headerPopup.innerText = "Cannot add new record, Please try again !";
-					headerPopup.setAttribute("class","header__noti header__noti-failure");
+					headerPopup.setAttribute("class","header__popup header__popup-failure");
 					setTimeout(function(){
 						headerPopup.style.transform = 'translate(-50%,-100px)';
 					},2500);
@@ -490,7 +490,7 @@ btnEditTransaction[0].addEventListener('click',function(){
 			} else {
 				/*In ra câu thông báo thất bại*/
 				headerPopup.innerText = "Cannot add new record, Please try again !";
-				headerPopup.setAttribute("class","header__noti header__noti-failure");
+				headerPopup.setAttribute("class","header__popup header__popup-failure");
 				setTimeout(function(){
 					headerPopup.style.transform = 'translate(-50%,-100px)';
 				},2500);
@@ -521,7 +521,7 @@ function deleteTransaction(){
 		}
 		target = target.parentNode;
 		/* Reload lại các phần tử dùng để thông báo */
-		headerPopup.setAttribute("class","header__noti");
+		headerPopup.setAttribute("class","header__popup");
 		headerPopup.removeAttribute("style");
 		/* Gọi modal Delete*/
 		delFormContent.style.minWidth = "initial";
@@ -572,7 +572,7 @@ btnDeleteTransaction[0].addEventListener('click',()=>{
 				document.querySelector('tbody').deleteRow(index-1);
 
 				headerPopup.innerText = "A record was deleted successfully !";
-				headerPopup.setAttribute("class","header__noti header__noti-success");
+				headerPopup.setAttribute("class","header__popup header__popup-success");
 				setTimeout(function(){
 					headerPopup.style.transform = 'translate(-50%,-100px)';
 				},2500);
@@ -580,7 +580,7 @@ btnDeleteTransaction[0].addEventListener('click',()=>{
 			} else {
 				/*In ra câu thông báo thất bại*/
 				headerPopup.innerText = "Cannot delete this record, Please try again !";
-				headerPopup.setAttribute("class","header__noti header__noti-failure");
+				headerPopup.setAttribute("class","header__popup header__popup-failure");
 				setTimeout(function(){
 					headerPopup.style.transform = 'translate(-50%,-100px)';
 				},2500);
@@ -682,7 +682,7 @@ if (pages > 1) {
 
 
 /*setTimeout(function(){
-	document.querySelector(".header__noti").setAttribute("class","header__noti header__noti-success");
+	document.querySelector(".header__popup").setAttribute("class","header__popup header__popup-success");
 },3000)*/
 
 
