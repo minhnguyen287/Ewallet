@@ -14,7 +14,7 @@
 		{
 			//Array ( [0] => Home )
 			$arr = $this->UrlProcess();
-			//rint_r($arr)."<br/>";
+			//print_r($arr)."<br/>";
 
 			//Xu li controller
 			if (!is_null($arr) && file_exists("./mvc/controllers/".$arr[0].".php")) {

@@ -102,7 +102,7 @@ function sendAjaxRequest(url,method,callback,data){
 }
 /*Hàm xử lí dữ liệu load ra các option của thanh select được reponse sau khi gửi AJAX*/
 function dialogForm_showProductOption(data,output){
-	//if (typeof(data) == 'string') {
+	if (typeof(data) == 'string') {
 		var arr = [];
 		arr = JSON.parse(data);
 		let templateFrag = document.querySelector("#product-option").content;
@@ -113,21 +113,19 @@ function dialogForm_showProductOption(data,output){
 			tmpl.querySelector('option').innerText = arr[i].product_name+" ("+arr[i].product_batch+")";
 			output.appendChild(tmpl);
 		}
-	//}
-
+	}
 }
 
 /* Hiện Modal thêm 1 bản ghi lịch sử thay dầu khi click vào nút "Add Transaction" */
 function showAddDialog(data){
 	let curentDate = new Date().toJSON().slice(0, 10);
 	var responseData = JSON.parse(data);
-			//console.log(data);
-			dialogForm_startDay.value = responseData.end_day;
-			dialogForm_endDay.value = curentDate;
-			dialogForm_startKm.value = responseData.end_km;
-			dialogForm_endKm.value = null;
-			dialogForm_product.value = null;
-		}
+	dialogForm_startDay.value = responseData.end_day;
+	dialogForm_endDay.value = curentDate;		
+	dialogForm_startKm.value = responseData.end_km;
+	dialogForm_endKm.value = null;
+	dialogForm_product.value = null;
+}
 
 
 btnAddTransaction[0].onclick = function(){
@@ -139,9 +137,9 @@ btnAddTransaction[0].onclick = function(){
 	headerPopup.removeAttribute("style");
 	labelField_endKm.innerText = "";
 	labelField_product.innerText = "";
+	/* Gọi Ajax */
 	let url = ('./Ajax/ShowLastOption');
 	let method = "GET";
-
 	sendAjaxRequest(url,method,showAddDialog);
 };
 
@@ -154,7 +152,6 @@ window.addEventListener("click",function(event){
 		HideModal(dialog[0]);
 	}
 });
-
 
 /*=========================================================================================================*/
 
@@ -175,32 +172,29 @@ window.addEventListener("load",(event)=>{
 })
 /*=========================================================================================================*/
 
-/* Validate dữ liệu nhập vào form Modal thêm 1 bản ghi lịch sử thay dầu */
-
-	
-/* Tạo ra 1 mảng chứa mã lỗi , nếu dữ liệu nhập vào hợp lệ sẽ xoá mã lỗi trong bảng và ngược lại */
+/* Validate dữ liệu nhập vào form Modal thêm 1 bản ghi lịch sử thay dầu 
+Tạo ra 1 mảng chứa mã lỗi , nếu dữ liệu nhập vào hợp lệ sẽ xoá mã lỗi trong bảng và ngược lại */
 	var isCorrectInput = ["dialogForm_product","dialogForm_endKm"];
 
-/* Hai hàm thêm mã lỗi và xoá mã lỗi */
-	function removeErrorCode(errArray,errKey){
-		if (errArray.indexOf(errKey)!=-1) {
-			errArray.splice(errArray.indexOf(errKey),1);
-		}
+/* Hai hàm thêm mã lỗi và xoá mã lỗi. Ý tưởng dùng mã lỗi để báo thông báo lỗi phù hợp */
+function removeErrorCode(errArray,errKey){
+	if (errArray.indexOf(errKey)!=-1) {
+		errArray.splice(errArray.indexOf(errKey),1);
 	}
+}
 
-	function addErrorCode(errArray,errKey){
-		if (errArray.indexOf(errKey)==-1) {
-			errArray.push(errKey);
-		}
-	}	
+function addErrorCode(errArray,errKey){
+	if (errArray.indexOf(errKey)==-1) {
+		errArray.push(errKey);
+	}
+}	
 
-	/* Viết hàm tối ưu lại code, thông báo lỗi nếu dữ liệu nhập vào không hợp lệ. 
-	   Bật/tắt button submit nếu tất cả dữ liệu nhập vào hợp lệ */
+/* Viết hàm tối ưu lại code, thông báo lỗi nếu dữ liệu nhập vào không hợp lệ. 
+   Bật button submit nếu tất cả dữ liệu nhập vào hợp lệ */
 function showErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,contentNoti){
 	if(pattern.test(value)){
 		errorLineNoti.innerText = "";
 		removeErrorCode(isCorrectInput,errorCode);
-
 	} else{
 		errorLineNoti.innerText = contentNoti;
 		addErrorCode(isCorrectInput,errorCode);
@@ -214,10 +208,9 @@ function showErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,c
 /* Validate dữ liệu khi nhập form*/
 	let pattern = /^[0-9]+$/;
 	let contentNoti = "Định dạng số không hợp lệ";
-
+	let submitButton = document.querySelectorAll(".add__transaction-button");
 	dialogForm_product.addEventListener("change",function(){
 		let errorLineNotification = labelField_product;
-		let submitButton = document.querySelectorAll(".add__transaction-button");
 		let contentNoti = "Vui lòng chọn 1 tuỳ chọn";
 		showErrorNotification(pattern,dialogForm_product.value,errorLineNotification,submitButton[1],"dialogForm_product",contentNoti);
 		dialogForm_product[0].style.display = "none";
@@ -225,19 +218,17 @@ function showErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,c
 
 	dialogForm_startKm.addEventListener('keyup',function(){
 		let errorLineNotification = labelField_startKm;
-		let submitButton = document.querySelectorAll(".add__transaction-button");
 		showErrorNotification(pattern,dialogForm_startKm.value,errorLineNotification,submitButton[1],"dialogForm_startKm",contentNoti);
 	})
 
 	dialogForm_endKm.addEventListener('keyup',function(){
 		let errorLineNotification = labelField_endKm;
-		let submitButton = document.querySelectorAll(".add__transaction-button");
 		showErrorNotification(pattern,dialogForm_endKm.value,errorLineNotification,submitButton[1],"dialogForm_endKm",contentNoti);
 	})
 
 /*======================================================================================================*/
-/*Viết function phân loại trạng thái hiển thị dựa vào số km */
-function assessmentStatuses (km){
+/*Viết function phân loại trạng thái hiển thị Good/Warning/Expired dựa vào số km */
+function AssessmentStatuses (km){
 	let status_noti = "good";
 	if (km >= 1200 && km <= 1500) {
 		status_noti = "warning";
@@ -246,6 +237,40 @@ function assessmentStatuses (km){
 	}
 	return status_noti;
 }
+/* Viết hàm tuỳ chỉnh nội dung popup thông báo thành công hay thất bạt*/
+function PopupMessage(status,action){
+	var message;
+	if (status == "success") {
+		switch(action){
+			case "add" :
+				message = "A new transaction was added successfully !";
+				break;
+			case "edit"	:
+				message = "A new record was edited successfully !";
+				break;
+			case "delete" :
+				message = "A record was deleted successfully !";
+				break;
+		}
+	} else{
+		switch(action){
+			case "add" :
+				message = "Cannot add new transaction, Please try again !";
+				break;
+			case "edit"	:
+				message = "Cannot update this transaction at the moment, Please try again !";
+				break;
+			case "delete" :
+				message = "Cannot delete this transaction at the moment, Please try again !";
+				break;
+		}
+	}
+	headerPopup.innerText = message;
+	headerPopup.setAttribute("class","header__popup header__popup-"+status+"");
+	setTimeout(function(){
+		headerPopup.style.transform = 'translate(-50%,-100px)';
+	},2500);
+} 
 /* Code tính năng thêm 1 bản ghi lịch sử thay dầu */
 function addANewTransaction(data){
 	if (typeof(data)==="string") {
@@ -262,36 +287,23 @@ function addANewTransaction(data){
 			templateFrag.querySelector(".rowContent td:nth-child(4)").innerText = responseData.total_days;
 			templateFrag.querySelector(".rowContent td:nth-child(5)").innerText = responseData.total_km;
 			templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = responseData.product_price;
-			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
-			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+assessmentStatuses(responseData.total_km));
+			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData.total_km);
+			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData.total_km));
 			document.querySelector("tbody").appendChild(templateFrag);
 			/*In ra câu thông báo thành công*/
-			headerPopup.innerText = "A new transaction was added successfully !";
-			headerPopup.setAttribute("class","header__popup header__popup-success");
-			setTimeout(function(){
-				headerPopup.style.transform = 'translate(-50%,-100px)';
-			},2500);
+			PopupMessage("success","add");
 		} else {
-			headerPopup.innerText = "Cannot add new transaction, Please try again !";
-			headerPopup.setAttribute("class","header__popup header__popup-failure");
-			setTimeout(function(){
-				headerPopup.style.transform = 'translate(-50%,-100px)';
-			},2500);
+			PopupMessage("failure","add");
 		}
 
 	} else {
 		/*In ra câu thông báo thất bại*/
-		headerPopup.innerText = "Cannot add new transaction, Please try again !";
-		headerPopup.setAttribute("class","header__popup header__popup-failure");
-		setTimeout(function(){
-			headerPopup.style.transform = 'translate(-50%,-100px)';
-		},2500);
+		PopupMessage("failure","add");
 	}
 }
 
 let btnAddNewTrans = document.querySelectorAll(".add__transaction-button");
 btnAddNewTrans[1].addEventListener("click",function(){
-	//console.log(isCorrectInput);
 	if (isCorrectInput.length !== 0) {
 		if (isCorrectInput.indexOf("dialogForm_startKm")!=-1) {
 			labelField_startKm.innerText = "Định dạng số không hợp lệ";
@@ -302,8 +314,8 @@ btnAddNewTrans[1].addEventListener("click",function(){
 		if (isCorrectInput.indexOf("dialogForm_product")!=-1) {
 			labelField_product.innerText = "Vui lòng chọn 1 tuỳ chọn";
 		}
-
 	} else{
+		/* Gọi Ajax Add New Transaction */
 		var data = {startDay:dialogForm_startDay.value,
 					endDay:dialogForm_endDay.value,
 					startKm:dialogForm_startKm.value,
@@ -372,35 +384,28 @@ function editTransaction(){
 	RetitleDialog(titleDialog,'Edit transaction',[btnEditTransaction[0]],[btnAddTransaction[1]]);
 	/* Gọi Ajax load dữ liệu của bản ghi tương ứng với số transactionId khi button Edit được click*/
 	let id = JSON.stringify({"tranId":transactionId});
-	//console.log(id);
 	let url = './Ajax/ShowTransactionById';
 	let method = "POST";
-	// let xhr = new XMLHttpRequest();
-	// xhr.onreadystatechange = handleResult;
-	// xhr.open("POST",url);
-	// xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	// xhr.send("id="+id);
+	sendAjaxRequest(url,method,ShowEditDialog,id);
 
-	function handleResult() {
-		if(xhr.readyState === this.DONE){
-			responseData = JSON.parse(xhr.responseText);
-			document.getElementById("form__start-day").value = responseData.start_day;
-			document.getElementById("form__end-day").value = responseData.end_day;
-			document.getElementById("form__start-kilometer").value = responseData.start_km;
-			document.getElementById("form__end-kilometer").value = responseData.end_km;
-			document.getElementById("form__add-oil_dialogForm_product-name").value = responseData.dialogForm_product_id;
-			btnEditTransaction[0].setAttribute("transactionId",transactionId);
-			/* Xoá ErrorCode trong mảng báo lỗi isCorrectInput. Vì dùng chung 1 dialog. Nếu trước đó 
-			các chỉ mục label trong Add Form bị lỗi do nhập sai định dạng dữ liệu thì khi ấn vào btnEdit 
-			sẽ phải xoá lỗi ở các chỉ mục label thì mới hợp logic*/
-			let i = 0;
-			while(i < isCorrectInput.length){
-				isCorrectInput.pop();
-			}	
-				//console.log(isCorrectInput);
-		}
-	}
+	function ShowEditDialog(data) {
+		responseData = JSON.parse(data);
+		document.getElementById("form__start-day").value = responseData.start_day;
+		document.getElementById("form__end-day").value = responseData.end_day;
+		document.getElementById("form__start-kilometer").value = responseData.start_km;
+		document.getElementById("form__end-kilometer").value = responseData.end_km;
+		document.getElementById("form__product").value = responseData.product_id;
+		btnEditTransaction[0].setAttribute("transactionId",transactionId);
+		/* Xoá ErrorCode trong mảng báo lỗi isCorrectInput. Vì dùng chung 1 dialog. Nếu trước đó 
+		các chỉ mục label trong Add Form bị lỗi do nhập sai định dạng dữ liệu thì khi ấn vào btnEdit 
+		sẽ phải xoá lỗi ở các chỉ mục label thì mới hợp logic*/
+		let i = 0;
+		while(i < isCorrectInput.length){
+			isCorrectInput.pop();
+		}		
+	}		
 }
+
 /* Viết lại function để tái sử dụng, ( áp dụng cho button delete ) (tham khảo event delegation trong jquery)*/
 function on(parentSelector, eventName, selector, fn) {
 	var element = document.querySelector(parentSelector);
@@ -423,7 +428,6 @@ function on(parentSelector, eventName, selector, fn) {
 		}
 	});
 }
-
 //on('tbody', 'click', '.oil__table-action-edit', editTransaction);
 
 /* Code tính năng sửa đổi bản ghi lịch sử thay dầu */
@@ -441,11 +445,11 @@ btnEditTransaction[0].addEventListener('click',function(){
 		}	
 	} else{
 		var data = {transId:btnEditTransaction[0].getAttribute("transactionId"),
-					dialogForm_startDay:dialogForm_startDay.value,
-					dialogForm_endDay:dialogForm_endDay.value,
-					dialogForm_startKm:dialogForm_startKm.value,
-					dialogForm_endKm:dialogForm_endKm.value,
-					dialogForm_productId:dialogForm_product.value
+					startDay:dialogForm_startDay.value,
+					endDay:dialogForm_endDay.value,
+					startKm:dialogForm_startKm.value,
+					endKm:dialogForm_endKm.value,
+					productId:dialogForm_product.value
 				};
 
 		json = JSON.stringify(data);
@@ -466,34 +470,22 @@ btnEditTransaction[0].addEventListener('click',function(){
 					let rowEdited = document.getElementById(btnEditTransaction[0].getAttribute("transactionId"));
 					//console.log(rowEdited);
 					//console.log(rowEdited.querySelector("td:nth-child(2)"));
-					rowEdited.querySelector("td:nth-child(2)").innerText = responseData.dialogForm_product_name;
+					rowEdited.querySelector("td:nth-child(2)").innerText = responseData.product_name;
 					rowEdited.querySelector("td:nth-child(3)").innerText = responseData.end_day;
 					rowEdited.querySelector("td:nth-child(4)").innerText = responseData.total_days;
 					rowEdited.querySelector("td:nth-child(5)").innerText = responseData.total_km;
-					rowEdited.querySelector("td:nth-child(6)").innerText = responseData.dialogForm_product_price;
-					rowEdited.querySelector("td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
-					rowEdited.querySelector("td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+assessmentStatuses(responseData.total_km));
+					rowEdited.querySelector("td:nth-child(6)").innerText = responseData.product_price;
+					rowEdited.querySelector("td:nth-child(7)").innerText = AssessmentStatuses(responseData.total_km);
+					rowEdited.querySelector("td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData.total_km));
 
 					/*In ra câu thông báo thành công*/
-					headerPopup.innerText = "A new record was edited successfully !";
-					headerPopup.setAttribute("class","header__popup header__popup-success");
-					setTimeout(function(){
-						headerPopup.style.transform = 'translate(-50%,-100px)';
-					},2500);
+					PopupMessage("success","edit");
 				} else {
-					headerPopup.innerText = "Cannot add new record, Please try again !";
-					headerPopup.setAttribute("class","header__popup header__popup-failure");
-					setTimeout(function(){
-						headerPopup.style.transform = 'translate(-50%,-100px)';
-					},2500);
+					PopupMessage("failure","edit");
 				}
 			} else {
 				/*In ra câu thông báo thất bại*/
-				headerPopup.innerText = "Cannot add new record, Please try again !";
-				headerPopup.setAttribute("class","header__popup header__popup-failure");
-				setTimeout(function(){
-					headerPopup.style.transform = 'translate(-50%,-100px)';
-				},2500);
+				PopupMessage("failure","edit");
 			}
 		}
 		HideModal(dialog[0]);
@@ -571,19 +563,11 @@ btnDeleteTransaction[0].addEventListener('click',()=>{
 				/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 				document.querySelector('tbody').deleteRow(index-1);
 
-				headerPopup.innerText = "A record was deleted successfully !";
-				headerPopup.setAttribute("class","header__popup header__popup-success");
-				setTimeout(function(){
-					headerPopup.style.transform = 'translate(-50%,-100px)';
-				},2500);
+				PopupMessage("success","delete");
 
 			} else {
 				/*In ra câu thông báo thất bại*/
-				headerPopup.innerText = "Cannot delete this record, Please try again !";
-				headerPopup.setAttribute("class","header__popup header__popup-failure");
-				setTimeout(function(){
-					headerPopup.style.transform = 'translate(-50%,-100px)';
-				},2500);
+				PopupMessage("failure","delete");
 			}
 		}
 	}
@@ -658,8 +642,8 @@ entries.addEventListener('change',function(){
 						templ.querySelector(".rowContent td:nth-child(4)").innerText = responseData[i].total_days;
 						templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
 						templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].dialogForm_product_price;
-						templ.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData[i].total_km);
-						templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+assessmentStatuses(responseData[i].total_km));
+						templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
+						templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
 						new_tbody.appendChild(templ);
 					}
 					document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));
