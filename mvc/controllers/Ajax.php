@@ -96,7 +96,7 @@
 		public function UpdateTransaction()
 		{
 			header("Content-Type: application/json");
-			$arr = json_decode($_POST["ajaxSend"],true);
+			$arr = json_decode($_POST["AjaxData"],true);
 			//var_export($arr);
 			if ( !empty($arr) ) {
 				$errors = array();
@@ -184,7 +184,7 @@
 		public function Pagination()
 		{
 			header("Content-Type: application/json");
-			$arr = json_decode($_POST["data"],true);
+			$arr = json_decode($_POST["AjaxData"],true);
 			//var_export($arr);
 			if (isset($arr['start'])&&filter_var($arr['start'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
 				$start = $arr['start'];

@@ -160,9 +160,9 @@
 						<span id="count__record">Showing {{start}} to {{display}} of {{totals}} entries</span>
 					</div>
 					<div class="table__body-footer-list">
-						<button>Previous</button>
-						<button>1</button>
-						<button>Next</button>
+						<button id = "previous_page">Previous</button>
+						<button id = "current_page">1</button>
+						<button id = "next_page">Next</button>
 					</div>
 				</div>
 			</section>

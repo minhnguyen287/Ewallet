@@ -3,7 +3,7 @@
 	https://completejavascript.com/chuyen-html-template-sang-dom-node/
 	https://codetot.net/javascript-delegation-event/#Event_Delegation_trong_Plain_Javascript
 	http://bdadam.com/blog/plain-javascript-event-delegation.html
-	== Callback==
+	=//=//=/=//=//= Callback =//=//=/=//=//=
 	https://www.youtube.com/watch?v=W8vJ-yOtSbE&t=236s
 	https://www.youtube.com/watch?v=LUt36WnREm0&t=222s
 */
@@ -18,7 +18,7 @@
 	delFormContent, delForm là viết tắt của dialog__form[1] và dialog__content[1] khi gọi ra bằng document.getElementsByClassName
 	dùng 2 đối tượng này để custom Form delete của Modal delete vì nó là Modal riêng, ko giông Modal add và update
 
-	btnAddTransaction, btnEditTransaction, btnDeleteTransaction, btnCancelAction là 4 button action để thực hiện
+	btnAddTransaction, btnShowEditDialog, btnShowDeleteDialog, btnCancelAction là 4 button action để thực hiện
 	4 tính năng thêm, sửa, xoá, và huỷ hành động xoá của Form trong đó đặc biệt btnAddTransaction ccaafn chú ý
 	btnAddTransaction[0] là button để gọi Form Add (dialof[0])
 	btnAddTransaction[1] dùng để thực hiện hành động add transaction
@@ -32,11 +32,10 @@
 */
 
 var btnAddTransaction = document.getElementsByClassName("add__transaction-button");
-var btnEditTransaction = document.getElementsByClassName('edit__transaction-button');
-var btnDeleteTransaction = document.getElementsByClassName('delete__transaction-button');
+var btnShowEditDialog = document.getElementsByClassName('edit__transaction-button');
+var btnShowDeleteDialog = document.getElementsByClassName('delete__transaction-button');
 var btnCancelAction = document.getElementsByClassName('cancelAction__transaction-button');
 var btnCloseModal = document.getElementsByClassName("dialog__content-header-close");
-
 
 var headerPopup = document.querySelector(".header__popup");
 
@@ -81,7 +80,7 @@ function RetitleDialog(titleDialog,title,btnDisplays,btnHides){
 }
 
 /* Function call AJAX load thông tin sản phẩm */
-function sendAjaxRequest(url,method,callback,data){
+function SendAjaxRequest(url,method,callback,data){
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = handleResult;
 	xhttp.open(method,url);
@@ -101,7 +100,7 @@ function sendAjaxRequest(url,method,callback,data){
 	}
 }
 /*Hàm xử lí dữ liệu load ra các option của thanh select được reponse sau khi gửi AJAX*/
-function dialogForm_showProductOption(data,output){
+function ShowProductOption(data,output){
 	if (typeof(data) == 'string') {
 		var arr = [];
 		arr = JSON.parse(data);
@@ -115,9 +114,8 @@ function dialogForm_showProductOption(data,output){
 		}
 	}
 }
-
 /* Hiện Modal thêm 1 bản ghi lịch sử thay dầu khi click vào nút "Add Transaction" */
-function showAddDialog(data){
+function ShowAddDialog(data){
 	let curentDate = new Date().toJSON().slice(0, 10);
 	var responseData = JSON.parse(data);
 	dialogForm_startDay.value = responseData.end_day;
@@ -127,10 +125,9 @@ function showAddDialog(data){
 	dialogForm_product.value = null;
 }
 
-
 btnAddTransaction[0].onclick = function(){
 	/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
-	RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnEditTransaction[0]])
+	RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnShowEditDialog[0]])
 	ShowModal(dialog[0]);
 	/* Reload lại các phần tử dùng để thông báo */
 	headerPopup.setAttribute("class","header__popup");
@@ -140,12 +137,11 @@ btnAddTransaction[0].onclick = function(){
 	/* Gọi Ajax */
 	let url = ('./Ajax/ShowLastOption');
 	let method = "GET";
-	sendAjaxRequest(url,method,showAddDialog);
+	SendAjaxRequest(url,method,ShowAddDialog);
 };
 
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
 btnCloseModal[0].addEventListener("click",()=>HideModal(dialog[0]));
-
 /* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
 window.addEventListener("click",function(event){
 	if (event.target == dialog[0]) {
@@ -153,22 +149,21 @@ window.addEventListener("click",function(event){
 	}
 });
 
-/*=========================================================================================================*/
-
-/* Tự động load ra thông tin sản phẩm dầu nhớt trong bảng tuỳ chọn thêm 1 bản ghi lịch sử thay dầu 
+/*==============================================================================================
+Tự động load ra thông tin sản phẩm dầu nhớt trong bảng tuỳ chọn thêm 1 bản ghi lịch sử thay dầu 
 ngay khi trang được load. */
 
 window.addEventListener("load",(event)=>{
 	let method = "GET";
 	let url = './Ajax/ShowProductInfo';
-	sendAjaxRequest(url,method,data => dialogForm_showProductOption(data,dialogForm_product));
+	SendAjaxRequest(url,method,data => ShowProductOption(data,dialogForm_product));
 
-	// sendAjaxRequest(url,method, function(data){
-	// 	dialogForm_showProductOption(data,dialogForm_product);
+	// SendAjaxRequest(url,method, function(data){
+	// 	ShowProductOption(data,dialogForm_product);
 	// })
 
-	/* data => dialogForm_showProductOption(data,dialogForm_product)) đóng vai trò là hàm callback 
-	được truyền trong hàm sendAjaxRequest(url,method,callback) */
+	/* data => ShowProductOption(data,dialogForm_product)) đóng vai trò là hàm callback 
+	được truyền trong hàm SendAjaxRequest(url,method,callback) */
 })
 /*=========================================================================================================*/
 
@@ -188,10 +183,9 @@ function addErrorCode(errArray,errKey){
 		errArray.push(errKey);
 	}
 }	
-
 /* Viết hàm tối ưu lại code, thông báo lỗi nếu dữ liệu nhập vào không hợp lệ. 
    Bật button submit nếu tất cả dữ liệu nhập vào hợp lệ */
-function showErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,contentNoti){
+function ShowErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,contentNoti){
 	if(pattern.test(value)){
 		errorLineNoti.innerText = "";
 		removeErrorCode(isCorrectInput,errorCode);
@@ -212,18 +206,18 @@ function showErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,c
 	dialogForm_product.addEventListener("change",function(){
 		let errorLineNotification = labelField_product;
 		let contentNoti = "Vui lòng chọn 1 tuỳ chọn";
-		showErrorNotification(pattern,dialogForm_product.value,errorLineNotification,submitButton[1],"dialogForm_product",contentNoti);
+		ShowErrorNotification(pattern,dialogForm_product.value,errorLineNotification,submitButton[1],"dialogForm_product",contentNoti);
 		dialogForm_product[0].style.display = "none";
 	})
 
 	dialogForm_startKm.addEventListener('keyup',function(){
 		let errorLineNotification = labelField_startKm;
-		showErrorNotification(pattern,dialogForm_startKm.value,errorLineNotification,submitButton[1],"dialogForm_startKm",contentNoti);
+		ShowErrorNotification(pattern,dialogForm_startKm.value,errorLineNotification,submitButton[1],"dialogForm_startKm",contentNoti);
 	})
 
 	dialogForm_endKm.addEventListener('keyup',function(){
 		let errorLineNotification = labelField_endKm;
-		showErrorNotification(pattern,dialogForm_endKm.value,errorLineNotification,submitButton[1],"dialogForm_endKm",contentNoti);
+		ShowErrorNotification(pattern,dialogForm_endKm.value,errorLineNotification,submitButton[1],"dialogForm_endKm",contentNoti);
 	})
 
 /*======================================================================================================*/
@@ -272,7 +266,7 @@ function PopupMessage(status,action){
 	},2500);
 } 
 /* Code tính năng thêm 1 bản ghi lịch sử thay dầu */
-function addANewTransaction(data){
+function AddANewTransaction(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
@@ -295,7 +289,6 @@ function addANewTransaction(data){
 		} else {
 			PopupMessage("failure","add");
 		}
-
 	} else {
 		/*In ra câu thông báo thất bại*/
 		PopupMessage("failure","add");
@@ -326,7 +319,7 @@ btnAddNewTrans[1].addEventListener("click",function(){
 		dataSend = JSON.stringify(data);
 		let url = './Ajax/AddNewTransaction';
 		let method = "POST";		
-		sendAjaxRequest(url,method,addANewTransaction,dataSend);
+		SendAjaxRequest(url,method,AddANewTransaction,dataSend);
 		HideModal(dialog[0]);
 	}
 	
@@ -343,7 +336,7 @@ Khi phần tử TBODY được click ta sẽ xác định đối tượng đư�
 "event. target: là phần tử mà user tương tác (click, change).
 Ở đây thì khi user click vào button edit thì target là button vừa click".
 Ta sẽ tiến hành kiểm tra xem phần tử vừa được click (selector = target) có phải là button Edit hay không
-Nếu có thì sẽ gọi hàm editTransaction qua phương thức call { editTransaction.call() }
+Nếu có thì sẽ gọi hàm ShowEditDialog qua phương thức call { ShowEditDialog.call() }
 Lưu ý : khi kiểm tra phần tử đang được tương tác (target) trong for thì phải tạo ra 1 biến selector để kiểm tra.
 Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên trong TBODY
 */
@@ -355,14 +348,14 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 			var selector = target; // bắt buộc phải có phần tử selector, không được so sánh trực tiếp phần tử target
 			while(selector && selector !== tableBody){
 				if (selector === btnEdit) {
-					return editTransaction.call();// Chỗ này mở ngoặc nhọn {} rồi viết funtion xử lí cũng được nhưng nên tách ra cho gọn
+					return ShowEditDialog.call();// Chỗ này mở ngoặc nhọn {} rồi viết funtion xử lí cũng được nhưng nên tách ra cho gọn
 				} selector = selector.parentNode;	
 			}
 		})
 	})
 
 
-function editTransaction(){
+function ShowEditDialog(){
 	/*event. target: là phần tử mà user tương tác (click, change)
 	ở đây thì khi user click vào button edit thì target là phần tử user vừa click*/
 	var target = event.target;
@@ -381,21 +374,21 @@ function editTransaction(){
 	labelField_startKm.innerText = "";
 	labelField_endKm.innerText = "";
 	labelField_product.innerText = "";
-	RetitleDialog(titleDialog,'Edit transaction',[btnEditTransaction[0]],[btnAddTransaction[1]]);
+	RetitleDialog(titleDialog,'Edit transaction',[btnShowEditDialog[0]],[btnAddTransaction[1]]);
 	/* Gọi Ajax load dữ liệu của bản ghi tương ứng với số transactionId khi button Edit được click*/
 	let id = JSON.stringify({"tranId":transactionId});
 	let url = './Ajax/ShowTransactionById';
 	let method = "POST";
-	sendAjaxRequest(url,method,ShowEditDialog,id);
+	SendAjaxRequest(url,method,ShowEditDialog,id);
 
 	function ShowEditDialog(data) {
 		responseData = JSON.parse(data);
-		document.getElementById("form__start-day").value = responseData.start_day;
-		document.getElementById("form__end-day").value = responseData.end_day;
-		document.getElementById("form__start-kilometer").value = responseData.start_km;
-		document.getElementById("form__end-kilometer").value = responseData.end_km;
-		document.getElementById("form__product").value = responseData.product_id;
-		btnEditTransaction[0].setAttribute("transactionId",transactionId);
+		dialogForm_startDay.value = responseData.start_day;
+		dialogForm_endDay.value = responseData.end_day;
+		dialogForm_startKm.value = responseData.start_km;
+		dialogForm_endKm.value = responseData.end_km;
+		dialogForm_product.value = responseData.product_id;
+		btnShowEditDialog[0].setAttribute("transactionId",transactionId);
 		/* Xoá ErrorCode trong mảng báo lỗi isCorrectInput. Vì dùng chung 1 dialog. Nếu trước đó 
 		các chỉ mục label trong Add Form bị lỗi do nhập sai định dạng dữ liệu thì khi ấn vào btnEdit 
 		sẽ phải xoá lỗi ở các chỉ mục label thì mới hợp logic*/
@@ -406,7 +399,8 @@ function editTransaction(){
 	}		
 }
 
-/* Viết lại function để tái sử dụng, ( áp dụng cho button delete ) (tham khảo event delegation trong jquery)*/
+/* Viết lại function show dialog cho tất cả các phần tử, kể cả phần tử được thêm vào sau khi load page 
+để tái sử dụng, ( áp dụng cho button delete ) (tham khảo event delegation trong jquery)*/
 function on(parentSelector, eventName, selector, fn) {
 	var element = document.querySelector(parentSelector);
 
@@ -422,16 +416,15 @@ function on(parentSelector, eventName, selector, fn) {
 				if (el === p) {
 					return fn.call(p, event);
 				}
-
 				el = el.parentNode;
 			}
 		}
 	});
 }
-//on('tbody', 'click', '.oil__table-action-edit', editTransaction);
+//on('tbody', 'click', '.oil__table-action-edit', ShowEditDialog);
 
 /* Code tính năng sửa đổi bản ghi lịch sử thay dầu */
-btnEditTransaction[0].addEventListener('click',function(){
+btnShowEditDialog[0].addEventListener('click',function(){
 	if (isCorrectInput.length !== 0) {
 		ShowModal(dialog[0]);
 		if (isCorrectInput.indexOf("dialogForm_startKm")!=-1) {
@@ -444,7 +437,7 @@ btnEditTransaction[0].addEventListener('click',function(){
 			labelField_product.innerText = "Vui lòng chọn 1 tuỳ chọn";
 		}	
 	} else{
-		var data = {transId:btnEditTransaction[0].getAttribute("transactionId"),
+		var data = {transId:btnShowEditDialog[0].getAttribute("transactionId"),
 					startDay:dialogForm_startDay.value,
 					endDay:dialogForm_endDay.value,
 					startKm:dialogForm_startKm.value,
@@ -452,22 +445,18 @@ btnEditTransaction[0].addEventListener('click',function(){
 					productId:dialogForm_product.value
 				};
 
-		json = JSON.stringify(data);
+		dataSend = JSON.stringify(data);
 	 	let xhr = new XMLHttpRequest();
 		let url = './Ajax/UpdateTransaction';
-		xhr.onreadystatechange = handleResult;
-		xhr.open('POST',url,true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		
-		xhr.send("ajaxSend="+json);			
-		function handleResult(){
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				//console.log(JSON.parse(xhr.responseText));
-				let responseData = JSON.parse(xhr.responseText);
+		let method = "POST";
+		SendAjaxRequest(url,method,UpdateTransaction,dataSend);
+
+		function UpdateTransaction(data){
+			if (typeof(data)=== "string") {
+				let responseData = JSON.parse(data);
 				if (responseData != "false") {
-					//console.log(responseData);
 					/* Update dòng dữ liệu đã được chỉnh sửa */
-					let rowEdited = document.getElementById(btnEditTransaction[0].getAttribute("transactionId"));
+					let rowEdited = document.getElementById(btnShowEditDialog[0].getAttribute("transactionId"));
 					//console.log(rowEdited);
 					//console.log(rowEdited.querySelector("td:nth-child(2)"));
 					rowEdited.querySelector("td:nth-child(2)").innerText = responseData.product_name;
@@ -477,7 +466,6 @@ btnEditTransaction[0].addEventListener('click',function(){
 					rowEdited.querySelector("td:nth-child(6)").innerText = responseData.product_price;
 					rowEdited.querySelector("td:nth-child(7)").innerText = AssessmentStatuses(responseData.total_km);
 					rowEdited.querySelector("td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData.total_km));
-
 					/*In ra câu thông báo thành công*/
 					PopupMessage("success","edit");
 				} else {
@@ -492,7 +480,6 @@ btnEditTransaction[0].addEventListener('click',function(){
 	} 
 });
 
-
 /* Ẩn Modal Sửa bản ghi khi click vào dấu X */
 btnCloseModal[0].onclick = ()=>HideModal(dialog[0]);
 
@@ -504,7 +491,7 @@ if (event.target == dialog[0]) {
 });
 
 /* Code phần hiện modal tính năng xoá 1 bản ghi lịch sử thay dầu */
-function deleteTransaction(){
+function ShowDeleteDialog(){
 	var target = event.target;
 	var transactionId;
 	while(target && target !== document.querySelector('tbody')){
@@ -520,11 +507,11 @@ function deleteTransaction(){
 		delFormContent.style.minHeight = "initial";
 		delForm.style.gridTemplateColumns = "1fr";
 		ShowModal(dialog[1]);
-		btnDeleteTransaction[0].setAttribute("transId",transactionId);
+		btnShowDeleteDialog[0].setAttribute("transId",transactionId);
 	}
 }
 /* Dùng hàm on() được viết lại từ cách sử dụng event delegation để áp dụng event cho các button delete được thêm sau khi load trang*/
-on('tbody','click','.oil__table-action-delete',deleteTransaction);
+on('tbody','click','.oil__table-action-delete',ShowDeleteDialog);
 
 /* Responsive modal nếu màn hình nhỏ */
 function calculatePercentage(x, y)
@@ -543,28 +530,22 @@ window.onresize = function(){
 }
 
 /* Code tính năng xoá 1 bản ghi lịch sử thay dầu */
-btnDeleteTransaction[0].addEventListener('click',()=>{
-	var transId = btnDeleteTransaction[0].getAttribute("transId");
+btnShowDeleteDialog[0].addEventListener('click',()=>{
+	var transId = btnShowDeleteDialog[0].getAttribute("transId");
 	var data = JSON.stringify({transactionId:transId});
-	let xhr = new XMLHttpRequest();
-	let url = './Ajax/DeleteTransaction';
-	xhr.onreadystatechange = handleResult;
-	xhr.open('POST',url,true);
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	let method = "POST";
+	let url = './Ajax/ShowDeleteDialog';
+	SendAjaxRequest(url, method, DeleteTransaction, data);	
 
-	xhr.send("id="+data);			
-	function handleResult(){
-		if (xhr.readyState === XMLHttpRequest.DONE) {
-			//console.log(JSON.parse(xhr.responseText));
-			let responseData = JSON.parse(xhr.responseText);
+	function DeleteTransaction(data){
+		if (typeof(data)==="string") {
+			let responseData = JSON.parse(data);
 			if(responseData != "false"){
 				/* Hàm rowIndex dùng để lấy ra vị trí của hàng có id = transId trong bảng*/
 				let index = document.getElementById(transId).rowIndex;
 				/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 				document.querySelector('tbody').deleteRow(index-1);
-
 				PopupMessage("success","delete");
-
 			} else {
 				/*In ra câu thông báo thất bại*/
 				PopupMessage("failure","delete");
@@ -572,12 +553,10 @@ btnDeleteTransaction[0].addEventListener('click',()=>{
 		}
 	}
 	HideModal(dialog[1]);
-	
 })
 /* Ẩn modal khi click vào dấu X hoặc button cancel */
 btnCancelAction[0].addEventListener("click",()=>HideModal(dialog[1]));
 btnCloseModal[1].addEventListener("click",()=>HideModal(dialog[1]));
-
 /* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
 window.addEventListener("click",function(event){
 if (event.target == dialog[1]) {
@@ -585,89 +564,102 @@ if (event.target == dialog[1]) {
 	}
 });
 
-
 /*Code tính năng phân trang 
 Tính số bản ghi sẽ hiển thị trong 1 trang 
 Viết funtion hiển thị dòng thông báo show bao nhiêu record*/
-function getNumberOfRecordByUser(start,display,totalEntries){
+function NumberOfRecord(start,display,totalEntries){
 	recordCounting.innerHTML = recordCounting.innerHTML.replace('{{start}}',start);
 	recordCounting.innerHTML = recordCounting.innerHTML.replace('{{display}}',display);
 	recordCounting.innerHTML = recordCounting.innerHTML.replace('{{totals}}',totalEntries);
 }
-var start = 1;
-var display = 10;
-var totalRecords = 10;
-var pages = 1;
-var curentPage = 1;
-getNumberOfRecordByUser(start,display,totalRecords);
+var pagination = {
+		start: 1,
+		display: 10,
+		totalRecords: 10,
+		pages: 1,
+		currentPage: 0,
+		previousPage: null,
+		nextPage: null
+	}
+var currentPage = document.getElementById("current_page");
+var previousPage = document.getElementById("previous_page");
+var nextPage = document.getElementById("next_page");
+NumberOfRecord(pagination.start,pagination.display,pagination.totalRecords);
 
 var entries = document.querySelector('#table_record');
 entries.addEventListener('change',function(){
-	recordCounting.innerHTML = "Showing {{start}} to {{display}} of {{totals}} entries";
-	console.log("entries: "+entries.value);
+	
+
+	recordCounting.innerHTML = "Showing {{start}} to {{display}} of {{totals}} entries";223
 	let url = './Ajax/NumberOfTransaction';
-	let xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = handleResult;
-	xhr.open("GET",url);
-	xhr.send();
-	function handleResult(){
-		if (xhr.readyState === this.DONE) {
-			let totalRecords = JSON.parse(xhr.responseText).totalRecords;
-			console.log("totalRecords: "+totalRecords);
+	let method = "GET";
+	let url2 = './Ajax/Pagination';
+	let method2 = "POST";
+	let data = JSON.stringify({
+				"start":0,
+				"display":entries.value });
+	SendAjaxRequest(url,method,GetAllTransaction);
+	SendAjaxRequest(url2,method2,CustomizeViewTable,data);
+
+	function GetAllTransaction(data) {
+		if (typeof(data)==="string") {
+			totalRecords = JSON.parse(data).totalRecords;
 			if (totalRecords > entries.value) {
 				pages = Math.ceil(totalRecords/entries.value);
-			} 
-			console.log("pages: "+pages);
-			let data = JSON.stringify({
-				"start":0,
-				"display":entries.value
-			});
-			
-			let paginationUrl = './Ajax/Pagination';
-			let xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function(){
-				if (xhttp.readyState === this.DONE) {
-					//console.warn(JSON.parse(xhttp.responseText));
-					responseData = JSON.parse(xhttp.responseText);
-					let new_tbody = document.createElement('tbody');
-					let templateFrag = document.querySelector("#newRow").content;
-					for (var i = 0 ; i < responseData.length ;i++){
-						//Sử dụng cloneNode để sao chép toàn bộ phần tử template 
-						var templ = templateFrag.cloneNode(true);
-						responseData[i].och_id < 10 ? rowId = '0'+responseData[i].och_id : rowId = responseData[i].och_id;
-						templ.querySelector(".rowContent").setAttribute("id",responseData[i].och_id);
-						templ.querySelector("td").innerText = rowId+".";
-						templ.querySelector(".rowContent td:nth-child(2)").innerText = responseData[i].dialogForm_product_name;
-						templ.querySelector(".rowContent td:nth-child(3)").innerText = responseData[i].end_day;
-						templ.querySelector(".rowContent td:nth-child(4)").innerText = responseData[i].total_days;
-						templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
-						templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].dialogForm_product_price;
-						templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
-						templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
-						new_tbody.appendChild(templ);
-					}
-					document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));
-					getNumberOfRecordByUser(1,entries.value,totalRecords);
-				}
-			};
-			xhttp.open("POST",paginationUrl,true);
-			xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhttp.send("data="+data);
+			}
+			pagination.totalRecords = totalRecords;
+			pagination.pages = pages;
+		}
+		//return pagination;
+		if (pages > 1) {
+			pagination.currentPage = Number(currentPage.innerText);
+			console.log(pagination);
+		}
+
+	}
+
+	function CustomizeViewTable(data){
+		if (typeof(data)==="string") {
+			responseData = JSON.parse(data);
+			let new_tbody = document.createElement('tbody');
+			let templateFrag = document.querySelector("#newRow").content;
+			for (var i = 0 ; i < responseData.length ;i++){
+				//Sử dụng cloneNode để sao chép toàn bộ phần tử template 
+				var templ = templateFrag.cloneNode(true);
+				responseData[i].och_id < 10 ? rowId = '0' + responseData[i].och_id : rowId = responseData[i].och_id;
+				templ.querySelector(".rowContent").setAttribute("id",responseData[i].och_id);
+				templ.querySelector("td").innerText = rowId+".";
+				templ.querySelector(".rowContent td:nth-child(2)").innerText = responseData[i].product_name;
+				templ.querySelector(".rowContent td:nth-child(3)").innerText = responseData[i].end_day;
+				templ.querySelector(".rowContent td:nth-child(4)").innerText = responseData[i].total_days;
+				templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
+				templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].product_price;
+				templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
+				templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
+				new_tbody.appendChild(templ);
+			}
+			document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));
+			NumberOfRecord(pagination.start,entries.value,pagination.totalRecords);
 		}
 	}
+/* Nếu số trang lớn hơn 1 thì tiến hành phân trang */
+	
+
+
+	//console.log(pagination.pages);
 })
 /* 2 dòng này viết lại sau vì chỉ cần dùng hàm on 1 lần cho phần tử cha ".table_tbody" là được */
-on('.table__body','click','.oil__table-action-edit',editTransaction);
-on('.table__body','click','.oil__table-action-delete',deleteTransaction);
-
-if (pages > 1) {
-
-}
+//on('.table__body','click','.oil__table-action-edit',ShowEditDialog);
+//on('.table__body','click','.oil__table-action-delete',ShowDeleteDialog);
 
 
-/*setTimeout(function(){
-	document.querySelector(".header__popup").setAttribute("class","header__popup header__popup-success");
-},3000)*/
+
+
+
+
+
+
+
 
 
 
