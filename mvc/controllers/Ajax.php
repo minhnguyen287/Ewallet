@@ -72,8 +72,7 @@
 			}
 		}
 
-		public function ShowTransactionById()
-		{
+		public function ShowTransactionById(){
 			header("Content-Type: application/json");
 			$arr = json_decode($_POST["AjaxData"],true);
 			if ( !empty($arr) ) {
@@ -93,8 +92,7 @@
 			}
 		}
 
-		public function UpdateTransaction()
-		{
+		public function UpdateTransaction(){
 			header("Content-Type: application/json");
 			$arr = json_decode($_POST["AjaxData"],true);
 			//var_export($arr);
@@ -154,8 +152,7 @@
 			}
 		}
 
-		public function DeleteTransaction()
-		{
+		public function DeleteTransaction(){
 			header("Content-Type: application/json");
 			$arr = json_decode($_POST["id"],true);
 			if ( !empty($arr) ) {
@@ -176,18 +173,16 @@
 			}
 		}
 
-		public function NumberOfTransaction()
-		{
+		public function NumberOfTransaction(){
 			echo $this->OilModel->CountRecord();
 		}
 
-		public function Pagination()
-		{
+		public function Pagination(){
 			header("Content-Type: application/json");
 			$arr = json_decode($_POST["AjaxData"],true);
 			//var_export($arr);
 			if (isset($arr['start'])&&filter_var($arr['start'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
-				$start = $arr['start'];
+				$start = $arr['start']-1;
 			} else{
 				$start = 0;
 			}

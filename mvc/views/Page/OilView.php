@@ -48,17 +48,9 @@
 								</td>
 								<td class="table__label">
 									<h2 class="table__label-text">PRODUCT NAME</h2>
-									<div class="table__label-icon">
-										<i class="fa-solid fa-arrow-up-long"></i>
-										<i class="fa-solid fa-arrow-down-long"></i>
-									</div>
 								</td>
 								<td class="table__label">
 									<h2 class="table__label-text">CHANGE DATE</h2>
-									<div class="table__label-icon">
-										<i class="fa-solid fa-arrow-up-long"></i>
-										<i class="fa-solid fa-arrow-down-long"></i>
-									</div>
 								</td>
 								<td class="table__label">
 									<h2 class="table__label-text">DAYS</h2>
@@ -76,10 +68,6 @@
 								</td>
 								<td class="table__label">
 									<h2 class="table__label-text">AMOUNT</h2>
-									<div class="table__label-icon">
-										<i class="fa-solid fa-arrow-up-long"></i>
-										<i class="fa-solid fa-arrow-down-long"></i>
-									</div>
 								</td>
 								<td class="table__label">
 									<h2 class="table__label-text">STATUS</h2>
@@ -90,16 +78,11 @@
 								</td>
 								<td class="table__label">
 									<h2 class="table__label-text">ACTION</h2>
-									<div class="table__label-icon">
-										<i class="fa-solid fa-arrow-up fa-sm"></i>
-										<i class="fa-solid fa-arrow-down fa-sm"></i>
-									</div>
 								</td>
 							</tr>
 						</thead>
 						<tbody>
 							<?php 
-
 								$row = json_decode($data["DataRow"]);
 								for ($i=0; $i < count($row) ; $i++) { 
 									$status_noti = "good";
@@ -109,7 +92,7 @@
 										$status_noti = "expired";
 									}
 									$row[$i]->och_id < 10 ? $row_id = '0'.$row[$i]->och_id : $row_id = $row[$i]->och_id;
-									echo "<tr id ='".$row[$i]->och_id."'>";
+									echo'<tr class = "rowContent" id ="'.$row[$i]->och_id.'">';
 									echo'<td data-cell="no">'.$row_id.'.</td>';
 									echo'<td data-cell="product name">'.$row[$i]->product_name.'</td>';
 									echo'<td data-cell="change date">'.$row[$i]->end_day.'</td>';
@@ -127,10 +110,9 @@
 										</button>
 										</div>
 										</td>';
-									echo"</tr>";
+									echo'</tr>';
 								}
-
-							?>							
+							?>						
 						</tbody>
 						<template id="newRow">
 								<tr class="rowContent">

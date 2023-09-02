@@ -4,9 +4,9 @@
 	 */
 	class App
 	{	
-		//http://localhost/Ewallet/Home/dashboard/1/2/2
-		protected $controller = "Home";
-		protected $action = "Dashboard";
+		//http://localhost/Ewallet/Home/Dashboard/1/2/2
+		protected $controller="Home";
+		protected $action="Dashboard";
 		protected $param = [];
 
 		
@@ -22,11 +22,11 @@
 				unset($arr[0]);
 			}
 			//echo $this->controller;
+			//echo gettype($this->controller);
 			require_once("./mvc/controllers/".$this->controller.".php");
 			//Home = new Home;       khoi tao 1 doi tuong Home
 			$this->controller = new $this->controller;
 
-			
 			//Xu li action
 			if (isset($arr[1])) {
 				if (method_exists($this->controller, $arr[1])) {
@@ -36,17 +36,16 @@
 			}
 			//echo $this->action;
 			//Xu li param
-			$this->param = $arr? array_values($arr) : [];
-
-			// echo $this->controller."<br/>";
-			// echo $this->action."<br/>";
+			$this->param = $arr?array_values($arr):[];
+			// echo $this->controller . "<br/>";
+			// echo $this->action . "<br/>";
 			// print_r($this->param);
 			call_user_func_array([$this->controller,$this->action], $this->param);
 		}
 		function UrlProcess(){
 			//Home/ac/1/2/2
 			if (isset($_GET["url"])) {
-				return explode("/", filter_var(trim($_GET["url"],"/")));	         
+				return explode("/", filter_var(trim($_GET["url"], "/")));	         
 			}
 				
 		}

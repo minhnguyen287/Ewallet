@@ -6,8 +6,8 @@
 	<title>Mint Wallet</title>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<link rel="stylesheet" href="./public/css/reset.css">
-	<link rel="stylesheet" href="./public/css/style.css">
+	<link rel="stylesheet" href="../public/css/reset.css">
+	<link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
 	<div class="wrapper">

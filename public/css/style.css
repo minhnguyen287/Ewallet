@@ -666,6 +666,13 @@ tr:nth-child(even) {
   color: red;
   font-style: italic; }
 
+.btn__enable {
+  color: #fff !important;
+  cursor: pointer; }
+
+.btn__enable:hover {
+  border: 1px solid #fff; }
+
 @media screen and (max-width: 1919px) {
   .wrapper {
     width: 1280px; }

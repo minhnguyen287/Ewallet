@@ -54,8 +54,6 @@ var labelField_startKm = document.getElementById("start_km_info");
 var labelField_endKm = document.getElementById("end_km_info");
 var labelField_product = document.getElementById("product_info");
 
-var recordCounting = document.getElementById('count__record');
-
 btnAddTransaction[0].style.background  = "#6259ca";
 
 /* Viết 2 hàm ẩn / hiện bảng modal dialog */
@@ -271,8 +269,9 @@ function AddANewTransaction(data){
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
 			/*Hiển thị dòng dữ liệu mới thêm vào*/
-			let templateFrag = document.querySelector("#newRow").content;
+			let templateFragRoot = document.querySelector("#newRow").content;
 			let rowId;
+			var templateFrag = templateFragRoot.cloneNode(true);
 			responseData.och_id < 10 ? rowId = '0'+responseData.och_id : rowId = responseData.och_id;
 			templateFrag.querySelector("td").parentNode.setAttribute("id",responseData.och_id);
 			templateFrag.querySelector("td").innerText = rowId+".";
@@ -340,13 +339,13 @@ Nếu có thì sẽ gọi hàm ShowEditDialog qua phương thức call { ShowEdi
 Lưu ý : khi kiểm tra phần tử đang được tương tác (target) trong for thì phải tạo ra 1 biến selector để kiểm tra.
 Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên trong TBODY
 */
-	var tableBody = document.querySelector('tbody');
-	tableBody.addEventListener('click',function(event){
+	var table = document.querySelector('table');
+	table.addEventListener('click',function(event){
 		var btnEdits =  document.querySelectorAll('.oil__table-action-edit');
 		var target = event.target; // Chỉ ra phần tử đang được tương tác
 		btnEdits.forEach((btnEdit)=>{
 			var selector = target; // bắt buộc phải có phần tử selector, không được so sánh trực tiếp phần tử target
-			while(selector && selector !== tableBody){
+			while(selector && selector !== table){
 				if (selector === btnEdit) {
 					return ShowEditDialog.call();// Chỗ này mở ngoặc nhọn {} rồi viết funtion xử lí cũng được nhưng nên tách ra cho gọn
 				} selector = selector.parentNode;	
@@ -511,7 +510,7 @@ function ShowDeleteDialog(){
 	}
 }
 /* Dùng hàm on() được viết lại từ cách sử dụng event delegation để áp dụng event cho các button delete được thêm sau khi load trang*/
-on('tbody','click','.oil__table-action-delete',ShowDeleteDialog);
+on('table','click','.oil__table-action-delete',ShowDeleteDialog);
 
 /* Responsive modal nếu màn hình nhỏ */
 function calculatePercentage(x, y)
@@ -567,87 +566,160 @@ if (event.target == dialog[1]) {
 /*Code tính năng phân trang 
 Tính số bản ghi sẽ hiển thị trong 1 trang 
 Viết funtion hiển thị dòng thông báo show bao nhiêu record*/
-function NumberOfRecord(start,display,totalEntries){
-	recordCounting.innerHTML = recordCounting.innerHTML.replace('{{start}}',start);
-	recordCounting.innerHTML = recordCounting.innerHTML.replace('{{display}}',display);
-	recordCounting.innerHTML = recordCounting.innerHTML.replace('{{totals}}',totalEntries);
-}
 var pagination = {
-		start: 1,
-		display: 10,
-		totalRecords: 10,
+		startIndex: null,
+		endIndex : null,
+		display: null,
+		totalRecords: null,
 		pages: 1,
-		currentPage: 0,
-		previousPage: null,
-		nextPage: null
+		currentPage: 1
 	}
-var currentPage = document.getElementById("current_page");
-var previousPage = document.getElementById("previous_page");
-var nextPage = document.getElementById("next_page");
-NumberOfRecord(pagination.start,pagination.display,pagination.totalRecords);
-
+var btnCurrentPage = document.getElementById("current_page");
+var btnPreviousPage = document.getElementById("previous_page");
+var btnNextPage = document.getElementById("next_page");
 var entries = document.querySelector('#table_record');
+
+function NumberOfRecord(start,display,totalEntries){
+	let recordCounting = document.getElementById("count__record");
+	recordCounting.innerHTML = "Showing "+start+" to "+display+" of "+totalEntries+" entries";
+}
+function DisableButton(button) {
+	if (button.getAttribute("class") == "btn__enable") {
+		button.removeAttribute("class");
+	}
+	button.setAttribute("disabled","disabled");
+}
+
+function EnableButton(button) {
+	if (button.getAttribute("disabled") == "disabled") {
+		button.removeAttribute("disabled");
+	}
+	button.setAttribute("class","btn__enable");
+}
+
+function DetermineTheIndex(){
+	pagination.display = Number(entries.value);
+
+	pagination.endIndex = pagination.startIndex + pagination.display - 1;
+	if (pagination.endIndex > pagination.totalRecords) {
+		pagination.endIndex = pagination.totalRecords;
+	}
+
+	pagination.pages = Math.ceil(pagination.totalRecords/pagination.display);
+
+	return pagination.display,pagination.endIndex,pagination.pages;
+}
+
+function CustomizeViewTable(data){
+	if (typeof(data)==="string") {
+		responseData = JSON.parse(data);
+		let new_tbody = document.createElement('tbody');
+		let templateFrag = document.querySelector("#newRow").content;
+		for (var i = 0 ; i < responseData.length ;i++){
+			//Sử dụng cloneNode để sao chép toàn bộ phần tử template 
+			var templ = templateFrag.cloneNode(true);
+			responseData[i].och_id < 10 ? rowId = '0' + responseData[i].och_id : rowId = responseData[i].och_id;
+			templ.querySelector(".rowContent").setAttribute("id",responseData[i].och_id);
+			templ.querySelector("td").innerText = rowId+".";
+			templ.querySelector(".rowContent td:nth-child(2)").innerText = responseData[i].product_name;
+			templ.querySelector(".rowContent td:nth-child(3)").innerText = responseData[i].end_day;
+			templ.querySelector(".rowContent td:nth-child(4)").innerText = responseData[i].total_days;
+			templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
+			templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].product_price;
+			templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
+			templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
+			new_tbody.appendChild(templ);
+		}
+		document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));	
+	}
+}
+
+function InitializeView(data) {
+	pagination.display = Number(entries.value);
+	if (typeof(data)==="string") {
+		totalRecords = JSON.parse(data).totalRecords;
+		if (pagination.display > totalRecords) {
+			pagination.display = Number(totalRecords);
+		}
+		if (totalRecords > pagination.display) {
+			pagination.pages = Math.ceil(totalRecords/pagination.display);
+		}
+		pagination.totalRecords = Number(totalRecords);
+		pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
+	}
+	NumberOfRecord(pagination.startIndex,pagination.display,pagination.totalRecords);
+	/* Nếu số trang lớn hơn 1 thì tiến hành phân trang */
+	if (pagination.pages > 1) {
+		pagination.currentPage = Number(btnCurrentPage.innerText);
+		EnableButton(btnNextPage);
+	}
+}	
+
+//Khi load Page
+window.onload = function(){
+	let initUrl = './Ajax/NumberOfTransaction';
+	let initMethod = "GET";
+	SendAjaxRequest(initUrl,initMethod,InitializeView);
+}
+var paginationUrl = './Ajax/Pagination';
+var paginationMethod = "POST";
+
 entries.addEventListener('change',function(){
-	
-
-	recordCounting.innerHTML = "Showing {{start}} to {{display}} of {{totals}} entries";223
-	let url = './Ajax/NumberOfTransaction';
-	let method = "GET";
-	let url2 = './Ajax/Pagination';
-	let method2 = "POST";
+	pagination.startIndex = 1;
+	pagination.currentPage = 1;
+	DisableButton(btnPreviousPage);
+	btnCurrentPage.innerText = pagination.currentPage
+	DetermineTheIndex();
+	if (pagination.pages > 1) {
+		EnableButton(btnNextPage);
+	} else{
+		DisableButton(btnNextPage);
+	}
 	let data = JSON.stringify({
-				"start":0,
+				"start":pagination.startIndex,
 				"display":entries.value });
-	SendAjaxRequest(url,method,GetAllTransaction);
-	SendAjaxRequest(url2,method2,CustomizeViewTable,data);
-
-	function GetAllTransaction(data) {
-		if (typeof(data)==="string") {
-			totalRecords = JSON.parse(data).totalRecords;
-			if (totalRecords > entries.value) {
-				pages = Math.ceil(totalRecords/entries.value);
-			}
-			pagination.totalRecords = totalRecords;
-			pagination.pages = pages;
-		}
-		//return pagination;
-		if (pages > 1) {
-			pagination.currentPage = Number(currentPage.innerText);
-			console.log(pagination);
-		}
-
-	}
-
-	function CustomizeViewTable(data){
-		if (typeof(data)==="string") {
-			responseData = JSON.parse(data);
-			let new_tbody = document.createElement('tbody');
-			let templateFrag = document.querySelector("#newRow").content;
-			for (var i = 0 ; i < responseData.length ;i++){
-				//Sử dụng cloneNode để sao chép toàn bộ phần tử template 
-				var templ = templateFrag.cloneNode(true);
-				responseData[i].och_id < 10 ? rowId = '0' + responseData[i].och_id : rowId = responseData[i].och_id;
-				templ.querySelector(".rowContent").setAttribute("id",responseData[i].och_id);
-				templ.querySelector("td").innerText = rowId+".";
-				templ.querySelector(".rowContent td:nth-child(2)").innerText = responseData[i].product_name;
-				templ.querySelector(".rowContent td:nth-child(3)").innerText = responseData[i].end_day;
-				templ.querySelector(".rowContent td:nth-child(4)").innerText = responseData[i].total_days;
-				templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
-				templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].product_price;
-				templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
-				templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
-				new_tbody.appendChild(templ);
-			}
-			document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));
-			NumberOfRecord(pagination.start,entries.value,pagination.totalRecords);
-		}
-	}
-/* Nếu số trang lớn hơn 1 thì tiến hành phân trang */
-	
-
-
-	//console.log(pagination.pages);
+	SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+	NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 })
+/* Code khi click btnNextPage */
+btnNextPage.addEventListener("click",function(){
+	if(pagination.currentPage < pagination.pages){
+		/* Show current page index */
+		pagination.currentPage++;
+		btnCurrentPage.innerText = pagination.currentPage;
+		pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
+		DetermineTheIndex();
+		if (pagination.currentPage == pagination.pages) {
+			DisableButton(btnNextPage);
+		}
+		EnableButton(btnPreviousPage);
+		let data = JSON.stringify({
+				"start":pagination.startIndex,
+				"display":pagination.display });
+		SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+		NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
+	}		
+})
+/* Code khi click btnNextPage */
+btnPreviousPage.addEventListener("click",function(){
+	if(pagination.currentPage > 1){
+		/* Show current page index */
+		pagination.currentPage--;
+		btnCurrentPage.innerText = pagination.currentPage;
+		pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
+		DetermineTheIndex();
+		if (pagination.currentPage == 1) {
+			DisableButton(btnPreviousPage);
+		}
+		EnableButton(btnNextPage);
+		let data = JSON.stringify({
+				"start":pagination.startIndex,
+				"display":pagination.display });
+		SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+		NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
+	}		
+})
+
 /* 2 dòng này viết lại sau vì chỉ cần dùng hàm on 1 lần cho phần tử cha ".table_tbody" là được */
 //on('.table__body','click','.oil__table-action-edit',ShowEditDialog);
 //on('.table__body','click','.oil__table-action-delete',ShowDeleteDialog);

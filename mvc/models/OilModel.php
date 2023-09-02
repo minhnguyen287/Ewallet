@@ -132,12 +132,6 @@
 			$result = $r->fetch_array(MYSQLI_ASSOC);
 			return json_encode($result);
 		}
-
-
-
-
-
-
 	}
 
  ?>
