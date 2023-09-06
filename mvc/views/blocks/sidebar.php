@@ -3,7 +3,7 @@
 		<li class="categories__list"><h2>MAIN</h2>
 			<ul class="categories__list-menu">
 				<li class="categories__list-menu-item">
-					<a href="./Home" class= <?php echo '"categories__link '; echo isset($data["Dhighlight"])?'list__item-active"':'"'; ?> >
+					<a href="Home" class= <?php echo '"categories__link '; echo isset($data["Dhighlight"])?'list__item-active"':'"'; ?> >
 						<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
 					</a> 
 				</li>
@@ -12,7 +12,7 @@
 		<li class="categories__list">ADDITIONAL
 			<ul class="categories__list-menu">
 				<li class="categories__list-menu-item">
-					<a href="./Oil" class=<?php echo '"categories__link '; echo isset($data["Ohighlight"])?'list__item-active"':'"'; ?> >
+					<a href="Oil" class=<?php echo '"categories__link '; echo isset($data["Ohighlight"])?'list__item-active"':'"'; ?> >
 						<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
 					</a> 
 				</li>
@@ -27,10 +27,10 @@
 					</label>
 					<ul class="component__submenu">
 						<li class="component__submenu-list">
-							<a href="./Wallet/Category" class="component__submenu-list-link">Category</a>
+							<a href="Wallet/Category" class="component__submenu-list-link">Category</a>
 						</li>
 						<li class="component__submenu-list">
-							<a href="./Wallet/Transaction" class="component__submenu-list-link">Transaction</a>
+							<a href="Wallet/Transaction" class="component__submenu-list-link">Transaction</a>
 						</li>
 					</ul>
 				</li>

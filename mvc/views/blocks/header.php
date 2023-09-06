@@ -6,15 +6,16 @@
 	<title>Mint Wallet</title>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<link rel="stylesheet" href="../public/css/reset.css">
-	<link rel="stylesheet" href="../public/css/style.css">
+	<!-- <base href="/ewallet/" /> -->
+	<link rel="stylesheet" href="/ewallet/public/css/reset.css">
+	<link rel="stylesheet" href="/ewallet/public/css/style.css">
 </head>
 <body>
 	<div class="wrapper">
 		<header class="header">
 			<div class="header__popup">Thêm bản ghi</div>
 			<div class="header__logo">
-				<a href="./Home" class="logo__container">
+				<a href="Home" class="logo__container">
 					<span class="logo__container__icon"><i class="fa-solid fa-wallet fa-xl"></i></span> Mint Wallet 
 				</a>
 			</div>
@@ -30,7 +31,7 @@
 							<li class="nav__categories-list"><h2>MAIN</h2>
 								<ul class="nav__categories-list-menu">
 									<li class="nav__categories-list-menu-item">
-										<a href="./Home" class="nav__categories-link list__item-active">
+										<a href="Home" class="nav__categories-link list__item-active">
 											<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
 										</a> 
 									</li>
@@ -39,7 +40,7 @@
 							<li class="nav__categories-list">ADDITIONAL
 								<ul class="nav__categories-list-menu">
 									<li class="nav__categories-list-menu-item">
-										<a href="./Oil" class="nav__categories-link">
+										<a href="Oil" class="nav__categories-link">
 											<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
 										</a> 
 									</li>
@@ -54,10 +55,10 @@
 										</label>
 										<ul class="component__submenu">
 											<li class="component__submenu-list">
-												<a href="./Wallet/Category" class="component__submenu-list-link">Category</a>
+												<a href="Wallet/Category" class="component__submenu-list-link">Category</a>
 											</li>
 											<li class="component__submenu-list">
-												<a href="./Wallet/Transaction" class="component__submenu-list-link">Transaction</a>
+												<a href="Wallet/Transaction" class="component__submenu-list-link">Transaction</a>
 											</li>
 										</ul>
 									</li>

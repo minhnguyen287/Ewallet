@@ -25,7 +25,7 @@
 			//echo gettype($this->controller);
 			require_once("./mvc/controllers/".$this->controller.".php");
 			//Home = new Home;       khoi tao 1 doi tuong Home
-			$this->controller = new $this->controller;
+			$this->controller = new $this->controller;//= new Home hoặc new Oil
 
 			//Xu li action
 			if (isset($arr[1])) {
@@ -50,4 +50,6 @@
 				
 		}
 	}
+
  ?>
+
