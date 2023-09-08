@@ -8,6 +8,7 @@
 		function __construct()
 		{
 			$this->OilModel = $this->model("OilModel");
+			$this->WalletModel = $this->model("WalletModel");
 		}
 
 		public function ShowProductInfo(){
@@ -194,7 +195,10 @@
 			echo $this->OilModel->ShowHistory($start,$display);
 		}
 
-
+		public function ShowListCategories()
+		{
+			echo $this->WalletModel->ShowListCategory();
+		}
 
 		
 	} /* End Class */

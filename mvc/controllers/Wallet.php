@@ -4,19 +4,25 @@
 	 */
 	class Wallet extends Controller
 	{
-		
-		function Dashboard()
+		public function __construct()
+			{
+				$this->WalletModel = $this->model("WalletModel");
+			}	
+
+		public function Dashboard()
 		{
 			$this->view("MasterLayout",[
 				"Page"=>"DashboardView",
 				"Dhighlight"=>true]);
 		}
 
-		function Category(){
-			echo "Category";
+		public function Category(){
+			$list = $this->WalletModel->ShowListCategory();
+			$this->view("MasterLayout",["Page"=>"CategoryView",
+									   "CategoryList"=>$list]);
 		}
 
-		function Transaction(){
+		public function Transaction(){
 			echo "Transaction";
 		}
 	}

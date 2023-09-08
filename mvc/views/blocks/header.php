@@ -31,7 +31,7 @@
 							<li class="nav__categories-list"><h2>MAIN</h2>
 								<ul class="nav__categories-list-menu">
 									<li class="nav__categories-list-menu-item">
-										<a href="Home" class="nav__categories-link list__item-active">
+										<a href="/ewallet/" class="nav__categories-link list__item-active">
 											<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
 										</a> 
 									</li>
@@ -40,7 +40,7 @@
 							<li class="nav__categories-list">ADDITIONAL
 								<ul class="nav__categories-list-menu">
 									<li class="nav__categories-list-menu-item">
-										<a href="Oil" class="nav__categories-link">
+										<a href="/ewallet/Oil" class="nav__categories-link">
 											<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
 										</a> 
 									</li>
@@ -55,10 +55,10 @@
 										</label>
 										<ul class="component__submenu">
 											<li class="component__submenu-list">
-												<a href="Wallet/Category" class="component__submenu-list-link">Category</a>
+												<a href="/ewallet/Wallet/Category" class="component__submenu-list-link">Category</a>
 											</li>
 											<li class="component__submenu-list">
-												<a href="Wallet/Transaction" class="component__submenu-list-link">Transaction</a>
+												<a href="/ewallet/Wallet/Transaction" class="component__submenu-list-link">Transaction</a>
 											</li>
 										</ul>
 									</li>
