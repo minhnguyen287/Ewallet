@@ -67,48 +67,24 @@
 					<div class="dialog__form-category-field">
 						<label class="dialog__form-category-field-label" for="catcolor">Color of Category</label>
 						<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color" value="#45aaf2" >
-					</div>		
+					</div>	
 					<div class="dialog__form-category-field">
-						<table class="dialog__form-category-field-table">
-							<tr name="caticon" id="form__add-cat_icon">
-								<td colspan="2" style="font-size: 0.8rem;text-align: center;font-weight: bold;">
-									<label class="dialog__form-category-field-label" for="caticon">Category Icon</label>
-								</td>
-								<td value="fa-solid fa-utensils fa-sm">&#xf2e7;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-								<td value="fa-solid fa-piggy-bank fa-sm">&#xf4d3;</td>
-								<td value="fa-solid fa-file-invoice-dollar fa-sm">&#xf571;</td>
-								<td value="fa-solid fa-utensils fa-sm">&#xf2e7;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-								<td value="fa-solid fa-piggy-bank fa-sm">&#xf4d3;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-							</tr>
-							<tr name="caticon" id="form__add-cat_icon">
-								<td value="fa-solid fa-file-invoice-dollar fa-sm">&#xf571;</td>
-								<td value="fa-solid fa-utensils fa-sm">&#xf2e7;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-								<td value="fa-solid fa-piggy-bank fa-sm">&#xf4d3;</td>
-								<td value="fa-solid fa-file-invoice-dollar fa-sm">&#xf571;</td>
-								<td value="fa-solid fa-utensils fa-sm">&#xf2e7;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-								<td value="fa-solid fa-piggy-bank fa-sm">&#xf4d3;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-								<td value="fa-solid fa-piggy-bank fa-sm">&#xf4d3;</td>
-							</tr>
-							<tr name="caticon" id="form__add-cat_icon">
-								<td value="fa-solid fa-file-invoice-dollar fa-sm">&#xf571;</td>
-								<td value="fa-solid fa-utensils fa-sm">&#xf2e7;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-								<td value="fa-solid fa-piggy-bank fa-sm">&#xf4d3;</td>
-								<td value="fa-solid fa-file-invoice-dollar fa-sm">&#xf571;</td>
-								<td value="fa-solid fa-utensils fa-sm">&#xf2e7;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-								<td value="fa-solid fa-piggy-bank fa-sm">&#xf4d3;</td>
-								<td value="fa-solid fa-sack-dollar fa-sm">&#xf81d;</td>
-								<td value="fa-solid fa-piggy-bank fa-sm">&#xf4d3;</td>
-							</tr>
-						</table>
-					</div>
+						<div class="dialog__form-category-field-icon">
+							<input class="dialog__form-category-field-icon-input" type="radio" value="utensils">
+							<label class="dialog__form-category-field-icon-label" for="catdesc">&#xf2e7;</label>
+							
+							<input class="dialog__form-category-field-icon-input" type="radio" value="sack-dollar">
+							<label class="dialog__form-category-field-icon-label" for="catdesc">&#xf81d;</label>
+							
+							<input class="dialog__form-category-field-icon-input" type="radio" value="piggy-bank">
+							<label class="dialog__form-category-field-icon-label" for="catdesc">&#xf4d3;</label>
+							
+							<input class="dialog__form-category-field-icon-input" type="radio" value="invoice-dollar">
+							<label class="dialog__form-category-field-icon-label" for="catdesc">&#xf571;</label>
+							
+						</div>
+					</div>	
+					
 				</form>
 			</div>
 			<div class="dialog__content-footer">
@@ -118,6 +94,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="dialog">
 		<form id="DeleteTransaction" action="" method="POST">
 			<div class="dialog__content">

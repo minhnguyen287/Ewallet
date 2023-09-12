@@ -683,7 +683,7 @@ tr{
     	"h1 h1 h3"
     	"h2 h2 h3"
     	"h4 h4 h4";
-    	grid-gap: 15px;
+    	grid-gap: 30px;
     	&-field{
     		display: flex;
     		align-items: center;
@@ -698,7 +698,7 @@ tr{
     			height: 45px;
     			padding-left: 0.5rem;
     			&[type="color"]{
-    				height: 130px;
+    				height: 120px;
     				appearance: none;
     				background: transparent;
     				cursor: pointer;
@@ -708,13 +708,23 @@ tr{
     				}
     			}
     		}	
-    		&-table{
-    			margin-left: 0;
-    			margin-right: 0;
-    			width: 100%;
-    			font-family: 'FontAwesome', 'Second Font name';
-    			& td{
-    				font-size: 2.3rem;
+    		&-icon{
+    			display: grid;
+    			grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    			&-label{
+    				width: 50px;
+				    height: 50px;
+				    display: flex;
+				    font-family: 'FONTAWESOME';
+				    border: 1px solid #fff;
+				    justify-content: center;
+				    align-items: center;
+				    cursor: pointer;
+				    border-radius: 1rem;
+				    font-size: 150%;
+    			}
+    			&-input{
+    				display: none;
     			}
     		}
     		&:first-child{
@@ -729,9 +739,15 @@ tr{
     		&:last-child{
     			grid-area: h4;
     			display: block;
+    			margin-top: 20px;
     		}
     	}
     }
+}
+
+input:checked ~ label .dialog__form-category-field-icon-label{
+	background: lime;
+	font-size: 100%;
 }
 .component__submenu{
 	list-style: none;
