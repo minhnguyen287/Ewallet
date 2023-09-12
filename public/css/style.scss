@@ -678,7 +678,6 @@ tr{
 	&-category{
 		display: grid;
     	grid-template-columns: 1fr 1fr 1fr;
-    	grid-template-rows: 10% 10% 70%;
     	grid-template-areas: 
     	"h1 h1 h3"
     	"h2 h2 h3"
@@ -693,7 +692,7 @@ tr{
     				width: 45%;
     			}
     		}
-    		&-input,-table{
+    		&-input{
     			flex :1;
     			height: 45px;
     			padding-left: 0.5rem;
@@ -709,8 +708,6 @@ tr{
     			}
     		}	
     		&-icon{
-    			display: grid;
-    			grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     			&-label{
     				width: 50px;
 				    height: 50px;
@@ -722,10 +719,18 @@ tr{
 				    cursor: pointer;
 				    border-radius: 1rem;
 				    font-size: 150%;
+				    &:hover{
+    					background: #2f2f50;
+    				}
     			}
     			&-input{
     				display: none;
+    				&:checked + label {
+    					background: #232165;
+    					border: 2px groove #fff;
+    				}
     			}
+
     		}
     		&:first-child{
     			grid-area: h1 ;
@@ -738,8 +743,9 @@ tr{
     		}
     		&:last-child{
     			grid-area: h4;
-    			display: block;
-    			margin-top: 20px;
+    			display: grid;
+    			grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    			grid-gap:10px;
     		}
     	}
     }
@@ -749,6 +755,7 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 	background: lime;
 	font-size: 100%;
 }
+
 .component__submenu{
 	list-style: none;
 	color: #d4d4f3;;

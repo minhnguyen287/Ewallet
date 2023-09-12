@@ -1,4 +1,4 @@
-<div class="sidebar">
+categories<div class="sidebar">
 	<ul class="categories">
 		<li class="categories__list"><h2>MAIN</h2>
 			<ul class="categories__list-menu">
