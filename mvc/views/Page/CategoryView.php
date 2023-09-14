@@ -7,7 +7,7 @@
 			<span class="header__container-left-link">Category</span>
 		</div>
 		<div class="header__container-right">
-			<button class="add__account-button">
+			<button class="add__category-button">
 				<i class="fa-solid fa-plus"></i> Add Category
 			</button>
 			<button class="export-button">
@@ -49,7 +49,7 @@
 	</div>
 
 	<div class="dialog">
-		<div class="dialog__content">
+		<div class="dialog__content dialog__category">
 			<div class="dialog__content-header">
 				<h2 class="dialog__content-header-label">Add a new category</h2>
 				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
@@ -69,174 +69,22 @@
 						<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color" value="#45aaf2" >
 					</div>	
 					<div class="dialog__form-category-field">
-						<div class="dialog__form-category-field-icon">
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon1" type="radio" value="utensils">
-							<label class="dialog__form-category-field-icon-label" for="icon1">
-								<i class="fa-solid fa-utensils fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon2" type="radio" value="sack-dollar">
-							<label class="dialog__form-category-field-icon-label" for="icon2">
-								<i class="fa-solid fa-sack-dollar fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon3" type="radio" value="piggy-bank">
-							<label class="dialog__form-category-field-icon-label" for="icon3">
-								<i class="fa-solid fa-piggy-bank fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="flie-invoice-dollar">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-file-invoice-dollar fa-sm"></i>
-							</label>
-						</div>	
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon5" type="radio" value="mug-hot">
-							<label class="dialog__form-category-field-icon-label" for="icon5">
-								<i class="fa-solid fa-mug-hot fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="cart-shopping">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-cart-shopping fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="gas-pump">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-gas-pump fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="house">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-house fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="briefcase-medical">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-briefcase-medical fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="gift">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-gift fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="motorcycle">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-motorcycle fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="mobile-screen">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-mobile-screen fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="screwdriver-wrench">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-screwdriver-wrench fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="money-bill-transfer">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-money-bill-transfer fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="gamepad">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-gamepad fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="heart">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-heart fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="earth-asia">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-earth-asia fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="lightbulb">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-lightbulb fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="graduation-cap">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-graduation-cap fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="skull">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-skull fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="handshake">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-handshake fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="droplet">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-droplet fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="money-bill-trend-up">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-money-bill-trend-up fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="hand-holding-dollar">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-hand-holding-dollar fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="person-walking-luggage">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-person-walking-luggage fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="dumbbell">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-dumbbell fa-sm"></i>
-							</label>
-						</div>
-						<div class="dialog__form-category-field-icon">	
-							<input class="dialog__form-category-field-icon-input" name="icon" id="icon4" type="radio" value="tv">
-							<label class="dialog__form-category-field-icon-label" for="icon4">
-								<i class="fa-solid fa-tv fa-sm"></i>
-							</label>
-						</div>
-					</div>	
-					
+						<?php 
+							$icon_array = ["sack-dollar","money-bill-transfer","money-bill-trend-up","hand-holding-dollar","piggy-bank","file-invoice-dollar","house","lightbulb","faucet-drip","fire","earth-asia","tv","mobile-screen","utensils","bowl-rice","mug-hot","cart-shopping","gas-pump","motorcycle","screwdriver-wrench","gift","envelope","heart","skull","hand-holding-heart","capsules","briefcase-medical","hospital","tooth","gamepad","graduation-cap","handshake","person-walking-luggage","hotel","dumbbell","circle-plus"];
+							for ($i=0; $i < count($icon_array) ; $i++) { 
+								echo '<div class="dialog__form-category-field-icon">';
+								echo '<input class="dialog__form-category-field-icon-input" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';
+								echo '<label class="dialog__form-category-field-icon-label" for="icon'.$i.'">';
+								echo '<i class="fa-solid fa-'.$icon_array[$i].' fa-sm"></i>';
+								echo '</label>';
+								echo '</div>';
+							}
+						?>	
+					</div>		
 				</form>
 			</div>
 			<div class="dialog__content-footer">
-				<button class="add__transaction-button">
+				<button class="add__category-button">
 					<i class="fa-solid fa-plus"></i> Add Category
 				</button>
 			</div>

@@ -127,22 +127,22 @@ function ShowAddDialog(data){
 	dialogForm_endKm.value = null;
 	dialogForm_product.value = null;
 }
-
-btnAddTransaction[0].onclick = function(){
-	/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
-	RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnShowEditDialog[0]])
-	ShowModal(dialog[0]);
-	/* Reload lại các phần tử dùng để thông báo */
-	headerPopup.setAttribute("class","header__popup");
-	headerPopup.removeAttribute("style");
-	labelField_endKm.innerText = "";
-	labelField_product.innerText = "";
-	/* Gọi Ajax */
-	let url = ('./Ajax/ShowLastOption');
-	let method = "GET";
-	SendAjaxRequest(url,method,ShowAddDialog);
-};
-
+if (typeof(btnAddTransaction[0])!=='undefined') {
+	btnAddTransaction[0].onclick = function(){
+		/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
+		RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnShowEditDialog[0]])
+		ShowModal(dialog[0]);
+		/* Reload lại các phần tử dùng để thông báo */
+		headerPopup.setAttribute("class","header__popup");
+		headerPopup.removeAttribute("style");
+		labelField_endKm.innerText = "";
+		labelField_product.innerText = "";
+		/* Gọi Ajax */
+		let url = ('./Ajax/ShowLastOption');
+		let method = "GET";
+		SendAjaxRequest(url,method,ShowAddDialog);
+	};
+}
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
 btnCloseModal[0].addEventListener("click",()=>HideModal(dialog[0]));
 /* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
@@ -752,19 +752,50 @@ function ShowCategory(data){
 		let categoriesList = document.querySelector('.category__content');
 		for (let i = 0; i < responseData.length; i++) {
 			var categoryTemp = templateFrag.cloneNode(true);
+			categoryTemp.querySelector('.category__content-item').setAttribute('id','category'+responseData[i].cat_id)
 			categoryTemp.querySelector('.category__content-item').setAttribute('style','background:'+responseData[i].color);
+			if (i == 0) {
+				categoryTemp.querySelector('.category__content-item').setAttribute('style','background-image:linear-gradient(to right,#024fa0 0%,#024fa0 32%,#f2721e 33%  ,#f2721e 66%,#50b846 67%, #50b846 100%)');
+			}
 			categoryTemp.querySelector("h1").innerText = responseData[i].category_type;
 			categoryTemp.querySelector('.category__content-item-left-desc').innerText = responseData[i].category_name;
-			categoryTemp.querySelector("i").setAttribute('class',responseData[i].icon);
+			categoryTemp.querySelector("i").setAttribute('class',"fa-solid fa-"+responseData[i].icon+" fa-sm");
 			categoriesList.appendChild(categoryTemp);
 		}
 		
 	}
 }
-var btnAddCategory = document.querySelector('.add__account-button');
-btnAddCategory.addEventListener('click',function(){
-	ShowModal(dialog[0]);
-})
+var btnAddCategory = document.querySelectorAll('.add__category-button');
+if (typeof(btnAddCategory[0])!=='undefined') {
+	btnAddCategory[0].style.background  = "#6259ca";
+	btnAddCategory[0].addEventListener('click',function(){
+		ShowModal(dialog[0]);
+	})
+}
+var categoryType = document.getElementById('form__add-cat_type');
+var categoryName = document.getElementById('form__add-cat_name');
+var categoryColor = document.getElementById('form__add-cat_color');
+var categoryIcon = document.getElementsByName("icon");
+if (typeof(btnAddCategory[1])!=='undefined') {
+	btnAddCategory[1].addEventListener('click',function(){
+		var categoryData = {"type":categoryType.value,
+							"name":categoryName.value,
+							"color":categoryColor.value,};
+		if (categoryType.value == "") {
+			console.log("type");
+		}
+		if (categoryType.value == "") {
+			console.log("name");
+		}
+		for (var i = 0; i < categoryIcon.length; i++) {
+			if (categoryIcon[i].checked) {
+				categoryData["icon"] = categoryIcon[i].value;
+			}
+		}
+		console.log(categoryData);
+	})
+}
+
 
 
 
