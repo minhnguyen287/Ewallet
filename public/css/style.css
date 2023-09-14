@@ -181,7 +181,7 @@ input:focus {
     color: #4d59ca;
     font-size: 1rem; }
 
-.add__account-button, .export-button, .add__transaction-button, .edit__transaction-button, .delete__transaction-button, .cancelAction__transaction-button {
+.add__account-button, .add__category-button, .export-button, .add__transaction-button, .edit__transaction-button, .delete__transaction-button, .cancelAction__transaction-button {
   height: calc(50rem / 16);
   color: #fff;
   border: none;
@@ -199,7 +199,7 @@ input:focus {
   width: calc(90rem / 16);
   background: #13bfa6; }
 
-.add__transaction-button {
+.add__transaction-button, .add__category-button {
   background: #13bfa6;
   padding: 0 10px 0 10px; }
 
@@ -585,7 +585,7 @@ tr:nth-child(even) {
       .dialog__form-category-field:last-child {
         grid-area: h4;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 10px; }
 
 input:checked ~ label .dialog__form-category-field-icon-label {
@@ -930,6 +930,12 @@ input:checked ~ label .dialog__form-category-field-icon-label {
       border-left: 1px solid #45455f;
       border-bottom: 1px solid #45455f; }
 
+  .dialog__form-category-field:last-child {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; }
+
+  .dialog__content {
+    min-width: 678px; }
+
   #item__toggle {
     display: none; }
 
@@ -990,7 +996,9 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     .dialog__form-label {
       width: 30%; }
     .dialog__form-field {
-      margin-bottom: 15px; } }
+      margin-bottom: 15px; }
+    .dialog__form-category-field-input[type="color"] {
+      height: 110px; } }
 @media screen and (max-width: 767px) {
   .wrapper {
     width: 412px; }
@@ -1045,6 +1053,26 @@ input:checked ~ label .dialog__form-category-field-icon-label {
   .layout-content {
     margin: 15px;
     margin-top: 0; }
+
+  .dialog__form-category {
+    grid-template-areas: "h1 h1 h1" "h2 h2 h2" "h3 h3 h3" "h4 h4 h4";
+    grid-gap: 10px; }
+    .dialog__form-category-field:nth-child(3) {
+      flex-direction: row-reverse; }
+    .dialog__form-category-field-label[for="catcolor"] {
+      width: 70%;
+      text-align: center; }
+    .dialog__form-category-field-input[type="color"] {
+      height: 100px;
+      appearance: none;
+      background: transparent;
+      cursor: pointer; }
+      .dialog__form-category-field-input[type="color"]::-webkit-color-swatch {
+        border-radius: 0.5rem;
+        border: none; }
+    .dialog__form-category-field:last-child {
+      grid-gap: 18px;
+      overflow-x: scroll; }
 
   table {
     width: 95%;
@@ -1106,7 +1134,10 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     grid-gap: 15px; }
 
   .dialog__content {
-    top: 25%; } }
+    top: 18%; }
+
+  .dialog__category {
+    top: 45%; } }
 @media screen and (max-width: 411px) {
   .wrapper {
     width: 390px; }
@@ -1154,7 +1185,10 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     border-bottom: 1px solid #45455f; }
 
   .header__menu-right-bars {
-    margin-right: 0; } }
+    margin-right: 0; }
+
+  .dialog__form-category-field:last-child {
+    grid-gap: 15px; } }
 @media screen and (max-width: 389px) {
   .wrapper {
     width: 360px; }

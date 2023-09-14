@@ -224,13 +224,13 @@ input:focus{
 		}
 	}
 }
-.add__account-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancelAction__transaction-button{
+.add__account-button,.add__category-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancelAction__transaction-button{
 	height: calc(50rem / 16);
 	color: #fff;
 	border:none;
 	border-radius: 0.4rem;
 }
-.add__account-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancelAction__transaction-button:hover{
+.add__account-button,.add__category-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancelAction__transaction-button:hover{
 	cursor: pointer;
 }
 .add__account-button{
@@ -242,7 +242,7 @@ input:focus{
 	width: calc(90rem / 16);
 	background: #13bfa6;
 }
-.add__transaction-button{
+.add__transaction-button,.add__category-button{
 	background: #13bfa6;
 	padding: 0 10px 0 10px
 }
@@ -744,7 +744,7 @@ tr{
     		&:last-child{
     			grid-area: h4;
     			display: grid;
-    			grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    			grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     			grid-gap:10px;
     		}
     	}
@@ -1202,6 +1202,18 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 			}
 		}
 	}
+	.dialog__form{
+		&-category{
+			&-field{
+				&:last-child{
+					grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+				}
+			}
+		}
+	}
+	.dialog__content{
+		min-width: 678px;
+	}
 //======================== HIDE/SHOW MENU============================
 	#item__toggle{
 		display: none;
@@ -1293,6 +1305,15 @@ td{
 		&-field{
 			margin-bottom: 15px;
 		}
+		&-category{
+			&-field{
+				&-input{
+					&[type="color"]{
+						height: 110px;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -1372,6 +1393,43 @@ td{
 	.layout-content{
 		margin: 15px;
 		margin-top: 0;
+	}
+	.dialog__form{
+		&-category{
+			grid-template-areas:
+			"h1 h1 h1"
+			"h2 h2 h2"
+			"h3 h3 h3"
+			"h4 h4 h4";
+			grid-gap: 10px;
+			&-field{
+				&:nth-child(3){
+					flex-direction: row-reverse;
+				}
+				&-label{
+					&[for="catcolor"]{
+						width: 70%;
+						text-align: center;
+					}
+				}
+				&-input{
+					&[type="color"]{
+						height: 100px;
+						appearance: none;
+						background: transparent;
+						cursor: pointer;
+						&::-webkit-color-swatch{
+							border-radius: 0.5rem;
+							border: none;
+						}
+					}
+				}
+				&:last-child{
+					grid-gap:18px;
+					overflow-x: scroll;
+				}
+			}
+		}
 	}
 
 //================================OIL===================================
@@ -1454,7 +1512,10 @@ td{
 	// 	margin-bottom: $component__space;
 	// }
 	.dialog__content{
-		top:25%;
+		top:18%;
+	}
+	.dialog__category{
+		top:45%;
 	}
 }
 
@@ -1516,6 +1577,15 @@ td{
 	}
 	.header__menu-right-bars {
 		margin-right: 0;
+	}
+	.dialog__form{
+		&-category{
+			&-field{
+				&:last-child{
+					grid-gap:15px;
+				}
+			}
+		}
 	}
 }
 
