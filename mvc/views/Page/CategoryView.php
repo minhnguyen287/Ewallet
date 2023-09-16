@@ -77,11 +77,15 @@
 							$icon_array = ["sack-dollar","money-bill-transfer","money-bill-trend-up","hand-holding-dollar","piggy-bank","file-invoice-dollar","house","lightbulb","faucet-drip","fire","earth-asia","tv","mobile-screen","utensils","bowl-rice","mug-hot","cart-shopping","gas-pump","motorcycle","screwdriver-wrench","gift","envelope","heart","skull","hand-holding-heart","capsules","briefcase-medical","hospital","tooth","gamepad","graduation-cap","handshake","person-walking-luggage","hotel","dumbbell","circle-plus"];
 							for ($i=0; $i < count($icon_array) ; $i++) { 
 								echo '<div class="dialog__form-category-field-icon">';
+<<<<<<< HEAD
 								if ($i == 0) {
 									echo '<input class="dialog__form-category-field-icon-input" checked="checked" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';
 								} else {
 									echo '<input class="dialog__form-category-field-icon-input" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';
 								}
+=======
+								echo '<input class="dialog__form-category-field-icon-input" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';
+>>>>>>> origin/main
 								echo '<label class="dialog__form-category-field-icon-label" for="icon'.$i.'">';
 								echo '<i class="fa-solid fa-'.$icon_array[$i].' fa-sm"></i>';
 								echo '</label>';

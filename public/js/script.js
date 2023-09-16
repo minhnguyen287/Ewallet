@@ -776,8 +776,31 @@ var categoryType = document.getElementById('form__add-cat_type');
 var categoryName = document.getElementById('form__add-cat_name');
 var categoryColor = document.getElementById('form__add-cat_color');
 var categoryIcon = document.getElementsByName("icon");
+<<<<<<< HEAD
 var catNameInfor = document.getElementById("category_name_info");
 var catTypeInfor = document.getElementById("category_type_info");
+=======
+if (typeof(btnAddCategory[1])!=='undefined') {
+	btnAddCategory[1].addEventListener('click',function(){
+		var categoryData = {"type":categoryType.value,
+							"name":categoryName.value,
+							"color":categoryColor.value,};
+		if (categoryType.value == "") {
+			console.log("type");
+		}
+		if (categoryType.value == "") {
+			console.log("name");
+		}
+		for (var i = 0; i < categoryIcon.length; i++) {
+			if (categoryIcon[i].checked) {
+				categoryData["icon"] = categoryIcon[i].value;
+			}
+		}
+		console.log(categoryData);
+	})
+}
+
+>>>>>>> origin/main
 
 if (categoryType) {
 	categoryType.addEventListener('keyup',function(){
