@@ -841,7 +841,7 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 		//padding: $component__space;
 		height: 128px;
 		border-radius: 10px;
-		background: #6259ca;
+		background-image:linear-gradient(to right,#024fa0 0%,#024fa0 32%,#f2721e 33%  ,#f2721e 66%,#50b846 67%, #50b846 100%);
 		&-right{
 			width: 30%;
 			height: 100%;
@@ -886,15 +886,6 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 				font-weight: 600;
 				padding-bottom: 10px;
 			}
-		}
-		&:nth-child(2){
-			background: #fb6b25;
-		}
-		&:nth-child(3){
-			background: #09ad95;
-		}
-		&:nth-child(4){
-			background: #45aaf2;
 		}
 	}
 

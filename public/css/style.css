@@ -187,7 +187,7 @@ input:focus {
   border: none;
   border-radius: 0.4rem; }
 
-.add__account-button, .export-button, .add__transaction-button, .edit__transaction-button, .delete__transaction-button, .cancelAction__transaction-button:hover {
+.add__account-button, .add__category-button, .export-button, .add__transaction-button, .edit__transaction-button, .delete__transaction-button, .cancelAction__transaction-button:hover {
   cursor: pointer; }
 
 .add__account-button {
@@ -656,7 +656,7 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     justify-content: space-between;
     height: 128px;
     border-radius: 10px;
-    background: #6259ca; }
+    background-image: linear-gradient(to right, #024fa0 0%, #024fa0 32%, #f2721e 33%, #f2721e 66%, #50b846 67%, #50b846 100%); }
     .category__content-item-right {
       width: 30%;
       height: 100%;
@@ -695,12 +695,6 @@ input:checked ~ label .dialog__form-category-field-icon-label {
         font-size: 1.4rem;
         font-weight: 600;
         padding-bottom: 10px; }
-    .category__content-item:nth-child(2) {
-      background: #fb6b25; }
-    .category__content-item:nth-child(3) {
-      background: #09ad95; }
-    .category__content-item:nth-child(4) {
-      background: #45aaf2; }
 
 .footer {
   grid-column: 2 / span 4;

@@ -15,6 +15,19 @@
 			}
 			return json_encode($arr);
 		}
+
+		function AddCategory($type,$name,$color,$icon){
+			$type = $this->con->real_escape_string(strip_tags($type));
+			$name = $this->con->real_escape_string(strip_tags($name));
+			$color = $this->con->real_escape_string(strip_tags($color));
+			$icon = $this->con->real_escape_string(strip_tags($icon));			
+			$q = "INSERT INTO category VALUES (null,'$type','$name','$color','$icon')";
+			$result = false;
+			if($this->con->query($q)){
+				$result = true;
+			}
+			return json_encode($result);
+		}
 	}
 
  ?>

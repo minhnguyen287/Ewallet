@@ -200,6 +200,50 @@
 			echo $this->WalletModel->ShowListCategory();
 		}
 
+		public function AddANewCategory()
+		{
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["AjaxData"],true);
+			if (!empty($arr)) {
+				$errors = array();
+
+				if (!empty($arr['type'])) {
+					$type = $arr['type'];
+				} else {
+					$errors[] = "type"; 
+				}
+
+				if (!empty($arr['name'])) {
+					$name = $arr['name'];
+				} else {
+					$errors[] = "name"; 
+				}
+
+				if (!empty($arr['color'])) {
+					$color = $arr['color'];
+				} else {
+					$errors[] = "color"; 
+				}
+
+				if (!empty($arr['icon'])) {
+					$icon = $arr['icon'];
+				} else {
+					$errors[] = "icon"; 
+				}
+
+				if (empty($errors)) {
+					$kq = $this->WalletModel->AddCategory($type,$name,$color,$icon);
+					if (json_decode($kq) == true) {
+						echo json_encode($arr);
+					} else {
+						echo json_encode($kq);
+					}
+				}
+			} else {
+				print_r($errors);
+			}
+			
+		}
 		
 	} /* End Class */
  ?>

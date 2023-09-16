@@ -236,30 +236,30 @@ function AssessmentStatuses (km){
 	return status_noti;
 }
 /* Viết hàm tuỳ chỉnh nội dung popup thông báo thành công hay thất bạt*/
-function PopupMessage(status,action){
+function PopupMessage(status,action,object){
 	var message;
 	if (status == "success") {
 		switch(action){
 			case "add" :
-				message = "A new transaction was added successfully !";
+				message = "A new "+object+" was added successfully !";
 				break;
 			case "edit"	:
-				message = "A new record was edited successfully !";
+				message = "This "+object+" was edited successfully !";
 				break;
 			case "delete" :
-				message = "A record was deleted successfully !";
+				message = "A "+object+" was deleted successfully !";
 				break;
 		}
 	} else{
 		switch(action){
 			case "add" :
-				message = "Cannot add new transaction, Please try again !";
+				message = "Cannot add new "+object+", Please try again !";
 				break;
 			case "edit"	:
-				message = "Cannot update this transaction at the moment, Please try again !";
+				message = "Cannot update this "+object+" at the moment, Please try again !";
 				break;
 			case "delete" :
-				message = "Cannot delete this transaction at the moment, Please try again !";
+				message = "Cannot delete this "+object+" at the moment, Please try again !";
 				break;
 		}
 	}
@@ -290,13 +290,13 @@ function AddANewTransaction(data){
 			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData.total_km));
 			document.querySelector("tbody").appendChild(templateFrag);
 			/*In ra câu thông báo thành công*/
-			PopupMessage("success","add");
+			PopupMessage("success","add","transaction");
 		} else {
-			PopupMessage("failure","add");
+			PopupMessage("failure","add","transaction");
 		}
 	} else {
 		/*In ra câu thông báo thất bại*/
-		PopupMessage("failure","add");
+		PopupMessage("failure","add","transaction");
 	}
 }
 
@@ -475,13 +475,13 @@ if (typeof(btnShowEditDialog[0])!== 'undefined') {
 						rowEdited.querySelector("td:nth-child(7)").innerText = AssessmentStatuses(responseData.total_km);
 						rowEdited.querySelector("td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData.total_km));
 						/*In ra câu thông báo thành công*/
-						PopupMessage("success","edit");
+						PopupMessage("success","edit","transaction");
 					} else {
-						PopupMessage("failure","edit");
+						PopupMessage("failure","edit","transaction");
 					}
 				} else {
 					/*In ra câu thông báo thất bại*/
-					PopupMessage("failure","edit");
+					PopupMessage("failure","edit","transaction");
 				}
 			}
 			HideModal(dialog[0]);
@@ -554,10 +554,10 @@ if (typeof(btnShowDeleteDialog[0])!== 'undefined') {
 					let index = document.getElementById(transId).rowIndex;
 					/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 					document.querySelector('tbody').deleteRow(index-1);
-					PopupMessage("success","delete");
+					PopupMessage("success","delete","transaction");
 				} else {
 					/*In ra câu thông báo thất bại*/
-					PopupMessage("failure","delete");
+					PopupMessage("failure","delete","transaction");
 				}
 			}
 		}
@@ -781,20 +781,22 @@ var catTypeInfor = document.getElementById("category_type_info");
 
 if (categoryType) {
 	categoryType.addEventListener('keyup',function(){
-		catTypeInfor.innerText = "";
-		let pattern = /^([a-z][A-Z])+(\s)?\w+?$/;
+		let pattern = /^[a-zA-Z0-9 ]+?$/;
 		if(pattern.test(categoryType.value)){
-			catTypeInfor.innerText = "OKE";
+			catTypeInfor.innerText = "";
+		} else {
+			catTypeInfor.innerText = "Category Type Invalid";
 		}
 	})
 }
 
 if (categoryName) {
-	categoryName.addEventListener('keyup',function(){
-		catNameInfor.innerText = "";
-		let pattern = /^\w+$/;
-		if(!pattern.test(categoryName.value)){
-			catNameInfor.innerText = "OKE";
+	categoryName.addEventListener('keyup',function(){	
+		let pattern = /^[a-zA-Z0-9 ]+?$/;
+		if(pattern.test(categoryName.value)){
+			catNameInfor.innerText = "";
+		} else{
+			catNameInfor.innerText = "Category Name Invalid";
 		}
 	})
 }
@@ -819,10 +821,30 @@ if (typeof(btnAddCategory[1])!=='undefined') {
 				categoryData["icon"] = categoryIcon[i].value;
 			}
 		}
-		console.log(categoryData);
+		let url = '../Ajax/AddANewCategory';
+		let method = "POST";
+		SendAjaxRequest(url,method,AddCategory,JSON.stringify(categoryData));
+		HideModal(dialog[0]);
 	})
 }
 
+function AddCategory(data){
+	if (typeof('data')==="string") {
+		let responseData = JSON.parse(data);
+		if (responseData != "false") {
+			let templateFrag = document.querySelector("#category__template").content;
+			templateFrag.querySelector(".category__content-item").setAttribute('style','"background:'+responseData.color+'"')
+			templateFrag.querySelector("h1").innerText = responseData.type;
+			templateFrag.querySelector(".category__content-item-left-desc").innerText = responseData.name;
+			templateFrag.querySelector("i").setAttribute("class","fa-solid fa-"+responseData.icon+" fa-sm");
+			document.querySelector(".category__content").appendChild(templateFrag);
+			PopupMessage("success","add","category");
+		} else {
+			PopupMessage("failure","add","category");
+		}
+	}
+	
+}
 
 
 
