@@ -668,11 +668,13 @@ function InitializeView(data) {
 }	
 
 //Khi load Page
-window.onload = function(){
-	let initUrl = './Ajax/NumberOfTransaction';
-	let initMethod = "GET";
-	SendAjaxRequest(initUrl,initMethod,InitializeView);
-}
+window.addEventListener("load",function(event){
+	if (urlArray.indexOf("Oil") != -1){
+		let initUrl = './Ajax/NumberOfTransaction';
+		let initMethod = "GET";
+		SendAjaxRequest(initUrl,initMethod,InitializeView);
+	}
+})
 var paginationUrl = './Ajax/Pagination';
 var paginationMethod = "POST";
 if(entries,btnNextPage,btnPreviousPage){
@@ -766,20 +768,20 @@ function ShowCategory(data){
 	}
 }
 var btnAddCategory = document.querySelectorAll('.add__category-button');
+var btnEditCategory = document.querySelector('.edit__category-button');
 if (typeof(btnAddCategory[0])!=='undefined') {
 	btnAddCategory[0].style.background  = "#6259ca";
 	btnAddCategory[0].addEventListener('click',function(){
 		ShowModal(dialog[0]);
+		RetitleDialog(titleDialog,"Add a new category",[btnAddCategory[1]],[btnEditCategory]);
 	})
 }
 var categoryType = document.getElementById('form__add-cat_type');
 var categoryName = document.getElementById('form__add-cat_name');
 var categoryColor = document.getElementById('form__add-cat_color');
 var categoryIcon = document.getElementsByName("icon");
-<<<<<<< HEAD
 var catNameInfor = document.getElementById("category_name_info");
 var catTypeInfor = document.getElementById("category_type_info");
-=======
 if (typeof(btnAddCategory[1])!=='undefined') {
 	btnAddCategory[1].addEventListener('click',function(){
 		var categoryData = {"type":categoryType.value,
@@ -796,15 +798,12 @@ if (typeof(btnAddCategory[1])!=='undefined') {
 				categoryData["icon"] = categoryIcon[i].value;
 			}
 		}
-		console.log(categoryData);
 	})
 }
 
->>>>>>> origin/main
-
 if (categoryType) {
 	categoryType.addEventListener('keyup',function(){
-		let pattern = /^[a-zA-Z0-9 ]+?$/;
+		let pattern = /^[a-zA-Z0-9 _-]+?$/;
 		if(pattern.test(categoryType.value)){
 			catTypeInfor.innerText = "";
 		} else {
@@ -855,23 +854,51 @@ function AddCategory(data){
 	if (typeof('data')==="string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
-			let templateFrag = document.querySelector("#category__template").content;
-			templateFrag.querySelector(".category__content-item").setAttribute('style','"background:'+responseData.color+'"')
+			let templateFragRoot = document.querySelector("#category__template").content;
+			let templateFrag = templateFragRoot.cloneNode(true);
+			templateFrag.querySelector(".category__content-item").setAttribute('style',"background:"+responseData.color)
 			templateFrag.querySelector("h1").innerText = responseData.type;
 			templateFrag.querySelector(".category__content-item-left-desc").innerText = responseData.name;
 			templateFrag.querySelector("i").setAttribute("class","fa-solid fa-"+responseData.icon+" fa-sm");
 			document.querySelector(".category__content").appendChild(templateFrag);
 			PopupMessage("success","add","category");
+			categoryType.value = "";
+			categoryName.value = "";
 		} else {
 			PopupMessage("failure","add","category");
 		}
 	}
 	
 }
+on('tbody', 'click', '.category__table-action-edit', ShowDialogUpdateCategory);
+//on('tbody', 'click', '.delete__table-action-edit', ShowDeleteDialog);
+function ShowDialogUpdateCategory(){
+	ShowModal(dialog[0]);
+	RetitleDialog(titleDialog,"Update Category",[btnEditCategory],[btnAddCategory[1]]);
+	catTypeInfor.innerText = "";
+	catNameInfor.innerText = "";
+	let categoryId;
+	while(target && target !== document.querySelector('tbody')){
+		if(target.tagName == "TR"){
+			categoryId = target.getAttribute("id");
+		}
+		target = target.parentNode;
+	}
+	let url = '../Ajax/ShowACategory'
+	let method = 'POST';
+	let catId = JSON.stringify("catId":categoryId);
+	console.log(catId);
 
-
+}
 
 
 
 
 /*End */
+
+
+/*
+Trong trang window.onload chỉ được gọi 1 lần, còn lại nên dùng window.addEventListener("load",function());
+Khi dùng thẻ template thì trước khi thêm sửa xoá, phải dùng hàm cloneNode(true) để có thể sử dụng template đó nhiều lần
+Khi
+*/

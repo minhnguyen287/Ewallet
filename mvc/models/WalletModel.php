@@ -5,9 +5,23 @@
 	class WalletModel extends DB
 	{
 		
-		function ShowListCategory()
+		function ShowCategory($id)
 		{
 			$q = "SELECT * FROM category";
+			if (isset($id)) {
+				$q .= " WHERE cat_id = $id";
+			}
+			$r = $this->con->query($q);
+			$arr = array();
+			while ($r1 = $r->fetch_array(MYSQLI_ASSOC)) {
+				$arr[] = $r1;
+			}
+			return json_encode($arr);
+		}
+
+		function ShowACategory($id)
+		{
+			$q = "SELECT * FROM category WHERE cat_id = $id";
 			$r = $this->con->query($q);
 			$arr = array();
 			while ($r1 = $r->fetch_array(MYSQLI_ASSOC)) {

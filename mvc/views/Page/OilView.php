@@ -18,7 +18,7 @@
 		<!-- Code something -->
 		<main class="layout-content">
 			<section class="layout_content table__header">
-				<h2>Product Sales</h2>
+				<h2>Records of History oil changed</h2>
 			</section>
 			<section class="layout_content table__body">
 				<div class="table__body-header">
@@ -149,7 +149,6 @@
 				</div>
 			</section>
 		</main>
-		</div>
 	</div>
 	<div class="dialog">
 		<form id="AddNewTransaction" action="" method="POST">

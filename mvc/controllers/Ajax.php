@@ -197,9 +197,29 @@
 
 		public function ShowListCategories()
 		{
-			echo $this->WalletModel->ShowListCategory();
+			echo $this->WalletModel->ShowCategory(null);
 		}
 
+		public function ShowACategory()
+		{
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["AjaxData"],true);
+			if ( !empty($arr) ) {
+				$errors = array();
+
+				if (isset($arr['catId'])&&filter_var($arr['catId'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$id = $arr['catId'];
+				} else{
+					$errors[] = "catId";
+				}
+			}
+
+			if (empty($errors)) {
+				echo $this->WalletModel->ShowCategory($id);
+			} else{
+				print_r($errors);
+			}
+		}
 		public function AddANewCategory()
 		{
 			header("Content-Type: application/json");
@@ -238,12 +258,15 @@
 					} else {
 						echo json_encode($kq);
 					}
-				}
+				}else {
+					print_r($errors);
+				} 
 			} else {
-				print_r($errors);
+				echo json_encode("false");
 			}
 			
 		}
 		
 	} /* End Class */
+	/*header("Content-Type: application/json"); phải viết đúng từng dấu cách (space) và dấu : (hai chấm) */
  ?>
