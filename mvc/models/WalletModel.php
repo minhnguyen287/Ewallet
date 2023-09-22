@@ -8,7 +8,7 @@
 		function ShowCategory($id)
 		{
 			$q = "SELECT * FROM category";
-			if (isset($id)) {
+			if ($id != -100) {
 				$q .= " WHERE cat_id = $id";
 			}
 			$r = $this->con->query($q);

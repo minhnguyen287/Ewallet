@@ -197,7 +197,7 @@
 
 		public function ShowListCategories()
 		{
-			echo $this->WalletModel->ShowCategory(null);
+			echo $this->WalletModel->ShowCategory(-100);
 		}
 
 		public function ShowACategory()
@@ -207,10 +207,10 @@
 			if ( !empty($arr) ) {
 				$errors = array();
 
-				if (isset($arr['catId'])&&filter_var($arr['catId'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
-					$id = $arr['catId'];
+				if (isset($arr['categoryId'])&&filter_var($arr['categoryId'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$id = $arr['categoryId'];
 				} else{
-					$errors[] = "catId";
+					$errors[] = "categoryId";
 				}
 			}
 

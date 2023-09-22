@@ -386,9 +386,9 @@ function ShowEditDialog(){
 	let id = JSON.stringify({"tranId":transactionId});
 	let url = './Ajax/ShowTransactionById';
 	let method = "POST";
-	SendAjaxRequest(url,method,ShowEditDialog,id);
+	SendAjaxRequest(url,method,LoadData_EditDialog,id);
 
-	function ShowEditDialog(data) {
+	function LoadData_EditDialog(data) {
 		responseData = JSON.parse(data);
 		dialogForm_startDay.value = responseData.start_day;
 		dialogForm_endDay.value = responseData.end_day;
@@ -769,19 +769,31 @@ function ShowCategory(data){
 }
 var btnAddCategory = document.querySelectorAll('.add__category-button');
 var btnEditCategory = document.querySelector('.edit__category-button');
+var categoryType = document.getElementById('form__add-cat_type');
+var categoryName = document.getElementById('form__add-cat_name');
+var categoryColor = document.getElementById('form__add-cat_color');
+var categoryIcons = document.getElementsByName("icon");
+var catNameInfor = document.getElementById("category_name_info");
+var catTypeInfor = document.getElementById("category_type_info");
+
 if (typeof(btnAddCategory[0])!=='undefined') {
 	btnAddCategory[0].style.background  = "#6259ca";
 	btnAddCategory[0].addEventListener('click',function(){
 		ShowModal(dialog[0]);
+		categoryType.value = "";
+		categoryName.value = "";
+		categoryColor.value = "#45aaf2";
+		for(let categotyIcon of categoryIcons){
+			if (categotyIcon.value == "sack-dollar") {
+				categotyIcon.setAttribute("checked","checked");
+			} else{
+				categotyIcon.removeAttribute("checked");
+			}
+
+		}
 		RetitleDialog(titleDialog,"Add a new category",[btnAddCategory[1]],[btnEditCategory]);
 	})
 }
-var categoryType = document.getElementById('form__add-cat_type');
-var categoryName = document.getElementById('form__add-cat_name');
-var categoryColor = document.getElementById('form__add-cat_color');
-var categoryIcon = document.getElementsByName("icon");
-var catNameInfor = document.getElementById("category_name_info");
-var catTypeInfor = document.getElementById("category_type_info");
 if (typeof(btnAddCategory[1])!=='undefined') {
 	btnAddCategory[1].addEventListener('click',function(){
 		var categoryData = {"type":categoryType.value,
@@ -793,9 +805,9 @@ if (typeof(btnAddCategory[1])!=='undefined') {
 		if (categoryType.value == "") {
 			console.log("name");
 		}
-		for (var i = 0; i < categoryIcon.length; i++) {
-			if (categoryIcon[i].checked) {
-				categoryData["icon"] = categoryIcon[i].value;
+		for (var i = 0; i < categoryIcons.length; i++) {
+			if (categoryIcons[i].checked) {
+				categoryData["icon"] = categoryIcons[i].value;
 			}
 		}
 	})
@@ -838,9 +850,9 @@ if (typeof(btnAddCategory[1])!=='undefined') {
 		}else{
 			catNameInfor.innerText = "Category Name cannot be empty";
 		}
-		for (var i = 0; i < categoryIcon.length; i++) {
-			if (categoryIcon[i].checked) {
-				categoryData["icon"] = categoryIcon[i].value;
+		for (var i = 0; i < categoryIcons.length; i++) {
+			if (categoryIcons[i].checked) {
+				categoryData["icon"] = categoryIcons[i].value;
 			}
 		}
 		let url = '../Ajax/AddANewCategory';
@@ -862,8 +874,6 @@ function AddCategory(data){
 			templateFrag.querySelector("i").setAttribute("class","fa-solid fa-"+responseData.icon+" fa-sm");
 			document.querySelector(".category__content").appendChild(templateFrag);
 			PopupMessage("success","add","category");
-			categoryType.value = "";
-			categoryName.value = "";
 		} else {
 			PopupMessage("failure","add","category");
 		}
@@ -872,11 +882,12 @@ function AddCategory(data){
 }
 on('tbody', 'click', '.category__table-action-edit', ShowDialogUpdateCategory);
 //on('tbody', 'click', '.delete__table-action-edit', ShowDeleteDialog);
-function ShowDialogUpdateCategory(){
+function ShowDialogUpdateCategory(event){
 	ShowModal(dialog[0]);
 	RetitleDialog(titleDialog,"Update Category",[btnEditCategory],[btnAddCategory[1]]);
 	catTypeInfor.innerText = "";
 	catNameInfor.innerText = "";
+	var target = event.target;
 	let categoryId;
 	while(target && target !== document.querySelector('tbody')){
 		if(target.tagName == "TR"){
@@ -886,8 +897,24 @@ function ShowDialogUpdateCategory(){
 	}
 	let url = '../Ajax/ShowACategory'
 	let method = 'POST';
-	let catId = JSON.stringify("catId":categoryId);
-	console.log(catId);
+	let catId = JSON.stringify({"categoryId":categoryId});
+	SendAjaxRequest(url,method,LoadData_CategoryDialog,catId);
+
+	function LoadData_CategoryDialog(data) {
+		if(typeof(data)==="string"){
+			responseData = JSON.parse(data);
+			categoryType.value = responseData[0].category_type;
+			categoryName.value = responseData[0].category_name;
+			categoryColor.value = responseData[0].color;
+			for(let categotyIcon of categoryIcons){
+				if (categotyIcon.value == responseData[0].icon) {
+					categotyIcon.setAttribute("checked","checked");
+				} else{
+					categotyIcon.removeAttribute("checked");
+				}
+			}
+		}
+	}
 
 }
 

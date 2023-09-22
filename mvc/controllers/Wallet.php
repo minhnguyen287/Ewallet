@@ -17,7 +17,7 @@
 		}
 
 		public function Category(){
-			$list = $this->WalletModel->ShowCategory();
+			$list = $this->WalletModel->ShowCategory(-100);
 			$this->view("MasterLayout",["Page"=>"CategoryView",
 									   "CategoryList"=>$list]);
 		}
