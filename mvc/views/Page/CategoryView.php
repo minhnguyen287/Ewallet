@@ -196,26 +196,26 @@
 	</div>
 	
 	<div class="dialog">
-		<form id="DeleteTransaction" action="" method="POST">
+		<form id="DeleteCategory" action="" method="POST">
 			<div class="dialog__content">
 				<div class="dialog__content-header">
-					<h2 class="dialog__content-header-label">Delete transaction</h2>
+					<h2 class="dialog__content-header-label">Delete category</h2>
 					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 				</div>
 				<div class="dialog__content-body">
-					<div class="dialog__form">
-						<div class="dialog__form-field">
-							<span>Are you sure delete record of this transaction ?</span>
+					<div class="dialog__form-category">
+						<div class="dialog__form-category-field">
+							<span>Are you sure delete record of this category ?</span>
 						</div>				
 						
 					</div>
 				</div>
 				<div class="dialog__content-footer">
-					<button type="button" class="delete__transaction-button" name="delTrBtn">
+					<button type="button" class="delete__category-button" name="delCatBtn">
 						<i class="fa-solid fa-trash fa-sm"></i> Delete
 					</button>
-					<button type="button" class="cancelAction__transaction-button" name="cancleActBtn">
-						<i class="fa-solid fa-file-export fa-sm"></i> Cancel
+					<button type="button" class="cancelAction__category-button" name="cancelActBtn">
+						<i class="fa-solid fa-ban fa-sm"></i> Cancel
 					</button>
 				</div>
 			</div>

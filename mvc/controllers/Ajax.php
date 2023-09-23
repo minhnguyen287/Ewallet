@@ -263,8 +263,57 @@
 				} 
 			} else {
 				echo json_encode("false");
+			}			
+		}
+
+		public function EditCategory()
+		{
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["AjaxData"],true);
+			if ( !empty($arr) ) {
+				$errors = array();
+
+				if (isset($arr['cat_id'])&&filter_var($arr['cat_id'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$cat_id = $arr['cat_id'];
+				} else{
+					$errors[] = "cat_id";
+				}
+
+				if (!empty($arr['cat_type'])) {
+					$cat_type = $arr['cat_type'];
+				} else{
+					$errors[] = "cat_type";
+				}
+
+				if (!empty($arr['cat_name'])) {
+					$cat_name = $arr['cat_name'];
+				} else{
+					$errors[] = "cat_name";
+				}
+
+				if (!empty($arr['cat_icon'])) {
+					$cat_icon = $arr['cat_icon'];
+				} else{
+					$errors[] = "cat_icon";
+				}
+
+				if (isset($arr['cat_color'])&&preg_match('/^#[a-z0-9]{6}$/',$arr['cat_color'])) {
+					$cat_color = $arr['cat_color'];
+				} else{
+					$errors[] = "cat_color";
+				}
 			}
-			
+				//2. insert database		
+				if(empty($errors)){		
+					$kq = $this->WalletModel->UpdateCategory($cat_id,$cat_type,$cat_name,$cat_color,$cat_icon);
+					if(json_decode($kq) == true){
+						echo $this->WalletModel->ShowACategory($cat_id);
+					} else{
+						echo json_encode($kq);
+					}
+				} else{
+					print_r($errors);
+				}
 		}
 		
 	} /* End Class */

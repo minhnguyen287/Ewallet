@@ -565,8 +565,9 @@ if (typeof(btnShowDeleteDialog[0])!== 'undefined') {
 	})
 }
 /* Ẩn modal khi click vào dấu X hoặc button cancel */
-if (true) {}
-btnCancelAction[0].addEventListener("click",()=>HideModal(dialog[1]));
+if (btnCancelAction[0]) {
+	btnCancelAction[0].addEventListener("click",()=>HideModal(dialog[1]));
+}
 btnCloseModal[1].addEventListener("click",()=>HideModal(dialog[1]));
 /* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
 window.addEventListener("click",function(event){
@@ -780,9 +781,11 @@ if (typeof(btnAddCategory[0])!=='undefined') {
 	btnAddCategory[0].style.background  = "#6259ca";
 	btnAddCategory[0].addEventListener('click',function(){
 		ShowModal(dialog[0]);
+		catNameInfor.innerText = "";
+		catTypeInfor.innerText = "";
 		categoryType.value = "";
 		categoryName.value = "";
-		categoryColor.value = "#45aaf2";
+		categoryColor.value = "#12D370";
 		for(let categotyIcon of categoryIcons){
 			if (categotyIcon.value == "sack-dollar") {
 				categotyIcon.setAttribute("checked","checked");
@@ -858,7 +861,6 @@ if (typeof(btnAddCategory[1])!=='undefined') {
 		let url = '../Ajax/AddANewCategory';
 		let method = "POST";
 		SendAjaxRequest(url,method,AddCategory,JSON.stringify(categoryData));
-		HideModal(dialog[0]);
 	})
 }
 
@@ -877,8 +879,10 @@ function AddCategory(data){
 		} else {
 			PopupMessage("failure","add","category");
 		}
+	}else {
+		PopupMessage("failure","add","category");
 	}
-	
+	HideModal(dialog[0]);
 }
 on('tbody', 'click', '.category__table-action-edit', ShowDialogUpdateCategory);
 //on('tbody', 'click', '.delete__table-action-edit', ShowDeleteDialog);
@@ -913,13 +917,78 @@ function ShowDialogUpdateCategory(event){
 					categotyIcon.removeAttribute("checked");
 				}
 			}
+			btnEditCategory.setAttribute("idC",categoryId);
 		}
 	}
-
+}
+if (btnEditCategory) {
+	btnEditCategory.addEventListener("click",function(){
+		var data = {cat_id:btnEditCategory.getAttribute("idC"),
+					cat_type:categoryType.value,
+					cat_name:categoryName.value,
+					cat_color:categoryColor.value};
+		for (var i = 0; i < categoryIcons.length ; i++) {
+			if (categoryIcons[i].checked) {
+				data["cat_icon"] = categoryIcons[i].value;
+			}
+		}
+		let url = "../Ajax/EditCategory";
+		let method = "POST";
+		SendAjaxRequest(url,method,EditCategory,JSON.stringify(data));
+	})
+}
+function EditCategory(data){
+	if (typeof(data)=="string") {
+		responseData = JSON.parse(data);
+		if(responseData != "false"){
+			let rowEdited = document.getElementById(responseData[0].cat_id);
+			rowEdited.querySelector("td:nth-child(2)").innerText = responseData[0].category_type;
+			rowEdited.querySelector("td:nth-child(3) span").innerText = responseData[0].category_name;
+			rowEdited.querySelector("td:nth-child(3) span").style.background = responseData[0].color;
+			rowEdited.querySelector("i").setAttribute("class","fa-solid fa-"+responseData[0].icon+" fa-sm");
+			PopupMessage('success','edit','category');
+		} else {
+			PopupMessage('failure','edit','category');
+		}
+	} else {
+		PopupMessage('failure','edit','category');
+	}
+	HideModal(dialog[0]);
 }
 
+on('tbody', 'click', '.category__table-action-delete',ShowCategoryDeleteDialog);
 
 
+function ShowCategoryDeleteDialog(){
+	var target = event.target;
+	var catId;
+	while(target && target !== document.querySelector('tbody')){
+		if(target.tagName == "TR"){
+			catId = target.getAttribute("id");
+		}
+		target = target.parentNode;
+		/* Reload lại các phần tử dùng để thông báo */
+		headerPopup.setAttribute("class","header__popup");
+		headerPopup.removeAttribute("style");
+		/* Gọi modal Delete*/
+		delFormContent.style.minWidth = "initial";
+		delFormContent.style.minHeight = "initial";
+		document.querySelector('.dialog__form-category').style.gridTemplateColumns = "1fr";
+		ShowModal(dialog[1]);
+		btnShowDeleteDialog[0].setAttribute("catId",catId);
+	}
+}
+
+/* Responsive modal nếu màn hình nhỏ */
+window.onresize = function(){
+	var width = window.screen.width;
+    //console.log(width);
+    if (width < 769) {
+    	delFormContent.style.minWidth = calculatePercentage(9,10)+"%";
+    } else {
+    	delFormContent.style.minWidth = "initial";
+    }
+}
 
 /*End */
 

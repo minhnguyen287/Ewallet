@@ -224,13 +224,13 @@ input:focus{
 		}
 	}
 }
-.add__account-button,.add__category-button,.edit__category-button,.delete__category-button,.listview-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancelAction__transaction-button{
+.add__account-button,.add__category-button,.edit__category-button,.delete__category-button,.listview-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancelAction__transaction-button,.cancelAction__category-button{
 	height: calc(50rem / 16);
 	color: #fff;
 	border:none;
 	border-radius: 0.4rem;
 }
-.add__account-button,.add__category-button,.edit__category-button,.delete__category-button,.listview-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancelAction__transaction-button:hover{
+.add__account-button,.add__category-button,.edit__category-button,.delete__category-button,.listview-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancelAction__transaction-button,.cancelAction__category-button:hover{
 	cursor: pointer;
 }
 .add__account-button{

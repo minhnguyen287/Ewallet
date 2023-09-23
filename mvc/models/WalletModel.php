@@ -42,6 +42,26 @@
 			}
 			return json_encode($result);
 		}
+
+		function UpdateCategory($cat_id,$type,$name,$color,$icon){
+			$cat_id = $this->con->real_escape_string(strip_tags($cat_id));
+			$type = $this->con->real_escape_string(strip_tags($type));
+			$name = $this->con->real_escape_string(strip_tags($name));
+			$color = $this->con->real_escape_string(strip_tags($color));
+			$icon = $this->con->real_escape_string(strip_tags($icon));
+			$q = "UPDATE category SET ";
+			$q .= "category_type = '$type', ";
+			$q .= "category_name = '$name', ";
+			$q .= "color = '$color', ";
+			$q .= "icon = '$icon' ";
+			$q .= "WHERE cat_id = $cat_id";
+			$result = false;
+			if ($this->con->query($q)) {
+				$result = true;
+			}
+			return json_encode($result);
+
+		}
 	}
 
  ?>

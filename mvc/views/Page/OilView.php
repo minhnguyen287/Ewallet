@@ -224,7 +224,7 @@
 						<i class="fa-solid fa-trash fa-sm"></i> Delete
 					</button>
 					<button type="button" class="cancelAction__transaction-button" name="cancleActBtn">
-						<i class="fa-solid fa-file-export fa-sm"></i> Cancel
+						<i class="fa-solid fa-ban fa-sm"></i> Cancel
 					</button>
 				</div>
 			</div>
