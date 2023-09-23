@@ -62,6 +62,35 @@
 			return json_encode($result);
 
 		}
+
+		public function DeleteCategory($id)
+		{
+			$id = $this->con->real_escape_string(strip_tags($id));
+			$q = "DELETE FROM oil WHERE och_id = $id";
+			$result = false;
+			if ($this->con->query($q)) {
+				$result = true;
+			}
+			return json_encode($result);
+		}
+
+		public function CountCategory()
+		{
+			$q = "SELECT COUNT(*) AS totalRecords FROM category";
+			$r = $this->con->query($q);
+			$result = $r->fetch_array(MYSQLI_ASSOC);
+			return json_encode($result);
+		}
+
+		public function ShowLimitCategory($start,$display){
+			$q = "SELECT * FROM category LIMIT $start, $display";
+			$record1 = $this->con->query($q);
+			$arr = array();
+			while ($r1 = $record1->fetch_array(MYSQLI_ASSOC)) {
+				$arr[] = $r1;
+			}
+			return json_encode($arr);
+		}
 	}
 
  ?>

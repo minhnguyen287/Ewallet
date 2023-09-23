@@ -155,7 +155,7 @@
 
 		public function DeleteTransaction(){
 			header("Content-Type: application/json");
-			$arr = json_decode($_POST["id"],true);
+			$arr = json_decode($_POST["AjaxData"],true);
 			if ( !empty($arr) ) {
 				$errors = array();
 
@@ -192,7 +192,13 @@
 			} else{
 				$display = 10;
 			}
-			echo $this->OilModel->ShowHistory($start,$display);
+			if ($arr["pagi_for"]=="oil") {
+				echo $this->OilModel->ShowHistory($start,$display);
+			}
+			if ($arr["pagi_for"]=="category") {
+				echo $this->WalletModel->ShowLimitCategory($start,$display);
+			}
+			
 		}
 
 		public function ShowListCategories()
@@ -314,6 +320,32 @@
 				} else{
 					print_r($errors);
 				}
+		}
+
+		public function DeleteCategory(){
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["AjaxData"],true);
+			if ( !empty($arr) ) {
+				$errors = array();
+
+				if (isset($arr['cat_id'])&&filter_var($arr['cat_id'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$cat_id = $arr['cat_id'];
+				} else{
+					$errors[] = "cat_id";
+				}
+			}
+
+			if(empty($errors)){		
+				$kq = $this->WalletModel->DeleteCategory($cat_id);
+				echo json_encode($kq);
+			} else{
+				print_r($errors);
+			}
+		}
+
+		public function TotalCategory()
+		{
+			echo $this->WalletModel->CountCategory();
 		}
 		
 	} /* End Class */

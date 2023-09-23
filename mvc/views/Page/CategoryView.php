@@ -123,6 +123,31 @@
 				</section>
 			</main>
 		</div>
+		<template id="newRow">
+			<tr class="rowContent">
+				<td data-cell="no">01.</td>
+				<td data-cell="category type">Salary</td>
+				<td data-cell="category name">
+					<span style="border-radius:20px;padding:10px;padding-left:20px;padding-right:20px;
+					background:#6259ca">
+						Salary of FRT
+					</span>
+				</td>
+				<td data-cell="icon">
+					<i style="font-size:2rem;" class="fa-solid fa-sack-dollar fa-sm"></i>
+				</td>
+				<td data-cell="Action">
+					<div class="oil__table-action">
+						<button class="oil__table-action-edit">
+							<i class="fa-solid fa-pen fa-sm"></i>
+						</button>
+						<button class="oil__table-action-delete">
+							<i class="fa-solid fa-trash fa-sm"></i>
+						</button>
+					</div>
+				</td>
+			</tr>
+		</template>
 
 		<template id="category__template">
 			<div class="category__content-item">
@@ -203,8 +228,8 @@
 					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 				</div>
 				<div class="dialog__content-body">
-					<div class="dialog__form-category">
-						<div class="dialog__form-category-field">
+					<div class="dialog__form">
+						<div class="dialog__form-field">
 							<span>Are you sure delete record of this category ?</span>
 						</div>				
 						
@@ -214,7 +239,7 @@
 					<button type="button" class="delete__category-button" name="delCatBtn">
 						<i class="fa-solid fa-trash fa-sm"></i> Delete
 					</button>
-					<button type="button" class="cancelAction__category-button" name="cancelActBtn">
+					<button type="button" class="cancel__action-button" name="cancelActBtn">
 						<i class="fa-solid fa-ban fa-sm"></i> Cancel
 					</button>
 				</div>

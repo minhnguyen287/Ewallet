@@ -18,7 +18,7 @@
 	delFormContent, delForm là viết tắt của dialog__form[1] và dialog__content[1] khi gọi ra bằng document.getElementsByClassName
 	dùng 2 đối tượng này để custom Form delete của Modal delete vì nó là Modal riêng, ko giông Modal add và update
 
-	btnAddTransaction, btnShowEditDialog, btnShowDeleteDialog, btnCancelAction là 4 button action để thực hiện
+	btnAddTransaction, btnEditTransaction, btnDeleteTransaction, btnCancelAction là 4 button action để thực hiện
 	4 tính năng thêm, sửa, xoá, và huỷ hành động xoá của Form trong đó đặc biệt btnAddTransaction ccaafn chú ý
 	btnAddTransaction[0] là button để gọi Form Add (dialof[0])
 	btnAddTransaction[1] dùng để thực hiện hành động add transaction
@@ -32,9 +32,9 @@
 */
 
 var btnAddTransaction = document.getElementsByClassName("add__transaction-button");
-var btnShowEditDialog = document.getElementsByClassName('edit__transaction-button');
-var btnShowDeleteDialog = document.getElementsByClassName('delete__transaction-button');
-var btnCancelAction = document.getElementsByClassName('cancelAction__transaction-button');
+var btnEditTransaction = document.getElementsByClassName('edit__transaction-button');
+var btnDeleteTransaction = document.getElementsByClassName('delete__transaction-button');
+var btnCancelAction = document.querySelector('.cancel__action-button');
 var btnCloseModal = document.getElementsByClassName("dialog__content-header-close");
 
 var headerPopup = document.querySelector(".header__popup");
@@ -130,7 +130,7 @@ function ShowAddDialog(data){
 if (typeof(btnAddTransaction[0])!=='undefined') {
 	btnAddTransaction[0].onclick = function(){
 		/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
-		RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnShowEditDialog[0]])
+		RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnEditTransaction[0]])
 		ShowModal(dialog[0]);
 		/* Reload lại các phần tử dùng để thông báo */
 		headerPopup.setAttribute("class","header__popup");
@@ -381,7 +381,7 @@ function ShowEditDialog(){
 	labelField_startKm.innerText = "";
 	labelField_endKm.innerText = "";
 	labelField_product.innerText = "";
-	RetitleDialog(titleDialog,'Edit transaction',[btnShowEditDialog[0]],[btnAddTransaction[1]]);
+	RetitleDialog(titleDialog,'Edit transaction',[btnEditTransaction[0]],[btnAddTransaction[1]]);
 	/* Gọi Ajax load dữ liệu của bản ghi tương ứng với số transactionId khi button Edit được click*/
 	let id = JSON.stringify({"tranId":transactionId});
 	let url = './Ajax/ShowTransactionById';
@@ -395,7 +395,7 @@ function ShowEditDialog(){
 		dialogForm_startKm.value = responseData.start_km;
 		dialogForm_endKm.value = responseData.end_km;
 		dialogForm_product.value = responseData.product_id;
-		btnShowEditDialog[0].setAttribute("transactionId",transactionId);
+		btnEditTransaction[0].setAttribute("transactionId",transactionId);
 		/* Xoá ErrorCode trong mảng báo lỗi isCorrectInput. Vì dùng chung 1 dialog. Nếu trước đó 
 		các chỉ mục label trong Add Form bị lỗi do nhập sai định dạng dữ liệu thì khi ấn vào btnEdit 
 		sẽ phải xoá lỗi ở các chỉ mục label thì mới hợp logic*/
@@ -432,8 +432,8 @@ function on(parentSelector, eventName, selector, fn) {
 //on('tbody', 'click', '.oil__table-action-edit', ShowEditDialog);
 
 /* Code tính năng sửa đổi bản ghi lịch sử thay dầu */
-if (typeof(btnShowEditDialog[0])!== 'undefined') {
-	btnShowEditDialog[0].addEventListener('click',function(){
+if (typeof(btnEditTransaction[0])!== 'undefined') {
+	btnEditTransaction[0].addEventListener('click',function(){
 		if (isCorrectInput.length !== 0) {
 			ShowModal(dialog[0]);
 			if (isCorrectInput.indexOf("dialogForm_startKm")!=-1) {
@@ -446,7 +446,7 @@ if (typeof(btnShowEditDialog[0])!== 'undefined') {
 				labelField_product.innerText = "Please select an option";
 			}	
 		} else{
-			var data = {transId:btnShowEditDialog[0].getAttribute("transactionId"),
+			var data = {transId:btnEditTransaction[0].getAttribute("transactionId"),
 			startDay:dialogForm_startDay.value,
 			endDay:dialogForm_endDay.value,
 			startKm:dialogForm_startKm.value,
@@ -464,7 +464,7 @@ if (typeof(btnShowEditDialog[0])!== 'undefined') {
 					let responseData = JSON.parse(data);
 					if (responseData != "false") {
 						/* Update dòng dữ liệu đã được chỉnh sửa */
-						let rowEdited = document.getElementById(btnShowEditDialog[0].getAttribute("transactionId"));
+						let rowEdited = document.getElementById(btnEditTransaction[0].getAttribute("transactionId"));
 						//console.log(rowEdited);
 						//console.log(rowEdited.querySelector("td:nth-child(2)"));
 						rowEdited.querySelector("td:nth-child(2)").innerText = responseData.product_name;
@@ -515,7 +515,7 @@ function ShowDeleteDialog(){
 		delFormContent.style.minHeight = "initial";
 		delForm.style.gridTemplateColumns = "1fr";
 		ShowModal(dialog[1]);
-		btnShowDeleteDialog[0].setAttribute("transId",transactionId);
+		btnDeleteTransaction[0].setAttribute("transId",transactionId);
 	}
 }
 /* Dùng hàm on() được viết lại từ cách sử dụng event delegation để áp dụng event cho các button delete được thêm sau khi load trang*/
@@ -538,12 +538,12 @@ window.onresize = function(){
 }
 
 /* Code tính năng xoá 1 bản ghi lịch sử thay dầu */
-if (typeof(btnShowDeleteDialog[0])!== 'undefined') {
-	btnShowDeleteDialog[0].addEventListener('click',()=>{
-		var transId = btnShowDeleteDialog[0].getAttribute("transId");
+if (typeof(btnDeleteTransaction[0])!== 'undefined') {
+	btnDeleteTransaction[0].addEventListener('click',()=>{
+		var transId = btnDeleteTransaction[0].getAttribute("transId");
 		var data = JSON.stringify({transactionId:transId});
 		let method = "POST";
-		let url = './Ajax/ShowDeleteDialog';
+		let url = './Ajax/DeleteTransaction';
 		SendAjaxRequest(url, method, DeleteTransaction, data);	
 
 		function DeleteTransaction(data){
@@ -565,8 +565,8 @@ if (typeof(btnShowDeleteDialog[0])!== 'undefined') {
 	})
 }
 /* Ẩn modal khi click vào dấu X hoặc button cancel */
-if (btnCancelAction[0]) {
-	btnCancelAction[0].addEventListener("click",()=>HideModal(dialog[1]));
+if (btnCancelAction) {
+	btnCancelAction.addEventListener("click",()=>HideModal(dialog[1]));
 }
 btnCloseModal[1].addEventListener("click",()=>HideModal(dialog[1]));
 /* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
@@ -628,20 +628,35 @@ function CustomizeViewTable(data){
 		responseData = JSON.parse(data);
 		let new_tbody = document.createElement('tbody');
 		let templateFrag = document.querySelector("#newRow").content;
-		for (var i = 0 ; i < responseData.length ;i++){
+		if (urlArray.indexOf("Oil")!=-1) {
+			for (var i = 0 ; i < responseData.length ;i++){
 			//Sử dụng cloneNode để sao chép toàn bộ phần tử template 
-			var templ = templateFrag.cloneNode(true);
-			responseData[i].och_id < 10 ? rowId = '0' + responseData[i].och_id : rowId = responseData[i].och_id;
-			templ.querySelector(".rowContent").setAttribute("id",responseData[i].och_id);
-			templ.querySelector("td").innerText = rowId+".";
-			templ.querySelector(".rowContent td:nth-child(2)").innerText = responseData[i].product_name;
-			templ.querySelector(".rowContent td:nth-child(3)").innerText = responseData[i].end_day;
-			templ.querySelector(".rowContent td:nth-child(4)").innerText = responseData[i].total_days;
-			templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
-			templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].product_price;
-			templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
-			templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
-			new_tbody.appendChild(templ);
+				var templ = templateFrag.cloneNode(true);
+				responseData[i].och_id < 10 ? rowId = '0' + responseData[i].och_id : rowId = responseData[i].och_id;
+				templ.querySelector(".rowContent").setAttribute("id",responseData[i].och_id);
+				templ.querySelector("td").innerText = rowId+".";
+				templ.querySelector(".rowContent td:nth-child(2)").innerText = responseData[i].product_name;
+				templ.querySelector(".rowContent td:nth-child(3)").innerText = responseData[i].end_day;
+				templ.querySelector(".rowContent td:nth-child(4)").innerText = responseData[i].total_days;
+				templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
+				templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].product_price;
+				templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
+				templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
+				new_tbody.appendChild(templ);
+			}
+		} else if(urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1){
+			for (var i = 0 ; i < responseData.length ;i++){
+				var templ = templateFrag.cloneNode(true);
+				responseData[i].cat_id < 10 ? rowId = '0' + responseData[i].cat_id : rowId = responseData[i].cat_id;
+				templ.querySelector(".rowContent").setAttribute("id",responseData[i].cat_id);
+				templ.querySelector("td").innerText = rowId+".";
+				templ.querySelector(".rowContent td:nth-child(2)").innerText = responseData[i].category_type;
+				templ.querySelector(".rowContent td:nth-child(3) span").innerText = responseData[i].category_name;
+				templ.querySelector(".rowContent td:nth-child(3) span").style.background = responseData[i].color;
+				templ.querySelector("i").setAttribute("class","fa-solid fa-"+responseData[i].icon+" fa-sm");
+				templ.querySelector(".rowContent td:nth-child(5)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
+				new_tbody.appendChild(templ);
+			}
 		}
 		document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));	
 	}
@@ -674,6 +689,11 @@ window.addEventListener("load",function(event){
 		let initUrl = './Ajax/NumberOfTransaction';
 		let initMethod = "GET";
 		SendAjaxRequest(initUrl,initMethod,InitializeView);
+	} 
+	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
+		let initUrl = '../Ajax/TotalCategory';
+		let initMethod = "GET";
+		SendAjaxRequest(initUrl,initMethod,InitializeView);
 	}
 })
 var paginationUrl = './Ajax/Pagination';
@@ -690,10 +710,21 @@ if(entries,btnNextPage,btnPreviousPage){
 		} else{
 			DisableButton(btnNextPage);
 		}
-		let data = JSON.stringify({
-					"start":pagination.startIndex,
-					"display":entries.value });
-		SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+		if (urlArray.indexOf("Oil")!=-1) {
+			let data = JSON.stringify({
+				"start":pagination.startIndex,
+				"display":entries.value,
+				"pagi_for":"oil" });
+			SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+		}
+		if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1) {
+			let data = JSON.stringify({
+				"start":pagination.startIndex,
+				"display":entries.value,
+				"pagi_for":"category" });
+			let paginationUrl = "../Ajax/Pagination";
+			SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+		}
 		NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 	})
 	/* Code khi click btnNextPage */
@@ -708,10 +739,21 @@ if(entries,btnNextPage,btnPreviousPage){
 				DisableButton(btnNextPage);
 			}
 			EnableButton(btnPreviousPage);
-			let data = JSON.stringify({
+			if (urlArray.indexOf("Oil")!=-1) {
+				let data = JSON.stringify({
 					"start":pagination.startIndex,
-					"display":pagination.display });
-			SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+					"display":pagination.display,
+					"pagi_for":"oil" });
+				SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+			}
+			if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1) {
+				let data = JSON.stringify({
+					"start":pagination.startIndex,
+					"display":pagination.display,
+					"pagi_for":"category" });
+				let paginationUrl = "../Ajax/Pagination";
+				SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+			}
 			NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 		}		
 	})
@@ -727,10 +769,21 @@ if(entries,btnNextPage,btnPreviousPage){
 				DisableButton(btnPreviousPage);
 			}
 			EnableButton(btnNextPage);
-			let data = JSON.stringify({
+			if (urlArray.indexOf("Oil")!=-1) {
+				let data = JSON.stringify({
 					"start":pagination.startIndex,
-					"display":pagination.display });
-			SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+					"display":pagination.display,
+					"pagi_for":"oil" });
+				SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+			}
+			if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1) {
+				let data = JSON.stringify({
+					"start":pagination.startIndex,
+					"display":pagination.display,
+					"pagi_for":"category" });
+				let paginationUrl = "../Ajax/Pagination";
+				SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+			}
 			NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 		}		
 	})
@@ -957,7 +1010,7 @@ function EditCategory(data){
 }
 
 on('tbody', 'click', '.category__table-action-delete',ShowCategoryDeleteDialog);
-
+var btnDeleteCategory = document.querySelector(".delete__category-button");
 
 function ShowCategoryDeleteDialog(){
 	var target = event.target;
@@ -973,10 +1026,37 @@ function ShowCategoryDeleteDialog(){
 		/* Gọi modal Delete*/
 		delFormContent.style.minWidth = "initial";
 		delFormContent.style.minHeight = "initial";
-		document.querySelector('.dialog__form-category').style.gridTemplateColumns = "1fr";
+		delFormContent.style.top = ((window.innerHeight/2) - (delFormContent.offsetHeight/2))+'px';
+		document.querySelector(".dialog__form").style.gridTemplateColumns = "1fr";
 		ShowModal(dialog[1]);
-		btnShowDeleteDialog[0].setAttribute("catId",catId);
+		btnDeleteCategory.setAttribute("catId",catId);
 	}
+}
+if (typeof(btnDeleteCategory)!== 'undefined') {
+	btnDeleteCategory.addEventListener('click',()=>{
+		var catid = btnDeleteCategory.getAttribute("catid");
+		var data = JSON.stringify({cat_id:catid});
+		let method = "POST";
+		let url = '../Ajax/DeleteCategory';
+		SendAjaxRequest(url, method, DeleteCategory, data);	
+
+		function DeleteCategory(data){
+			if (typeof(data)==="string") {
+				let responseData = JSON.parse(data);
+				if(responseData != "false"){
+					/* Hàm rowIndex dùng để lấy ra vị trí của hàng có id = transId trong bảng*/
+					let index = document.getElementById(catid).rowIndex;
+					/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
+					document.querySelector('tbody').deleteRow(index-1);
+					PopupMessage("success","delete","category");
+				} else {
+					/*In ra câu thông báo thất bại*/
+					PopupMessage("failure","delete","category");
+				}
+			}
+		}
+		HideModal(dialog[1]);
+	})
 }
 
 /* Responsive modal nếu màn hình nhỏ */

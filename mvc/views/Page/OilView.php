@@ -223,7 +223,7 @@
 					<button type="button" class="delete__transaction-button" name="delTrBtn">
 						<i class="fa-solid fa-trash fa-sm"></i> Delete
 					</button>
-					<button type="button" class="cancelAction__transaction-button" name="cancleActBtn">
+					<button type="button" class="cancel__action-button" name="cancleActBtn">
 						<i class="fa-solid fa-ban fa-sm"></i> Cancel
 					</button>
 				</div>
