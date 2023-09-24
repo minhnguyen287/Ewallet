@@ -17,7 +17,7 @@
 		}
 
 		public function Category(){
-			$list = $this->WalletModel->ShowCategory(-100);
+			$list = $this->WalletModel->ShowLimitCategory(0,10);
 			$this->view("MasterLayout",["Page"=>"CategoryView",
 									   "CategoryList"=>$list]);
 		}

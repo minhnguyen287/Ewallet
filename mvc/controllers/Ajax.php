@@ -18,7 +18,7 @@
 		{
 			echo $this->OilModel->ShowARecordById(0);
 		}
-		public function AddNewTransaction(){
+		public function AddNewRecord(){
 			header("Content-Type: application/json");
 			$arr = json_decode($_POST["AjaxData"],true);
 			//$arr là dạng mảng sau khi dùng hàm json_decode
@@ -73,7 +73,7 @@
 			}
 		}
 
-		public function ShowTransactionById(){
+		public function ShowRecordById(){
 			header("Content-Type: application/json");
 			$arr = json_decode($_POST["AjaxData"],true);
 			if ( !empty($arr) ) {
@@ -93,7 +93,7 @@
 			}
 		}
 
-		public function UpdateTransaction(){
+		public function UpdateRecord(){
 			header("Content-Type: application/json");
 			$arr = json_decode($_POST["AjaxData"],true);
 			//var_export($arr);
@@ -153,7 +153,7 @@
 			}
 		}
 
-		public function DeleteTransaction(){
+		public function DeleteRecord(){
 			header("Content-Type: application/json");
 			$arr = json_decode($_POST["AjaxData"],true);
 			if ( !empty($arr) ) {
@@ -174,7 +174,7 @@
 			}
 		}
 
-		public function NumberOfTransaction(){
+		public function NumberOfRecord(){
 			echo $this->OilModel->CountRecord();
 		}
 

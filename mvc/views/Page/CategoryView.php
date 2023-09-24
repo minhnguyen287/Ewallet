@@ -138,10 +138,10 @@
 				</td>
 				<td data-cell="Action">
 					<div class="oil__table-action">
-						<button class="oil__table-action-edit">
+						<button class="category__table-action-edit">
 							<i class="fa-solid fa-pen fa-sm"></i>
 						</button>
-						<button class="oil__table-action-delete">
+						<button class="category__table-action-delete">
 							<i class="fa-solid fa-trash fa-sm"></i>
 						</button>
 					</div>
