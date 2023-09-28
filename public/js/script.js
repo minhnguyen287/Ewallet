@@ -149,7 +149,7 @@ function calculatePercentage(x, y)
 
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
 btnCloseModal[0].addEventListener("click",()=>HideModal(dialog[0]));
-/* Ẩn modal khi click vào button Cancel */
+btnCloseModal[1].addEventListener("click",()=>HideModal(dialog[1]));
 if (btnCancelAction) {
 	btnCancelAction.addEventListener("click",()=>HideModal(dialog[1]));
 }
@@ -449,6 +449,10 @@ Tạo ra 1 mảng chứa mã lỗi , nếu dữ liệu nhập vào hợp lệ s�
 				let url = './Ajax/AddNewRecord';
 				let method = "POST";		
 				SendAjaxRequest(url,method,AddNewRecord,JSON.stringify(data));
+				/*Cập nhật lại chỉ số phân trang*/
+				let initUrl = './Ajax/NumberOfRecord';
+				let initMethod = "GET";
+				SendAjaxRequest(initUrl,initMethod,InitializeView);
 				HideModal(dialog[0]);
 			}
 		})
@@ -779,17 +783,17 @@ var categoryColor = document.getElementById('form__add-cat_color');
 var categoryIcons = document.getElementsByName("icon");
 var catNameInfor = document.getElementById("category_name_info");
 var catTypeInfor = document.getElementById("category_type_info");
+var viewChange = document.querySelector(".changeview-button"); 
 
 window.onload = function(){
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
-		//console.log(urlArray);
 		let url = '../Ajax/ShowListCategories';
 		let method = "GET";
-		SendAjaxRequest(url,method,ShowCategory);
+		SendAjaxRequest(url,method,ShowCategoryView);
 	}
 }
 
-function ShowCategory(data){
+function ShowCategoryView(data){
 	if (typeof(data)==="string") {
 		responseData = JSON.parse(data);
 		let templateFrag = document.querySelector('#category__template').content;
@@ -989,6 +993,9 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 			let url = '../Ajax/AddANewCategory';
 			let method = "POST";
 			SendAjaxRequest(url,method,AddCategory,JSON.stringify(categoryData));
+			let initUrl = '../Ajax/TotalCategory';
+			let initMethod = "GET";
+			SendAjaxRequest(initUrl,initMethod,InitializeView);
 		})
 	}
 
@@ -1024,6 +1031,31 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 			HideModal(dialog[1]);
 		})
 	}
+
+	viewChange.addEventListener("click",function(){
+		let categoryView = document.querySelector('.category__content');
+		let listView = document.querySelector('#list__content');
+		if (viewChange.value == "category view") {
+			viewChange.value = "list view";
+			viewChange.style.width = "calc(90rem / 16)";
+			viewChange.querySelector("i").setAttribute("class","fa-solid fa-table-list");
+			viewChange.querySelector("span").innerText = "List View";
+			// categoryView.style.display = "grid";
+			// listView.style.display = "none";
+		}else if(viewChange.value == "list view") {
+			viewChange.value = "category view";
+			viewChange.style.width = "calc(90rem / 12)";
+			viewChange.querySelector("i").setAttribute("class","fa-solid fa-clipboard");
+			viewChange.querySelector("span").innerText = "Category View";
+			// categoryView.style.display = "none";
+			// listView.style.display = "block";
+			let oldCat = categoryView.children;
+			for (var i = 0; i < oldCat.length; i++) {
+				oldCat[0].remove();
+				
+			}
+		}
+	})
 }
 
 /*End */

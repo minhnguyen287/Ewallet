@@ -224,13 +224,13 @@ input:focus{
 		}
 	}
 }
-.add__account-button,.add__category-button,.edit__category-button,.delete__category-button,.listview-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancel__action-button{
+.add__account-button,.add__category-button,.edit__category-button,.delete__category-button,.changeview-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancel__action-button{
 	height: calc(50rem / 16);
 	color: #fff;
 	border:none;
 	border-radius: 0.4rem;
 }
-.add__account-button,.add__category-button,.edit__category-button,.delete__category-button,.listview-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancel__action-button:hover{
+.add__account-button,.add__category-button,.edit__category-button,.delete__category-button,.changeview-button,.export-button,.add__transaction-button,.edit__transaction-button,.delete__transaction-button,.cancel__action-button:hover{
 	cursor: pointer;
 }
 .add__account-button{
@@ -238,7 +238,7 @@ input:focus{
 	background: #6259ca;
 	margin-right: 1rem;
 }
-.export-button,.listview-button{
+.export-button,.changeview-button{
 	width: calc(90rem / 16);
 	background: #13bfa6;
 }
@@ -1337,7 +1337,7 @@ td{
 			}
 		}
 	}
-	.add__account-button,.listview-button,.export-button,.listview-button {
+	.add__account-button,.changeview-button,.export-button,.changeview-button {
     	width: 100%;
     }
     .add__account-button{

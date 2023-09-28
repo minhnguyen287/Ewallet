@@ -10,13 +10,13 @@
 			<button class="add__category-button">
 				<i class="fa-solid fa-plus"></i> Add Category
 			</button>
-			<button class="listview-button">
-				<i class="fa-solid fa-table-list"></i> List View
+			<button class="changeview-button" value="list view">
+				<i class="fa-solid fa-table-list"></i> <span>List View</span>
 			</button>
 		</div>
 	</div>
 	<div class="main__content">
-		<div class="category__content" style="display: none;">
+		<div class="category__content">
 			<!-- <div class="category__content-item" style="background: {{color}}">
 				<div class="category__content-item-left">
 					<div class="category__content-item-left-header"><h1>{{type}}</h1></div>
@@ -31,7 +31,7 @@
 				</div>
 			</div> -->	
 		</div>
-		<div id="list__template">
+		<div id="list__content" style="display: none;">
 			<main class="layout-content">
 				<section class="layout_content table__header">
 					<h2>List of My category</h2>
