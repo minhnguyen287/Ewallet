@@ -4,7 +4,8 @@ body {
   position: relative; }
 
 a {
-  text-decoration: none; }
+  text-decoration: none;
+  color: #0097ff; }
 
 .wrapper {
   width: 1920px;
@@ -341,7 +342,7 @@ input:focus {
 thead {
   text-align: center; }
 
-table, tr, td {
+table, tr, th, td {
   font-size: 1rem;
   --component__space:30px;
   padding: 1rem;
@@ -350,9 +351,12 @@ table, tr, td {
   box-sizing: border-box;
   width: calc(100% - var(--component__space)*2);
   margin: 30px; }
-  table img, tr img, td img {
+  table img, tr img, th img, td img {
     width: 50px;
     height: 50px; }
+
+th {
+  text-align: center; }
 
 td[data-cell="product name"] {
   text-transform: uppercase; }
@@ -371,24 +375,36 @@ tr:nth-child(even) {
 .table__body-content {
   min-height: 400px; }
 
-.oil__table-action-edit, .category__table-action-edit {
-  background: #6259ca;
-  width: 50px;
-  height: 45px;
-  color: #fff;
-  border: none;
-  border-radius: 5px; }
-.oil__table-action-delete, .category__table-action-delete {
-  background: #f82649;
-  width: 50px;
-  height: 45px;
-  color: #fff;
-  border: none;
-  border-radius: 5px; }
+.oil__table-action, .category__table-action {
+  color: #e6c220;
+  text-align: center; }
+  .oil__table-action-edit, .category__table-action-edit {
+    background: #6259ca;
+    width: 50px;
+    height: 45px;
+    color: #fff;
+    border: none;
+    border-radius: 5px; }
+  .oil__table-action-delete, .category__table-action-delete {
+    background: #f82649;
+    width: 50px;
+    height: 45px;
+    color: #fff;
+    border: none;
+    border-radius: 5px; }
+  .oil__table-action-view, .category__table-action-view {
+    background: #13bfa6;
+    width: 50px;
+    height: 45px;
+    color: #fff;
+    border: none;
+    border-radius: 5px; }
+  .oil__table-action::hover, .category__table-action::hover {
+    cursor: pointer; }
 
-.table__transaction .oil__table-action-edit, .table__transaction .oil__table-action-delete {
-  width: 30px;
-  height: 30px; }
+.table__transaction .oil__table-action-edit, .table__transaction .oil__table-action-delete, .table__transaction .oil__table-action-view {
+  width: 35px;
+  height: 35px; }
 .table__transaction-column {
   padding: 0.5rem; }
   .table__transaction-column:last-child {
@@ -510,6 +526,27 @@ tr:nth-child(even) {
     border-top: 1px solid #45455f;
     display: flex;
     justify-content: flex-end; }
+
+.transaction__dialog {
+  opacity: 0;
+  visibility: hidden; }
+  .transaction__dialog-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    min-width: 1200px;
+    background: #22223d;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 1rem;
+    color: #fff; }
+    .transaction__dialog-content-body {
+      display: none; }
+
+.table__transaction-column:last-child {
+  min-width: 91px; }
 
 .dialog__form {
   display: grid;
@@ -852,50 +889,8 @@ input:checked ~ label .dialog__form-category-field-icon-label {
   .footer {
     grid-column: 1 / span 4; }
 
-  table:has(.table__transaction) {
-    border: none; }
-
-  .table__transaction {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 30px; }
-    .table__transaction-label {
-      position: absolute;
-      top: -9999px;
-      left: -9999px; }
-    .table__transaction-row {
-      margin: 0;
-      width: 100%;
-      border: 1px solid #45455f;
-      background: #37375b; }
-    .table__transaction-column {
-      display: block;
-      border: none;
-      border-bottom: 1px solid #45455f;
-      position: relative;
-      padding-left: 50%;
-      margin: 0;
-      font-size: 0.7rem;
-      width: 100%;
-      padding-top: 10px;
-      padding-bottom: 10px; }
-      .table__transaction-column::before {
-        content: attr(data-cell);
-        text-transform: capitalize;
-        font-weight: 600;
-        /* Now like a table header */
-        position: absolute;
-        /* Top/left values mimic padding */
-        left: 0;
-        width: 48%;
-        white-space: nowrap; }
-      .table__transaction-column .oil__table-action-edit, .table__transaction-column .oil__table-action-delete {
-        width: 30px;
-        height: 30px; }
-      .table__transaction-column:last-child {
-        border: none;
-        padding-bottom: 0;
-        padding-left: 50%; } }
+  .transaction__dialog-content {
+    min-width: 1000px; } }
 @media screen and (max-width: 1279px) {
   .wrapper {
     width: 1024px; }
@@ -933,6 +928,12 @@ input:checked ~ label .dialog__form-category-field-icon-label {
 
   .dialog__content {
     min-width: 678px; }
+
+  .transaction__dialog-content {
+    min-width: initial; }
+    .transaction__dialog-content td:nth-child(6) {
+      display: block;
+      border: none; }
 
   #item__toggle {
     display: none; }
@@ -996,7 +997,55 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     .dialog__form-field {
       margin-bottom: 15px; }
     .dialog__form-category-field-input[type="color"] {
-      height: 110px; } }
+      height: 110px; }
+
+  table:has(.table__transaction) {
+    border: none; }
+
+  .table__transaction {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px; }
+    .table__transaction-label {
+      position: absolute;
+      top: -9999px;
+      left: -9999px; }
+    .table__transaction-row {
+      margin: 0;
+      width: 100%;
+      border: 1px solid #45455f;
+      background: #37375b; }
+    .table__transaction-column {
+      display: block;
+      border: none;
+      border-bottom: 1px solid #45455f;
+      position: relative;
+      padding-left: 50%;
+      margin: 0;
+      font-size: 0.7rem;
+      width: 100%;
+      padding-top: 10px;
+      padding-bottom: 10px; }
+      .table__transaction-column::before {
+        content: attr(data-cell);
+        text-transform: capitalize;
+        font-weight: 600;
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        left: 0;
+        width: 48%;
+        white-space: nowrap; }
+      .table__transaction-column .oil__table-action-edit, .table__transaction-column .oil__table-action-delete, .table__transaction-column .oil__table-action-view {
+        width: 30px;
+        height: 30px; }
+      .table__transaction-column:last-child {
+        border: none;
+        padding-bottom: 0;
+        padding-left: 50%; }
+
+  .oil__table-action, .category__table-action {
+    text-align: left; } }
 @media screen and (max-width: 767px) {
   .wrapper {
     width: 412px; }

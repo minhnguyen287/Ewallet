@@ -5,7 +5,7 @@
 	class WalletModel extends DB
 	{
 		
-		function ShowCategory($id)
+		public function ShowCategory($id)
 		{
 			$q = "SELECT * FROM category";
 			if ($id != -100) {
@@ -19,7 +19,7 @@
 			return json_encode($arr);
 		}
 
-		function ShowACategory($id)
+		public function ShowACategory($id)
 		{
 			$q = "SELECT * FROM category WHERE cat_id = $id";
 			$r = $this->con->query($q);
@@ -30,7 +30,7 @@
 			return json_encode($arr);
 		}
 
-		function AddCategory($type,$name,$color,$icon){
+		public function AddCategory($type,$name,$color,$icon){
 			$type = $this->con->real_escape_string(strip_tags($type));
 			$name = $this->con->real_escape_string(strip_tags($name));
 			$color = $this->con->real_escape_string(strip_tags($color));
@@ -43,7 +43,7 @@
 			return json_encode($result);
 		}
 
-		function UpdateCategory($cat_id,$type,$name,$color,$icon){
+		public function UpdateCategory($cat_id,$type,$name,$color,$icon){
 			$cat_id = $this->con->real_escape_string(strip_tags($cat_id));
 			$type = $this->con->real_escape_string(strip_tags($type));
 			$name = $this->con->real_escape_string(strip_tags($name));
@@ -91,6 +91,19 @@
 			}
 			return json_encode($arr);
 		}
-	}
 
+		public function ShowTransaction()
+		{
+			//$q = "SELECT DATE_FORMAT(tran_date,'%d.%m.%Y') AS 'DATE',(SELECT SUM(tran_amount) FROM transaction WHERE tran_type = 0 ) AS 'THU',(SELECT  SUM(tran_amount) FROM transaction WHERE tran_type = 1) AS 'CHI' FROM transaction GROUP BY tran_date";
+			$q = "SELECT DATE_FORMAT(tran_date,'%d.%m.%Y') AS 'DATE',SUM(CASE WHEN tran_type = 't' THEN tran_amount ELSE 0 END) AS 'THU',SUM(CASE WHEN tran_type = 'c' THEN tran_amount ELSE 0 END) AS 'CHI' FROM transaction GROUP BY tran_date";
+			
+			$record1 = $this->con->query($q);
+			$arr = array();
+			while ($r1 = $record1->fetch_array(MYSQLI_ASSOC)) {
+				$arr[] = $r1;
+			}
+			return json_encode($arr);
+		}
+	}
+	//https://stackoverflow.com/questions/13777940/in-1-query-2-results-using-2-conditions
  ?>

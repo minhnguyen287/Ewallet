@@ -1,6 +1,7 @@
 $icon__size:50px;
 $component__space:30px;
 $line__color:#45455f;
+$link__color:#0097ff;
 
 body{
 	font-family: "Poppins", sans-serif;
@@ -9,6 +10,7 @@ body{
 }
 a{
 	text-decoration: none;
+	color: $link__color;
 }
 .wrapper{
 	width: 1920px;
@@ -433,7 +435,7 @@ input:focus{
 	margin:$component__space;
 }
 thead{text-align: center;}
-table, tr, td {
+table, tr, th, td {
 	font-size: 1rem;
 	--component__space:30px;
 	padding: 1rem;
@@ -446,6 +448,9 @@ table, tr, td {
 		width: 50px;
 		height: 50px;
 	}
+}
+th{
+	text-align: center;
 }
 td[data-cell="product name"]{
 	text-transform: uppercase;
@@ -473,6 +478,8 @@ tr{
 	}
 }
 .oil__table-action,.category__table-action{
+	color:#e6c220;
+	text-align: center;
 	&-edit{
 		background: #6259ca;
 		width: 50px;
@@ -489,11 +496,22 @@ tr{
 		border: none;
 		border-radius: 5px;
 	}
+	&-view{
+		background: #13bfa6;
+		width: 50px;
+		height: 45px;
+		color: #fff;
+		border: none;
+		border-radius: 5px;
+	}
+	&::hover{
+		cursor: pointer;
+	}
 }
 .table__transaction{
-	& .oil__table-action-edit, .oil__table-action-delete{
-		width: 30px;
-		height: 30px;
+	& .oil__table-action-edit,.oil__table-action-delete,.oil__table-action-view{
+		width: 35px;
+		height: 35px;
 	}
 	&-column{
 		padding: 0.5rem;
@@ -596,7 +614,6 @@ tr{
     animation-name: fadeIn;
   	animation-duration: 0.4s
 }
-
 .dialog__content{
 	display: flex;
 	flex-direction: column;
@@ -646,6 +663,32 @@ tr{
   		justify-content: flex-end;
   	}
 }
+.transaction__dialog{
+	opacity: 0;
+    visibility: hidden;
+    &-content{
+    	display: flex;
+    	flex-direction: column;
+    	min-height: 400px;
+    	min-width: 1200px;
+    	background: #22223d;
+    	position:absolute;
+    	top: 50%;
+    	left: 50%;
+    	transform: translate(-50%, -50%);
+    	border-radius: 1rem;
+    	color: #fff;
+    	&-body{
+    		display: none;
+    	}
+    }
+}
+.table__transaction-column{
+	&:last-child{
+		min-width: 91px;
+	}
+}
+
 .dialog__form{
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -1100,60 +1143,11 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 	.footer{
 		grid-column:1 / span 4;
 	}
-
-	table:has(.table__transaction){
-		border: none;
-	}
-	.table__transaction{
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-gap: $component__space;
-		&-label{
-			position: absolute;
-			top: -9999px;
-			left: -9999px;
-		}
-		&-row{
-			margin: 0;
-			width: 100%;
-			border: 1px solid $line__color;
-			background: #37375b;
-		}
-		&-column{
-			display: block;
-			border: none;
-			border-bottom: 1px solid $line__color; 
-			position: relative;
-			padding-left: 50%; 
-			margin: 0;
-			font-size: 0.7rem;
-			width: 100%;
-			padding-top: 10px;
-			padding-bottom: 10px; 
-			&::before{
-				content: attr(data-cell);
-				text-transform: capitalize;
-				font-weight: 600;
-				/* Now like a table header */
-				position: absolute;
-				/* Top/left values mimic padding */
-				// top: 6px;
-				left: 0;
-				width: 48%; 
-				white-space: nowrap;
-			}
-			& .oil__table-action-edit, .oil__table-action-delete{
-				width: 30px;
-				height: 30px;
-			}
-			&:last-child{
-				border: none;
-				padding-bottom: 0;
-				padding-left: 50%;
-			}
+	.transaction__dialog{
+		&-content{
+			min-width: 1000px;
 		}
 	}
-
 }
 
 @media screen and (max-width: 1279px) {
@@ -1208,6 +1202,15 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 	}
 	.dialog__content{
 		min-width: 678px;
+	}
+	.transaction__dialog{
+		&-content{
+			min-width: initial;
+			& td:nth-child(6){
+				display: block;
+				border: none;
+			}
+		}
 	}
 //======================== HIDE/SHOW MENU============================
 	#item__toggle{
@@ -1309,6 +1312,62 @@ td{
 				}
 			}
 		}
+	}
+
+	table:has(.table__transaction){
+		border: none;
+	}
+	.table__transaction{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: $component__space;
+		&-label{
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		&-row{
+			margin: 0;
+			width: 100%;
+			border: 1px solid $line__color;
+			background: #37375b;
+		}
+		&-column{
+			display: block;
+			border: none;
+			border-bottom: 1px solid $line__color; 
+			position: relative;
+			padding-left: 50%; 
+			margin: 0;
+			font-size: 0.7rem;
+			width: 100%;
+			padding-top: 10px;
+			padding-bottom: 10px; 
+			&::before{
+				content: attr(data-cell);
+				text-transform: capitalize;
+				font-weight: 600;
+				/* Now like a table header */
+				position: absolute;
+				/* Top/left values mimic padding */
+				// top: 6px;
+				left: 0;
+				width: 48%; 
+				white-space: nowrap;
+			}
+			& .oil__table-action-edit, .oil__table-action-delete,.oil__table-action-view{
+				width: 30px;
+				height: 30px;
+			}
+			&:last-child{
+				border: none;
+				padding-bottom: 0;
+				padding-left: 50%;
+			}
+		}
+	}
+	.oil__table-action, .category__table-action{
+		text-align: left;
 	}
 }
 

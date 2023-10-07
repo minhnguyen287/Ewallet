@@ -166,9 +166,6 @@
 					<span class="header__container-left-link">Transaction</span>
 				</div>
 				<div class="header__container-right">
-					<button class="add__account-button">
-					  <i class="fa-solid fa-plus"></i> Add Transaction
-				    </button>
 					<button class="export-button">
 						<i class="fa-solid fa-file-export"></i> Export
 					</button>
@@ -195,96 +192,70 @@
 									</div>
 								</div>
 								<div class="table__body-content">
-									<table>
-									<thead class="table__transaction-label">
-										<tr>
-											<td class="table__label">
-												<h2 class="table__label-text">NO</h2>
-												</div>
-											</td>
-											<td class="table__label">
-												<h2 class="table__label-text">TRANSACTION TYPE</h2>
-											</td>
-											<td class="table__label">
-												<h2 class="table__label-text">TRANSACTION CATEGORY</h2>
-											</td>
-											<td class="table__label">
-												<h2 class="table__label-text">TRANSACTION NAME</h2>
-											</td>
-											<td class="table__label">
-												<h2 class="table__label-text">AMOUNT</h2>
-											</td>
-											<td class="table__label">
-												<h2 class="table__label-text">DESCRIPTION</h2>
-											</td>
-											<td class="table__label">
-												<h2 class="table__label-text">DATE</h2>
-											</td>
-											<td class="table__label">
-												<h2 class="table__label-text">ACTION</h2>
-											</td>
-										</tr>
-									</thead>
-									<tbody class="table__transaction">
-										<tr class="table__transaction-row">
-											<td class="table__transaction-column" data-cell="no">01.</td>
-											<td data-cell="transaction type" class=" table__transaction-column oil__table-status oil__table-status-good">RECEIPT</td>
-											<td class="table__transaction-column" data-cell="transaction category">SALARY</td>
-											<td class="table__transaction-column" data-cell="transaction name">FRT SALARY</td>
-											<td class="table__transaction-column" data-cell="amount">5.000.000</td>
-											<td class="table__transaction-column" data-cell="description">Salary of April 2023</td>
-											<td class="table__transaction-column" data-cell="date">14.05.2023</td>
-											<td class="table__transaction-column" data-cell="Action">
-												<div class="oil__table-action">
-													<button class="oil__table-action-edit">
-														<i class="fa-solid fa-pen fa-sm"></i>
-													</button>
-													<button class="oil__table-action-delete">
-														<i class="fa-solid fa-trash fa-sm"></i>
-													</button>
-												</div>
-											</td>
-										</tr>
-										<tr class="table__transaction-row">
-											<td class="table__transaction-column" data-cell="no">01.</td>
-											<td data-cell="transaction type" class=" table__transaction-column oil__table-status oil__table-status-good">RECEIPT</td>
-											<td class="table__transaction-column" data-cell="transaction category">SALARY</td>
-											<td class="table__transaction-column" data-cell="transaction name">FRT SALARY</td>
-											<td class="table__transaction-column" data-cell="amount">5.000.000</td>
-											<td class="table__transaction-column" data-cell="description">Salary of April 2023</td>
-											<td class="table__transaction-column" data-cell="date">14.05.2023</td>
-											<td class="table__transaction-column" data-cell="Action">
-												<div class="oil__table-action">
-													<button class="oil__table-action-edit">
-														<i class="fa-solid fa-pen fa-sm"></i>
-													</button>
-													<button class="oil__table-action-delete">
-														<i class="fa-solid fa-trash fa-sm"></i>
-													</button>
-												</div>
-											</td>
-										</tr>
-										<tr class="table__transaction-row">
-											<td class="table__transaction-column" data-cell="no">02.</td>
-											<td data-cell="transaction type" class=" table__transaction-column oil__table-status oil__table-status-expired">EXPENSES</td>
-											<td class="table__transaction-column" data-cell="transaction category">INVOIVE</td>
-											<td class="table__transaction-column" data-cell="transaction name">ELECTRIC</td>
-											<td class="table__transaction-column" data-cell="amount">1.000.000</td>
-											<td class="table__transaction-column" data-cell="description">Bill of April 2023</td>
-											<td class="table__transaction-column" data-cell="date">14.05.2023</td>
-											<td class="table__transaction-column" data-cell="Action">
-												<div class="oil__table-action">
-													<button class="oil__table-action-edit">
-														<i class="fa-solid fa-pen fa-sm"></i>
-													</button>
-													<button class="oil__table-action-delete">
-														<i class="fa-solid fa-trash fa-sm"></i>
-													</button>
-												</div>
-											</td>
-										</tr>
-
-									</tbody>
+									<table class="statistical">
+										<thead align="center">
+											<tr>
+												<th class="table__label">
+													<h2 class="table__label-text">NO</h2>
+												</th>
+												<th class="table__label">
+													<h2 class="table__label-text">DATE</h2>
+												</th>
+												<th class="table__label">
+													<h2 class="table__label-text">RECEIPTS</h2>
+												</th>
+												<th class="table__label">
+													<h2 class="table__label-text">EXPENDITURES</h2>
+												</th>
+												<th class="table__label">
+													<h2 class="table__label-text">DIFFERENCE</h2>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td data-cell="no">01.</td>
+												<td data-cell="date"><a href="#">14.05.2023</a></td>
+												<td data-cell="Receipts" class="oil__table-status oil__table-status-good">100.000</td>
+												<td data-cell="Expenditurese" class="oil__table-status oil__table-status-expired">200.000</td>
+												<td data-cell="Difference" class="oil__table-status oil__table-status-expired">-100.000</td>
+											</tr>
+											<tr>
+												<td data-cell="no">02.</td>
+												<td data-cell="date"><a href="#">15.05.2023</a></td>
+												<td data-cell="Receipts" class="oil__table-status oil__table-status-good">300.000</td>
+												<td data-cell="Expenditurese" class="oil__table-status oil__table-status-expired">200.000</td>
+												<td data-cell="Difference" class="oil__table-status oil__table-status-good">+100.000</td>
+											</tr>
+											<tr>
+												<td data-cell="no">03.</td>
+												<td data-cell="date"><a href="#">16.05.2023</a></td>
+												<td data-cell="Receipts" class="oil__table-status oil__table-status-good">300.000</td>
+												<td data-cell="Expenditurese" class="oil__table-status oil__table-status-expired">200.000</td>
+												<td data-cell="Difference" class="oil__table-status oil__table-status-good">+100.000</td>
+											</tr>
+											<tr>
+												<td data-cell="no">04.</td>
+												<td data-cell="date"><a href="#">17.05.2023</a></td>
+												<td data-cell="Receipts" class="oil__table-status oil__table-status-good">100.000</td>
+												<td data-cell="Expenditurese" class="oil__table-status oil__table-status-expired">200.000</td>
+												<td data-cell="Difference" class="oil__table-status oil__table-status-expired">-100.000</td>
+											</tr>
+											<tr>
+												<td data-cell="no">05.</td>
+												<td data-cell="date"><a href="#">18.05.2023</a></td>
+												<td data-cell="Receipts" class="oil__table-status oil__table-status-good">100.000</td>
+												<td data-cell="Expenditurese" class="oil__table-status oil__table-status-expired">200.000</td>
+												<td data-cell="Difference" class="oil__table-status oil__table-status-expired">-100.000</td>
+											</tr>
+											<tr>
+												<td data-cell="no">06.</td>
+												<td data-cell="date"><a href="#">19.05.2023</a></td>
+												<td data-cell="Receipts" class="oil__table-status oil__table-status-good">200.000</td>
+												<td data-cell="Expenditurese" class="oil__table-status oil__table-status-expired">100.000</td>
+												<td data-cell="Difference" class="oil__table-status oil__table-status-good">-100.000</td>
+											</tr>
+										</tbody>
 									</table>
 								</div>
 								<div class="table__body-footer">
@@ -308,13 +279,76 @@
 			</span>
 		</footer>
 	</div>
-	<div class="dialog">
-		<div class="dialog__content">
-			<div class="dialog__content-header">
-				<h2 class="dialog__content-header-label">Add a new transaction</h2>
+	<div class="dialog transaction__dialog">
+		<div class="dialog__content transaction__dialog-content">
+			<div class="dialog__content-header transaction__dialog-content-header ">
+				<h2 class="dialog__content-header-label transaction__dialog-content-header-label">Add a new transaction</h2>
 				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 			</div>
-			<div class="dialog__content-body">
+			<div class="table__body-content">
+				<table>
+					<thead class="table__transaction-label" align="center">
+						<tr>
+							<th class="table__label">
+								<h2 class="table__label-text">NO</h2>
+							</th>
+							<th class="table__label">
+								<h2 class="table__label-text">TRANSACTION TYPE</h2>
+							</th>
+							<th class="table__label">
+								<h2 class="table__label-text">TRANSACTION NAME</h2>
+							</th>
+							<th class="table__label">
+								<h2 class="table__label-text">CATEGORY</h2>
+							</th>
+							<th class="table__label">
+								<h2 class="table__label-text">AMOUNT</h2>
+							</th>
+							<th class="table__label">
+								<h2 class="table__label-text">DESCRIPTION</h2>
+							</th>
+							<th class="table__label">
+								<h2 class="table__label-text">ACTION</h2>
+							</th>
+						</tr>
+					</thead>
+					<tbody class="table__transaction">
+						<tr class="table__transaction-row">
+							<td class="table__transaction-column" data-cell="no">01.</td>
+							<td class="table__transaction-column oil__table-status oil__table-status-good" data-cell="transaction type">Receipts</td>
+							<td class="table__transaction-column" data-cell="transaction name">Salary of September 2023</td>
+							<td class="table__transaction-column" data-cell="category">Salary of FRT</td>
+							<td class="table__transaction-column" data-cell="amount">5000000</td>
+							<td class="table__transaction-column" data-cell="description">Make money Make money Make money Make money</td>
+							<td class="table__transaction-column" data-cell="Action">
+								<button class="oil__table-action-edit">
+									<i class="fa-solid fa-pen fa-sm"></i>
+								</button>
+								<button class="oil__table-action-delete">
+									<i class="fa-solid fa-trash fa-sm"></i>
+								</button>
+							</td>
+						</tr>
+						<tr class="table__transaction-row">
+							<td class="table__transaction-column" data-cell="no">01.</td>
+							<td class="table__transaction-column oil__table-status oil__table-status-expired" data-cell="transaction type">Receipts</td>
+							<td class="table__transaction-column" data-cell="transaction name">Salary of September 2023</td>
+							<td class="table__transaction-column" data-cell="category">Salary of FRT</td>
+							<td class="table__transaction-column" data-cell="amount">5000000</td>
+							<td class="table__transaction-column" data-cell="description">Make money Make money Make money Make money</td>
+							<td class="table__transaction-column" data-cell="Action">
+								<button class="oil__table-action-edit">
+									<i class="fa-solid fa-pen fa-sm"></i>
+								</button>
+								<button class="oil__table-action-delete">
+									<i class="fa-solid fa-trash fa-sm"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="dialog__content-body transaction__dialog-content-body">
 				<form action="#" class="dialog__form">
 					<div class="dialog__form-field">
 						<label class="dialog__form-label" for="type">Transaction Type</label>

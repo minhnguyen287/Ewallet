@@ -3,6 +3,7 @@
 	https://completejavascript.com/chuyen-html-template-sang-dom-node/
 	https://codetot.net/javascript-delegation-event/#Event_Delegation_trong_Plain_Javascript
 	http://bdadam.com/blog/plain-javascript-event-delegation.html
+	https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
 	=//=//=/=//=//= Callback =//=//=/=//=//=
 	https://www.youtube.com/watch?v=W8vJ-yOtSbE&t=236s
 	https://www.youtube.com/watch?v=LUt36WnREm0&t=222s
@@ -149,7 +150,9 @@ function calculatePercentage(x, y)
 
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
 btnCloseModal[0].addEventListener("click",()=>HideModal(dialog[0]));
-btnCloseModal[1].addEventListener("click",()=>HideModal(dialog[1]));
+if (btnCancelAction) {
+	btnCloseModal[1].addEventListener("click",()=>HideModal(dialog[1]));
+}
 if (btnCancelAction) {
 	btnCancelAction.addEventListener("click",()=>HideModal(dialog[1]));
 }
@@ -810,7 +813,26 @@ function ShowCategoryView(data){
 			categoryTemp.querySelector("i").setAttribute('class',"fa-solid fa-"+responseData[i].icon+" fa-sm");
 			categoriesList.appendChild(categoryTemp);
 		}
-		
+	}
+}
+
+function ShowListView(data){
+	if (typeof(data)==="string") {
+		responseData = JSON.parse(data);
+		let templateFrag = document.querySelector('#newRow').content;
+		let viewList = document.querySelector('.list__content');
+		let new_tbody = document.createElement('tbody');
+		let old_tbody = document.querySelector('tbody');
+		for (let i = 0; i < responseData.length; i++) {
+			var newRow = templateFrag.cloneNode(true);
+			newRow.querySelector("td").innerText = responseData[i].cat_id;
+			newRow.querySelector("td:nth-child(2)").innerText = responseData[i].category_type;
+			newRow.querySelector("td:nth-child(3) span").innerText = responseData[i].category_name;
+			newRow.querySelector("td:nth-child(3) span").style.background = responseData[i].color;
+			newRow.querySelector("i").setAttribute("class","fa-solid fa-"+responseData[i].icon+" fa-sm");
+			new_tbody.appendChild(newRow);
+		}
+		old_tbody.parentNode.replaceChild(new_tbody,old_tbody);
 	}
 }
 
@@ -1035,28 +1057,57 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 	viewChange.addEventListener("click",function(){
 		let categoryView = document.querySelector('.category__content');
 		let listView = document.querySelector('#list__content');
+		let old_tbody = document.querySelector('tbody');
 		if (viewChange.value == "category view") {
 			viewChange.value = "list view";
 			viewChange.style.width = "calc(90rem / 16)";
 			viewChange.querySelector("i").setAttribute("class","fa-solid fa-table-list");
 			viewChange.querySelector("span").innerText = "List View";
-			// categoryView.style.display = "grid";
-			// listView.style.display = "none";
+			 categoryView.style.display = "grid";
+			 listView.style.display = "none";
+			var new_tbody = document.createElement('tbody');
+			old_tbody.parentNode.replaceChild(new_tbody,old_tbody);
+			if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
+				let url = '../Ajax/ShowListCategories';
+				let method = "GET";
+				SendAjaxRequest(url,method,ShowCategoryView);
+			}
 		}else if(viewChange.value == "list view") {
 			viewChange.value = "category view";
 			viewChange.style.width = "calc(90rem / 12)";
 			viewChange.querySelector("i").setAttribute("class","fa-solid fa-clipboard");
 			viewChange.querySelector("span").innerText = "Category View";
-			// categoryView.style.display = "none";
-			// listView.style.display = "block";
+			 categoryView.style.display = "none";
+			 listView.style.display = "block";
 			let oldCat = categoryView.children;
-			for (var i = 0; i < oldCat.length; i++) {
-				oldCat[0].remove();
-				
+			while(categoryView.lastElementChild) {
+				categoryView.removeChild(categoryView.lastElementChild);
+			}
+			if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
+				let url = '../Ajax/Pagination';
+				let method = "POST";
+				let data = JSON.stringify({
+					"start":pagination.startIndex,
+					"display":pagination.display,
+					"pagi_for":"category" });
+				SendAjaxRequest(url,method,ShowListView,data);
 			}
 		}
 	})
 }
+/*==================================================================================================================*/
+
+/*==================================================================================================================*/
+/*                                        -- Code For Wallet/Transaction --           	         			  	    */
+/*==================================================================================================================*/
+var xurl = '../Ajax/ShowTest';
+var xmethod = "GET";
+SendAjaxRequest(xurl,xmethod,ShowTest);
+function ShowTest(data){
+	var arr = JSON.parse(data);
+	console.log(arr);
+}
+
 
 /*End */
 

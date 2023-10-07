@@ -23,7 +23,9 @@
 		}
 
 		public function Transaction(){
-			echo "Transaction";
+			$list = $this->WalletModel->ShowTransaction();
+			$this->view("MasterLayout",["Page"=>"TransactionView",
+										"TransactionList"=>$list]);
 		}
 	}
  ?>

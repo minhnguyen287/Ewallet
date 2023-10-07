@@ -347,6 +347,10 @@
 		{
 			echo $this->WalletModel->CountCategory();
 		}
+
+		public function ShowTest(){
+			echo $this->WalletModel->ShowTransaction();
+		}
 		
 	} /* End Class */
 	/*header("Content-Type: application/json"); phải viết đúng từng dấu cách (space) và dấu : (hai chấm) */
