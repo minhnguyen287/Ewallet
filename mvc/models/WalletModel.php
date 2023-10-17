@@ -92,10 +92,9 @@
 			return json_encode($arr);
 		}
 
-		public function ShowTransaction()
+		public function ShowStatistical()
 		{
-			//$q = "SELECT DATE_FORMAT(tran_date,'%d.%m.%Y') AS 'DATE',(SELECT SUM(tran_amount) FROM transaction WHERE tran_type = 0 ) AS 'THU',(SELECT  SUM(tran_amount) FROM transaction WHERE tran_type = 1) AS 'CHI' FROM transaction GROUP BY tran_date";
-			$q = "SELECT DATE_FORMAT(tran_date,'%d.%m.%Y') AS 'DATE',SUM(CASE WHEN tran_type = 't' THEN tran_amount ELSE 0 END) AS 'THU',SUM(CASE WHEN tran_type = 'c' THEN tran_amount ELSE 0 END) AS 'CHI' FROM transaction GROUP BY tran_date";
+			$q = "SELECT DATE_FORMAT(tran_date,'%d-%m-%Y') AS 'date',SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt',SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditures' FROM transaction GROUP BY tran_date ORDER BY date DESC";
 			
 			$record1 = $this->con->query($q);
 			$arr = array();

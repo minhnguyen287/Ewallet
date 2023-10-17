@@ -23,7 +23,7 @@
 		}
 
 		public function Transaction(){
-			$list = $this->WalletModel->ShowTransaction();
+			$list = $this->WalletModel->ShowStatistical();
 			$this->view("MasterLayout",["Page"=>"TransactionView",
 										"TransactionList"=>$list]);
 		}

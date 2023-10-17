@@ -11,8 +11,8 @@
 </head>
 <body>
 	<div class="wrapper">
-		<header class="header">
-			<div class="header__logo">
+		<header class="header header-detail">
+			<div class="header__logo header-detail__logo">
 				<a href="index.html" class="logo__container">
 					<span class="logo__container__icon"><i class="fa-solid fa-wallet fa-xl"></i></span> Mint Wallet 
 				</a>
@@ -117,55 +117,16 @@
 			</nav>
 		</header>
 		
-		<div class="sidebar">
-			<ul class="categories">
-				<li class="categories__list"><h2>MAIN</h2>
-					<ul class="categories__list-menu">
-						<li class="categories__list-menu-item">
-							<a href="index.html" class="categories__link">
-								<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
-							</a> 
-						</li>
-					</ul>
-				</li>
-				<li class="categories__list">ADDITIONAL
-					<ul class="categories__list-menu">
-						<li class="categories__list-menu-item">
-							<a href="oil.html" class="categories__link">
-								<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
-							</a> 
-						</li>
-						<li class="categories__list-menu-item">
-							<input type="checkbox" class="categories__list-show-hide" id="categories__list-show-hide-2nd">
-							<label for="categories__list-show-hide-2nd" class="categories__label list__item-active">
-								<i class="fa-solid fa-money-check-dollar fa-sm categories__list-icon"></i>My Wallet
-								<div class="categories__list-submenu">
-									<i class="fa-solid fa-chevron-right show__submenu"></i>
-									<i class="fa-solid fa-chevron-down hide__submenu"></i>
-								</div>
-							</label>
-							<ul class="component__submenu">
-								<li class="component__submenu-list">
-									<a href="wallet__category.html" class="component__submenu-list-link">Category</a>
-								</li>
-								<li class="component__submenu-list">
-									<a href="wallet__transaction.html" class="component__submenu-list-link component__submenu-selected">Transaction</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<div class="container">
-			<div class="header__container">
-				<div class="header__container-left">
+		<div class="detail__container">
+			<div class="detail__container-header">
+				<div class="detail__container-header-left">
 					<h2 class="header__container-left-title">My Wallet</h2>
 					<span class="header__container-left-link">Home /</span> 
 					<span class="header__container-left-link">My Wallet /</span> 
-					<span class="header__container-left-link">Transaction</span>
+					<span class="header__container-left-link">Transaction /</span>
+					<span class="header__container-left-link">Detail</span>
 				</div>
-				<div class="header__container-right">
+				<div class="detail__container-header-right">
 					<button class="add__transaction-button">
 						<i class="fa-solid fa-plus"></i> Add Transaction
 					</button>
@@ -174,99 +135,112 @@
 			<div class="main__content">
 				<!-- Code something -->
 						<main class="layout-content">
-							<section class="layout_content table__header">
+							<section class="detail__table-header">
 								<h2>Wallet</h2>
 							</section>
-							<section class="layout_content table__body">
-								<div class="table__body-header">
-									<div class="table__body-header-show">
-										<span>Show</span>
-										<select name="table_record" id="table_record">
-											<option value="week">Week</option>
-											<option value="month" selected>Month</option>
-											<option value="quarter">Quarter.</option>
-										</select>
-									</div>
-									<div class="table__body-header-search">
-										<input type="text" placeholder="Search...">
-									</div>
-								</div>
-								<div class="table__body-content">
-									<table class="statistical">
+							<section class="detail__table-body">
+								<div class="detail__table-body-content">
+									<table class="table__detail">
 										<thead align="center">
-											<tr>
-												<th class="table__label">
-													<h2 class="table__label-text">NO</h2>
+											<tr class="table__detail-header">
+												<th class="table__detail-label">
+													<h2 class="table__detail-abel-text">NO</h2>
 												</th>
-												<th class="table__label">
-													<h2 class="table__label-text">DATE</h2>
+												<th class="table__detail-label">
+													<h2 class="table__detail-label-text">TRANS TYPE</h2>
 												</th>
-												<th class="table__label">
-													<h2 class="table__label-text">RECEIPTS</h2>
+												<th class="table__detail-label">
+													<h2 class="table__detail-label-text">TRANS NAME</h2>
 												</th>
-												<th class="table__label">
-													<h2 class="table__label-text">EXPENDITURES</h2>
+												<th class="table__detail-label">
+													<h2 class="table__detail-label-text">CATEGORY</h2>
 												</th>
-												<th class="table__label">
-													<h2 class="table__label-text">DIFFERENCE</h2>
+												<th class="table__detail-label">
+													<h2 class="table__detail-label-text">DESCRIPTION</h2>
+												</th>
+												<th class="table__detail-label">
+													<h2 class="table__detail-label-text">AMOUNT</h2>
+												</th>
+												<th class="table__detail-label">
+													<h2 class="table__detail-label-text">ACTION</h2>
 												</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td data-cell="no">01.</td>
-												<td data-cell="date"><a href="#">14.05.2023</a></td>
-												<td data-cell="Receipts">100.000</td>
-												<td data-cell="Expenditurese">200.000</td>
-												<td data-cell="Difference" class="table__status table__status-expired">-100.000</td>
+										<tbody class="table__detail-body">
+											<tr  class="table__detail-row">
+												<td class="table__detail-column" data-cell="no">01.</td>
+												<td class="table__detail-column table__status table__status-good" data-cell="trans type">reject</td>
+												<td class="table__detail-column" data-cell="trans name">salary of 10th frt</td>
+												<td class="table__detail-column" data-cell="category">Salary</td>
+												<td class="table__detail-column" data-cell="description">No comment</td>
+												<td class="table__detail-column table__status table__status-good" data-cell="Difference">1.000.000</td>
+												<td class="table__detail-column" data-cell="Action">
+													<div class="oil__table-action">
+														<button class="oil__table-action-edit">
+															<i class="fa-solid fa-pen fa-sm"></i>
+														</button>
+														<button class="oil__table-action-delete">
+															<i class="fa-solid fa-trash fa-sm"></i>
+														</button>
+													</div>
+												</td>
 											</tr>
-											<tr>
-												<td data-cell="no">02.</td>
-												<td data-cell="date"><a href="#">15.05.2023</a></td>
-												<td data-cell="Receipts" >300.000</td>
-												<td data-cell="Expenditurese" >200.000</td>
-												<td data-cell="Difference" class="table__status table__status-good">+100.000</td>
+											<tr class="table__detail-row">
+												<td class="table__detail-column" data-cell="no">02.</td>
+												<td class="table__detail-column table__status table__status-expired" data-cell="trans type">reject</td>
+												<td class="table__detail-column" data-cell="trans name">salary of 10th frt</td>
+												<td class="table__detail-column" data-cell="category">Salary</td>
+												<td class="table__detail-column" data-cell="description">No comment</td>
+												<td class="table__detail-column table__status table__status-expired" data-cell="Difference">1.000.000</td>
+												<td class="table__detail-column" data-cell="Action">
+													<div class="oil__table-action">
+														<button class="oil__table-action-edit">
+															<i class="fa-solid fa-pen fa-sm"></i>
+														</button>
+														<button class="oil__table-action-delete">
+															<i class="fa-solid fa-trash fa-sm"></i>
+														</button>
+													</div>
+												</td>
 											</tr>
-											<tr>
-												<td data-cell="no">03.</td>
-												<td data-cell="date"><a href="#">16.05.2023</a></td>
-												<td data-cell="Receipts" >300.000</td>
-												<td data-cell="Expenditurese" >200.000</td>
-												<td data-cell="Difference" class="table__status table__status-good">+100.000</td>
+											<tr class="table__detail-row">
+												<td class="table__detail-column" data-cell="no">03.</td>
+												<td class="table__detail-column table__status table__status-expired" data-cell="trans type">reject</td>
+												<td class="table__detail-column" data-cell="trans name">salary of 10th frt</td>
+												<td class="table__detail-column" data-cell="category">Salary</td>
+												<td class="table__detail-column" data-cell="description">No comment</td>
+												<td class="table__detail-column table__status table__status-expired" data-cell="Difference">1.000.000</td>
+												<td class="table__detail-column" data-cell="Action">
+													<div class="oil__table-action">
+														<button class="oil__table-action-edit">
+															<i class="fa-solid fa-pen fa-sm"></i>
+														</button>
+														<button class="oil__table-action-delete">
+															<i class="fa-solid fa-trash fa-sm"></i>
+														</button>
+													</div>
+												</td>
 											</tr>
-											<tr>
-												<td data-cell="no">04.</td>
-												<td data-cell="date"><a href="#">17.05.2023</a></td>
-												<td data-cell="Receipts" >100.000</td>
-												<td data-cell="Expenditurese" >200.000</td>
-												<td data-cell="Difference" class="table__status table__status-expired">-100.000</td>
-											</tr>
-											<tr>
-												<td data-cell="no">05.</td>
-												<td data-cell="date"><a href="#">18.05.2023</a></td>
-												<td data-cell="Receipts" >100.000</td>
-												<td data-cell="Expenditurese" >200.000</td>
-												<td data-cell="Difference" class="table__status table__status-expired">-100.000</td>
-											</tr>
-											<tr>
-												<td data-cell="no">06.</td>
-												<td data-cell="date"><a href="#">19.05.2023</a></td>
-												<td data-cell="Receipts" >200.000</td>
-												<td data-cell="Expenditurese" >100.000</td>
-												<td data-cell="Difference" class="table__status table__status-expired">-100.000</td>
+											<tr class="table__detail-row">
+												<td class="table__detail-column" data-cell="no">04.</td>
+												<td class="table__detail-column table__status table__status-good" data-cell="trans type">reject</td>
+												<td class="table__detail-column" data-cell="trans name">salary of 10th frt</td>
+												<td class="table__detail-column" data-cell="category">Salary</td>
+												<td class="table__detail-column" data-cell="description">No comment</td>
+												<td class="table__detail-column table__status table__status-good" data-cell="Difference">1.000.000</td>
+												<td class="table__detail-column" data-cell="Action">
+													<div class="oil__table-action">
+														<button class="oil__table-action-edit">
+															<i class="fa-solid fa-pen fa-sm"></i>
+														</button>
+														<button class="oil__table-action-delete">
+															<i class="fa-solid fa-trash fa-sm"></i>
+														</button>
+													</div>
+												</td>
 											</tr>
 										</tbody>
 									</table>
-								</div>
-								<div class="table__body-footer">
-									<div class="table__body-footer-show">
-										<span>Showing 1 to 5 of 5 entries</span>
-									</div>
-									<div class="table__body-footer-list">
-										<button>Previous</button>
-										<button>1</button>
-										<button>Next</button>
-									</div>
 								</div>
 							</section>
 						</main>

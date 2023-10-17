@@ -99,7 +99,7 @@
 									echo'<td data-cell="days">'.$row[$i]->total_days.'</td>';
 									echo'<td data-cell="total km">'.$row[$i]->total_km.'</td>';
 									echo'<td data-cell="amount">'.$row[$i]->product_price.'</td>';
-									echo'<td data-cell="status" class="oil__table-status oil__table-status-'.$status_noti.'">'.$status_noti.'</td>';
+									echo'<td data-cell="status" class="table__status table__status-'.$status_noti.'">'.$status_noti.'</td>';
 									echo '<td data-cell="Action">
 										<div class="oil__table-action">
 										<button class="oil__table-action-edit">
@@ -122,7 +122,7 @@
 									<td data-cell="days">45</td>
 									<td data-cell="total km">1000</td>
 									<td data-cell="amount">80.000</td>
-									<td data-cell="status" class="oil__table-status">Good</td>
+									<td data-cell="status" class="table__status">Good</td>
 									<td data-cell="Action">
 										<div class="oil__table-action">
 											<button class="oil__table-action-edit">

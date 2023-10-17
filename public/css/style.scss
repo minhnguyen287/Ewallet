@@ -477,6 +477,27 @@ tr{
 		// overflow-x: auto;
 	}
 }
+.detail__table{
+	&-header{
+		padding-top: 30px;
+		margin-left: 30px;
+		font-size: 1rem;
+	}
+	&-body{
+		min-height: 600px;
+	}
+}
+.detail__container{
+	grid-column: 1 / span 5;
+    background-color: #22223d;
+    &-header{
+    	display: flex;
+    	justify-content: space-between;
+    	align-items: center;
+    	padding: calc(36rem / 16);
+    	padding-bottom: 0;
+    }
+}
 .oil__table-action,.category__table-action{
 	color:#e6c220;
 	text-align: center;
@@ -520,7 +541,7 @@ tr{
 		}
 	}
 }
-.oil__table-status{
+.table__status{
 	text-transform: capitalize;
 	&-good{
 		color: #0dad95;
@@ -652,6 +673,7 @@ tr{
   			font-family: "Poppins", sans-serif;
   			border-radius: 3px;
     		border:none;
+    		max-width: 60%;
   		}
   	}
   	&-footer{
@@ -845,6 +867,7 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 		align-items: center;
 		color: #d4d4f3;
     	padding: 1rem 0 1rem 0;
+    	cursor: pointer;
 	}
 }
 .hide__submenu{
@@ -1148,6 +1171,17 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 			min-width: 1000px;
 		}
 	}
+	.table__detail{
+		&-column{
+			&:last-child{
+				padding: 0.5rem;
+			}
+			& button{
+				width: 35px;
+				height: 35px;
+			}
+		}
+	}
 }
 
 @media screen and (max-width: 1279px) {
@@ -1269,6 +1303,22 @@ td{
 }
 .category__content{
 	grid-template-columns: 1fr 1fr 1fr;
+}
+.table__detail{
+	&-column{
+		padding: 0.3rem;
+		&:nth-child(6){
+			display: table-cell;
+		}
+		&:nth-child(2){
+			display: none;
+		}
+	}
+	&-label{
+		&:nth-child(2){
+			display: none;
+		}
+	}
 }
 
 }
@@ -1529,6 +1579,38 @@ td{
 				width: 40%;
 			}
 		}	
+	}
+	.table__detail{
+		display: grid;
+		grid-template-columns: 1fr;
+		width: 100%;
+		&-column{
+			width: 100%;
+			margin-left: 0;
+			margin-right: 0;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			&:nth-child(6){
+				display: flex;
+				justify-content: space-between;
+			}
+			&:nth-child(5){
+				display: none;
+			}
+		}
+		&-row{
+			display: grid;
+			width: 100%;
+			margin-bottom: 0px;
+			padding-bottom: 0;
+			padding-left: 0.4rem;
+			padding-right: 0.4rem;
+		}
+	}
+	.detail__container{
+		&-header{
+			padding: calc(36rem / 16);
+		}
 	}
 	.oil__table-action-delete, .oil__table-action-edit,.category__table-action-delete, .category__table-action-edit{
 		width: 30px;

@@ -348,8 +348,8 @@
 			echo $this->WalletModel->CountCategory();
 		}
 
-		public function ShowTest(){
-			echo $this->WalletModel->ShowTransaction();
+		public function ShowStatistical(){
+			echo $this->WalletModel->ShowStatistical();
 		}
 		
 	} /* End Class */

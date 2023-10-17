@@ -257,7 +257,7 @@ function AddNewRecord(data){
 			templateFrag.querySelector(".rowContent td:nth-child(5)").innerText = responseData.total_km;
 			templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = responseData.product_price;
 			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData.total_km);
-			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData.total_km));
+			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+AssessmentStatuses(responseData.total_km));
 			document.querySelector("tbody").appendChild(templateFrag);
 			/*In ra câu thông báo thành công*/
 			PopupMessage("success","add","record");
@@ -326,7 +326,7 @@ function UpdateRecord(data){
 			rowEdited.querySelector("td:nth-child(5)").innerText = responseData.total_km;
 			rowEdited.querySelector("td:nth-child(6)").innerText = responseData.product_price;
 			rowEdited.querySelector("td:nth-child(7)").innerText = AssessmentStatuses(responseData.total_km);
-			rowEdited.querySelector("td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData.total_km));
+			rowEdited.querySelector("td:nth-child(7)").setAttribute("class","table__status table__status-"+AssessmentStatuses(responseData.total_km));
 			/*In ra câu thông báo thành công*/
 			PopupMessage("success","edit","record");
 		} else {
@@ -627,7 +627,7 @@ function CustomizeViewTable(data){
 				templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
 				templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].product_price;
 				templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
-				templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","oil__table-status oil__table-status-"+AssessmentStatuses(responseData[i].total_km));
+				templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+AssessmentStatuses(responseData[i].total_km));
 				new_tbody.appendChild(templ);
 			}
 		} else if(urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1){
@@ -1100,13 +1100,101 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 /*==================================================================================================================*/
 /*                                        -- Code For Wallet/Transaction --           	         			  	    */
 /*==================================================================================================================*/
-var xurl = '../Ajax/ShowTest';
+var xurl = '../Ajax/ShowStatistical';
 var xmethod = "GET";
-SendAjaxRequest(xurl,xmethod,ShowTest);
-function ShowTest(data){
+SendAjaxRequest(xurl,xmethod,ShowStatistical);
+function ShowStatistical(data){
 	var arr = JSON.parse(data);
 	console.log(arr);
 }
+
+function ShowCategoryOption(data,output){
+	if (typeof(data) == 'string') {
+		var arr = [];
+		arr = JSON.parse(data);
+		let templateFrag = document.querySelector("#category-list").content;
+		for (var i = 0; i < arr.length; i++) {
+			let tmpl = templateFrag.cloneNode(true);
+			tmpl.querySelector('option').setAttribute("value",arr[i].cat_id);
+			tmpl.querySelector('option').innerText = arr[i].category_name;
+			output.appendChild(tmpl);
+		}
+	}
+}
+
+window.addEventListener("load",function(){
+	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Transaction") != -1){
+		var dialogForm_TransType = document.getElementById("form__add-transaction-type");
+		var dialogForm_Category = document.getElementById("form__add-transaction-category");
+		var dialogForm_TransName = document.getElementById("form__add-transaction-name");
+		var dialogForm_Description = document.getElementById("form__add-transaction-desc");
+		var dialogForm_TransAmount = document.getElementById("form__add-transaction-amount");
+		var dialogForm_TransDate = document.getElementById("form__add-transaction-date");
+
+		var labelField_transType = document.getElementById("transtype_info");
+		var labelField_transName = document.getElementById("transname_info");
+		var labelField_category = document.getElementById("category_info");
+		var labelField_transDesc = document.getElementById("transdesc_info");
+		var labelField_transAmount = document.getElementById("transamount_info");
+		var labelField_transDialog = document.getElementById("transDialog_info");
+
+		let url = '../Ajax/ShowListCategories';
+		let method = "GET";
+		SendAjaxRequest(url,method,data => ShowCategoryOption(data,dialogForm_Category));
+		btnAddTransaction[0].addEventListener("click",function(){
+			ShowModal(dialog[0]);
+
+			var date = new Date();
+			var day = date.getDate();
+			var month = date.getMonth() + 1;
+			var year = date.getFullYear();
+
+			if (month < 10) month = "0" + month;
+			if (day < 10) day = "0" + day;
+
+			var today = year + "-" + month + "-" + day;
+
+			document.querySelector("#form__add-transaction-date").value = today;
+		})
+
+		btnAddTransaction[1].addEventListener("click",function(){
+			let transData = {transDate:dialogForm_TransDate.value}
+			if(dialogForm_TransType.value != "null"){
+				transData["transType"] = dialogForm_TransType.value;
+			} else {
+				labelField_transType.innerText = "Please select an option";
+			}
+			if(dialogForm_Category.value != "null"){
+				transData["transCategory"] = dialogForm_Category.value;
+			} else {
+				labelField_category.innerText = "Please select an option";
+			}
+			if (dialogForm_TransName.value) {
+				transData["transName"] = dialogForm_TransName.value;
+			} else {
+				labelField_transName.innerText = "Transaction Name field can't be empty";
+			}
+			if (dialogForm_Description.value) {
+				transData["transDesc"] = dialogForm_Description.value;
+			} else {
+				labelField_transDesc.innerText = "Description field can't be empty";
+			}
+			if (dialogForm_TransAmount.value) {
+				transData["transAmount"] = dialogForm_TransAmount.value;
+			} else {
+				labelField_transAmount.innerText = "Amount field can't be empty";
+			}
+			/*Object.keys(ObjectName).length = số lượng của object*/
+			if (Object.keys(transData).length != 6) {
+				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
+			} else {
+				labelField_transDialog.innerText = "";
+				//SendAjax add transaction
+				HideModal(dialog[0]);
+			}
+		})
+	}
+})
 
 
 /*End */
