@@ -352,6 +352,63 @@
 			echo $this->WalletModel->ShowStatistical();
 		}
 		
+		public function AddANewTransaction()
+		{
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["AjaxData"],true);
+			if (!empty($arr)) {
+				$errors = array();
+
+				if (!empty($arr['transType'])) {
+					$transType = $arr['transType'];
+				} else {
+					$errors[] = "transType"; 
+				}
+
+				if (!empty($arr['transName'])) {
+					$transName = $arr['transName'];
+				} else {
+					$errors[] = "transName"; 
+				}
+
+				if (!empty($arr['transCategory'])) {
+					$transCategory = $arr['transCategory'];
+				} else {
+					$errors[] = "transCategory"; 
+				}
+
+				if (!empty($arr['transDesc'])) {
+					$transDesc = $arr['transDesc'];
+				} else {
+					$errors[] = "transDesc"; 
+				}
+
+				if (!empty($arr['transAmount'])) {
+					$transAmount = $arr['transAmount'];
+				} else {
+					$errors[] = "transAmount"; 
+				}
+
+				if (!empty($arr['transDate'])) {
+					$transDate = $arr['transDate'];
+				} else {
+					$errors[] = "transDate"; 
+				}
+				if (empty($errors)) {
+					$kq = $this->WalletModel->AddTransaction($transType,$transName,$transCategory,$transDesc,$transAmount,$transDate);
+					if (json_decode($kq) == true) {
+						$arr['status'] = "success";
+						echo json_encode($arr);
+					} else {
+						echo json_encode($kq);
+					}
+				}else {
+					print_r($errors);
+				} 
+			} else {
+				echo json_encode("false");
+			}
+		}
 	} /* End Class */
 	/*header("Content-Type: application/json"); phải viết đúng từng dấu cách (space) và dấu : (hai chấm) */
  ?>

@@ -79,7 +79,7 @@
 							<template id="statistical__list">
 							 	<tr>
 							 		<td data-cell="no">01.</td>
-							 		<td data-cell="date"><a href="#">14.05.2023</a></td>
+							 		<td data-cell="date"><a href="Detail/">14.05.2023</a></td>
 							 		<td data-cell="Receipts">100.000</td>
 							 		<td data-cell="Expenditurese">200.000</td>
 							 		<td data-cell="Difference" class="table__status table__status-expired">-100.000</td>
@@ -89,9 +89,6 @@
 					</table>
 				</div>
 				<div class="table__body-footer">
-					<div class="table__body-footer-show">
-						<span>Showing 1 to 5 of 5 entries</span>
-					</div>
 					<div class="table__body-footer-list">
 						<button>Previous</button>
 						<button>1</button>

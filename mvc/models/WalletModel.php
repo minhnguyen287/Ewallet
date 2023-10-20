@@ -103,6 +103,21 @@
 			}
 			return json_encode($arr);
 		}
+
+		public function AddTransaction($transType,$transName,$transCategory,$transDesc,$transAmount,$transDate)
+		{	$transType = $this->con->real_escape_string(strip_tags($transType));
+			$transName = $this->con->real_escape_string(strip_tags($transName));
+			$transCategory = $this->con->real_escape_string(strip_tags($transCategory));
+			$transDesc = $this->con->real_escape_string(strip_tags($transDesc));
+			$transAmount = $this->con->real_escape_string(strip_tags($transAmount));	
+			$transDate = $this->con->real_escape_string(strip_tags($transDate));	
+			$q = "INSERT INTO transaction VALUES (null,'$transType','$transName',$transCategory,'$transDesc',$transAmount,'$transDate')";
+			$result = false;
+			if($this->con->query($q)){
+				$result = true;
+			}
+			return json_encode($result);
+		}
 	}
 	//https://stackoverflow.com/questions/13777940/in-1-query-2-results-using-2-conditions
  ?>

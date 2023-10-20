@@ -1100,12 +1100,39 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 /*==================================================================================================================*/
 /*                                        -- Code For Wallet/Transaction --           	         			  	    */
 /*==================================================================================================================*/
-var xurl = '../Ajax/ShowStatistical';
-var xmethod = "GET";
-SendAjaxRequest(xurl,xmethod,ShowStatistical);
 function ShowStatistical(data){
-	var arr = JSON.parse(data);
-	console.log(arr);
+	if (typeof(data) == 'string') {
+		responseData = JSON.parse(data);
+		let new_tbody = document.createElement('tbody');
+		let templateFragRoot = document.querySelector("#statistical__list").content;
+		var status_noti;
+		var operator;
+		var difference;
+		var id;
+		for (var i = 0; i < responseData.length; i++) {
+			if (responseData[i].receipt < responseData[i].expenditures) {
+				status_noti = "expired";
+				operator = "-";
+				difference = responseData[i].expenditures - responseData[i].receipt;
+			} else {
+				status_noti = "good";
+				operator = "+";
+				difference = responseData[i].receipt - responseData[i].expenditures;
+			}
+			console.log("receipt"+responseData[i].receipt,"expenditures"+responseData[i].expenditures,"difference"+difference);
+			let templateFrag = templateFragRoot.cloneNode(true);
+			id = i + 1;
+			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id : id +'.';
+			templateFrag.querySelector("a").innerText = responseData[i].date;
+			templateFrag.querySelector("a").href = 'Detail/'+ responseData[i].date;
+			templateFrag.querySelector("td:nth-child(3)").innerText = responseData[i].receipt;
+			templateFrag.querySelector("td:nth-child(4)").innerText = responseData[i].expenditures;
+			templateFrag.querySelector("td:nth-child(5)").innerText = operator+difference;
+			templateFrag.querySelector("td:nth-child(5)").setAttribute("class","table__status table__status-"+status_noti);
+			new_tbody.appendChild(templateFrag);
+		}
+		document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));
+	}
 }
 
 function ShowCategoryOption(data,output){
@@ -1118,6 +1145,17 @@ function ShowCategoryOption(data,output){
 			tmpl.querySelector('option').setAttribute("value",arr[i].cat_id);
 			tmpl.querySelector('option').innerText = arr[i].category_name;
 			output.appendChild(tmpl);
+		}
+	}
+}
+
+function AddTransaction(data){
+	if (typeof(data) == 'string') {
+		responseData = JSON.parse(data);
+		if (responseData != "false" && responseData.status == 'success') {
+			let url = '../Ajax/ShowStatistical';
+			let method = "GET";
+			SendAjaxRequest(url,method,ShowStatistical);
 		}
 	}
 }
@@ -1153,8 +1191,19 @@ window.addEventListener("load",function(){
 			if (day < 10) day = "0" + day;
 
 			var today = year + "-" + month + "-" + day;
-
-			document.querySelector("#form__add-transaction-date").value = today;
+			/*Reload Form*/
+			dialogForm_TransType.value = "null";
+			dialogForm_Category.value = "null";
+			dialogForm_TransDate.value = today;
+			dialogForm_TransName.value = "";
+			dialogForm_Description.value = "";
+			dialogForm_TransAmount.value = "";
+			labelField_transType.innerText = "";
+			labelField_category.innerText = "";
+			labelField_transName.innerText = "";
+			labelField_transDesc.innerText = "";
+			labelField_transAmount.innerText = "";
+			labelField_transDialog.innerText = "";
 		})
 
 		btnAddTransaction[1].addEventListener("click",function(){
@@ -1189,7 +1238,9 @@ window.addEventListener("load",function(){
 				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				labelField_transDialog.innerText = "";
-				//SendAjax add transaction
+				let method = "POST";
+				let url = "../Ajax/AddANewTransaction";
+				SendAjaxRequest(url,method,AddTransaction,JSON.stringify(transData))
 				HideModal(dialog[0]);
 			}
 		})
