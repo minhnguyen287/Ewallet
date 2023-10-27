@@ -970,28 +970,6 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 		})
 	}
 
-	if (categoryType) {
-		categoryType.addEventListener('keyup',function(){
-			let pattern = /^[a-zA-Z0-9 _-]+?$/;
-			if(pattern.test(categoryType.value)){
-				catTypeInfor.innerText = "";
-			} else {
-				catTypeInfor.innerText = "Category Type Invalid";
-			}
-		})
-	}
-
-	if (categoryName) {
-		categoryName.addEventListener('keyup',function(){	
-			let pattern = /^[a-zA-Z0-9 ]+?$/;
-			if(pattern.test(categoryName.value)){
-				catNameInfor.innerText = "";
-			} else{
-				catNameInfor.innerText = "Category Name Invalid";
-			}
-		})
-	}
-
 	if (typeof(btnAddCategory[1])!=='undefined') {
 		btnAddCategory[1].addEventListener('click',function(){
 			var categoryData = {"type":categoryType.value,
@@ -1160,6 +1138,24 @@ function AddTransaction(data){
 	}
 }
 
+function ShowYearOption(data,output){
+	if (typeof(data) == 'string') {
+		var arr = [];
+		arr = JSON.parse(data);
+		let templateFrag = document.querySelector("#list-year").content;
+		for (var i = 0; i < arr.length; i++) {
+			let tmpl = templateFrag.cloneNode(true);
+			tmpl.querySelector('li').setAttribute("value",arr[i].year);
+			tmpl.querySelector('li').innerText = arr[i].year;
+			if (arr[i].year = arr[i].current_year) {
+				tmpl.querySelector('li').setAttribute("class","time-option-selected");
+			}
+			output.appendChild(tmpl);
+		}
+
+	}
+}
+
 window.addEventListener("load",function(){
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Transaction") != -1){
 		var dialogForm_TransType = document.getElementById("form__add-transaction-type");
@@ -1244,9 +1240,46 @@ window.addEventListener("load",function(){
 				HideModal(dialog[0]);
 			}
 		})
+
+		let yearUrl = "../Ajax/GetYearStatistical";
+		SendAjaxRequest(yearUrl,method,data => ShowYearOption(data,document.querySelector(".time-option")));
+
+		var yearOption = document.querySelector(".table__body-header-show-year");
+		var yearIcon = document.querySelector(".table__body-header-show-year-icon");
+		var monthOption = document.querySelector(".table__body-header-show-month");
+		var monthIcon = document.querySelector(".table__body-header-show-month-icon");
+		var hiddenList = document.querySelectorAll(".hide-list");
+		var inputChoose = document.querySelectorAll(".input-choose");
+
+		yearOption.addEventListener("click",function(){
+			ShowSelectOption(hiddenList[0],yearOption,yearIcon);
+		});
+
+		yearOption.addEventListener("mouseout",function(){
+			if (event.target != yearOption || event.target != yearIcon || event.target != inputChoose[0]) {
+				//HideSelectOption(hiddenList[0],yearOption,yearIcon);
+				console.log(event.target);
+			}
+			
+		});
 	}
 })
 
+function ShowSelectOption(childList,selectBox,icon){
+	ShowModal(childList);
+	childList.style.zIndex = "1";
+	selectBox.style.borderBottomLeftRadius = "0";
+	selectBox.style.borderBottomRightRadius = "0";
+	icon.querySelector("i").setAttribute("class","fa-solid fa-chevron-up");
+}
+
+function HideSelectOption(childList,selectBox,icon){
+	HideModal(childList);
+	childList.style.zIndex = "-1";
+	selectBox.style.borderBottomLeftRadius = "0.4rem";
+	selectBox.style.borderBottomRightRadius = "0.4rem";
+	icon.querySelector("i").setAttribute("class","fa-solid fa-chevron-down");
+}
 
 /*End */
 

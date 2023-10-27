@@ -409,6 +409,11 @@
 				echo json_encode("false");
 			}
 		}
+
+		public function GetYearStatistical()
+		{
+			echo $this->WalletModel->GetYearStatistical();
+		}
 	} /* End Class */
 	/*header("Content-Type: application/json"); phải viết đúng từng dấu cách (space) và dấu : (hai chấm) */
  ?>

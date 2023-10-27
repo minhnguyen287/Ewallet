@@ -29,7 +29,7 @@
 							<option value="10" selected>10</option>
 							<option value="20">20</option>
 						</select>
-						<span>entries</span>
+						<span> entries</span>
 					</div>
 					<div class="table__body-header-search">
 						<input type="text" placeholder="Search...">

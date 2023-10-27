@@ -180,15 +180,30 @@
 							<section class="layout_content table__body">
 								<div class="table__body-header">
 									<div class="table__body-header-show">
-										<span>Show</span>
-										<select name="table_record" id="table_record">
-											<option value="week">Week</option>
-											<option value="month" selected>Month</option>
-											<option value="quarter">Quarter.</option>
-										</select>
-									</div>
-									<div class="table__body-header-search">
-										<input type="text" placeholder="Search...">
+										<div class="table__body-header-show-year">
+											<input type="text" class="input-choose" readonly placeholder="-- Select Year --">
+											<span class="table__body-header-show-month-icon">
+												<i class="fa-solid fa-chevron-down"></i>
+											</span>
+											<div class="list-icon">
+												<ul class="time-option">
+													<li class="time-option-selected">2022</li>
+													<li>2023</li>
+													<template id="list-year"><li>2023</li></template>
+												</ul>
+											</div>
+										</div>
+										<div class="table__body-header-show-month">
+											<input type="text" class="input-choose" readonly placeholder="-- Select Month --">
+											<span class="table__body-header-show-month-icon">
+												<i class="fa-solid fa-chevron-down"></i>
+											</span>
+											<div class="list-icon">
+												<ul class="time-option">
+													<template id="list-month"><li>Tháng 3</li></template>
+												</ul>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="table__body-content">

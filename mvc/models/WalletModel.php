@@ -94,7 +94,7 @@
 
 		public function ShowStatistical()
 		{
-			$q = "SELECT DATE_FORMAT(tran_date,'%d-%m-%Y') AS 'date',SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt',SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditures' FROM transaction GROUP BY tran_date ORDER BY date DESC";
+			$q = "SELECT DATE_FORMAT(tran_date,'%d-%m-%Y') AS 'date', EXTRACT(week FROM tran_date) AS 'Week', MONTH(tran_date) AS 'month', QUARTER(tran_date) AS 'quarter', YEAR(tran_date) AS 'year',SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt',SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditures' FROM transaction GROUP BY date ORDER BY date DESC";
 			
 			$record1 = $this->con->query($q);
 			$arr = array();
@@ -117,6 +117,18 @@
 				$result = true;
 			}
 			return json_encode($result);
+		}
+
+		public function GetYearStatistical()
+		{
+			$q = "SELECT DISTINCT YEAR(tran_date) AS 'year', YEAR(CURDATE()) AS 'current_year' FROM transaction";
+			
+			$record1 = $this->con->query($q);
+			$arr = array();
+			while ($r1 = $record1->fetch_array(MYSQLI_ASSOC)) {
+				$arr[] = $r1;
+			}
+			return json_encode($arr);
 		}
 	}
 	//https://stackoverflow.com/questions/13777940/in-1-query-2-results-using-2-conditions

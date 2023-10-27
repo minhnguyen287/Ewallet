@@ -449,16 +449,50 @@ tr:nth-child(even) {
   justify-content: space-between;
   font-size: 1rem;
   padding: 30px 30px 0 30px; }
-  .table__body-header-show select {
-    background: none;
-    min-width: 75px;
-    padding: 10px 0 10px 10px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    text-align: center;
-    color: #77778e;
-    font-size: 1rem;
-    border: 1px solid #77778e; }
+  .table__body-header-show {
+    display: flex;
+    align-items: center; }
+    .table__body-header-show select {
+      background: none;
+      min-width: 75px;
+      padding: 10px 0 10px 10px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      text-align: center;
+      color: #77778e;
+      font-size: 1rem;
+      border: 1px solid #77778e; }
+    .table__body-header-show-year, .table__body-header-show-month {
+      border: 1px solid #45455f;
+      background: #fff;
+      border-radius: 0.4rem;
+      position: relative;
+      border-bottom: 0; }
+      .table__body-header-show-year:hover, .table__body-header-show-month:hover {
+        cursor: pointer; }
+      .table__body-header-show-year ul, .table__body-header-show-month ul {
+        color: #000;
+        text-align: center; }
+        .table__body-header-show-year ul li, .table__body-header-show-month ul li {
+          padding-bottom: 0.5rem;
+          padding-top: 0.5rem; }
+          .table__body-header-show-year ul li:hover, .table__body-header-show-month ul li:hover {
+            cursor: pointer;
+            background: #eaeaec;
+            font-weight: normal; }
+    .table__body-header-show input {
+      border: none;
+      padding: 0.75rem 0 0.75rem 0.75rem;
+      background: none;
+      max-width: 110px;
+      text-align: center;
+      font-size: 0.8rem; }
+      .table__body-header-show input:hover {
+        cursor: pointer; }
+    .table__body-header-show span {
+      background: none;
+      padding-right: 0.5rem;
+      color: #77778e; }
   .table__body-header-search input {
     background: none;
     width: 225px;
@@ -468,6 +502,29 @@ tr:nth-child(even) {
     color: #77778e;
     font-size: 1rem;
     border: 1px solid #77778e; }
+
+.hide-list {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  background: #fff;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #45455f;
+  border-left: 0;
+  border-bottom-left-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+  border-top: 0;
+  position: absolute;
+  top: 101%;
+  padding-top: 10px;
+  transition: all 0.3s ease 0s; }
+
+.time-option-selected {
+  font-weight: bold;
+  background: #b6b1e7; }
 
 .table__body-footer {
   display: flex;

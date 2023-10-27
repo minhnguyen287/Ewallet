@@ -21,15 +21,30 @@
 			<section class="layout_content table__body">
 				<div class="table__body-header">
 					<div class="table__body-header-show">
-						<span>Show</span>
-						<select name="table_record" id="table_record">
-							<option value="week">Week</option>
-							<option value="month" selected>Month</option>
-							<option value="quarter">Quarter.</option>
-						</select>
-					</div>
-					<div class="table__body-header-search">
-						<input type="text" placeholder="Search...">
+						<div class="table__body-header-show-year">
+							<input type="text" class="input-choose" readonly placeholder="-- Select Year --">
+							<span class="table__body-header-show-year-icon">
+								<i class="fa-solid fa-chevron-down"></i>
+							</span>
+							<div class="hide-list">
+								<ul class="time-option">
+									<template id="list-year">
+										<li value="{{value}}">2023</li>
+									</template>
+								</ul>
+							</div>
+						</div>
+						<div class="table__body-header-show-month">
+							<input type="text" class="input-choose" readonly placeholder="-- Select Month --">
+							<span class="table__body-header-show-month-icon">
+								<i class="fa-solid fa-chevron-down"></i>
+							</span>
+							<div class="hide-list">
+								<ul class="time-option">
+									<template id="list-month"><li>Tháng 3</li></template>
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="table__body-content">
@@ -87,13 +102,6 @@
 							</template>
 						</tbody>
 					</table>
-				</div>
-				<div class="table__body-footer">
-					<div class="table__body-footer-list">
-						<button>Previous</button>
-						<button>1</button>
-						<button>Next</button>
-					</div>
 				</div>
 			</section>
 		</main>
