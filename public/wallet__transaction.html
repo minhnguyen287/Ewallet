@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Mint Wallet</title>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/style.css">
@@ -179,29 +180,21 @@
 							</section>
 							<section class="layout_content table__body">
 								<div class="table__body-header">
-									<div class="table__body-header-show">
-										<div class="table__body-header-show-year">
-											<input type="text" class="input-choose" readonly placeholder="-- Select Year --">
-											<span class="table__body-header-show-month-icon">
-												<i class="fa-solid fa-chevron-down"></i>
-											</span>
-											<div class="list-icon">
-												<ul class="time-option">
-													<li class="time-option-selected">2022</li>
-													<li>2023</li>
-													<template id="list-year"><li>2023</li></template>
-												</ul>
-											</div>
-										</div>
-										<div class="table__body-header-show-month">
-											<input type="text" class="input-choose" readonly placeholder="-- Select Month --">
-											<span class="table__body-header-show-month-icon">
-												<i class="fa-solid fa-chevron-down"></i>
-											</span>
-											<div class="list-icon">
-												<ul class="time-option">
-													<template id="list-month"><li>Tháng 3</li></template>
-												</ul>
+									<div class="table__body-dropdown">
+										<div class="table__body-dropdown">
+											<div class="table__body-dropdown input-box"></div>
+											<div class="table__body-dropdown option-list">
+												<input type="radio" name="year" id="y">
+												<label for="y">2020</label>
+
+												<input type="radio" name="year" id="y1">
+												<label for="y1">2021</label>
+
+												<input type="radio" name="year" id="y2">
+												<label for="y2">2022</label>
+
+												<input type="radio" name="year" id="y3">
+												<label for="y3">2023</label>
 											</div>
 										</div>
 									</div>

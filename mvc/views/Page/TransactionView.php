@@ -20,29 +20,21 @@
 			</section>
 			<section class="layout_content table__body">
 				<div class="table__body-header">
-					<div class="table__body-header-show">
-						<div class="table__body-header-show-year">
-							<input type="text" class="input-choose" readonly placeholder="-- Select Year --">
-							<span class="table__body-header-show-year-icon">
-								<i class="fa-solid fa-chevron-down"></i>
-							</span>
-							<div class="hide-list">
-								<ul class="time-option">
-									<template id="list-year">
-										<li value="{{value}}">2023</li>
-									</template>
-								</ul>
-							</div>
-						</div>
-						<div class="table__body-header-show-month">
-							<input type="text" class="input-choose" readonly placeholder="-- Select Month --">
-							<span class="table__body-header-show-month-icon">
-								<i class="fa-solid fa-chevron-down"></i>
-							</span>
-							<div class="hide-list">
-								<ul class="time-option">
-									<template id="list-month"><li>Tháng 3</li></template>
-								</ul>
+					<div class="table__body-dropdown">
+						<div class="table__body-dropdown">
+							<div class="table__body-dropdown input-box"></div>
+							<div class="table__body-dropdown option-list">
+								<input class="year-list" type="radio" name="year" id="y">
+								<label for="y">2020</label>
+
+								<input class="year-list" type="radio" name="year" id="y1">
+								<label for="y1">2021</label>
+
+								<input class="year-list" type="radio" name="year" id="y2">
+								<label for="y2">2022</label>
+
+								<input class="year-list" type="radio" name="year" id="y3">
+								<label for="y3">2023</label>
 							</div>
 						</div>
 					</div>
