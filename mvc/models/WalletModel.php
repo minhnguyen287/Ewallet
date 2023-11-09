@@ -92,9 +92,21 @@
 			return json_encode($arr);
 		}
 
-		public function ShowStatistical()
+		public function ShowStatistical($yearInput,$monthInput)
 		{
-			$q = "SELECT DATE_FORMAT(tran_date,'%d-%m-%Y') AS 'date', EXTRACT(week FROM tran_date) AS 'Week', MONTH(tran_date) AS 'month', QUARTER(tran_date) AS 'quarter', YEAR(tran_date) AS 'year',SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt',SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditures' FROM transaction GROUP BY date ORDER BY date DESC";
+			$yearInput = $this->con->real_escape_string(strip_tags($yearInput));
+			$monthInput = $this->con->real_escape_string(strip_tags($monthInput));
+			//$q = "SELECT DATE_FORMAT(tran_date,'%d-%m-%Y') AS 'date', EXTRACT(week FROM tran_date) AS 'Week', MONTH(tran_date) AS 'month', QUARTER(tran_date) AS 'quarter', YEAR(tran_date) AS 'year',SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt',SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditures' FROM transaction GROUP BY date ORDER BY date DESC";
+			$q = "SELECT DATE_FORMAT(tran_date,'%d-%m-%Y') AS 'date', ";
+			$q .= "EXTRACT(week FROM tran_date) AS 'Week', ";
+			$q .= "MONTH(tran_date) AS 'month', ";
+			$q .= "QUARTER(tran_date) AS 'quarter', ";
+			$q .= "YEAR(tran_date) AS 'year', ";
+			$q .= "SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt', ";
+			$q .= "SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditures' ";
+			$q .= "FROM transaction ";
+			$q .= "WHERE YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput ";
+			$q .= "GROUP BY date ORDER BY date DESC";
 			
 			$record1 = $this->con->query($q);
 			$arr = array();
@@ -122,6 +134,23 @@
 		public function GetYearStatistical()
 		{
 			$q = "SELECT DISTINCT YEAR(tran_date) AS 'year', YEAR(CURDATE()) AS 'current_year' FROM transaction";
+			
+			$record1 = $this->con->query($q);
+			$arr = array();
+			while ($r1 = $record1->fetch_array(MYSQLI_ASSOC)) {
+				$arr[] = $r1;
+			}
+			return json_encode($arr);
+		}
+
+		public function GetMonthStatistical($y)
+		{
+			$q = "SELECT DISTINCT MONTH(tran_date) AS 'month', MONTH(CURDATE()) AS 'current_month' FROM transaction ";
+			if ($y == "current_year") {
+				$q .= "WHERE YEAR(tran_date) = YEAR(CURDATE())";
+			} else {
+				$q .= "WHERE YEAR(tran_date) = $y";
+			}
 			
 			$record1 = $this->con->query($q);
 			$arr = array();

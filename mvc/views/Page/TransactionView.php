@@ -20,22 +20,28 @@
 			</section>
 			<section class="layout_content table__body">
 				<div class="table__body-header">
-					<div class="table__body-dropdown">
+					<div class="table__body-dropdown time-list">
 						<div class="table__body-dropdown">
-							<div class="table__body-dropdown input-box"></div>
-							<div class="table__body-dropdown option-list">
-								<input class="year-list" type="radio" name="year" id="y">
-								<label for="y">2020</label>
-
-								<input class="year-list" type="radio" name="year" id="y1">
-								<label for="y1">2021</label>
-
-								<input class="year-list" type="radio" name="year" id="y2">
-								<label for="y2">2022</label>
-
+							<div class="table__body-dropdown input-box year-box"></div>
+							<div class="table__body-dropdown option-list option-year-list">
+								<!-- List of Year -->
+							</div>	
+							<template id="list-of-year">
 								<input class="year-list" type="radio" name="year" id="y3">
 								<label for="y3">2023</label>
+							</template>
+						</div>
+						<div class="table__body-dropdown">
+							<div class="table__body-dropdown input-box month-box"></div>
+							<div class="table__body-dropdown option-list option-month-list">
+								<div class="default-list">
+									<!-- List of Month -->	
+								</div>
 							</div>
+							<template id="list-of-month">
+								<input class="month-list" type="radio" name="month" id="m3">
+								<label for="m3">Tháng 4</label>
+							</template>
 						</div>
 					</div>
 				</div>
@@ -63,36 +69,41 @@
 						<tbody>
 							<?php 
 								$data_list = json_decode($data["TransactionList"]);
-								for ($i=0; $i < count($data_list); $i++) { 
-									$status_noti = "good";
-									$operator = "+";
-									$difference = $data_list[$i]->receipt - $data_list[$i]->expenditures;
-									if ($data_list[$i]->receipt < $data_list[$i]->expenditures) {
-										$status_noti = "expired";
-										$operator = "-";
-										$difference = $data_list[$i]->expenditures - $data_list[$i]->receipt;
+								if (empty($data_list)) {
+									echo "<tr><td colspan='5'><center>No records</center></td></tr>";
+								} else {
+									for ($i=0; $i < count($data_list); $i++) { 
+										$status_noti = "good";
+										$operator = "+";
+										$difference = $data_list[$i]->receipt - $data_list[$i]->expenditures;
+										if ($data_list[$i]->receipt < $data_list[$i]->expenditures) {
+											$status_noti = "expired";
+											$operator = "-";
+											$difference = $data_list[$i]->expenditures - $data_list[$i]->receipt;
+										}
+										$id = $i + 1;
+										$id < 10 ? $id = "0".$id : $id;
+										echo "<tr>";
+										echo '<td data-cell="no">'.$id.'.</td>';
+										echo '<td data-cell="date"><a href="Detail/'.$data_list[$i]->date.'">'.$data_list[$i]->date.'</a></td>';
+										echo '<td data-cell="Receipts">'.$data_list[$i]->receipt.'</td>';
+										echo '<td data-cell="Expenditure">'.$data_list[$i]->expenditures.'</td>';
+										echo '<td data-cell="Difference" class="table__status table__status-'.$status_noti.'">'.$operator.$difference.'</td>';
+										echo '</tr>';
 									}
-									$id = $i + 1;
-									$id < 10 ? $id = "0".$id : $id;
-									echo "<tr>";
-									echo '<td data-cell="no">'.$id.'.</td>';
-									echo '<td data-cell="date"><a href="Detail/'.$data_list[$i]->date.'">'.$data_list[$i]->date.'</a></td>';
-									echo '<td data-cell="Receipts">'.$data_list[$i]->receipt.'</td>';
-									echo '<td data-cell="Expenditure">'.$data_list[$i]->expenditures.'</td>';
-									echo '<td data-cell="Difference" class="table__status table__status-'.$status_noti.'">'.$operator.$difference.'</td>';
-									echo '</tr>';
 								}
+								
 							 ?>
-							<template id="statistical__list">
-							 	<tr>
-							 		<td data-cell="no">01.</td>
-							 		<td data-cell="date"><a href="Detail/">14.05.2023</a></td>
-							 		<td data-cell="Receipts">100.000</td>
-							 		<td data-cell="Expenditurese">200.000</td>
-							 		<td data-cell="Difference" class="table__status table__status-expired">-100.000</td>
-							 	</tr>
-							</template>
 						</tbody>
+						<template id="statistical__list">
+							<tr>
+								<td data-cell="no">01.</td>
+								<td data-cell="date"><a href="Detail/">14.05.2023</a></td>
+								<td data-cell="Receipts">100.000</td>
+								<td data-cell="Expenditurese">200.000</td>
+								<td data-cell="Difference" class="table__status table__status-expired">-100.000</td>
+							</tr>
+						</template>
 					</table>
 				</div>
 			</section>

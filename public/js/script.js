@@ -7,6 +7,8 @@
 	=//=//=/=//=//= Callback =//=//=/=//=//=
 	https://www.youtube.com/watch?v=W8vJ-yOtSbE&t=236s
 	https://www.youtube.com/watch?v=LUt36WnREm0&t=222s
+	https://www.youtube.com/watch?v=cNdJLapVQMo
+	https://homiedev.com/tim-hieu-javascript-classlist-add-remove-and-toggle/
 */
 
 /* Chú thích 
@@ -1097,7 +1099,7 @@ function ShowStatistical(data){
 				operator = "+";
 				difference = responseData[i].receipt - responseData[i].expenditures;
 			}
-			console.log("receipt"+responseData[i].receipt,"expenditures"+responseData[i].expenditures,"difference"+difference);
+			//console.log("receipt"+responseData[i].receipt,"expenditures"+responseData[i].expenditures,"difference"+difference);
 			let templateFrag = templateFragRoot.cloneNode(true);
 			id = i + 1;
 			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id : id +'.';
@@ -1134,27 +1136,57 @@ function AddTransaction(data){
 			let url = '../Ajax/ShowStatistical';
 			let method = "GET";
 			SendAjaxRequest(url,method,ShowStatistical);
+			PopupMessage("success","add","transaction");
+		} else {
+			PopupMessage("failure","add","transaction");
 		}
 	}
 }
 
-// function ShowYearOption(data,output){
-// 	if (typeof(data) == 'string') {
-// 		var arr = [];
-// 		arr = JSON.parse(data);
-// 		let templateFrag = document.querySelector("#list-year").content;
-// 		for (var i = 0; i < arr.length; i++) {
-// 			let tmpl = templateFrag.cloneNode(true);
-// 			tmpl.querySelector('li').setAttribute("value",arr[i].year);
-// 			tmpl.querySelector('li').innerText = arr[i].year;
-// 			if (arr[i].year = arr[i].current_year) {
-// 				tmpl.querySelector('li').setAttribute("class","time-option-selected");
-// 			}
-// 			output.appendChild(tmpl);
-// 		}
+function ShowYearList(data){
+	if (typeof(data) == 'string') {
+		var arr = [];
+		arr = JSON.parse(data);
+		let templateFrag = document.querySelector("#list-of-year").content;
+		for (var i = 0; i < arr.length; i++) {
+			let tmpl = templateFrag.cloneNode(true);
+			tmpl.querySelector('input').setAttribute("value",arr[i].year);
+			tmpl.querySelector('input').setAttribute("id","y"+arr[i].year);
+			tmpl.querySelector('label').innerText = arr[i].year;
+			tmpl.querySelector('label').setAttribute("for","y"+arr[i].year)
+			if (arr[i].year == arr[i].current_year) {
+				tmpl.querySelector('input').setAttribute("checked","checked");
+				document.querySelector(".year-box").innerText = arr[i].year;
+			}
+			document.querySelector(".option-year-list").appendChild(tmpl);
+		}
+	}
+}
 
-// 	}
-// }
+function ShowMonthList(data){
+	if (typeof(data) == 'string') {
+		var arr = [];
+		arr = JSON.parse(data);
+		let newMonthList = document.createElement('div');
+		newMonthList.setAttribute("class","default-list");
+		let templateFrag = document.querySelector("#list-of-month").content;
+		for (var i = 0; i < arr.length; i++) {
+			let tmpl = templateFrag.cloneNode(true);
+			tmpl.querySelector('input').setAttribute("value",arr[i].month);
+			tmpl.querySelector('input').setAttribute("id","m"+arr[i].month);
+			tmpl.querySelector('label').innerText = "Tháng "+arr[i].month;
+			tmpl.querySelector('label').setAttribute("for","m"+arr[i].month)
+			if (arr[i].month == arr[i].current_month) {
+				tmpl.querySelector('input').setAttribute("checked","checked");
+				document.querySelector(".month-box").innerText = "Tháng "+arr[i].month;
+			} else {
+				document.querySelector(".month-box").innerText = "";
+			}
+			newMonthList.appendChild(tmpl);
+		}
+		document.querySelector(".option-month-list").replaceChild(newMonthList,document.querySelector('.default-list'))
+	}
+}
 
 window.addEventListener("load",function(){
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Transaction") != -1){
@@ -1172,21 +1204,22 @@ window.addEventListener("load",function(){
 		var labelField_transAmount = document.getElementById("transamount_info");
 		var labelField_transDialog = document.getElementById("transDialog_info");
 
-		let url = '../Ajax/ShowListCategories';
+		var currentDate = new Date();
+		var currentDay = currentDate.getDate();
+		var currentMonth = currentDate.getMonth() + 1;
+		var currentYear = currentDate.getFullYear();
+		var timeInput = {"yearInput":currentYear,"monthInput":currentMonth};
+
+		if (currentMonth < 10) currentMonth = "0" + currentMonth;
+		if (currentDay < 10) currentDay = "0" + currentDay;
+
+		var today = currentYear + "-" + currentMonth + "-" + currentDay;
+
+		let catUrl = '../Ajax/ShowListCategories';
 		let method = "GET";
-		SendAjaxRequest(url,method,data => ShowCategoryOption(data,dialogForm_Category));
+		SendAjaxRequest(catUrl,method,data => ShowCategoryOption(data,dialogForm_Category));
 		btnAddTransaction[0].addEventListener("click",function(){
 			ShowModal(dialog[0]);
-
-			var date = new Date();
-			var day = date.getDate();
-			var month = date.getMonth() + 1;
-			var year = date.getFullYear();
-
-			if (month < 10) month = "0" + month;
-			if (day < 10) day = "0" + day;
-
-			var today = year + "-" + month + "-" + day;
 			/*Reload Form*/
 			dialogForm_TransType.value = "null";
 			dialogForm_Category.value = "null";
@@ -1219,18 +1252,14 @@ window.addEventListener("load",function(){
 			} else {
 				labelField_transName.innerText = "Transaction Name field can't be empty";
 			}
-			if (dialogForm_Description.value) {
-				transData["transDesc"] = dialogForm_Description.value;
-			} else {
-				labelField_transDesc.innerText = "Description field can't be empty";
-			}
+			transData["transDesc"] = dialogForm_Description.value;
 			if (dialogForm_TransAmount.value) {
 				transData["transAmount"] = dialogForm_TransAmount.value;
 			} else {
 				labelField_transAmount.innerText = "Amount field can't be empty";
 			}
 			/*Object.keys(ObjectName).length = số lượng của object*/
-			if (Object.keys(transData).length != 6) {
+			if (Object.keys(transData).length != 5) {
 				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				labelField_transDialog.innerText = "";
@@ -1241,52 +1270,108 @@ window.addEventListener("load",function(){
 			}
 		})
 
-		// let yearUrl = "../Ajax/GetYearStatistical";
-		// SendAjaxRequest(yearUrl,method,data => ShowYearOption(data,document.querySelector(".time-option")));
+		function HiddenBox(box){
+			box.nextElementSibling.style.maxHeight = null;
+			box.nextElementSibling.style.boxShadow = null;
+		}
 
-		var inputBox = document.querySelector(".input-box");
-		inputBox.addEventListener("click",function(){
-			this.classList.toggle("show-list");
-			var hiddenList = this.nextElementSibling;
-			if (hiddenList.style.maxHeight) {
-				hiddenList.style.maxHeight = null;
-				hiddenList.style.boxShadow = null;
-			} else {
-				hiddenList.style.maxHeight = hiddenList.scrollHeight + "px";
-				hiddenList.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
-			}
-		});
+		function ShowBox(box){
+			box.nextElementSibling.style.maxHeight = box.nextElementSibling.scrollHeight + "px";;
+			box.nextElementSibling.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
+		}
 
-		var yearList = document.querySelectorAll(".year-list");
-		yearList.forEach((year)=>{
-			year.addEventListener("change",()=>{
-				inputBox.innerText = year.nextElementSibling.innerText;
-				inputBox.click();
-			})
+		let yearUrl = "../Ajax/GetYearStatistical";
+		SendAjaxRequest(yearUrl,method,ShowYearList);
+		let monthUrl = "../Ajax/GetMonthStatistical";
+		SendAjaxRequest(monthUrl,method,ShowMonthList);
+		/* Khi click vào box thì hiện ra danh sách năm hoặc tháng */
+		var inputBox = document.querySelectorAll(".input-box");
+		var yearBox = inputBox[0];
+		var monthBox = inputBox[1];
+		inputBox.forEach((inputIndex)=>{
+			inputIndex.addEventListener("click",function(e){
+				e.stopPropagation();
+				this.classList.toggle("show-list");
+				var hiddenList = this.nextElementSibling;
+				if (hiddenList.style.maxHeight) {
+					hiddenList.style.maxHeight = null;
+					hiddenList.style.boxShadow = null;
+				} else {
+					hiddenList.style.maxHeight = hiddenList.scrollHeight + "px";
+					hiddenList.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
+				}
+			});
 		})
+		/* Khi click ra ngoài màn hình thì tự động đóng 2 box */
+		document.addEventListener('click',function(){
+			HiddenBox(yearBox);
+			HiddenBox(monthBox);
+			if (monthBox.classList.contains('show-list')) {
+				monthBox.classList.remove('show-list')
+			}
+			if (yearBox.classList.contains('show-list')) {
+				yearBox.classList.remove('show-list')
+			}
+		})
+		/* Khi click vào box chọn năm thì xoá outline của box chọn tháng nếu đang hiện và ẩn list tháng */
+		yearBox.addEventListener('click',(e)=>{
+			HiddenBox(monthBox);
+			if (monthBox.classList.contains('show-list')) {
+				monthBox.classList.remove('show-list')
+			}
+		})
+
+		on(".option-year-list",'click','.year-list',SelectYear);
+
+		function SelectYear(){
+			var yearList = document.querySelectorAll(".year-list");
+			yearList.forEach((year)=>{
+				year.addEventListener("change",(e)=>{
+					yearBox.innerText = year.nextElementSibling.innerText;
+					HiddenBox(yearBox);
+					let data = JSON.stringify({"y":year.nextElementSibling.innerText});
+					let monthUrl = "../Ajax/GetMonthStatistical";
+					let method = "POST";
+					SendAjaxRequest(monthUrl,method,ShowMonthList,data);
+					timeInput["yearInput"] = Number(yearBox.innerText);
+				})
+			})
+		}
+
+		/* Khi click vào box chọn tháng thì xoá outline của box chọn năm nếu đang hiện và ẩn list năm */
+		monthBox.addEventListener('click',(e)=>{
+			HiddenBox(yearBox);
+			if (yearBox.classList.contains('show-list')) {
+				yearBox.classList.remove('show-list')
+			}
+			
+		})
+		on(".option-month-list",'click','.month-list',SelectMonth);
+
+		function SelectMonth(){
+			var monthList = document.querySelectorAll(".month-list");
+			monthList.forEach((month)=>{
+				month.addEventListener("change",(e)=>{
+					monthBox.innerText = month.nextElementSibling.innerText;
+					HiddenBox(monthBox);
+					timeInput["monthInput"] = Number(month.value);
+					let statisticalUrl = "../Ajax/ShowStatistical";
+					SendAjaxRequest(statisticalUrl,"POST",ShowStatistical,JSON.stringify(timeInput));
+				})
+			})
+		}
+
+		
+		
 	}
 })
 
-function ShowSelectOption(childList,selectBox,icon){
-	ShowModal(childList);
-	childList.style.zIndex = "1";
-	selectBox.style.borderBottomLeftRadius = "0";
-	selectBox.style.borderBottomRightRadius = "0";
-	icon.querySelector("i").setAttribute("class","fa-solid fa-chevron-up");
-}
-
-function HideSelectOption(childList,selectBox,icon){
-	HideModal(childList);
-	childList.style.zIndex = "-1";
-	selectBox.style.borderBottomLeftRadius = "0.4rem";
-	selectBox.style.borderBottomRightRadius = "0.4rem";
-	icon.querySelector("i").setAttribute("class","fa-solid fa-chevron-down");
-}
 
 /*End */
 
 /*
 Trong trang window.onload chỉ được gọi 1 lần, còn lại nên dùng window.addEventListener("load",function());
 Khi dùng thẻ template thì trước khi thêm sửa xoá, phải dùng hàm cloneNode(true) để có thể sử dụng template đó nhiều lần
-Khi
+classList sử dụng contains,remove,add, replace class gần giống setAttribute
+
 */

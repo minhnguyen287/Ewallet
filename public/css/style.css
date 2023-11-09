@@ -1,5 +1,10 @@
+@font-face {
+  font-family: Poppinss;
+  src: url("../font/poppins/DesignerVN-Poppins-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppinss", sans-serif;
   font-size: 10px;
   position: relative; }
 
@@ -481,10 +486,18 @@ tr:nth-child(even) {
     font-size: 1rem;
     border: 1px solid #77778e; }
 .table__body-dropdown {
-  width: 300px;
+  width: 150px;
   height: fit-content;
   box-sizing: border-box;
-  position: relative; }
+  position: relative;
+  color: #000; }
+  .table__body-dropdown:first-child {
+    margin-right: 5px; }
+
+.time-list {
+  display: flex;
+  width: fit-content;
+  height: fit-content; }
 
 .input-box {
   width: 100%;
@@ -492,7 +505,31 @@ tr:nth-child(even) {
   box-sizing: border-box;
   outline: 0.3mm solid #45455f;
   padding: 10px 15px;
-  border-radius: 2mm; }
+  border-radius: 2mm;
+  background: #fff;
+  position: relative; }
+  .input-box::before {
+    content: "expand_more";
+    font-family: "Material Icons";
+    position: absolute;
+    transform: translate(0, -50%);
+    top: 50%;
+    right: 10px;
+    width: fit-content;
+    height: fit-content; }
+  .input-box.show-list {
+    outline: 0.7mm solid #1475d5; }
+    .input-box.show-list::before {
+      content: "expand_less"; }
+  .input-box:empty::after {
+    content: "-- Select year --";
+    font-size: 0.7rem;
+    color: rgba(0, 0, 0, 0.5); }
+
+.month-box:empty::after {
+  content: "-- Select month --";
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.5); }
 
 .option-list {
   position: absolute;
@@ -533,7 +570,10 @@ tr:nth-child(even) {
       position: absolute;
       transform: translate(0, -50%);
       top: 50%;
-      right: 15px; }
+      right: 10px; }
+
+.default-list {
+  width: 100%; }
 
 .table__body-footer {
   display: flex;

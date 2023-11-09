@@ -348,10 +348,20 @@
 			echo $this->WalletModel->CountCategory();
 		}
 
-		public function ShowStatistical(){
-			echo $this->WalletModel->ShowStatistical();
+		public function ShowStatistical()
+		{ 
+			if (!isset($_POST["AjaxData"])) {
+				$yearInput = date("Y");
+				$monthInput = date("m");
+			} else {
+				header("Content-Type: application/json");
+				$arr = json_decode($_POST["AjaxData"],true);
+				$yearInput = $arr['yearInput'];
+				$monthInput = $arr['monthInput'];
+			}
+			echo $kq = $this->WalletModel->ShowStatistical($yearInput,$monthInput);
 		}
-		
+
 		public function AddANewTransaction()
 		{
 			header("Content-Type: application/json");
@@ -413,6 +423,19 @@
 		public function GetYearStatistical()
 		{
 			echo $this->WalletModel->GetYearStatistical();
+		}
+
+		public function GetMonthStatistical()
+		{
+			header("Content-Type: application/json");
+			if(isset($_POST["AjaxData"])){
+				$arr = json_decode($_POST["AjaxData"],true);
+				$y = $arr['y'];
+			} else {
+				$y = "current_year";
+			}
+			
+			echo $this->WalletModel->GetMonthStatistical($y);
 		}
 	} /* End Class */
 	/*header("Content-Type: application/json"); phải viết đúng từng dấu cách (space) và dấu : (hai chấm) */

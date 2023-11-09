@@ -23,7 +23,9 @@
 		}
 
 		public function Transaction(){
-			$list = $this->WalletModel->ShowStatistical();
+			$yearInput = date("Y");
+			$monthInput = date("m");
+			$list = $this->WalletModel->ShowStatistical($yearInput,$monthInput);
 			$this->view("MasterLayout",["Page"=>"TransactionView",
 										"TransactionList"=>$list]);
 		}
