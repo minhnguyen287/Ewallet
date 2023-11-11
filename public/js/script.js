@@ -827,6 +827,7 @@ function ShowListView(data){
 		let old_tbody = document.querySelector('tbody');
 		for (let i = 0; i < responseData.length; i++) {
 			var newRow = templateFrag.cloneNode(true);
+			newRow.querySelector("tr").setAttribute("id",responseData[i].cat_id);
 			newRow.querySelector("td").innerText = responseData[i].cat_id;
 			newRow.querySelector("td:nth-child(2)").innerText = responseData[i].category_type;
 			newRow.querySelector("td:nth-child(3) span").innerText = responseData[i].category_name;
@@ -1235,6 +1236,16 @@ window.addEventListener("load",function(){
 			labelField_transDialog.innerText = "";
 		})
 
+		dialogForm_Category.addEventListener('change',(e)=>{
+			var transValue;
+			var optionList = dialogForm_Category.querySelectorAll('option');
+			for (var i = 0; i < optionList.length; i++) {
+				if (optionList[i].getAttribute('value') == dialogForm_Category.value) {
+					transValue = optionList[i].innerText;
+				}
+			}
+			dialogForm_TransName.value = transValue;
+		})
 		btnAddTransaction[1].addEventListener("click",function(){
 			let transData = {transDate:dialogForm_TransDate.value}
 			if(dialogForm_TransType.value != "null"){
@@ -1252,14 +1263,19 @@ window.addEventListener("load",function(){
 			} else {
 				labelField_transName.innerText = "Transaction Name field can't be empty";
 			}
-			transData["transDesc"] = dialogForm_Description.value;
+			if (dialogForm_TransName.value) {
+				transData["transDesc"] = dialogForm_Description.value;
+			} else {
+				labelField_transDesc.innerText = "Description field can't be empty";
+			}
+			
 			if (dialogForm_TransAmount.value) {
 				transData["transAmount"] = dialogForm_TransAmount.value;
 			} else {
 				labelField_transAmount.innerText = "Amount field can't be empty";
 			}
 			/*Object.keys(ObjectName).length = số lượng của object*/
-			if (Object.keys(transData).length != 5) {
+			if (Object.keys(transData).length != 6) {
 				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				labelField_transDialog.innerText = "";

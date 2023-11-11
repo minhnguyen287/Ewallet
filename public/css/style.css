@@ -383,7 +383,10 @@ tr:nth-child(even) {
 .detail__table-header {
   padding-top: 30px;
   margin-left: 30px;
-  font-size: 1rem; }
+  font-size: 1rem;
+  display: flex; }
+  .detail__table-header h2:first-child {
+    margin-right: 15px; }
 .detail__table-body {
   min-height: 600px; }
 
@@ -459,7 +462,8 @@ tr:nth-child(even) {
     align-items: center; }
     .table__body-header-show select {
       background: none;
-      min-width: 75px;
+      min-width: 50px;
+      margin: 0 5px 0 5px;
       padding: 10px 0 10px 10px;
       box-sizing: border-box;
       border-radius: 10px;

@@ -583,7 +583,8 @@ tr{
 	    	align-items: center;
 	    	& select{
 	    		background: none;
-	    		min-width: 75px;
+	    		min-width: 50px;
+	    		margin: 0 5px 0 5px;
 	    		padding: 10px 0 10px 10px;
 	    		box-sizing: border-box;
 	    		border-radius: 10px;

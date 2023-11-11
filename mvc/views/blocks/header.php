@@ -48,7 +48,7 @@
 									</li>
 									<li class="categories__list-menu-item">
 										<input type="checkbox" class="categories__list-show-hide" id="categories__list-show-hide">
-										<label for="categories__list-show-hide" class="categories__label">
+										<label for="categories__list-show-hide" style="color:#fff" class="categories__label">
 											<i class="fa-solid fa-money-check-dollar fa-sm categories__list-icon"></i>My Wallet
 											<div class="categories__list-submenu">
 												<i class="fa-solid fa-chevron-right show__submenu"></i>

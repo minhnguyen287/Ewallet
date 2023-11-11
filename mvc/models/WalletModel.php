@@ -108,10 +108,25 @@
 			$q .= "WHERE YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput ";
 			$q .= "GROUP BY date ORDER BY date DESC";
 			
-			$record1 = $this->con->query($q);
+			$record = $this->con->query($q);
 			$arr = array();
-			while ($r1 = $record1->fetch_array(MYSQLI_ASSOC)) {
-				$arr[] = $r1;
+			while ($r = $record->fetch_array(MYSQLI_ASSOC)) {
+				$arr[] = $r;
+			}
+			return json_encode($arr);
+		}
+
+		public function ShowDetailTransaction($date)
+		{
+			$date = $this->con->real_escape_string(strip_tags($date));
+			$q = "SELECT tran_type, tran_name,c.category_name AS 'cat',tran_desc,tran_amount ";
+			$q .= "FROM transaction AS t JOIN category AS c USING (cat_id) ";
+			$q .= "WHERE DATE_FORMAT(tran_date,'%d-%m-%Y') = '$date'";
+
+			$record = $this->con->query($q);
+			$arr = array();
+			while ($result = $record->fetch_array(MYSQLI_ASSOC)) {
+				$arr[] = $result;
 			}
 			return json_encode($arr);
 		}

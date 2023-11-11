@@ -29,5 +29,15 @@
 			$this->view("MasterLayout",["Page"=>"TransactionView",
 										"TransactionList"=>$list]);
 		}
+
+		public function Detail()
+		{
+			$param = explode('/', $_GET['url']);
+			$date = $param[2];
+			$list = $this->WalletModel->ShowDetailTransaction($date);
+			$this->view("MasterLayout",["Page"=>"DetailView",
+										"DetailList"=>$list]);
+		}
+
 	}
  ?>
