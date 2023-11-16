@@ -17,7 +17,7 @@
 		<header class="header">
 			<div class="header__popup">Thêm bản ghi</div>
 			<div class="header__logo">
-				<a href="Home" class="logo__container">
+				<a href="/ewallet/" class="logo__container">
 					<span class="logo__container__icon"><i class="fa-solid fa-wallet fa-xl"></i></span> Mint Wallet 
 				</a>
 			</div>

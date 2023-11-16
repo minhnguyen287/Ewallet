@@ -57,19 +57,19 @@
 										$data_list[$i]->tran_type == 'receipt'? $status_noti = "good":$status_noti = "expired";
 										$id = $i + 1;
 										$id < 10 ? $id = "0".$id : $id;
-										echo '<tr class="table__detail-row">';
+										echo '<tr class="table__detail-row" id="'.$data_list[$i]->tran_id.'">';
 										echo '<td class="table__detail-column" data-cell="no">'.$id.'.</td>';
-										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="trans type">'.$data_list[$i]->tran_type.'</td>';
+										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="trans type" value='.$data_list[$i]->tran_type.'>'.$data_list[$i]->tran_type.'</td>';
 										echo '<td class="table__detail-column" data-cell="trans name">'.$data_list[$i]->tran_name.'</td>';
-										echo '<td class="table__detail-column" data-cell="category">'.$data_list[$i]->cat.'</td>';
+										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'>'.$data_list[$i]->cat_name.'</td>';
 										echo '<td class="table__detail-column" data-cell="description">'.$data_list[$i]->tran_desc.'</td>';
 										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount">'.$data_list[$i]->tran_amount.'</td>';
 										echo '<td class="table__detail-column" data-cell="Action">
-												<div class="oil__table-action">
-													<button class="oil__table-action-edit">
+												<div class="table__action">
+													<button class="table__action-edit">
 														<i class="fa-solid fa-pen fa-sm"></i>
 													</button>
-													<button class="oil__table-action-delete">
+													<button class="table__action-delete">
 														<i class="fa-solid fa-trash fa-sm"></i>
 													</button>
 												</div>
@@ -79,8 +79,8 @@
 								}
 							 ?>
 						</tbody>
-						<template>
-							<tr  class="table__detail-row">
+						<template id="transaction-list">
+							<tr class="table__detail-row">
 								<td class="table__detail-column" data-cell="no">01.</td>
 								<td class="table__detail-column table__status table__status-good" data-cell="trans type">reject</td>
 								<td class="table__detail-column" data-cell="trans name">salary of 10th frt</td>
@@ -88,11 +88,11 @@
 								<td class="table__detail-column" data-cell="description">No comment</td>
 								<td class="table__detail-column table__status table__status-good" data-cell="amount">1.000.000</td>
 								<td class="table__detail-column" data-cell="Action">
-									<div class="oil__table-action">
-										<button class="oil__table-action-edit">
+									<div class="table__action">
+										<button class="table__action-edit">
 											<i class="fa-solid fa-pen fa-sm"></i>
 										</button>
-										<button class="oil__table-action-delete">
+										<button class="table__action-delete">
 											<i class="fa-solid fa-trash fa-sm"></i>
 										</button>
 									</div>
@@ -123,7 +123,7 @@
 					<select class="dialog__form-input" name="type" id="form__add-transaction-type">
 						<option value=null selected="selected">-- Choose one --</option>
 						<option value="receipt">Receipt</option>
-						<option value="expenditures">Expenses</option>
+						<option value="expenditure">Expenses</option>
 					</select>
 				</div>			
 				<div class="dialog__form-field">
@@ -154,18 +154,42 @@
 						<span class="input_infor" id="transamount_info"></span>
 					</label>
 					<input class="dialog__form-input" name="amount" type="number" id="form__add-transaction-amount" min="1000" step="1000" placeholder="Amount">
-				</div>				
-
-				<div class="dialog__form-field">
-					<label class="dialog__form-label" for="date">Date</label>
-					<input class="dialog__form-input" name="date" type="date" id="form__add-transaction-date">
-				</div>
+				</div>		
 			</form>
 		</div>
 		<div class="dialog__content-footer">
-			<button class="add__transaction-button">
+			<button type="button" class="add__transaction-button" name="addTrBtn">
 				<i class="fa-solid fa-plus"></i> Add Transaction
+			</button>
+			<button type="button" class="edit__transaction-button" name="editTrBtn">
+				<i class="fa-solid fa-pen fa-sm"></i> Update Transaction
 			</button>
 		</div>
 	</div>
+</div>
+
+<div class="dialog">
+	<form id="DeleteTransaction" action="" method="POST">
+		<div class="dialog__content">
+			<div class="dialog__content-header">
+				<h2 class="dialog__content-header-label">Delete transaction</h2>
+				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
+			</div>
+			<div class="dialog__content-body">
+				<div class="dialog__form">
+					<div class="dialog__form-field">
+						<span>Are you sure delete record of this transaction ?</span>
+					</div>					
+				</div>
+			</div>
+			<div class="dialog__content-footer">
+				<button type="button" class="delete__transaction-button" name="delTrBtn">
+					<i class="fa-solid fa-trash fa-sm"></i> Delete
+				</button>
+				<button type="button" class="cancel__action-button" name="cancleActBtn">
+					<i class="fa-solid fa-ban fa-sm"></i> Cancel
+				</button>
+			</div>
+		</div>
+	</form>
 </div>

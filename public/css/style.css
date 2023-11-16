@@ -383,10 +383,7 @@ tr:nth-child(even) {
 .detail__table-header {
   padding-top: 30px;
   margin-left: 30px;
-  font-size: 1rem;
-  display: flex; }
-  .detail__table-header h2:first-child {
-    margin-right: 15px; }
+  font-size: 1rem; }
 .detail__table-body {
   min-height: 600px; }
 
@@ -400,34 +397,27 @@ tr:nth-child(even) {
     padding: calc(36rem / 16);
     padding-bottom: 0; }
 
-.oil__table-action, .category__table-action {
+.table__action {
   color: #e6c220;
   text-align: center; }
-  .oil__table-action-edit, .category__table-action-edit {
+  .table__action-edit {
     background: #6259ca;
     width: 50px;
     height: 45px;
     color: #fff;
     border: none;
     border-radius: 5px; }
-  .oil__table-action-delete, .category__table-action-delete {
+  .table__action-delete {
     background: #f82649;
     width: 50px;
     height: 45px;
     color: #fff;
     border: none;
     border-radius: 5px; }
-  .oil__table-action-view, .category__table-action-view {
-    background: #13bfa6;
-    width: 50px;
-    height: 45px;
-    color: #fff;
-    border: none;
-    border-radius: 5px; }
-  .oil__table-action::hover, .category__table-action::hover {
+  .table__action::hover {
     cursor: pointer; }
 
-.table__transaction .oil__table-action-edit, .table__transaction .oil__table-action-delete, .table__transaction .oil__table-action-view {
+.table__transaction .table__action-edit, .table__transaction .table__action-delete {
   width: 35px;
   height: 35px; }
 .table__transaction-column {

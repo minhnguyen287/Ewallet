@@ -101,11 +101,11 @@
 									echo'<td data-cell="amount">'.$row[$i]->product_price.'</td>';
 									echo'<td data-cell="status" class="table__status table__status-'.$status_noti.'">'.$status_noti.'</td>';
 									echo '<td data-cell="Action">
-										<div class="oil__table-action">
-										<button class="oil__table-action-edit">
+										<div class="table__action">
+										<button class="table__action-edit">
 										<i class="fa-solid fa-pen fa-sm"></i>
 										</button>
-										<button class="oil__table-action-delete">
+										<button class="table__action-delete">
 										<i class="fa-solid fa-trash fa-sm"></i>
 										</button>
 										</div>
@@ -124,11 +124,11 @@
 									<td data-cell="amount">80.000</td>
 									<td data-cell="status" class="table__status">Good</td>
 									<td data-cell="Action">
-										<div class="oil__table-action">
-											<button class="oil__table-action-edit">
+										<div class="table__action">
+											<button class="table__action-edit">
 												<i class="fa-solid fa-pen fa-sm"></i>
 											</button>
-											<button class="oil__table-action-delete">
+											<button class="table__action-delete">
 												<i class="fa-solid fa-trash fa-sm"></i>
 											</button>
 										</div>

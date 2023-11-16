@@ -95,11 +95,11 @@
 									echo'<td data-cell="category name"><span style="border-radius:20px;padding:10px;padding-left:20px;padding-right:20px;background:'.$row[$i]->color.'">'.$row[$i]->category_name.'</span></td>';
 									echo'<td data-cell="icon"><i style="font-size:2rem;" class="fa-solid fa-'.$row[$i]->icon.' fa-sm"></i></td>';
 									echo '<td data-cell="Action">
-									<div class="category__table-action">
-									<button class="category__table-action-edit">
+									<div class="table__action">
+									<button class="table__action-edit">
 									<i class="fa-solid fa-pen fa-sm"></i>
 									</button>
-									<button class="category__table-action-delete">
+									<button class="table__action-delete">
 									<i class="fa-solid fa-trash fa-sm"></i>
 									</button>
 									</div>
@@ -138,10 +138,10 @@
 				</td>
 				<td data-cell="Action">
 					<div class="oil__table-action">
-						<button class="category__table-action-edit">
+						<button class="table__action-edit">
 							<i class="fa-solid fa-pen fa-sm"></i>
 						</button>
-						<button class="category__table-action-delete">
+						<button class="table__action-delete">
 							<i class="fa-solid fa-trash fa-sm"></i>
 						</button>
 					</div>

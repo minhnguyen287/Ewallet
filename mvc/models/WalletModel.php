@@ -66,7 +66,7 @@
 		public function DeleteCategory($id)
 		{
 			$id = $this->con->real_escape_string(strip_tags($id));
-			$q = "DELETE FROM oil WHERE och_id = $id";
+			$q = "DELETE FROM category WHERE cat_id = $id";
 			$result = false;
 			if ($this->con->query($q)) {
 				$result = true;
@@ -119,10 +119,21 @@
 		public function ShowDetailTransaction($date)
 		{
 			$date = $this->con->real_escape_string(strip_tags($date));
-			$q = "SELECT tran_type, tran_name,c.category_name AS 'cat',tran_desc,tran_amount ";
+			$q = "SELECT tran_id,tran_type, tran_name,cat_id,c.category_name AS 'cat_name',tran_desc,tran_amount ";
 			$q .= "FROM transaction AS t JOIN category AS c USING (cat_id) ";
 			$q .= "WHERE DATE_FORMAT(tran_date,'%d-%m-%Y') = '$date'";
 
+			$record = $this->con->query($q);
+			$arr = array();
+			while ($result = $record->fetch_array(MYSQLI_ASSOC)) {
+				$arr[] = $result;
+			}
+			return json_encode($arr);
+		}
+
+		public function GetLastTransactionId()
+		{
+			$q = "SELECT tran_id AS id, c.category_name AS cat_name FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
 			$record = $this->con->query($q);
 			$arr = array();
 			while ($result = $record->fetch_array(MYSQLI_ASSOC)) {
@@ -137,7 +148,7 @@
 			$transCategory = $this->con->real_escape_string(strip_tags($transCategory));
 			$transDesc = $this->con->real_escape_string(strip_tags($transDesc));
 			$transAmount = $this->con->real_escape_string(strip_tags($transAmount));	
-			$transDate = $this->con->real_escape_string(strip_tags($transDate));	
+			$transDate = date('Y-m-d H:i:s',strtotime($this->con->real_escape_string(strip_tags($transDate))));	
 			$q = "INSERT INTO transaction VALUES (null,'$transType','$transName',$transCategory,'$transDesc',$transAmount,'$transDate')";
 			$result = false;
 			if($this->con->query($q)){

@@ -35,7 +35,7 @@
 			$param = explode('/', $_GET['url']);
 			$date = $param[2];
 			$list = $this->WalletModel->ShowDetailTransaction($date);
-			$this->view("MasterLayout",["Page"=>"DetailView",
+			$this->view("MasterLayout2",["Page"=>"DetailView",
 										"DetailList"=>$list]);
 		}
 

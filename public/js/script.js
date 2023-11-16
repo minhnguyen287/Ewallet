@@ -363,9 +363,9 @@ function ShowDeleteDialog(){
 function DeleteRecord(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
-		if(responseData != "false"){
+		if(responseData.status != "false"){
 			/* Hàm rowIndex dùng để lấy ra vị trí của hàng có id = transId trong bảng*/
-			let index = document.getElementById(transId).rowIndex;
+			let index = document.getElementById(responseData.transactionId).rowIndex;
 			/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 			document.querySelector('tbody').deleteRow(index-1);
 			PopupMessage("success","delete","record");
@@ -479,7 +479,7 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 */
 	var oilTable = document.querySelector('table');
 	oilTable.onclick = function(event){
-		var btnEdits =  document.querySelectorAll('.oil__table-action-edit');
+		var btnEdits =  document.querySelectorAll('.table__action-edit');
 		var target = event.target; // Chỉ ra phần tử đang được tương tác
 		btnEdits.forEach((btnEdit)=>{
 			var selector = target; // bắt buộc phải có phần tử selector, không được so sánh trực tiếp phần tử target
@@ -522,7 +522,7 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 	}
 
 /* Dùng hàm on() được viết lại từ cách sử dụng event delegation để áp dụng event cho các button delete được thêm sau khi load trang*/
-	on('table','click','.oil__table-action-delete',ShowDeleteDialog);
+	on('table','click','.table__action-delete',ShowDeleteDialog);
 
 /* Code tính năng xoá 1 bản ghi lịch sử thay dầu */
 	if (typeof(btnDeleteTransaction[0])!== 'undefined') {
@@ -557,7 +557,7 @@ function on(parentSelector, eventName, selector, fn) {
 		});
 	}
 }
-/* Syntax exam : on('tbody', 'click', '.oil__table-action-edit', ShowEditDialog); */
+/* Syntax exam : on('tbody', 'click', '.table__action-edit', ShowEditDialog); */
 /*==================================================================================================================*/
 
 /*==================================================================================================================*/
@@ -810,8 +810,8 @@ function ShowCategoryView(data){
 			if (i == 0) {
 				categoryTemp.querySelector('.category__content-item').setAttribute('style','background-image:linear-gradient(to right,#024fa0 0%,#024fa0 32%,#f2721e 33%  ,#f2721e 66%,#50b846 67%, #50b846 100%)');
 			}
-			categoryTemp.querySelector("h1").innerText = responseData[i].category_type;
-			categoryTemp.querySelector('.category__content-item-left-desc').innerText = responseData[i].category_name;
+			categoryTemp.querySelector("h1").innerText = responseData[i].category_name;
+			categoryTemp.querySelector('.category__content-item-left-desc').innerText = responseData[i].category_type;
 			categoryTemp.querySelector("i").setAttribute('class',"fa-solid fa-"+responseData[i].icon+" fa-sm");
 			categoriesList.appendChild(categoryTemp);
 		}
@@ -939,9 +939,9 @@ function ShowCategoryDeleteDialog(){
 function DeleteCategory(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
-		if(responseData != "false"){
-			/* Hàm rowIndex dùng để lấy ra vị trí của hàng có id = transId trong bảng*/
-			let index = document.getElementById(catid).rowIndex;
+		if(responseData.status != "false"){
+			/* Hàm rowIndex dùng để lấy ra vị trí của hàng có id = catId trong bảng*/
+			let index = document.getElementById(responseData.cat_id).rowIndex;
 			/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 			document.querySelector('tbody').deleteRow(index-1);
 			PopupMessage("success","delete","category");
@@ -1002,7 +1002,7 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 		})
 	}
 
-	on('table', 'click', '.category__table-action-edit', ShowDialogUpdateCategory);
+	on('table', 'click', '.table__action-edit', ShowDialogUpdateCategory);
 
 	if (btnEditCategory!== 'undefined') {
 		btnEditCategory.addEventListener("click",function(){
@@ -1021,7 +1021,7 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 		})
 	}
 
-	on('table', 'click', '.category__table-action-delete',ShowCategoryDeleteDialog);
+	on('table', 'click', '.table__action-delete',ShowCategoryDeleteDialog);
 	var btnDeleteCategory = document.querySelector(".delete__category-button");
 
 	if (typeof(btnDeleteCategory)!== 'undefined') {
@@ -1116,7 +1116,7 @@ function ShowStatistical(data){
 	}
 }
 
-function ShowCategoryOption(data,output){
+function LoadData_CategoryOption(data,output){
 	if (typeof(data) == 'string') {
 		var arr = [];
 		arr = JSON.parse(data);
@@ -1137,6 +1137,31 @@ function AddTransaction(data){
 			let url = '../Ajax/ShowStatistical';
 			let method = "GET";
 			SendAjaxRequest(url,method,ShowStatistical);
+			PopupMessage("success","add","transaction");
+		} else {
+			PopupMessage("failure","add","transaction");
+		}
+	}
+}
+
+function AddANewTransaction(data){
+	if (typeof(data) == 'string') {
+		responseData = JSON.parse(data);
+		console.log(responseData);
+		if (responseData != "false" && responseData.status == 'success') {
+			let templateFragRoot = document.querySelector('#transaction-list').content;
+			let templateFrag = templateFragRoot.cloneNode(true);
+			var id = document.querySelectorAll('tr').length;
+			var status = responseData.transType == 'receipt' ? 'good' : 'expired';
+			templateFrag.querySelector('tr').setAttribute('id',responseData.tranId)
+			templateFrag.querySelector('td').innerText = id < 10 ? id = "0"+id : id +'.';
+			templateFrag.querySelector('td:nth-child(2)').innerText = responseData.transType;
+			templateFrag.querySelector('td:nth-child(3)').innerText = responseData.transName;
+			templateFrag.querySelector('td:nth-child(4)').innerText = responseData.transCategory;
+			templateFrag.querySelector('td:nth-child(5)').innerText = responseData.transDesc;
+			templateFrag.querySelector('td:nth-child(6)').innerText = responseData.transAmount;
+			templateFrag.querySelector('td:nth-child(6)').setAttribute('class','table__detail-column table__status table__status-'+status);
+			document.querySelector('tbody').appendChild(templateFrag);
 			PopupMessage("success","add","transaction");
 		} else {
 			PopupMessage("failure","add","transaction");
@@ -1188,37 +1213,36 @@ function ShowMonthList(data){
 		document.querySelector(".option-month-list").replaceChild(newMonthList,document.querySelector('.default-list'))
 	}
 }
+var dialogForm_TransType = document.getElementById("form__add-transaction-type");
+var dialogForm_Category = document.getElementById("form__add-transaction-category");
+var dialogForm_TransName = document.getElementById("form__add-transaction-name");
+var dialogForm_Description = document.getElementById("form__add-transaction-desc");
+var dialogForm_TransAmount = document.getElementById("form__add-transaction-amount");
+var dialogForm_TransDate = document.getElementById("form__add-transaction-date");
+
+var labelField_transType = document.getElementById("transtype_info");
+var labelField_transName = document.getElementById("transname_info");
+var labelField_category = document.getElementById("category_info");
+var labelField_transDesc = document.getElementById("transdesc_info");
+var labelField_transAmount = document.getElementById("transamount_info");
+var labelField_transDialog = document.getElementById("transDialog_info");
+
+var currentDate = new Date();
+var currentDay = currentDate.getDate();
+var currentMonth = currentDate.getMonth() + 1;
+var currentYear = currentDate.getFullYear();
+var timeInput = {"yearInput":currentYear,"monthInput":currentMonth};
+
+if (currentMonth < 10) currentMonth = "0" + currentMonth;
+if (currentDay < 10) currentDay = "0" + currentDay;
+
+var today = currentYear + "-" + currentMonth + "-" + currentDay;
 
 window.addEventListener("load",function(){
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Transaction") != -1){
-		var dialogForm_TransType = document.getElementById("form__add-transaction-type");
-		var dialogForm_Category = document.getElementById("form__add-transaction-category");
-		var dialogForm_TransName = document.getElementById("form__add-transaction-name");
-		var dialogForm_Description = document.getElementById("form__add-transaction-desc");
-		var dialogForm_TransAmount = document.getElementById("form__add-transaction-amount");
-		var dialogForm_TransDate = document.getElementById("form__add-transaction-date");
-
-		var labelField_transType = document.getElementById("transtype_info");
-		var labelField_transName = document.getElementById("transname_info");
-		var labelField_category = document.getElementById("category_info");
-		var labelField_transDesc = document.getElementById("transdesc_info");
-		var labelField_transAmount = document.getElementById("transamount_info");
-		var labelField_transDialog = document.getElementById("transDialog_info");
-
-		var currentDate = new Date();
-		var currentDay = currentDate.getDate();
-		var currentMonth = currentDate.getMonth() + 1;
-		var currentYear = currentDate.getFullYear();
-		var timeInput = {"yearInput":currentYear,"monthInput":currentMonth};
-
-		if (currentMonth < 10) currentMonth = "0" + currentMonth;
-		if (currentDay < 10) currentDay = "0" + currentDay;
-
-		var today = currentYear + "-" + currentMonth + "-" + currentDay;
-
 		let catUrl = '../Ajax/ShowListCategories';
 		let method = "GET";
-		SendAjaxRequest(catUrl,method,data => ShowCategoryOption(data,dialogForm_Category));
+		SendAjaxRequest(catUrl,method,data => LoadData_CategoryOption(data,dialogForm_Category));
 		btnAddTransaction[0].addEventListener("click",function(){
 			ShowModal(dialog[0]);
 			/*Reload Form*/
@@ -1376,12 +1400,116 @@ window.addEventListener("load",function(){
 				})
 			})
 		}
+	}
 
-		
-		
+	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Detail") != -1){
+		let catUrl = '/ewallet/Ajax/ShowListCategories';
+		let method = "GET";
+		SendAjaxRequest(catUrl,method,data => LoadData_CategoryOption(data,dialogForm_Category));
+		btnAddTransaction[0].addEventListener("click",function(){
+			ShowModal(dialog[0]);
+			RetitleDialog(titleDialog,"Add a new transaction",[btnAddTransaction[1]],[btnEditTransaction[0]]);
+			/*Reload Form*/
+			dialogForm_TransType.value = "null";
+			dialogForm_Category.value = "null";
+			dialogForm_TransName.value = "";
+			dialogForm_Description.value = "";
+			dialogForm_TransAmount.value = "";
+			labelField_transType.innerText = "";
+			labelField_category.innerText = "";
+			labelField_transName.innerText = "";
+			labelField_transDesc.innerText = "";
+			labelField_transAmount.innerText = "";
+			labelField_transDialog.innerText = "";
+		})
+
+		dialogForm_Category.addEventListener('change',(e)=>{
+			var transValue;
+			var optionList = dialogForm_Category.querySelectorAll('option');
+			for (var i = 0; i < optionList.length; i++) {
+				if (optionList[i].getAttribute('value') == dialogForm_Category.value) {
+					transValue = optionList[i].innerText;
+				}
+			}
+			dialogForm_TransName.value = transValue;
+		})
+		btnAddTransaction[1].addEventListener("click",function(){
+			let transData = {transDate:urlArray[4]}
+			if(dialogForm_TransType.value != "null"){
+				transData["transType"] = dialogForm_TransType.value;
+			} else {
+				labelField_transType.innerText = "Please select an option";
+			}
+			if(dialogForm_Category.value != "null"){
+				transData["transCategory"] = dialogForm_Category.value;
+			} else {
+				labelField_category.innerText = "Please select an option";
+			}
+			if (dialogForm_TransName.value) {
+				transData["transName"] = dialogForm_TransName.value;
+			} else {
+				labelField_transName.innerText = "Transaction Name field can't be empty";
+			}
+			if (dialogForm_TransName.value) {
+				transData["transDesc"] = dialogForm_Description.value;
+			} else {
+				labelField_transDesc.innerText = "Description field can't be empty";
+			}
+			
+			if (dialogForm_TransAmount.value) {
+				transData["transAmount"] = dialogForm_TransAmount.value;
+			} else {
+				labelField_transAmount.innerText = "Amount field can't be empty";
+			}
+			/*Object.keys(ObjectName).length = số lượng của object*/
+			if (Object.keys(transData).length != 6) {
+				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
+			} else {
+				labelField_transDialog.innerText = "";
+				let method = "POST";
+				let url = "/ewallet/Ajax/AddANewTransaction";
+				SendAjaxRequest(url,method,AddANewTransaction,JSON.stringify(transData))
+				HideModal(dialog[0]);
+			}
+		})
+
+		on('table', 'click', '.table__action-edit', ShowDialog_UpdateTransaction);
 	}
 })
 
+function ShowDialog_UpdateTransaction(){
+	ShowModal(dialog[0]);
+	RetitleDialog(titleDialog,"Update Transaction",[btnEditTransaction[0]],[btnAddTransaction[1]]);
+	/*Reload infor label*/
+	labelField_transType.innerText = "";
+	labelField_category.innerText = "";
+	labelField_transName.innerText = "";
+	labelField_transDesc.innerText = "";
+	labelField_transAmount.innerText = "";
+	labelField_transDialog.innerText = "";
+	var target = event.target;
+	var rowEdited;
+	while(target && target !== document.querySelector('tbody')){
+		if(target.tagName == "TR"){
+			rowEdited = target;
+		}
+		target = target.parentNode;
+	}
+	//console.log(rowEdited);
+	var data = {};
+	data["id"] = rowEdited.getAttribute('id');
+	data["transType"] = rowEdited.querySelector('td:nth-child(2)').getAttribute('value');
+	data["transName"] = rowEdited.querySelector('td:nth-child(3)').innerText;
+	data["transCat"] = rowEdited.querySelector('td:nth-child(4)').getAttribute('value');
+	data["transDesc"] = rowEdited.querySelector('td:nth-child(5)').innerText;
+	data["transAmount"] = rowEdited.querySelector('td:nth-child(6)').innerText;
+	//console.log(data);
+	dialogForm_TransType.value = data["transType"];
+	dialogForm_Category.value = data["transCat"];
+	dialogForm_TransName.value = data["transName"];
+	dialogForm_Description.value = data["transDesc"];
+	dialogForm_TransAmount.value = data["transAmount"];
+}
 
 /*End */
 

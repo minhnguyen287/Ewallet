@@ -168,7 +168,10 @@
 
 			if(empty($errors)){		
 				$kq = $this->OilModel->DeleteARow($transaction_id);
-				echo json_encode($kq);
+				if(json_decode($kq)==true){
+					$arr["status"] = $kq;
+					echo json_encode($arr);
+				}
 			} else{
 				print_r($errors);
 			}
@@ -337,7 +340,8 @@
 
 			if(empty($errors)){		
 				$kq = $this->WalletModel->DeleteCategory($cat_id);
-				echo json_encode($kq);
+				$arr['status'] = $kq;
+				echo json_encode($arr);
 			} else{
 				print_r($errors);
 			}
@@ -408,6 +412,9 @@
 					$kq = $this->WalletModel->AddTransaction($transType,$transName,$transCategory,$transDesc,$transAmount,$transDate);
 					if (json_decode($kq) == true) {
 						$arr['status'] = "success";
+						$id = json_decode($this->WalletModel->GetLastTransactionId());
+						$arr['tranId'] = $id[0]->id;
+						$arr['transCategory'] = $id[0]->cat_name;
 						echo json_encode($arr);
 					} else {
 						echo json_encode($kq);

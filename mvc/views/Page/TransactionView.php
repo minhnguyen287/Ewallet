@@ -129,7 +129,7 @@
 					<select class="dialog__form-input" name="type" id="form__add-transaction-type">
 						<option value=null selected="selected">-- Choose one --</option>
 						<option value="receipt">Receipt</option>
-						<option value="expenditures">Expenses</option>
+						<option value="expenditure">Expenses</option>
 					</select>
 				</div>			
 				<div class="dialog__form-field">
