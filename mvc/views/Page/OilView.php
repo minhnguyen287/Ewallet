@@ -6,10 +6,10 @@
 			<span class="header__container-left-link">Oil Change History</span>
 		</div>
 		<div class="header__container-right">
-			<button class="add__transaction-button">
+			<button class="add__button">
 				<i class="fa-solid fa-plus"></i> Add Transaction
 			</button>
-			<button class="export-button">
+			<button class="export__button">
 				<i class="fa-solid fa-file-export"></i> Export
 			</button>
 		</div>
@@ -97,15 +97,15 @@
 									echo'<td data-cell="product name">'.$row[$i]->product_name.'</td>';
 									echo'<td data-cell="change date">'.$row[$i]->end_day.'</td>';
 									echo'<td data-cell="days">'.$row[$i]->total_days.'</td>';
-									echo'<td data-cell="total km">'.$row[$i]->total_km.'</td>';
-									echo'<td data-cell="amount">'.$row[$i]->product_price.'</td>';
+									echo'<td data-cell="total km">'.number_format($row[$i]->total_km,0,'.',',').'</td>';
+									echo'<td data-cell="amount">'.number_format($row[$i]->product_price,0,'.',',').' &#8363'.'</td>';
 									echo'<td data-cell="status" class="table__status table__status-'.$status_noti.'">'.$status_noti.'</td>';
 									echo '<td data-cell="Action">
 										<div class="table__action">
-										<button class="table__action-edit">
+										<button class="update__button">
 										<i class="fa-solid fa-pen fa-sm"></i>
 										</button>
-										<button class="table__action-delete">
+										<button class="remove__button">
 										<i class="fa-solid fa-trash fa-sm"></i>
 										</button>
 										</div>
@@ -120,15 +120,15 @@
 									<td data-cell="product name">MOTUL SILVER</td>
 									<td data-cell="change date">15.05.2023</td>
 									<td data-cell="days">45</td>
-									<td data-cell="total km">1000</td>
-									<td data-cell="amount">80.000</td>
+									<td data-cell="total km">1,000</td>
+									<td data-cell="amount">80,000</td>
 									<td data-cell="status" class="table__status">Good</td>
 									<td data-cell="Action">
 										<div class="table__action">
-											<button class="table__action-edit">
+											<button class="update__button">
 												<i class="fa-solid fa-pen fa-sm"></i>
 											</button>
-											<button class="table__action-delete">
+											<button class="remove__button">
 												<i class="fa-solid fa-trash fa-sm"></i>
 											</button>
 										</div>
@@ -171,13 +171,13 @@
 							<label class="dialog__form-label" for="form__start-kilometer">Start Kilometer
 								<span class="input_infor" id="start_km_info"></span>
 							</label>
-							<input class="dialog__form-input" name="startkilometer" type="text" id="form__start-kilometer" placeholder="Start kilometer">
+							<input class="dialog__form-input" name="startkilometer" type="number" step="1" id="form__start-kilometer" placeholder="Start kilometer">
 						</div>				
 						<div class="dialog__form-field">
 							<label class="dialog__form-label" for="form__end-kilometer">End Kilometer
 							<span class="input_infor" id="end_km_info"></span>
 						</label>
-							<input class="dialog__form-input" name="endkilometer" type="text" id="form__end-kilometer" placeholder="End kilometer">
+							<input class="dialog__form-input" name="endkilometer" type="number" step="1" id="form__end-kilometer" placeholder="End kilometer">
 						</div>				
 						<div class="dialog__form-field">
 							<label class="dialog__form-label" for="form__product">Oil Product
@@ -193,10 +193,10 @@
 					</div>
 				</div>
 				<div class="dialog__content-footer">
-					<button type="button" class="add__transaction-button" name="addTrBtn" disabled="disabled">
+					<button type="button" class="create__button" name="addOchBtn">
 						<i class="fa-solid fa-plus"></i> Add Transaction
 					</button>
-					<button type="button" class="edit__transaction-button" name="editTrBtn">
+					<button type="button" class="update__button" name="editOchBtn">
 						<i class="fa-solid fa-pen fa-sm"></i> Update Transaction
 					</button>
 				</div>
@@ -220,10 +220,10 @@
 					</div>
 				</div>
 				<div class="dialog__content-footer">
-					<button type="button" class="delete__transaction-button" name="delTrBtn">
+					<button type="button" class="delete__button" name="delOchBtn">
 						<i class="fa-solid fa-trash fa-sm"></i> Delete
 					</button>
-					<button type="button" class="cancel__action-button" name="cancleActBtn">
+					<button type="button" class="cancel__button" name="cancleActBtn">
 						<i class="fa-solid fa-ban fa-sm"></i> Cancel
 					</button>
 				</div>

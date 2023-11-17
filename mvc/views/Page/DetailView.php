@@ -63,7 +63,7 @@
 										echo '<td class="table__detail-column" data-cell="trans name">'.$data_list[$i]->tran_name.'</td>';
 										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'>'.$data_list[$i]->cat_name.'</td>';
 										echo '<td class="table__detail-column" data-cell="description">'.$data_list[$i]->tran_desc.'</td>';
-										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount">'.$data_list[$i]->tran_amount.'</td>';
+										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount">'.number_format($data_list[$i]->tran_amount,0,'.',',').' &#8363'.'</td>';
 										echo '<td class="table__detail-column" data-cell="Action">
 												<div class="table__action">
 													<button class="table__action-edit">

@@ -187,40 +187,48 @@ input:focus {
     color: #4d59ca;
     font-size: 1rem; }
 
-.add__account-button, .add__category-button, .edit__category-button, .delete__category-button, .changeview-button, .export-button, .add__transaction-button, .edit__transaction-button, .delete__transaction-button, .cancel__action-button {
+.add__button, .create__button, .edit__button, .update__button, .delete__button, .remove__button, .change__button, .cancel__button, .export__button {
   height: calc(50rem / 16);
   color: #fff;
   border: none;
-  border-radius: 0.4rem; }
-
-.add__account-button, .add__category-button, .edit__category-button, .delete__category-button, .changeview-button, .export-button, .add__transaction-button, .edit__transaction-button, .delete__transaction-button, .cancel__action-button:hover {
+  border-radius: 0.4rem;
   cursor: pointer; }
 
-.add__account-button {
-  width: calc(140rem / 16);
-  background: #6259ca;
-  margin-right: 1rem; }
-
-.export-button, .changeview-button {
+.export__button, .change__button {
   width: calc(90rem / 16);
-  background: #13bfa6; }
+  background: #d4c622; }
 
-.add__transaction-button, .add__category-button {
+.add__button, .create__button {
   background: #13bfa6;
   padding: 0 10px 0 10px; }
 
-.edit__transaction-button, .edit__category-button {
+.edit__button {
   background: #6259ca;
   padding: 0 10px 0 10px; }
 
-.delete__transaction-button, .delete__category-button {
+.delete__button {
   background: #f82649;
   padding: 0 10px 0 10px; }
 
-.cancel__action-button {
+.cancel__button {
   background: #313db6;
   padding: 0 10px 0 10px;
   margin-left: 10px; }
+
+.update__button, .remove__button {
+  width: 50px;
+  height: 45px;
+  color: #fff;
+  border: none;
+  border-radius: 5px; }
+  .update__button::hover, .remove__button::hover {
+    cursor: pointer; }
+
+.update__button {
+  background: #6259ca; }
+
+.remove__button {
+  background: #f82649; }
 
 .dashboard__content {
   display: grid;
@@ -398,26 +406,9 @@ tr:nth-child(even) {
     padding-bottom: 0; }
 
 .table__action {
-  color: #e6c220;
   text-align: center; }
-  .table__action-edit {
-    background: #6259ca;
-    width: 50px;
-    height: 45px;
-    color: #fff;
-    border: none;
-    border-radius: 5px; }
-  .table__action-delete {
-    background: #f82649;
-    width: 50px;
-    height: 45px;
-    color: #fff;
-    border: none;
-    border-radius: 5px; }
-  .table__action::hover {
-    cursor: pointer; }
 
-.table__transaction .table__action-edit, .table__transaction .table__action-delete {
+.table__transaction .update__button, .table__transaction .remove__button {
   width: 35px;
   height: 35px; }
 .table__transaction-column {

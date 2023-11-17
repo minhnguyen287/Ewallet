@@ -32,8 +32,14 @@
 	btnCloseModal[1] dùng để đóng modal delete transaction
 
 	titleDialog dùng để hiển thị tiêu đề của modal
+	AER = Add-Edit-Remove
+	CUD = Creat-Update-Delete
 
 */
+var btnShowAddForm = document.querySelector('.add__och-form'); /* och viết tắt của oil change history */
+var btnAdd_aRecord = document.querySelector('.add__och-action');
+var btnEdit_aRecord = document.querySelector('.add__och-action');
+var btnDelete_aRecord = document.querySelector('.add__och-action');
 
 var btnAddTransaction = document.getElementsByClassName("add__transaction-button");
 var btnEditTransaction = document.getElementsByClassName('edit__transaction-button');
@@ -66,18 +72,18 @@ if (typeof(btnAddTransaction[0])!=='undefined') {
 	btnAddTransaction[0].style.background  = "#6259ca";
 }
 /* Viết 2 hàm ẩn / hiện bảng modal dialog */
-function ShowModal(modal){
+function showModal(modal){
 	modal.style.opacity = "1";
 	modal.style.visibility = "visible";
 }
 
-function HideModal(modal) {
+function hideModal(modal) {
 	modal.style.opacity = "0";
 	modal.style.visibility = "hidden";
 }
 
 /* Viết function hiển thị nội dung và các button Form khi click vào button có action tương ứng */
-function RetitleDialog(titleDialog,title,btnDisplays,btnHides){
+function retitleDialog(titleDialog,title,btnDisplays,btnHides){
 	titleDialog.innerText = title;
 	for(let btnDisplay of btnDisplays){
 		btnDisplay.style.display = "";
@@ -88,7 +94,7 @@ function RetitleDialog(titleDialog,title,btnDisplays,btnHides){
 }
 
 /*Viết function phân loại trạng thái hiển thị Good/Warning/Expired dựa vào số km */
-function AssessmentStatuses (km){
+function assessmentStatuses (km){
 	let status_noti = "good";
 	if (km >= 1200 && km <= 1500) {
 		status_noti = "warning";
@@ -98,7 +104,7 @@ function AssessmentStatuses (km){
 	return status_noti;
 }
 /* Viết hàm tuỳ chỉnh nội dung popup thông báo thành công hay thất bạt*/
-function PopupMessage(status,action,object){
+function popupMessage(status,action,object){
 	var message;
 	if (status == "success") {
 		switch(action){
@@ -151,21 +157,25 @@ function calculatePercentage(x, y)
 	return (x/y)*100;
 }
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
-btnCloseModal[0].addEventListener("click",()=>HideModal(dialog[0]));
+btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
 if (btnCancelAction) {
-	btnCloseModal[1].addEventListener("click",()=>HideModal(dialog[1]));
+	btnCloseModal[1].addEventListener("click",()=>hideModal(dialog[1]));
 }
 if (btnCancelAction) {
-	btnCancelAction.addEventListener("click",()=>HideModal(dialog[1]));
+	btnCancelAction.addEventListener("click",()=>hideModal(dialog[1]));
 }
 /* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
 window.addEventListener("click",function(event){
 	if (event.target == dialog[0]) {
-		HideModal(dialog[0]);
+		hideModal(dialog[0]);
 	}
 	if (event.target == dialog[1]) {
-		HideModal(dialog[1]);
+		hideModal(dialog[1]);
 	}
 });
 
@@ -181,7 +191,7 @@ window.onresize = function(){
 
 /* Viết hàm tối ưu lại code, thông báo lỗi nếu dữ liệu nhập vào không hợp lệ. 
    Bật button submit nếu tất cả dữ liệu nhập vào hợp lệ */
-function ShowErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,contentNoti){
+function showErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,contentNoti){
 	if(pattern.test(value)){
 		errorLineNoti.innerText = "";
 		removeErrorCode(isCorrectInput,errorCode);
@@ -197,7 +207,7 @@ function ShowErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,c
 }
 
 /* Function call AJAX load thông tin sản phẩm */
-function SendAjaxRequest(url,method,callback,data){
+function sendAjaxRequest(url,method,callback,data){
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = handleResult;
 	xhttp.open(method,url);
@@ -220,7 +230,7 @@ function SendAjaxRequest(url,method,callback,data){
 /*                                     -- Code For Oil Change History --                							*/
 /*==================================================================================================================*/
 /*Hàm xử lí dữ liệu load ra các option của thanh select được reponse sau khi gửi AJAX*/
-function ShowProductOption(data,output){
+function loadProductList(data,output){
 	if (typeof(data) == 'string') {
 		var arr = [];
 		arr = JSON.parse(data);
@@ -233,7 +243,7 @@ function ShowProductOption(data,output){
 		}
 	}
 }
-function ShowAddDialog(data){
+function showModal_addDialog(data){
 	let curentDate = new Date().toJSON().slice(0, 10);
 	var responseData = JSON.parse(data);
 	dialogForm_startDay.value = responseData.end_day;
@@ -243,7 +253,7 @@ function ShowAddDialog(data){
 	dialogForm_product.value = null;
 }
 
-function AddNewRecord(data){
+function addNewRecord(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
@@ -259,21 +269,21 @@ function AddNewRecord(data){
 			templateFrag.querySelector(".rowContent td:nth-child(4)").innerText = responseData.total_days;
 			templateFrag.querySelector(".rowContent td:nth-child(5)").innerText = responseData.total_km;
 			templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = responseData.product_price;
-			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData.total_km);
-			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+AssessmentStatuses(responseData.total_km));
+			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
+			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+assessmentStatuses(responseData.total_km));
 			document.querySelector("tbody").appendChild(templateFrag);
 			/*In ra câu thông báo thành công*/
-			PopupMessage("success","add","record");
+			popupMessage("success","add","record");
 		} else {
-			PopupMessage("failure","add","record");
+			popupMessage("failure","add","record");
 		}
 	} else {
 		/*In ra câu thông báo thất bại*/
-		PopupMessage("failure","add","record");
+		popupMessage("failure","add","record");
 	}
 }
 
-function ShowEditDialog(){
+function showModal_editDialog(){
 	/*event. target: là phần tử mà user tương tác (click, change)
 	ở đây thì khi user click vào button edit thì target là phần tử user vừa click*/
 	var target = event.target;
@@ -288,18 +298,18 @@ function ShowEditDialog(){
 	headerPopup.setAttribute("class","header__popup");
 	headerPopup.removeAttribute("style");
 	/* Gọi modal Update*/
-	ShowModal(dialog[0]);
+	showModal(dialog[0]);
 	labelField_startKm.innerText = "";
 	labelField_endKm.innerText = "";
 	labelField_product.innerText = "";
-	RetitleDialog(titleDialog,'Edit transaction',[btnEditTransaction[0]],[btnAddTransaction[1]]);
+	retitleDialog(titleDialog,'Edit transaction',[btnEditTransaction[0]],[btnAddTransaction[1]]);
 	/* Gọi Ajax load dữ liệu của bản ghi tương ứng với số transactionId khi button Edit được click*/
 	let id = JSON.stringify({"tranId":transactionId});
 	let url = './Ajax/ShowRecordById';
 	let method = "POST";
-	SendAjaxRequest(url,method,LoadData_EditDialog,id);
+	sendAjaxRequest(url,method,loadModal_editDialog,id);
 
-	function LoadData_EditDialog(data) {
+	function loadModal_editDialog(data) {
 		responseData = JSON.parse(data);
 		dialogForm_startDay.value = responseData.start_day;
 		dialogForm_endDay.value = responseData.end_day;
@@ -317,7 +327,7 @@ function ShowEditDialog(){
 	}		
 }
 
-function UpdateRecord(data){
+function updateRecord(data){
 	if (typeof(data)=== "string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
@@ -328,20 +338,20 @@ function UpdateRecord(data){
 			rowEdited.querySelector("td:nth-child(4)").innerText = responseData.total_days;
 			rowEdited.querySelector("td:nth-child(5)").innerText = responseData.total_km;
 			rowEdited.querySelector("td:nth-child(6)").innerText = responseData.product_price;
-			rowEdited.querySelector("td:nth-child(7)").innerText = AssessmentStatuses(responseData.total_km);
-			rowEdited.querySelector("td:nth-child(7)").setAttribute("class","table__status table__status-"+AssessmentStatuses(responseData.total_km));
+			rowEdited.querySelector("td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
+			rowEdited.querySelector("td:nth-child(7)").setAttribute("class","table__status table__status-"+assessmentStatuses(responseData.total_km));
 			/*In ra câu thông báo thành công*/
-			PopupMessage("success","edit","record");
+			popupMessage("success","edit","record");
 		} else {
-			PopupMessage("failure","edit","record");
+			popupMessage("failure","edit","record");
 		}
 	} else {
 		/*In ra câu thông báo thất bại*/
-		PopupMessage("failure","edit","record");
+		popupMessage("failure","edit","record");
 	}
 }
 
-function ShowDeleteDialog(){
+function showModal_deleteDialog(){
 	var target = event.target;
 	var transactionId;
 	while(target && target !== document.querySelector('tbody')){
@@ -356,12 +366,12 @@ function ShowDeleteDialog(){
 		delFormContent.style.minWidth = "initial";
 		delFormContent.style.minHeight = "initial";
 		delForm.style.gridTemplateColumns = "1fr";
-		ShowModal(dialog[1]);
+		showModal(dialog[1]);
 		btnDeleteTransaction[0].setAttribute("transId",transactionId);
 	}
 }
 
-function DeleteRecord(data){
+function deleteRecord(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
 		if(responseData.status != "false"){
@@ -369,10 +379,10 @@ function DeleteRecord(data){
 			let index = document.getElementById(responseData.transactionId).rowIndex;
 			/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 			document.querySelector('tbody').deleteRow(index-1);
-			PopupMessage("success","delete","record");
+			popupMessage("success","delete","record");
 		} else {
 			/*In ra câu thông báo thất bại*/
-			PopupMessage("failure","delete","record");
+			popupMessage("failure","delete","record");
 		}
 	}
 }
@@ -382,9 +392,9 @@ if (urlArray.indexOf("Oil") != -1) {
 ngay khi trang được load. */
 	let method = "GET";
 	let url = './Ajax/ShowProductInfo';
-	SendAjaxRequest(url,method,data => ShowProductOption(data,dialogForm_product));
-/* data => ShowProductOption(data,dialogForm_product)) đóng vai trò là hàm callback 
-được truyền trong hàm SendAjaxRequest(url,method,callback) */
+	sendAjaxRequest(url,method,data => loadProductList(data,dialogForm_product));
+/* data => loadProductList(data,dialogForm_product)) đóng vai trò là hàm callback 
+được truyền trong hàm sendAjaxRequest(url,method,callback) */
 
 /* Validate dữ liệu khi nhập form*/
 	let pattern = /^[0-9]+$/;
@@ -394,26 +404,26 @@ ngay khi trang được load. */
 	dialogForm_product.addEventListener("change",function(){
 		let errorLineNotification = labelField_product;
 		let contentNoti = "Please select an option";
-		ShowErrorNotification(pattern,dialogForm_product.value,errorLineNotification,submitButton[1],"dialogForm_product",contentNoti);
+		showErrorNotification(pattern,dialogForm_product.value,errorLineNotification,submitButton[1],"dialogForm_product",contentNoti);
 		dialogForm_product[0].style.display = "none";
 	})
 
 	dialogForm_startKm.addEventListener('keyup',function(){
 		let errorLineNotification = labelField_startKm;
-		ShowErrorNotification(pattern,dialogForm_startKm.value,errorLineNotification,submitButton[1],"dialogForm_startKm",contentNoti);
+		showErrorNotification(pattern,dialogForm_startKm.value,errorLineNotification,submitButton[1],"dialogForm_startKm",contentNoti);
 	})
 
 	dialogForm_endKm.addEventListener('keyup',function(){
 		let errorLineNotification = labelField_endKm;
-		ShowErrorNotification(pattern,dialogForm_endKm.value,errorLineNotification,submitButton[1],"dialogForm_endKm",contentNoti);
+		showErrorNotification(pattern,dialogForm_endKm.value,errorLineNotification,submitButton[1],"dialogForm_endKm",contentNoti);
 	})	
 
 /* Hiện Modal thêm 1 bản ghi lịch sử thay dầu khi click vào nút "Add Transaction" */
 	if (typeof(btnAddTransaction[0])!=='undefined') {
 		btnAddTransaction[0].onclick = function(){
 			/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
-			RetitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnEditTransaction[0]])
-			ShowModal(dialog[0]);
+			retitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnEditTransaction[0]])
+			showModal(dialog[0]);
 			/* Reload lại các phần tử dùng để thông báo */
 			headerPopup.setAttribute("class","header__popup");
 			headerPopup.removeAttribute("style");
@@ -422,7 +432,7 @@ ngay khi trang được load. */
 			/* Gọi Ajax */
 			let url = ('./Ajax/ShowLastOption');
 			let method = "GET";
-			SendAjaxRequest(url,method,ShowAddDialog);
+			sendAjaxRequest(url,method,showModal_addDialog);
 		};
 	}
 
@@ -452,14 +462,14 @@ Tạo ra 1 mảng chứa mã lỗi , nếu dữ liệu nhập vào hợp lệ s�
 					endKm:dialogForm_endKm.value,
 					productId:dialogForm_product.value
 				};
-				let url = './Ajax/AddNewRecord';
+				let url = './Ajax/addNewRecord';
 				let method = "POST";		
-				SendAjaxRequest(url,method,AddNewRecord,JSON.stringify(data));
+				sendAjaxRequest(url,method,addNewRecord,JSON.stringify(data));
 				/*Cập nhật lại chỉ số phân trang*/
-				let initUrl = './Ajax/NumberOfRecord';
+				let initUrl = './Ajax/numberOfRecord';
 				let initMethod = "GET";
-				SendAjaxRequest(initUrl,initMethod,InitializeView);
-				HideModal(dialog[0]);
+				sendAjaxRequest(initUrl,initMethod,initializeView);
+				hideModal(dialog[0]);
 			}
 		})
 	}
@@ -474,7 +484,7 @@ Khi phần tử TBODY được click ta sẽ xác định đối tượng đư�
 "event. target: là phần tử mà user tương tác (click, change).
 Ở đây thì khi user click vào button edit thì target là button vừa click".
 Ta sẽ tiến hành kiểm tra xem phần tử vừa được click (selector = target) có phải là button Edit hay không
-Nếu có thì sẽ gọi hàm ShowEditDialog qua phương thức call { ShowEditDialog.call() }
+Nếu có thì sẽ gọi hàm showModal_editDialog qua phương thức call { showModal_editDialog.call() }
 Lưu ý : khi kiểm tra phần tử đang được tương tác (target) trong for thì phải tạo ra 1 biến selector để kiểm tra.
 Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên trong TBODY
 */
@@ -486,7 +496,7 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 			var selector = target; // bắt buộc phải có phần tử selector, không được so sánh trực tiếp phần tử target
 			while(selector && selector !== oilTable){
 				if (selector === btnEdit) {
-					return ShowEditDialog.call();// Chỗ này mở ngoặc nhọn {} rồi viết funtion xử lí cũng được nhưng nên tách ra cho gọn
+					return showModal_editDialog.call();// Chỗ này mở ngoặc nhọn {} rồi viết funtion xử lí cũng được nhưng nên tách ra cho gọn
 				} selector = selector.parentNode;	
 			}
 		})
@@ -495,7 +505,7 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 	if (typeof(btnEditTransaction[0])!== 'undefined') {
 		btnEditTransaction[0].addEventListener('click',function(){
 			if (isCorrectInput.length !== 0) {
-				ShowModal(dialog[0]);
+				showModal(dialog[0]);
 				if (isCorrectInput.indexOf("dialogForm_startKm")!=-1) {
 					labelField_startKm.innerText = "Invalid number format";
 				}
@@ -514,16 +524,16 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 				productId:dialogForm_product.value};
 
 				let xhr = new XMLHttpRequest();
-				let url = './Ajax/UpdateRecord';
+				let url = './Ajax/updateRecord';
 				let method = "POST";
-				SendAjaxRequest(url,method,UpdateRecord,JSON.stringify(data));
-				HideModal(dialog[0]);
+				sendAjaxRequest(url,method,updateRecord,JSON.stringify(data));
+				hideModal(dialog[0]);
 			} 
 		});
 	}
 
 /* Dùng hàm on() được viết lại từ cách sử dụng event delegation để áp dụng event cho các button delete được thêm sau khi load trang*/
-	on('table','click','.table__action-delete',ShowDeleteDialog);
+	on('table','click','.table__action-delete',showModal_deleteDialog);
 
 /* Code tính năng xoá 1 bản ghi lịch sử thay dầu */
 	if (typeof(btnDeleteTransaction[0])!== 'undefined') {
@@ -531,9 +541,9 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 			var transId = btnDeleteTransaction[0].getAttribute("transId");
 			var data = JSON.stringify({transactionId:transId});
 			let method = "POST";
-			let url = './Ajax/DeleteRecord';
-			SendAjaxRequest(url, method, DeleteRecord, data);	
-			HideModal(dialog[1]);
+			let url = './Ajax/deleteRecord';
+			sendAjaxRequest(url, method, deleteRecord, data);	
+			hideModal(dialog[1]);
 		})
 	}
 }
@@ -558,7 +568,7 @@ function on(parentSelector, eventName, selector, fn) {
 		});
 	}
 }
-/* Syntax exam : on('tbody', 'click', '.table__action-edit', ShowEditDialog); */
+/* Syntax exam : on('tbody', 'click', '.table__action-edit', showModal_editDialog); */
 /*==================================================================================================================*/
 
 /*==================================================================================================================*/
@@ -580,26 +590,26 @@ var btnPreviousPage = document.getElementById("previous_page");
 var btnNextPage = document.getElementById("next_page");
 var entries = document.querySelector('#table_record');
 
-function NumberOfRecord(start,display,totalEntries){
+function numberOfRecord(start,display,totalEntries){
 	let recordCounting = document.getElementById("count__record");
 	recordCounting.innerHTML = "Showing "+start+" to "+display+" of "+totalEntries+" entries";
 }
 
-function DisableButton(button) {
+function disableButton(button) {
 	if (button.getAttribute("class") == "btn__enable") {
 		button.removeAttribute("class");
 	}
 	button.setAttribute("disabled","disabled");
 }
 
-function EnableButton(button) {
+function enableButton(button) {
 	if (button.getAttribute("disabled") == "disabled") {
 		button.removeAttribute("disabled");
 	}
 	button.setAttribute("class","btn__enable");
 }
 
-function DetermineTheIndex(){
+function determineTheIndex(){
 	pagination.display = Number(entries.value);
 
 	pagination.endIndex = pagination.startIndex + pagination.display - 1;
@@ -612,7 +622,7 @@ function DetermineTheIndex(){
 	return pagination.display,pagination.endIndex,pagination.pages;
 }
 
-function CustomizeViewTable(data){
+function customizeView(data){
 	if (typeof(data)==="string") {
 		responseData = JSON.parse(data);
 		let new_tbody = document.createElement('tbody');
@@ -629,8 +639,8 @@ function CustomizeViewTable(data){
 				templ.querySelector(".rowContent td:nth-child(4)").innerText = responseData[i].total_days;
 				templ.querySelector(".rowContent td:nth-child(5)").innerText = responseData[i].total_km;
 				templ.querySelector(".rowContent td:nth-child(6)").innerText = responseData[i].product_price;
-				templ.querySelector(".rowContent td:nth-child(7)").innerText = AssessmentStatuses(responseData[i].total_km);
-				templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+AssessmentStatuses(responseData[i].total_km));
+				templ.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData[i].total_km);
+				templ.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+assessmentStatuses(responseData[i].total_km));
 				new_tbody.appendChild(templ);
 			}
 		} else if(urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1){
@@ -650,7 +660,7 @@ function CustomizeViewTable(data){
 	}
 }
 
-function InitializeView(data) {
+function initializeView(data) {
 	pagination.display = Number(entries.value);
 	if (typeof(data)==="string") {
 		totalRecords = JSON.parse(data).totalRecords;
@@ -663,25 +673,25 @@ function InitializeView(data) {
 		pagination.totalRecords = Number(totalRecords);
 		pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
 	}
-	NumberOfRecord(pagination.startIndex,pagination.display,pagination.totalRecords);
+	numberOfRecord(pagination.startIndex,pagination.display,pagination.totalRecords);
 	/* Nếu số trang lớn hơn 1 thì tiến hành phân trang */
 	if (pagination.pages > 1) {
 		pagination.currentPage = Number(btnCurrentPage.innerText);
-		EnableButton(btnNextPage);
+		enableButton(btnNextPage);
 	}
 }	
 
 /* Khi load Page */
 window.addEventListener("load",function(event){
 	if (urlArray.indexOf("Oil") != -1){
-		let initUrl = './Ajax/NumberOfRecord';
+		let initUrl = './Ajax/numberOfRecord';
 		let initMethod = "GET";
-		SendAjaxRequest(initUrl,initMethod,InitializeView);
+		sendAjaxRequest(initUrl,initMethod,initializeView);
 	} 
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
 		let initUrl = '../Ajax/TotalCategory';
 		let initMethod = "GET";
-		SendAjaxRequest(initUrl,initMethod,InitializeView);
+		sendAjaxRequest(initUrl,initMethod,initializeView);
 	}
 })
 var paginationUrl = './Ajax/Pagination';
@@ -690,20 +700,20 @@ if(entries,btnNextPage,btnPreviousPage){
 	entries.addEventListener('change',function(){
 		pagination.startIndex = 1;
 		pagination.currentPage = 1;
-		DisableButton(btnPreviousPage);
+		disableButton(btnPreviousPage);
 		btnCurrentPage.innerText = pagination.currentPage
-		DetermineTheIndex();
+		determineTheIndex();
 		if (pagination.pages > 1) {
-			EnableButton(btnNextPage);
+			enableButton(btnNextPage);
 		} else{
-			DisableButton(btnNextPage);
+			disableButton(btnNextPage);
 		}
 		if (urlArray.indexOf("Oil")!=-1) {
 			let data = JSON.stringify({
 				"start":pagination.startIndex,
 				"display":entries.value,
 				"pagi_for":"oil" });
-			SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+			sendAjaxRequest(paginationUrl,paginationMethod,customizeView,data);
 		}
 		if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1) {
 			let data = JSON.stringify({
@@ -711,9 +721,9 @@ if(entries,btnNextPage,btnPreviousPage){
 				"display":entries.value,
 				"pagi_for":"category" });
 			let paginationUrl = "../Ajax/Pagination";
-			SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+			sendAjaxRequest(paginationUrl,paginationMethod,customizeView,data);
 		}
-		NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
+		numberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 	})
 	/* Code khi click btnNextPage */
 	btnNextPage.addEventListener("click",function(){
@@ -722,17 +732,17 @@ if(entries,btnNextPage,btnPreviousPage){
 			pagination.currentPage++;
 			btnCurrentPage.innerText = pagination.currentPage;
 			pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
-			DetermineTheIndex();
+			determineTheIndex();
 			if (pagination.currentPage == pagination.pages) {
-				DisableButton(btnNextPage);
+				disableButton(btnNextPage);
 			}
-			EnableButton(btnPreviousPage);
+			enableButton(btnPreviousPage);
 			if (urlArray.indexOf("Oil")!=-1) {
 				let data = JSON.stringify({
 					"start":pagination.startIndex,
 					"display":pagination.display,
 					"pagi_for":"oil" });
-				SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+				sendAjaxRequest(paginationUrl,paginationMethod,customizeView,data);
 			}
 			if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1) {
 				let data = JSON.stringify({
@@ -740,9 +750,9 @@ if(entries,btnNextPage,btnPreviousPage){
 					"display":pagination.display,
 					"pagi_for":"category" });
 				let paginationUrl = "../Ajax/Pagination";
-				SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+				sendAjaxRequest(paginationUrl,paginationMethod,customizeView,data);
 			}
-			NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
+			numberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 		}		
 	})
 	/* Code khi click btnNextPage */
@@ -752,17 +762,17 @@ if(entries,btnNextPage,btnPreviousPage){
 			pagination.currentPage--;
 			btnCurrentPage.innerText = pagination.currentPage;
 			pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
-			DetermineTheIndex();
+			determineTheIndex();
 			if (pagination.currentPage == 1) {
-				DisableButton(btnPreviousPage);
+				disableButton(btnPreviousPage);
 			}
-			EnableButton(btnNextPage);
+			enableButton(btnNextPage);
 			if (urlArray.indexOf("Oil")!=-1) {
 				let data = JSON.stringify({
 					"start":pagination.startIndex,
 					"display":pagination.display,
 					"pagi_for":"oil" });
-				SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+				sendAjaxRequest(paginationUrl,paginationMethod,customizeView,data);
 			}
 			if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1) {
 				let data = JSON.stringify({
@@ -770,9 +780,9 @@ if(entries,btnNextPage,btnPreviousPage){
 					"display":pagination.display,
 					"pagi_for":"category" });
 				let paginationUrl = "../Ajax/Pagination";
-				SendAjaxRequest(paginationUrl,paginationMethod,CustomizeViewTable,data);
+				sendAjaxRequest(paginationUrl,paginationMethod,customizeView,data);
 			}
-			NumberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
+			numberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 		}		
 	})
 }
@@ -781,8 +791,8 @@ if(entries,btnNextPage,btnPreviousPage){
 /*==================================================================================================================*/
 /*                                        -- Code For Wallet/Category --           	         			  			*/
 /*==================================================================================================================*/
-var btnAddCategory = document.querySelectorAll('.add__category-button');
-var btnEditCategory = document.querySelector('.edit__category-button');
+var btnaddCategory = document.querySelectorAll('.add__category-button');
+var btneditCategory = document.querySelector('.edit__category-button');
 var categoryType = document.getElementById('form__add-cat_type');
 var categoryName = document.getElementById('form__add-cat_name');
 var categoryColor = document.getElementById('form__add-cat_color');
@@ -795,11 +805,11 @@ window.onload = function(){
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
 		let url = '../Ajax/ShowListCategories';
 		let method = "GET";
-		SendAjaxRequest(url,method,ShowCategoryView);
+		sendAjaxRequest(url,method,showCategoryView);
 	}
 }
 
-function ShowCategoryView(data){
+function showCategoryView(data){
 	if (typeof(data)==="string") {
 		responseData = JSON.parse(data);
 		let templateFrag = document.querySelector('#category__template').content;
@@ -819,7 +829,7 @@ function ShowCategoryView(data){
 	}
 }
 
-function ShowListView(data){
+function showListView(data){
 	if (typeof(data)==="string") {
 		responseData = JSON.parse(data);
 		let templateFrag = document.querySelector('#newRow').content;
@@ -840,7 +850,7 @@ function ShowListView(data){
 	}
 }
 
-function AddCategory(data){
+function addCategory(data){
 	if (typeof('data')==="string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
@@ -851,19 +861,19 @@ function AddCategory(data){
 			templateFrag.querySelector(".category__content-item-left-desc").innerText = responseData.name;
 			templateFrag.querySelector("i").setAttribute("class","fa-solid fa-"+responseData.icon+" fa-sm");
 			document.querySelector(".category__content").appendChild(templateFrag);
-			PopupMessage("success","add","category");
+			popupMessage("success","add","category");
 		} else {
-			PopupMessage("failure","add","category");
+			popupMessage("failure","add","category");
 		}
 	}else {
-		PopupMessage("failure","add","category");
+		popupMessage("failure","add","category");
 	}
-	HideModal(dialog[0]);
+	hideModal(dialog[0]);
 }
 
-function ShowDialogUpdateCategory(event){
-	ShowModal(dialog[0]);
-	RetitleDialog(titleDialog,"Update Category",[btnEditCategory],[btnAddCategory[1]]);
+function showModal_editCategory(event){
+	showModal(dialog[0]);
+	retitleDialog(titleDialog,"Update Category",[btneditCategory],[btnaddCategory[1]]);
 	catTypeInfor.innerText = "";
 	catNameInfor.innerText = "";
 	var target = event.target;
@@ -877,9 +887,9 @@ function ShowDialogUpdateCategory(event){
 	let url = '../Ajax/ShowACategory'
 	let method = 'POST';
 	let catId = JSON.stringify({"categoryId":categoryId});
-	SendAjaxRequest(url,method,LoadData_CategoryDialog,catId);
+	sendAjaxRequest(url,method,loadModal_CategoryDialog,catId);
 
-	function LoadData_CategoryDialog(data) {
+	function loadModal_CategoryDialog(data) {
 		if(typeof(data)==="string"){
 			responseData = JSON.parse(data);
 			categoryType.value = responseData[0].category_type;
@@ -892,12 +902,12 @@ function ShowDialogUpdateCategory(event){
 					categotyIcon.removeAttribute("checked");
 				}
 			}
-			btnEditCategory.setAttribute("idC",categoryId);
+			btneditCategory.setAttribute("idC",categoryId);
 		}
 	}
 }
 
-function EditCategory(data){
+function editCategory(data){
 	if (typeof(data)=="string") {
 		responseData = JSON.parse(data);
 		if(responseData != "false"){
@@ -906,17 +916,17 @@ function EditCategory(data){
 			rowEdited.querySelector("td:nth-child(3) span").innerText = responseData[0].category_name;
 			rowEdited.querySelector("td:nth-child(3) span").style.background = responseData[0].color;
 			rowEdited.querySelector("i").setAttribute("class","fa-solid fa-"+responseData[0].icon+" fa-sm");
-			PopupMessage('success','edit','category');
+			popupMessage('success','edit','category');
 		} else {
-			PopupMessage('failure','edit','category');
+			popupMessage('failure','edit','category');
 		}
 	} else {
-		PopupMessage('failure','edit','category');
+		popupMessage('failure','edit','category');
 	}
-	HideModal(dialog[0]);
+	hideModal(dialog[0]);
 }
 
-function ShowCategoryDeleteDialog(){
+function showModal_deleteCategory(){
 	var target = event.target;
 	var catId;
 	while(target && target !== document.querySelector('tbody')){
@@ -932,12 +942,12 @@ function ShowCategoryDeleteDialog(){
 		delFormContent.style.minHeight = "initial";
 		delFormContent.style.top = ((window.innerHeight/2) - (delFormContent.offsetHeight/2))+'px';
 		document.querySelector(".dialog__form").style.gridTemplateColumns = "1fr";
-		ShowModal(dialog[1]);
-		btnDeleteCategory.setAttribute("catId",catId);
+		showModal(dialog[1]);
+		btndeleteCategory.setAttribute("catId",catId);
 	}
 }
 
-function DeleteCategory(data){
+function deleteCategory(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
 		if(responseData.status != "false"){
@@ -945,19 +955,19 @@ function DeleteCategory(data){
 			let index = document.getElementById(responseData.cat_id).rowIndex;
 			/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 			document.querySelector('tbody').deleteRow(index-1);
-			PopupMessage("success","delete","category");
+			popupMessage("success","delete","category");
 		} else {
 			/*In ra câu thông báo thất bại*/
-			PopupMessage("failure","delete","category");
+			popupMessage("failure","delete","category");
 		}
 	}
 }
 
 if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
-	if (typeof(btnAddCategory[0])!=='undefined') {
-		btnAddCategory[0].style.background  = "#6259ca";
-		btnAddCategory[0].addEventListener('click',function(){
-			ShowModal(dialog[0]);
+	if (typeof(btnaddCategory[0])!=='undefined') {
+		btnaddCategory[0].style.background  = "#6259ca";
+		btnaddCategory[0].addEventListener('click',function(){
+			showModal(dialog[0]);
 			catNameInfor.innerText = "";
 			catTypeInfor.innerText = "";
 			categoryType.value = "";
@@ -970,12 +980,12 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 					categotyIcon.removeAttribute("checked");
 				}
 			}
-			RetitleDialog(titleDialog,"Add a new category",[btnAddCategory[1]],[btnEditCategory]);
+			retitleDialog(titleDialog,"Add a new category",[btnaddCategory[1]],[btneditCategory]);
 		})
 	}
 
-	if (typeof(btnAddCategory[1])!=='undefined') {
-		btnAddCategory[1].addEventListener('click',function(){
+	if (typeof(btnaddCategory[1])!=='undefined') {
+		btnaddCategory[1].addEventListener('click',function(){
 			var categoryData = {"type":categoryType.value,
 								"name":categoryName.value,
 								"color":categoryColor.value};
@@ -996,18 +1006,18 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 			}
 			let url = '../Ajax/AddANewCategory';
 			let method = "POST";
-			SendAjaxRequest(url,method,AddCategory,JSON.stringify(categoryData));
+			sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
 			let initUrl = '../Ajax/TotalCategory';
 			let initMethod = "GET";
-			SendAjaxRequest(initUrl,initMethod,InitializeView);
+			sendAjaxRequest(initUrl,initMethod,initializeView);
 		})
 	}
 
-	on('table', 'click', '.table__action-edit', ShowDialogUpdateCategory);
+	on('table', 'click', '.table__action-edit', showModal_editCategory);
 
-	if (btnEditCategory!== 'undefined') {
-		btnEditCategory.addEventListener("click",function(){
-			var data = {cat_id:btnEditCategory.getAttribute("idC"),
+	if (btneditCategory!== 'undefined') {
+		btneditCategory.addEventListener("click",function(){
+			var data = {cat_id:btneditCategory.getAttribute("idC"),
 			cat_type:categoryType.value,
 			cat_name:categoryName.value,
 			cat_color:categoryColor.value};
@@ -1016,23 +1026,23 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 					data["cat_icon"] = categoryIcons[i].value;
 				}
 			}
-			let url = "../Ajax/EditCategory";
+			let url = "../Ajax/editCategory";
 			let method = "POST";
-			SendAjaxRequest(url,method,EditCategory,JSON.stringify(data));
+			sendAjaxRequest(url,method,editCategory,JSON.stringify(data));
 		})
 	}
 
-	on('table', 'click', '.table__action-delete',ShowCategoryDeleteDialog);
-	var btnDeleteCategory = document.querySelector(".delete__category-button");
+	on('table', 'click', '.table__action-delete',showModal_deleteCategory);
+	var btndeleteCategory = document.querySelector(".delete__category-button");
 
-	if (typeof(btnDeleteCategory)!== 'undefined') {
-		btnDeleteCategory.addEventListener('click',()=>{
-			var catid = btnDeleteCategory.getAttribute("catid");
+	if (typeof(btndeleteCategory)!== 'undefined') {
+		btndeleteCategory.addEventListener('click',()=>{
+			var catid = btndeleteCategory.getAttribute("catid");
 			var data = JSON.stringify({cat_id:catid});
 			let method = "POST";
-			let url = '../Ajax/DeleteCategory';
-			SendAjaxRequest(url, method, DeleteCategory, data);		
-			HideModal(dialog[1]);
+			let url = '../Ajax/deleteCategory';
+			sendAjaxRequest(url, method, deleteCategory, data);		
+			hideModal(dialog[1]);
 		})
 	}
 
@@ -1052,7 +1062,7 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 			if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
 				let url = '../Ajax/ShowListCategories';
 				let method = "GET";
-				SendAjaxRequest(url,method,ShowCategoryView);
+				sendAjaxRequest(url,method,showCategoryView);
 			}
 		}else if(viewChange.value == "list view") {
 			viewChange.value = "category view";
@@ -1072,7 +1082,7 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 					"start":pagination.startIndex,
 					"display":pagination.display,
 					"pagi_for":"category" });
-				SendAjaxRequest(url,method,ShowListView,data);
+				sendAjaxRequest(url,method,showListView,data);
 			}
 		}
 	})
@@ -1082,7 +1092,7 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 /*==================================================================================================================*/
 /*                                        -- Code For Wallet/Transaction --           	         			  	    */
 /*==================================================================================================================*/
-function ShowStatistical(data){
+function showStatistical(data){
 	if (typeof(data) == 'string') {
 		responseData = JSON.parse(data);
 		let new_tbody = document.createElement('tbody');
@@ -1117,7 +1127,7 @@ function ShowStatistical(data){
 	}
 }
 
-function LoadData_CategoryOption(data,output){
+function loadModal_categoryList(data,output){
 	if (typeof(data) == 'string') {
 		var arr = [];
 		arr = JSON.parse(data);
@@ -1131,21 +1141,21 @@ function LoadData_CategoryOption(data,output){
 	}
 }
 
-function AddTransaction(data){
+function addTransaction_showStatistical(data){
 	if (typeof(data) == 'string') {
 		responseData = JSON.parse(data);
 		if (responseData != "false" && responseData.status == 'success') {
-			let url = '../Ajax/ShowStatistical';
+			let url = '../Ajax/showStatistical';
 			let method = "GET";
-			SendAjaxRequest(url,method,ShowStatistical);
-			PopupMessage("success","add","transaction");
+			sendAjaxRequest(url,method,showStatistical);
+			popupMessage("success","add","transaction");
 		} else {
-			PopupMessage("failure","add","transaction");
+			popupMessage("failure","add","transaction");
 		}
 	}
 }
 
-function AddANewTransaction(data){
+function addTransaction_showDetail(data){
 	if (typeof(data) == 'string') {
 		responseData = JSON.parse(data);
 		console.log(responseData);
@@ -1163,14 +1173,14 @@ function AddANewTransaction(data){
 			templateFrag.querySelector('td:nth-child(6)').innerText = responseData.transAmount;
 			templateFrag.querySelector('td:nth-child(6)').setAttribute('class','table__detail-column table__status table__status-'+status);
 			document.querySelector('tbody').appendChild(templateFrag);
-			PopupMessage("success","add","transaction");
+			popupMessage("success","add","transaction");
 		} else {
-			PopupMessage("failure","add","transaction");
+			popupMessage("failure","add","transaction");
 		}
 	}
 }
 
-function ShowYearList(data){
+function showSelectBox_yearList(data){
 	if (typeof(data) == 'string') {
 		var arr = [];
 		arr = JSON.parse(data);
@@ -1190,7 +1200,7 @@ function ShowYearList(data){
 	}
 }
 
-function ShowMonthList(data){
+function showSelectBox_monthList(data){
 	if (typeof(data) == 'string') {
 		var arr = [];
 		arr = JSON.parse(data);
@@ -1243,9 +1253,9 @@ window.addEventListener("load",function(){
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Transaction") != -1){
 		let catUrl = '../Ajax/ShowListCategories';
 		let method = "GET";
-		SendAjaxRequest(catUrl,method,data => LoadData_CategoryOption(data,dialogForm_Category));
+		sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
 		btnAddTransaction[0].addEventListener("click",function(){
-			ShowModal(dialog[0]);
+			showModal(dialog[0]);
 			/*Reload Form*/
 			dialogForm_TransType.value = "null";
 			dialogForm_Category.value = "null";
@@ -1305,26 +1315,26 @@ window.addEventListener("load",function(){
 			} else {
 				labelField_transDialog.innerText = "";
 				let method = "POST";
-				let url = "../Ajax/AddANewTransaction";
-				SendAjaxRequest(url,method,AddTransaction,JSON.stringify(transData))
-				HideModal(dialog[0]);
+				let url = "../Ajax/addTransaction_showDetail";
+				sendAjaxRequest(url,method,addTransaction_showStatistical,JSON.stringify(transData))
+				hideModal(dialog[0]);
 			}
 		})
 
-		function HiddenBox(box){
+		function hiddenBox(box){
 			box.nextElementSibling.style.maxHeight = null;
 			box.nextElementSibling.style.boxShadow = null;
 		}
 
-		function ShowBox(box){
+		function showBox(box){
 			box.nextElementSibling.style.maxHeight = box.nextElementSibling.scrollHeight + "px";;
 			box.nextElementSibling.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
 		}
 
 		let yearUrl = "../Ajax/GetYearStatistical";
-		SendAjaxRequest(yearUrl,method,ShowYearList);
+		sendAjaxRequest(yearUrl,method,showSelectBox_yearList);
 		let monthUrl = "../Ajax/GetMonthStatistical";
-		SendAjaxRequest(monthUrl,method,ShowMonthList);
+		sendAjaxRequest(monthUrl,method,showSelectBox_monthList);
 		/* Khi click vào box thì hiện ra danh sách năm hoặc tháng */
 		var inputBox = document.querySelectorAll(".input-box");
 		var yearBox = inputBox[0];
@@ -1345,8 +1355,8 @@ window.addEventListener("load",function(){
 		})
 		/* Khi click ra ngoài màn hình thì tự động đóng 2 box */
 		document.addEventListener('click',function(){
-			HiddenBox(yearBox);
-			HiddenBox(monthBox);
+			hiddenBox(yearBox);
+			hiddenBox(monthBox);
 			if (monthBox.classList.contains('show-list')) {
 				monthBox.classList.remove('show-list')
 			}
@@ -1356,24 +1366,24 @@ window.addEventListener("load",function(){
 		})
 		/* Khi click vào box chọn năm thì xoá outline của box chọn tháng nếu đang hiện và ẩn list tháng */
 		yearBox.addEventListener('click',(e)=>{
-			HiddenBox(monthBox);
+			hiddenBox(monthBox);
 			if (monthBox.classList.contains('show-list')) {
 				monthBox.classList.remove('show-list')
 			}
 		})
 
-		on(".option-year-list",'click','.year-list',SelectYear);
+		on(".option-year-list",'click','.year-list',selectYear);
 
-		function SelectYear(){
+		function selectYear(){
 			var yearList = document.querySelectorAll(".year-list");
 			yearList.forEach((year)=>{
 				year.addEventListener("change",(e)=>{
 					yearBox.innerText = year.nextElementSibling.innerText;
-					HiddenBox(yearBox);
+					hiddenBox(yearBox);
 					let data = JSON.stringify({"y":year.nextElementSibling.innerText});
 					let monthUrl = "../Ajax/GetMonthStatistical";
 					let method = "POST";
-					SendAjaxRequest(monthUrl,method,ShowMonthList,data);
+					sendAjaxRequest(monthUrl,method,showSelectBox_monthList,data);
 					timeInput["yearInput"] = Number(yearBox.innerText);
 				})
 			})
@@ -1381,23 +1391,23 @@ window.addEventListener("load",function(){
 
 		/* Khi click vào box chọn tháng thì xoá outline của box chọn năm nếu đang hiện và ẩn list năm */
 		monthBox.addEventListener('click',(e)=>{
-			HiddenBox(yearBox);
+			hiddenBox(yearBox);
 			if (yearBox.classList.contains('show-list')) {
 				yearBox.classList.remove('show-list')
 			}
 			
 		})
-		on(".option-month-list",'click','.month-list',SelectMonth);
+		on(".option-month-list",'click','.month-list',selectMonth);
 
-		function SelectMonth(){
+		function selectMonth(){
 			var monthList = document.querySelectorAll(".month-list");
 			monthList.forEach((month)=>{
 				month.addEventListener("change",(e)=>{
 					monthBox.innerText = month.nextElementSibling.innerText;
-					HiddenBox(monthBox);
+					hiddenBox(monthBox);
 					timeInput["monthInput"] = Number(month.value);
-					let statisticalUrl = "../Ajax/ShowStatistical";
-					SendAjaxRequest(statisticalUrl,"POST",ShowStatistical,JSON.stringify(timeInput));
+					let statisticalUrl = "../Ajax/showStatistical";
+					sendAjaxRequest(statisticalUrl,"POST",showStatistical,JSON.stringify(timeInput));
 				})
 			})
 		}
@@ -1406,10 +1416,10 @@ window.addEventListener("load",function(){
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Detail") != -1){
 		let catUrl = '/ewallet/Ajax/ShowListCategories';
 		let method = "GET";
-		SendAjaxRequest(catUrl,method,data => LoadData_CategoryOption(data,dialogForm_Category));
+		sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
 		btnAddTransaction[0].addEventListener("click",function(){
-			ShowModal(dialog[0]);
-			RetitleDialog(titleDialog,"Add a new transaction",[btnAddTransaction[1]],[btnEditTransaction[0]]);
+			showModal(dialog[0]);
+			retitleDialog(titleDialog,"Add a new transaction",[btnAddTransaction[1]],[btnEditTransaction[0]]);
 			/*Reload Form*/
 			dialogForm_TransType.value = "null";
 			dialogForm_Category.value = "null";
@@ -1468,12 +1478,12 @@ window.addEventListener("load",function(){
 			} else {
 				labelField_transDialog.innerText = "";
 				let method = "POST";
-				let url = "/ewallet/Ajax/AddANewTransaction";
-				SendAjaxRequest(url,method,AddANewTransaction,JSON.stringify(transData))
-				HideModal(dialog[0]);
+				let url = "/ewallet/Ajax/addTransaction_showDetail";
+				sendAjaxRequest(url,method,addTransaction_showDetail,JSON.stringify(transData))
+				hideModal(dialog[0]);
 			}
 		})
-		on('table', 'click', '.table__action-edit', ShowDialog_UpdateTransaction);
+		on('table', 'click', '.table__action-edit', showModal_editTransaction);
 		btnEditTransaction[0].addEventListener('click',()=>{
 			let transData = {};
 			//validate
@@ -1511,25 +1521,23 @@ window.addEventListener("load",function(){
 				labelField_transDialog.innerText = "";
 				let method = "POST";
 				let url = "/ewallet/Ajax/EditTransaction";
-				SendAjaxRequest(url,method,UpdateTransaction,JSON.stringify(transData))
-				HideModal(dialog[0]);
+				sendAjaxRequest(url,method,updateTransaction,JSON.stringify(transData))
+				hideModal(dialog[0]);
 			}
 			//update database and review
 			
 		})
 	}
 })
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+
 
 	dialogForm_TransAmount.addEventListener('keyup',()=>{
 		console.log(dialogForm_TransAmount.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	})
 
-function ShowDialog_UpdateTransaction(){
-	ShowModal(dialog[0]);
-	RetitleDialog(titleDialog,"Update Transaction",[btnEditTransaction[0]],[btnAddTransaction[1]]);
+function showModal_editTransaction(){
+	showModal(dialog[0]);
+	retitleDialog(titleDialog,"Update Transaction",[btnEditTransaction[0]],[btnAddTransaction[1]]);
 	/*Reload infor label*/
 	labelField_transType.innerText = "";
 	labelField_category.innerText = "";
@@ -1562,7 +1570,7 @@ function ShowDialog_UpdateTransaction(){
 	btnEditTransaction[0].setAttribute('idT',data["id"]);
 }
 
-function UpdateTransaction(data) {
+function updateTransaction(data) {
 	let responseData = JSON.parse(data);
 	if (responseData != "false") {
 		statusNoti = responseData.transType == 'expenditure' ? 'expired' : 'good';
@@ -1576,9 +1584,9 @@ function UpdateTransaction(data) {
 		rowEdited.querySelector("td:nth-child(6)").innerText = responseData.transAmount;
 		rowEdited.querySelector("td:nth-child(6)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
 		/*In ra câu thông báo thành công*/
-		PopupMessage("success","edit","transaction");
+		popupMessage("success","edit","transaction");
 	} else {
-		PopupMessage("failure","edit","transaction");
+		popupMessage("failure","edit","transaction");
 	}
 }
 

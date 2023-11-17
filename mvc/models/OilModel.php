@@ -6,7 +6,7 @@
 	{
 		
 		public function ShowHistory($start,$display){
-			$q = "SELECT o.och_id,p.product_name,o.end_day,p.product_price, ";
+			$q = "SELECT o.och_id,p.product_name,DATE_FORMAT(o.end_day,'%d-%m-%Y') AS 'end_day',p.product_price, ";
 			$q .= "DATEDIFF(o.end_day,o.start_day) AS total_days, ";
 			$q .= "(end_km-start_km) AS total_km ";
 			$q .= "FROM oil AS o ";
