@@ -427,6 +427,64 @@
 			}
 		}
 
+		public function EditTransaction()
+		{
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["AjaxData"],true);
+			//print_r($arr);
+			if ( !empty($arr) ) {
+				$errors = array();
+
+				if (isset($arr['id'])&&filter_var($arr['id'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$transId = $arr['id'];
+				} else{
+					$errors[] = "transId";
+				}
+
+				if (isset($arr['transAmount'])&&filter_var($arr['transAmount'], FILTER_VALIDATE_INT, array('min_range' => 1) ) ) {
+					$transAmount = $arr['transAmount'];
+				} else{
+					$errors[] = "transAmount";
+				}
+
+				if (!empty($arr['transType'])) {
+					$transType = $arr['transType'];
+				} else {
+					$errors[] = "transType"; 
+				}
+
+				if (!empty($arr['transName'])) {
+					$transName = $arr['transName'];
+				} else {
+					$errors[] = "transName"; 
+				}
+
+				if (!empty($arr['transCategory'])) {
+					$transCategory = $arr['transCategory'];
+				} else {
+					$errors[] = "transCategory"; 
+				}
+
+				if (!empty($arr['transDesc'])) {
+					$transDesc = $arr['transDesc'];
+				} else {
+					$errors[] = "transDesc"; 
+				}
+			}
+			//2. insert database		
+			if(empty($errors)){		
+				$kq = $this->WalletModel->UpdateTransaction($transId,$transType,$transName,$transCategory,$transDesc,$transAmount);
+				if(json_decode($kq) == true){
+					//$arr['catName'] = $this->WalletModel->ShowACategory($transCategory);
+					echo json_encode($arr);
+				} else{
+					echo json_encode($kq);
+				}
+			} else{
+				print_r($errors);
+			}
+		}
+
 		public function GetYearStatistical()
 		{
 			echo $this->WalletModel->GetYearStatistical();

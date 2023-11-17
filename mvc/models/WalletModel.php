@@ -156,6 +156,26 @@
 			}
 			return json_encode($result);
 		}
+		public function UpdateTransaction($transId,$transType,$transName,$transCategory,$transDesc,$transAmount)
+		{
+			$transId = $this->con->real_escape_string(strip_tags($transId));
+			$transType = $this->con->real_escape_string(strip_tags($transType));
+			$transName = $this->con->real_escape_string(strip_tags($transName));
+			$transCategory = $this->con->real_escape_string(strip_tags($transCategory));
+			$transDesc = $this->con->real_escape_string(strip_tags($transDesc));
+			$q = "UPDATE transaction SET ";
+			$q .= "tran_type = '$transType', "; 
+			$q .= "tran_name = '$transName', ";
+			$q .= "cat_id = $transCategory, ";
+			$q .= "tran_desc = '$transDesc', ";
+			$q .= "tran_amount = $transAmount ";
+			$q .= "WHERE tran_id = $transId";
+			$result = false;
+			if($this->con->query($q)){
+				$result = true;
+			}
+			return json_encode($result);
+		}
 
 		public function GetYearStatistical()
 		{

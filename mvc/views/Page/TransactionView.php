@@ -86,7 +86,8 @@
 										echo "<tr>";
 										echo '<td data-cell="no">'.$id.'.</td>';
 										echo '<td data-cell="date"><a href="Detail/'.$data_list[$i]->date.'">'.$data_list[$i]->date.'</a></td>';
-										echo '<td data-cell="Receipts">'.$data_list[$i]->receipt.'</td>';
+										//number_format( $output , 0 , '.' , ',' )
+										echo '<td data-cell="Receipts">'.number_format($data_list[$i]->receipt,0,'.',',').'</td>';
 										echo '<td data-cell="Expenditure">'.$data_list[$i]->expenditures.'</td>';
 										echo '<td data-cell="Difference" class="table__status table__status-'.$status_noti.'">'.$operator.$difference.'</td>';
 										echo '</tr>';

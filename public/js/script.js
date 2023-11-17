@@ -9,6 +9,7 @@
 	https://www.youtube.com/watch?v=LUt36WnREm0&t=222s
 	https://www.youtube.com/watch?v=cNdJLapVQMo
 	https://homiedev.com/tim-hieu-javascript-classlist-add-remove-and-toggle/
+	https://stackoverflow.com/questions/11459998/using-number-format-to-add-thousand-separator
 */
 
 /* Chú thích 
@@ -1462,7 +1463,7 @@ window.addEventListener("load",function(){
 				labelField_transAmount.innerText = "Amount field can't be empty";
 			}
 			/*Object.keys(ObjectName).length = số lượng của object*/
-			if (Object.keys(transData).length != 6) {
+			if (Object.keys(transData).length != 5) {
 				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				labelField_transDialog.innerText = "";
@@ -1472,10 +1473,59 @@ window.addEventListener("load",function(){
 				HideModal(dialog[0]);
 			}
 		})
-
 		on('table', 'click', '.table__action-edit', ShowDialog_UpdateTransaction);
+		btnEditTransaction[0].addEventListener('click',()=>{
+			let transData = {};
+			//validate
+			if(dialogForm_TransType.value != "null"){
+				transData["transType"] = dialogForm_TransType.value;
+			} else {
+				labelField_transType.innerText = "Please select an option";
+			}
+			if(dialogForm_Category.value != "null"){
+				transData["transCategory"] = dialogForm_Category.value;
+			} else {
+				labelField_category.innerText = "Please select an option";
+			}
+			if (dialogForm_TransName.value) {
+				transData["transName"] = dialogForm_TransName.value;
+			} else {
+				labelField_transName.innerText = "Transaction Name field can't be empty";
+			}
+			if (dialogForm_TransName.value) {
+				transData["transDesc"] = dialogForm_Description.value;
+			} else {
+				labelField_transDesc.innerText = "Description field can't be empty";
+			}
+			
+			if (dialogForm_TransAmount.value) {
+				transData["transAmount"] = dialogForm_TransAmount.value;
+			} else {
+				labelField_transAmount.innerText = "Amount field can't be empty";
+			}
+			//send ajax
+			if (Object.keys(transData).length != 5) {
+				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
+			} else {
+				transData["id"] = btnEditTransaction[0].getAttribute("idT");
+				labelField_transDialog.innerText = "";
+				let method = "POST";
+				let url = "/ewallet/Ajax/EditTransaction";
+				SendAjaxRequest(url,method,UpdateTransaction,JSON.stringify(transData))
+				HideModal(dialog[0]);
+			}
+			//update database and review
+			
+		})
 	}
 })
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+	dialogForm_TransAmount.addEventListener('keyup',()=>{
+		console.log(dialogForm_TransAmount.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	})
 
 function ShowDialog_UpdateTransaction(){
 	ShowModal(dialog[0]);
@@ -1509,7 +1559,30 @@ function ShowDialog_UpdateTransaction(){
 	dialogForm_TransName.value = data["transName"];
 	dialogForm_Description.value = data["transDesc"];
 	dialogForm_TransAmount.value = data["transAmount"];
+	btnEditTransaction[0].setAttribute('idT',data["id"]);
 }
+
+function UpdateTransaction(data) {
+	let responseData = JSON.parse(data);
+	if (responseData != "false") {
+		statusNoti = responseData.transType == 'expenditure' ? 'expired' : 'good';
+		/* Update dòng dữ liệu đã được chỉnh sửa */
+		let rowEdited = document.getElementById(btnEditTransaction[0].getAttribute("idT"));
+		rowEdited.querySelector("td:nth-child(2)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
+		rowEdited.querySelector("td:nth-child(2)").innerText = responseData.transType;
+		rowEdited.querySelector("td:nth-child(3)").innerText = responseData.transName;
+		rowEdited.querySelector("td:nth-child(4)").innerText = responseData.transCategory;
+		rowEdited.querySelector("td:nth-child(5)").innerText = responseData.transDesc;
+		rowEdited.querySelector("td:nth-child(6)").innerText = responseData.transAmount;
+		rowEdited.querySelector("td:nth-child(6)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
+		/*In ra câu thông báo thành công*/
+		PopupMessage("success","edit","transaction");
+	} else {
+		PopupMessage("failure","edit","transaction");
+	}
+}
+
+
 
 /*End */
 
