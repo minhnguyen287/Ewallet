@@ -22,7 +22,7 @@
 	delFormContent, delForm là viết tắt của dialog__form[1] và dialog__content[1] khi gọi ra bằng document.getElementsByClassName
 	dùng 2 đối tượng này để custom Form delete của Modal delete vì nó là Modal riêng, ko giông Modal add và update
 
-	btnAddTransaction, btnEditTransaction, btnDeleteTransaction, btnCancelAction là 4 button action để thực hiện
+	btnAddTransaction, btnEditTransaction, btnDeleteTransaction, btnCancel là 4 button action để thực hiện
 	4 tính năng thêm, sửa, xoá, và huỷ hành động xoá của Form trong đó đặc biệt btnAddTransaction ccaafn chú ý
 	btnAddTransaction[0] là button để gọi Form Add (dialof[0])
 	btnAddTransaction[1] dùng để thực hiện hành động add transaction
@@ -36,16 +36,19 @@
 	CUD = Creat-Update-Delete
 
 */
-var btnShowAddForm = document.querySelector('.add__och-form'); /* och viết tắt của oil change history */
-var btnAdd_aRecord = document.querySelector('.add__och-action');
-var btnEdit_aRecord = document.querySelector('.add__och-action');
-var btnDelete_aRecord = document.querySelector('.add__och-action');
+var btnAdd = document.querySelector('.add__button'); /* och viết tắt của oil change history */
+var btnCreate = document.querySelector('.create__button');
+var btnEdit = document.querySelector('.edit__button');
+var btnUpdate = document.querySelector('.update__button');
+var btnRemove = document.querySelector('.remove__button');
+var btnDelete = document.querySelector('.delete__button');
+var btnCancel = document.querySelector('.cancel__button');
+var btnCloseModal = document.querySelectorAll(".dialog__content-header-close");
 
 var btnAddTransaction = document.getElementsByClassName("add__transaction-button");
 var btnEditTransaction = document.getElementsByClassName('edit__transaction-button');
 var btnDeleteTransaction = document.getElementsByClassName('delete__transaction-button');
-var btnCancelAction = document.querySelector('.cancel__action-button');
-var btnCloseModal = document.getElementsByClassName("dialog__content-header-close");
+
 
 var headerPopup = document.querySelector(".header__popup");
 
@@ -63,14 +66,11 @@ var dialogForm_endDay = document.getElementById("form__end-day");
 var labelField_startKm = document.getElementById("start_km_info");
 var labelField_endKm = document.getElementById("end_km_info");
 var labelField_product = document.getElementById("product_info");
-
+var labelField_Dialog = document.getElementById("transDialog_info");
 
 const currentUrl = window.location.pathname.toString();
 const urlArray = currentUrl.split("/");
 
-if (typeof(btnAddTransaction[0])!=='undefined') {
-	btnAddTransaction[0].style.background  = "#6259ca";
-}
 /* Viết 2 hàm ẩn / hiện bảng modal dialog */
 function showModal(modal){
 	modal.style.opacity = "1";
@@ -83,14 +83,10 @@ function hideModal(modal) {
 }
 
 /* Viết function hiển thị nội dung và các button Form khi click vào button có action tương ứng */
-function retitleDialog(titleDialog,title,btnDisplays,btnHides){
+function retitleDialog(titleDialog,title,btnDisplay,btnHide){
 	titleDialog.innerText = title;
-	for(let btnDisplay of btnDisplays){
 		btnDisplay.style.display = "";
-	}
-	for(let btnHide of btnHides){
 		btnHide.style.display = "none";
-	}
 }
 
 /*Viết function phân loại trạng thái hiển thị Good/Warning/Expired dựa vào số km */
@@ -163,11 +159,11 @@ function numberWithCommas(x) {
 
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
 btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
-if (btnCancelAction) {
+if (btnCloseModal[1]) {
 	btnCloseModal[1].addEventListener("click",()=>hideModal(dialog[1]));
 }
-if (btnCancelAction) {
-	btnCancelAction.addEventListener("click",()=>hideModal(dialog[1]));
+if (btnCancel) {
+	btnCancel.addEventListener("click",()=>hideModal(dialog[1]));
 }
 /* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
 window.addEventListener("click",function(event){
@@ -188,24 +184,6 @@ window.onresize = function(){
     	delFormContent.style.minWidth = "initial";
     }
 }
-
-/* Viết hàm tối ưu lại code, thông báo lỗi nếu dữ liệu nhập vào không hợp lệ. 
-   Bật button submit nếu tất cả dữ liệu nhập vào hợp lệ */
-function showErrorNotification(pattern,value,errorLineNoti,submitBtn,errorCode,contentNoti){
-	if(pattern.test(value)){
-		errorLineNoti.innerText = "";
-		removeErrorCode(isCorrectInput,errorCode);
-	} else{
-		errorLineNoti.innerText = contentNoti;
-		addErrorCode(isCorrectInput,errorCode);
-	}
-	if (isCorrectInput.length === 0) {
-		submitBtn.removeAttribute("disabled");
-	} else {
-		submitBtn.setAttribute("disabled","disabled");
-	}
-}
-
 /* Function call AJAX load thông tin sản phẩm */
 function sendAjaxRequest(url,method,callback,data){
 	let xhttp = new XMLHttpRequest();
@@ -302,7 +280,7 @@ function showModal_editDialog(){
 	labelField_startKm.innerText = "";
 	labelField_endKm.innerText = "";
 	labelField_product.innerText = "";
-	retitleDialog(titleDialog,'Edit transaction',[btnEditTransaction[0]],[btnAddTransaction[1]]);
+	retitleDialog(titleDialog,'Edit transaction',btnUpdate,btnCreate);
 	/* Gọi Ajax load dữ liệu của bản ghi tương ứng với số transactionId khi button Edit được click*/
 	let id = JSON.stringify({"tranId":transactionId});
 	let url = './Ajax/ShowRecordById';
@@ -316,14 +294,7 @@ function showModal_editDialog(){
 		dialogForm_startKm.value = responseData.start_km;
 		dialogForm_endKm.value = responseData.end_km;
 		dialogForm_product.value = responseData.product_id;
-		btnEditTransaction[0].setAttribute("transactionId",transactionId);
-		/* Xoá ErrorCode trong mảng báo lỗi isCorrectInput. Vì dùng chung 1 dialog. Nếu trước đó 
-		các chỉ mục label trong Add Form bị lỗi do nhập sai định dạng dữ liệu thì khi ấn vào btnEdit 
-		sẽ phải xoá lỗi ở các chỉ mục label thì mới hợp logic*/
-		let i = 0;
-		while(i < isCorrectInput.length){
-			isCorrectInput.pop();
-		}		
+		btnUpdate.setAttribute("transactionId",transactionId);		
 	}		
 }
 
@@ -332,7 +303,7 @@ function updateRecord(data){
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
 			/* Update dòng dữ liệu đã được chỉnh sửa */
-			let rowEdited = document.getElementById(btnEditTransaction[0].getAttribute("transactionId"));
+			let rowEdited = document.getElementById(btnUpdate.getAttribute("transactionId"));
 			rowEdited.querySelector("td:nth-child(2)").innerText = responseData.product_name;
 			rowEdited.querySelector("td:nth-child(3)").innerText = responseData.end_day;
 			rowEdited.querySelector("td:nth-child(4)").innerText = responseData.total_days;
@@ -367,7 +338,7 @@ function showModal_deleteDialog(){
 		delFormContent.style.minHeight = "initial";
 		delForm.style.gridTemplateColumns = "1fr";
 		showModal(dialog[1]);
-		btnDeleteTransaction[0].setAttribute("transId",transactionId);
+		btnDelete.setAttribute("transId",transactionId);
 	}
 }
 
@@ -398,31 +369,30 @@ ngay khi trang được load. */
 
 /* Validate dữ liệu khi nhập form*/
 	let pattern = /^[0-9]+$/;
-	let contentNoti = "Invalid number format";
-	let submitButton = document.querySelectorAll(".add__transaction-button");
 
 	dialogForm_product.addEventListener("change",function(){
-		let errorLineNotification = labelField_product;
-		let contentNoti = "Please select an option";
-		showErrorNotification(pattern,dialogForm_product.value,errorLineNotification,submitButton[1],"dialogForm_product",contentNoti);
-		dialogForm_product[0].style.display = "none";
+		if(pattern.test(dialogForm_product.value)){
+			labelField_product.innerText = "Please select an option";
+		}
 	})
 
 	dialogForm_startKm.addEventListener('keyup',function(){
-		let errorLineNotification = labelField_startKm;
-		showErrorNotification(pattern,dialogForm_startKm.value,errorLineNotification,submitButton[1],"dialogForm_startKm",contentNoti);
+		if(pattern.test(dialogForm_startKm.value)){
+			labelField_startKm.innerText = "Invalid number format";
+		}
 	})
 
 	dialogForm_endKm.addEventListener('keyup',function(){
-		let errorLineNotification = labelField_endKm;
-		showErrorNotification(pattern,dialogForm_endKm.value,errorLineNotification,submitButton[1],"dialogForm_endKm",contentNoti);
+		if(pattern.test(dialogForm_endKm.value)){
+			labelField_endKm.innerText = "Invalid number format";
+		}
 	})	
 
 /* Hiện Modal thêm 1 bản ghi lịch sử thay dầu khi click vào nút "Add Transaction" */
-	if (typeof(btnAddTransaction[0])!=='undefined') {
-		btnAddTransaction[0].onclick = function(){
+	if (typeof(btnAdd)!=='undefined') {
+		btnAdd.onclick = function(){
 			/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
-			retitleDialog(titleDialog,'Add a new transaction',[btnAddTransaction[1]],[btnEditTransaction[0]])
+			retitleDialog(titleDialog,'Add a new transaction',btnCreate,btnUpdate);
 			showModal(dialog[0]);
 			/* Reload lại các phần tử dùng để thông báo */
 			headerPopup.setAttribute("class","header__popup");
@@ -438,30 +408,28 @@ ngay khi trang được load. */
 
 /* Validate dữ liệu nhập vào form Modal thêm 1 bản ghi lịch sử thay dầu 
 Tạo ra 1 mảng chứa mã lỗi , nếu dữ liệu nhập vào hợp lệ sẽ xoá mã lỗi trong bảng và ngược lại */
-	var isCorrectInput = ["dialogForm_product","dialogForm_endKm"];
  
 /* Code tính năng thêm 1 bản ghi lịch sử thay dầu */
-	let btnAddNewTrans = document.querySelectorAll(".add__transaction-button");
-	if (typeof(btnAddNewTrans[1])!== 'undefined') {
-		btnAddNewTrans[1].addEventListener("click",function(){
-			if (isCorrectInput.length !== 0) {
-				if (isCorrectInput.indexOf("dialogForm_startKm")!=-1) {
-					labelField_startKm.innerText = "Invalid number format";
-				}
-				if (isCorrectInput.indexOf("dialogForm_endKm")!=-1) {
-					labelField_endKm.innerText = "Invalid number format";
-				}
-				if (isCorrectInput.indexOf("dialogForm_product")!=-1) {
-					labelField_product.innerText = "Please select an option";
-				}
-			} else{
-				/* Gọi Ajax Add New Transaction */
-				var data = {startDay:dialogForm_startDay.value,
-					endDay:dialogForm_endDay.value,
-					startKm:dialogForm_startKm.value,
-					endKm:dialogForm_endKm.value,
-					productId:dialogForm_product.value
-				};
+	if (typeof(btnCreate)!== 'undefined') {
+		btnCreate.addEventListener("click",function(){
+			/* Validate Form */
+			var data = {startDay:dialogForm_startDay.value,
+						endDay:dialogForm_endDay.value,
+						startKm:dialogForm_startKm.value,}
+			if(dialogForm_endKm.value != ""){
+				data["endKm"] = dialogForm_endKm.value;
+			} else {
+				labelField_endKm.innerText = "Please select an option";
+			}
+			if(dialogForm_product.value != "null"){
+				data["productId"] = dialogForm_product.value;
+			} else {
+				labelField_product.innerText = "Please select a product";
+			}
+			/* Gọi Ajax Add New Transaction */
+			if (Object.keys(data).length != 5) {
+				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
+			} else {
 				let url = './Ajax/addNewRecord';
 				let method = "POST";		
 				sendAjaxRequest(url,method,addNewRecord,JSON.stringify(data));
@@ -490,7 +458,7 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 */
 	var oilTable = document.querySelector('table');
 	oilTable.onclick = function(event){
-		var btnEdits =  document.querySelectorAll('.table__action-edit');
+		var btnEdits =  document.querySelectorAll('.edit__button');
 		var target = event.target; // Chỉ ra phần tử đang được tương tác
 		btnEdits.forEach((btnEdit)=>{
 			var selector = target; // bắt buộc phải có phần tử selector, không được so sánh trực tiếp phần tử target
@@ -502,8 +470,8 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 		})
 	}
 /* Code tính năng sửa đổi bản ghi lịch sử thay dầu */
-	if (typeof(btnEditTransaction[0])!== 'undefined') {
-		btnEditTransaction[0].addEventListener('click',function(){
+	if (typeof(btnUpdate)!== 'undefined') {
+		btnUpdate.addEventListener('click',function(){
 			if (isCorrectInput.length !== 0) {
 				showModal(dialog[0]);
 				if (isCorrectInput.indexOf("dialogForm_startKm")!=-1) {
@@ -516,7 +484,7 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 					labelField_product.innerText = "Please select an option";
 				}	
 			} else{
-				var data = {transId:btnEditTransaction[0].getAttribute("transactionId"),
+				var data = {transId:btnUpdate.getAttribute("transactionId"),
 				startDay:dialogForm_startDay.value,
 				endDay:dialogForm_endDay.value,
 				startKm:dialogForm_startKm.value,
@@ -533,12 +501,12 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 	}
 
 /* Dùng hàm on() được viết lại từ cách sử dụng event delegation để áp dụng event cho các button delete được thêm sau khi load trang*/
-	on('table','click','.table__action-delete',showModal_deleteDialog);
+	on('table','click','.remove__button',showModal_deleteDialog);
 
 /* Code tính năng xoá 1 bản ghi lịch sử thay dầu */
-	if (typeof(btnDeleteTransaction[0])!== 'undefined') {
-		btnDeleteTransaction[0].addEventListener('click',()=>{
-			var transId = btnDeleteTransaction[0].getAttribute("transId");
+	if (typeof(btnDelete)!== 'undefined') {
+		btnDelete.addEventListener('click',()=>{
+			var transId = btnDelete.getAttribute("transId");
 			var data = JSON.stringify({transactionId:transId});
 			let method = "POST";
 			let url = './Ajax/deleteRecord';
@@ -1236,7 +1204,6 @@ var labelField_transName = document.getElementById("transname_info");
 var labelField_category = document.getElementById("category_info");
 var labelField_transDesc = document.getElementById("transdesc_info");
 var labelField_transAmount = document.getElementById("transamount_info");
-var labelField_transDialog = document.getElementById("transDialog_info");
 
 var currentDate = new Date();
 var currentDay = currentDate.getDate();
@@ -1268,7 +1235,7 @@ window.addEventListener("load",function(){
 			labelField_transName.innerText = "";
 			labelField_transDesc.innerText = "";
 			labelField_transAmount.innerText = "";
-			labelField_transDialog.innerText = "";
+			labelField_Dialog.innerText = "";
 		})
 
 		dialogForm_Category.addEventListener('change',(e)=>{
@@ -1311,9 +1278,9 @@ window.addEventListener("load",function(){
 			}
 			/*Object.keys(ObjectName).length = số lượng của object*/
 			if (Object.keys(transData).length != 6) {
-				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
+				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
-				labelField_transDialog.innerText = "";
+				labelField_Dialog.innerText = "";
 				let method = "POST";
 				let url = "../Ajax/addTransaction_showDetail";
 				sendAjaxRequest(url,method,addTransaction_showStatistical,JSON.stringify(transData))
@@ -1431,7 +1398,7 @@ window.addEventListener("load",function(){
 			labelField_transName.innerText = "";
 			labelField_transDesc.innerText = "";
 			labelField_transAmount.innerText = "";
-			labelField_transDialog.innerText = "";
+			labelField_Dialog.innerText = "";
 		})
 
 		dialogForm_Category.addEventListener('change',(e)=>{
@@ -1474,9 +1441,9 @@ window.addEventListener("load",function(){
 			}
 			/*Object.keys(ObjectName).length = số lượng của object*/
 			if (Object.keys(transData).length != 5) {
-				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
+				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
-				labelField_transDialog.innerText = "";
+				labelField_Dialog.innerText = "";
 				let method = "POST";
 				let url = "/ewallet/Ajax/addTransaction_showDetail";
 				sendAjaxRequest(url,method,addTransaction_showDetail,JSON.stringify(transData))
@@ -1515,10 +1482,10 @@ window.addEventListener("load",function(){
 			}
 			//send ajax
 			if (Object.keys(transData).length != 5) {
-				labelField_transDialog.innerText = "Please complete all Field before submit Form !";
+				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				transData["id"] = btnEditTransaction[0].getAttribute("idT");
-				labelField_transDialog.innerText = "";
+				labelField_Dialog.innerText = "";
 				let method = "POST";
 				let url = "/ewallet/Ajax/EditTransaction";
 				sendAjaxRequest(url,method,updateTransaction,JSON.stringify(transData))
@@ -1544,7 +1511,7 @@ function showModal_editTransaction(){
 	labelField_transName.innerText = "";
 	labelField_transDesc.innerText = "";
 	labelField_transAmount.innerText = "";
-	labelField_transDialog.innerText = "";
+	labelField_Dialog.innerText = "";
 	var target = event.target;
 	var rowEdited;
 	while(target && target !== document.querySelector('tbody')){

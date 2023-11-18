@@ -102,7 +102,7 @@
 									echo'<td data-cell="status" class="table__status table__status-'.$status_noti.'">'.$status_noti.'</td>';
 									echo '<td data-cell="Action">
 										<div class="table__action">
-										<button class="update__button">
+										<button class="edit__button">
 										<i class="fa-solid fa-pen fa-sm"></i>
 										</button>
 										<button class="remove__button">
@@ -125,7 +125,7 @@
 									<td data-cell="status" class="table__status">Good</td>
 									<td data-cell="Action">
 										<div class="table__action">
-											<button class="update__button">
+											<button class="edit__button">
 												<i class="fa-solid fa-pen fa-sm"></i>
 											</button>
 											<button class="remove__button">
@@ -154,7 +154,10 @@
 		<form id="AddNewTransaction" action="" method="POST">
 			<div class="dialog__content">
 				<div class="dialog__content-header">
-					<h2 class="dialog__content-header-label">Add a new transaction</h2>
+					<h2 class="dialog__content-header-label">
+						Add a new transaction
+						<span class="input_infor" id="transDialog_info"></span>
+					</h2>
 					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 				</div>
 				<div class="dialog__content-body">
