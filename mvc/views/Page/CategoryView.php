@@ -7,10 +7,10 @@
 			<span class="header__container-left-link">Category</span>
 		</div>
 		<div class="header__container-right">
-			<button class="add__category-button">
+			<button class="add__button">
 				<i class="fa-solid fa-plus"></i> Add Category
 			</button>
-			<button class="changeview-button" value="list view">
+			<button class="change__button" value="list view">
 				<i class="fa-solid fa-table-list"></i> <span>List View</span>
 			</button>
 		</div>
@@ -96,10 +96,10 @@
 									echo'<td data-cell="icon"><i style="font-size:2rem;" class="fa-solid fa-'.$row[$i]->icon.' fa-sm"></i></td>';
 									echo '<td data-cell="Action">
 									<div class="table__action">
-									<button class="table__action-edit">
+									<button class="edit__button">
 									<i class="fa-solid fa-pen fa-sm"></i>
 									</button>
-									<button class="table__action-delete">
+									<button class="remove__button">
 									<i class="fa-solid fa-trash fa-sm"></i>
 									</button>
 									</div>
@@ -138,10 +138,10 @@
 				</td>
 				<td data-cell="Action">
 					<div class="oil__table-action">
-						<button class="table__action-edit">
+						<button class="edit__button">
 							<i class="fa-solid fa-pen fa-sm"></i>
 						</button>
-						<button class="table__action-delete">
+						<button class="remove__button">
 							<i class="fa-solid fa-trash fa-sm"></i>
 						</button>
 					</div>
@@ -169,7 +169,10 @@
 	<div class="dialog">
 		<div class="dialog__content dialog__category">
 			<div class="dialog__content-header">
-				<h2 class="dialog__content-header-label">Add a new category</h2>
+				<div class="dialog__content-header-label">
+					<h2>Add a new transaction</h2>
+					<span class="input_infor" id="transDialog_info"></span>
+				</div>
 				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 			</div>
 			<div class="dialog__content-body">
@@ -187,7 +190,9 @@
 						<input class="dialog__form-category-field-input" type="text" name="catname" id="form__add-cat_name" placeholder="Category Name">
 					</div>					
 					<div class="dialog__form-category-field">
-						<label class="dialog__form-category-field-label" for="catcolor">Color of Category</label>
+						<label class="dialog__form-category-field-label" for="catcolor">Color of Category
+							<span class="input_infor" id="category_color_info"></span>
+						</label>
 						<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color" value="#45aaf2" >
 					</div>	
 					<div class="dialog__form-category-field">
@@ -195,11 +200,7 @@
 							$icon_array = ["sack-dollar","money-bill-transfer","money-bill-trend-up","hand-holding-dollar","piggy-bank","file-invoice-dollar","house","lightbulb","faucet-drip","fire","earth-asia","tv","mobile-screen","utensils","bowl-rice","mug-hot","cart-shopping","gas-pump","motorcycle","screwdriver-wrench","gift","envelope","heart","skull","hand-holding-heart","capsules","briefcase-medical","hospital","tooth","gamepad","graduation-cap","handshake","person-walking-luggage","hotel","dumbbell","scissors"];
 							for ($i=0; $i < count($icon_array) ; $i++) { 
 								echo '<div class="dialog__form-category-field-icon">';
-								if ($i == 0) {
-									echo '<input class="dialog__form-category-field-icon-input" checked="checked" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';
-								} else {
-									echo '<input class="dialog__form-category-field-icon-input" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';
-								}
+								echo '<input class="dialog__form-category-field-icon-input" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';
 								echo '<label class="dialog__form-category-field-icon-label" for="icon'.$i.'">';
 								echo '<i class="fa-solid fa-'.$icon_array[$i].' fa-sm"></i>';
 								echo '</label>';
@@ -210,10 +211,10 @@
 				</form>
 			</div>
 			<div class="dialog__content-footer">
-				<button class="add__category-button">
+				<button class="create__button">
 					<i class="fa-solid fa-plus"></i> Add Category
 				</button>
-				<button class="edit__category-button" name="editCatBtn">
+				<button class="update__button" name="editCatBtn">
 					<i class="fa-solid fa-pen fa-sm"></i> Update Category
 				</button>
 			</div>
@@ -236,10 +237,10 @@
 					</div>
 				</div>
 				<div class="dialog__content-footer">
-					<button type="button" class="delete__category-button" name="delCatBtn">
+					<button type="button" class="delete__button" name="delCatBtn">
 						<i class="fa-solid fa-trash fa-sm"></i> Delete
 					</button>
-					<button type="button" class="cancel__action-button" name="cancelActBtn">
+					<button type="button" class="cancel__button" name="cancelActBtn">
 						<i class="fa-solid fa-ban fa-sm"></i> Cancel
 					</button>
 				</div>

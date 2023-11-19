@@ -7,7 +7,7 @@
 			<span class="header__container-left-link">Transaction</span>
 		</div>
 		<div class="header__container-right">
-			<button class="add__transaction-button">
+			<button class="add__button">
 				<i class="fa-solid fa-plus"></i> Add Transaction
 			</button>
 		</div>
@@ -116,9 +116,10 @@
 <div class="dialog">
 	<div class="dialog__content">
 		<div class="dialog__content-header">
-			<h2 class="dialog__content-header-label">Add a new transaction
+			<div class="dialog__content-header-label">
+				<h2>Add a new transaction</h2>
 				<span class="input_infor" id="transDialog_info"></span>
-			</h2>
+			</div>
 			<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 		</div>
 		<div class="dialog__content-body">
@@ -164,13 +165,15 @@
 				</div>				
 
 				<div class="dialog__form-field">
-					<label class="dialog__form-label" for="date">Date</label>
+					<label class="dialog__form-label" for="date">Date
+						<span class="input_infor" id="transdate_info"></span>
+					</label>
 					<input class="dialog__form-input" name="date" type="date" id="form__add-transaction-date">
 				</div>
 			</form>
 		</div>
 		<div class="dialog__content-footer">
-			<button class="add__transaction-button">
+			<button class="create__button">
 				<i class="fa-solid fa-plus"></i> Add Transaction
 			</button>
 		</div>

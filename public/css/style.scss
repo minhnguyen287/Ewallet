@@ -241,7 +241,7 @@ input:focus{
 }
 .export__button,.change__button{
 	width: calc(90rem / 16);
-	background: #d4c622;
+	background: #f82649;
 }
 .add__button,.create__button{
 	background: #13bfa6;
@@ -765,6 +765,11 @@ tr{
   		&-label{
   			font-size: 1.1rem;
   			font-weight: 600;
+  			display:flex;
+  			align-items: center;
+  			& h2{
+  				margin-right: 0.5rem;
+  			}
   		}
   		&-close{
   			color: #fff;

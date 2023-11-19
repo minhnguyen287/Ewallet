@@ -53,7 +53,7 @@ var btnDeleteTransaction = document.getElementsByClassName('delete__transaction-
 var headerPopup = document.querySelector(".header__popup");
 
 var dialog = document.getElementsByClassName("dialog");
-var titleDialog = document.querySelector('.dialog__content-header-label'); 
+var titleDialog = document.querySelector('.dialog__content-header-label h2'); 
 
 var delFormContent = document.getElementsByClassName("dialog__content")[1];
 var delForm = document.getElementsByClassName("dialog__form")[1];
@@ -65,6 +65,8 @@ var dialogForm_endDay = document.getElementById("form__end-day");
 
 var labelField_startKm = document.getElementById("start_km_info");
 var labelField_endKm = document.getElementById("end_km_info");
+var labelField_startDay = document.getElementById("start_day_info");
+var labelField_endDay = document.getElementById("end_day_info");
 var labelField_product = document.getElementById("product_info");
 var labelField_Dialog = document.getElementById("transDialog_info");
 
@@ -88,6 +90,32 @@ function retitleDialog(titleDialog,title,btnDisplay,btnHide){
 		btnDisplay.style.display = "";
 		btnHide.style.display = "none";
 }
+function retitleLabel(page){
+ 	labelField_Dialog.innerText = "";
+ 	switch(page){
+ 		case 'oil' :
+	 		labelField_startKm.innerText = "";
+	 		labelField_endKm.innerText = "";
+	 		labelField_startDay.innerText = "";
+	 		labelField_endDay.innerText = "";
+	 		labelField_product.innerText = "";
+	 		break;
+ 		case 'category' :
+	 		catNameInfor.innerText = "";
+	 		catTypeInfor.innerText = "";
+	 		catColorInfor.innerText = "";
+	 		break;
+	 	case 'statistical' :
+	 		labelField_transType.innerText = "";
+			labelField_category.innerText = "";
+			labelField_transName.innerText = "";
+			labelField_transDesc.innerText = "";
+			labelField_transAmount.innerText = "";
+			labelField_Dialog.innerText = "";
+			break;
+ 	}
+	
+ }
 
 /*Viết function phân loại trạng thái hiển thị Good/Warning/Expired dựa vào số km */
 function assessmentStatuses (km){
@@ -134,27 +162,22 @@ function popupMessage(status,action,object){
 	},2500);
 }
 
-/* Hai hàm thêm mã lỗi và xoá mã lỗi. Ý tưởng dùng mã lỗi để báo thông báo lỗi phù hợp */
-function removeErrorCode(errArray,errKey){
-	if (errArray.indexOf(errKey)!=-1) {
-		errArray.splice(errArray.indexOf(errKey),1);
-	}
-}
-
-function addErrorCode(errArray,errKey){
-	if (errArray.indexOf(errKey)==-1) {
-		errArray.push(errKey);
-	}
-}
-
 /* Responsive modal nếu màn hình nhỏ */
-function calculatePercentage(x, y)
-{
+function calculatePercentage(x, y){
 	return (x/y)*100;
 }
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function vndCurrency(x) {
+   return x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+" ₫";
+}
+function dateFormat(date){
+	return date.split('-').reverse().join('-')
+	/*Chuỗi gốc 2023-10-25
+	Kết quả 25-10-2023*/
 }
 
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
@@ -222,6 +245,14 @@ function loadProductList(data,output){
 	}
 }
 function showModal_addDialog(data){
+	/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
+	retitleDialog(titleDialog,'Add a new transaction',btnCreate,btnUpdate);
+	retitleLabel('oil');
+	showModal(dialog[0]);
+	/* Reload lại các phần tử dùng để thông báo */
+	headerPopup.setAttribute("class","header__popup");
+	headerPopup.removeAttribute("style");
+	/*Fill data */
 	let curentDate = new Date().toJSON().slice(0, 10);
 	var responseData = JSON.parse(data);
 	dialogForm_startDay.value = responseData.end_day;
@@ -243,10 +274,10 @@ function addNewRecord(data){
 			templateFrag.querySelector("td").parentNode.setAttribute("id",responseData.och_id);
 			templateFrag.querySelector("td").innerText = rowId+".";
 			templateFrag.querySelector(".rowContent td:nth-child(2)").innerText = responseData.product_name;
-			templateFrag.querySelector(".rowContent td:nth-child(3)").innerText = responseData.end_day;
+			templateFrag.querySelector(".rowContent td:nth-child(3)").innerText = dateFormat(responseData.end_day);
 			templateFrag.querySelector(".rowContent td:nth-child(4)").innerText = responseData.total_days;
-			templateFrag.querySelector(".rowContent td:nth-child(5)").innerText = responseData.total_km;
-			templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = responseData.product_price;
+			templateFrag.querySelector(".rowContent td:nth-child(5)").innerText = numberWithCommas(responseData.total_km);
+			templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = vndCurrency(responseData.product_price)
 			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
 			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+assessmentStatuses(responseData.total_km));
 			document.querySelector("tbody").appendChild(templateFrag);
@@ -277,10 +308,8 @@ function showModal_editDialog(){
 	headerPopup.removeAttribute("style");
 	/* Gọi modal Update*/
 	showModal(dialog[0]);
-	labelField_startKm.innerText = "";
-	labelField_endKm.innerText = "";
-	labelField_product.innerText = "";
 	retitleDialog(titleDialog,'Edit transaction',btnUpdate,btnCreate);
+	retitleLabel('oil');
 	/* Gọi Ajax load dữ liệu của bản ghi tương ứng với số transactionId khi button Edit được click*/
 	let id = JSON.stringify({"tranId":transactionId});
 	let url = './Ajax/ShowRecordById';
@@ -305,10 +334,10 @@ function updateRecord(data){
 			/* Update dòng dữ liệu đã được chỉnh sửa */
 			let rowEdited = document.getElementById(btnUpdate.getAttribute("transactionId"));
 			rowEdited.querySelector("td:nth-child(2)").innerText = responseData.product_name;
-			rowEdited.querySelector("td:nth-child(3)").innerText = responseData.end_day;
+			rowEdited.querySelector("td:nth-child(3)").innerText = dateFormat(responseData.end_day);
 			rowEdited.querySelector("td:nth-child(4)").innerText = responseData.total_days;
-			rowEdited.querySelector("td:nth-child(5)").innerText = responseData.total_km;
-			rowEdited.querySelector("td:nth-child(6)").innerText = responseData.product_price;
+			rowEdited.querySelector("td:nth-child(5)").innerText = numberWithCommas(responseData.total_km);
+			rowEdited.querySelector("td:nth-child(6)").innerText = vndCurrency(responseData.product_price);
 			rowEdited.querySelector("td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
 			rowEdited.querySelector("td:nth-child(7)").setAttribute("class","table__status table__status-"+assessmentStatuses(responseData.total_km));
 			/*In ra câu thông báo thành công*/
@@ -357,6 +386,86 @@ function deleteRecord(data){
 		}
 	}
 }
+/* Validate dữ liệu nhập vào form Modal thêm 1 bản ghi lịch sử thay dầu*/
+function validateInput(page){
+	var data = new Object;
+	switch(page){
+		case 'oil':
+			if(dialogForm_startDay.getAttribute("type") == "date" && dialogForm_startDay.value != ''){
+				data["startDay"] = dialogForm_startDay.value;
+			} else {
+				labelField_starDay.innerText = "Invalid date forrmat";
+			}
+			if(dialogForm_endDay.getAttribute("type") == "date" && dialogForm_endDay.value != ''){
+				data["endDay"] = dialogForm_endDay.value;
+			} else {
+				labelField_endDay.innerText = "Invalid date forrmat";
+			}
+			if(dialogForm_startKm.value != ""){
+				data["startKm"] = dialogForm_startKm.value;
+			} else {
+				labelField_startKm.innerText = "Invalid number forrmat";
+			}
+			if(dialogForm_endKm.value != ""){
+				data["endKm"] = dialogForm_endKm.value;
+			} else {
+				labelField_endKm.innerText = "Invalid number forrmat";
+			}
+			if(dialogForm_product.value != "null"){
+				data["productId"] = dialogForm_product.value;
+			} else {
+				labelField_product.innerText = "Please select a product";
+			}
+			break;
+		case 'category':
+			if (categoryType.value != "") {
+				data["type"] = categoryType.value;
+			} else {
+				catTypeInfor.innerText = "Category Type cannot be empty";
+			}
+			if (categoryType.value != "") {
+				data["name"] = categoryName.value;
+			}else{
+				catNameInfor.innerText = "Category color cannot be empty";
+			}
+			if (categoryColor.value != "") {
+				data["color"] = categoryColor.value;
+			} else {
+				catColorInfor.innerText = "Category Type cannot be empty";
+			}
+		    break;
+		case 'statistical' :
+			if(dialogForm_TransType.value != "null"){
+				data["transType"] = dialogForm_TransType.value;
+			} else {
+				labelField_transType.innerText = "Please select an option";
+			}
+			if(dialogForm_Category.value != "null"){
+				data["transCategory"] = dialogForm_Category.value;
+			} else {
+				labelField_category.innerText = "Please select an option";
+			}
+			if (dialogForm_TransName.value) {
+				data["transName"] = dialogForm_TransName.value;
+			} else {
+				labelField_transName.innerText = "Transaction Name field can't be empty";
+			}
+			if (dialogForm_TransName.value) {
+				data["transDesc"] = dialogForm_Description.value;
+			} else {
+				labelField_transDesc.innerText = "Description field can't be empty";
+			}
+			
+			if (dialogForm_TransAmount.value) {
+				data["transAmount"] = dialogForm_TransAmount.value;
+			} else {
+				labelField_transAmount.innerText = "Amount field can't be empty";
+			}
+			break;    
+	}
+	
+	return data;
+}
 
 if (urlArray.indexOf("Oil") != -1) {
 /*Tự động load ra thông tin sản phẩm dầu nhớt trong bảng tuỳ chọn thêm 1 bản ghi lịch sử thay dầu 
@@ -372,61 +481,55 @@ ngay khi trang được load. */
 
 	dialogForm_product.addEventListener("change",function(){
 		if(pattern.test(dialogForm_product.value)){
+			labelField_product.innerText = "";
+		} else {
 			labelField_product.innerText = "Please select an option";
 		}
 	})
 
 	dialogForm_startKm.addEventListener('keyup',function(){
 		if(pattern.test(dialogForm_startKm.value)){
+			labelField_startKm.innerText = "";
+		} else {
 			labelField_startKm.innerText = "Invalid number format";
 		}
 	})
 
 	dialogForm_endKm.addEventListener('keyup',function(){
 		if(pattern.test(dialogForm_endKm.value)){
+			labelField_endKm.innerText = "";
+		} else {
 			labelField_endKm.innerText = "Invalid number format";
 		}
 	})	
 
+	dialogForm_startDay.addEventListener("change",()=>{
+		if(dialogForm_startDay.value != ''){
+			labelField_starDay.innerText = "";
+		}
+	})
+
+	dialogForm_endDay.addEventListener("change",()=>{
+		if(dialogForm_endDay.value != ''){
+			labelField_endDay.innerText = "";
+		}
+	})
+
 /* Hiện Modal thêm 1 bản ghi lịch sử thay dầu khi click vào nút "Add Transaction" */
 	if (typeof(btnAdd)!=='undefined') {
 		btnAdd.onclick = function(){
-			/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
-			retitleDialog(titleDialog,'Add a new transaction',btnCreate,btnUpdate);
-			showModal(dialog[0]);
-			/* Reload lại các phần tử dùng để thông báo */
-			headerPopup.setAttribute("class","header__popup");
-			headerPopup.removeAttribute("style");
-			labelField_endKm.innerText = "";
-			labelField_product.innerText = "";
 			/* Gọi Ajax */
 			let url = ('./Ajax/ShowLastOption');
 			let method = "GET";
 			sendAjaxRequest(url,method,showModal_addDialog);
 		};
 	}
-
-/* Validate dữ liệu nhập vào form Modal thêm 1 bản ghi lịch sử thay dầu 
-Tạo ra 1 mảng chứa mã lỗi , nếu dữ liệu nhập vào hợp lệ sẽ xoá mã lỗi trong bảng và ngược lại */
- 
 /* Code tính năng thêm 1 bản ghi lịch sử thay dầu */
 	if (typeof(btnCreate)!== 'undefined') {
 		btnCreate.addEventListener("click",function(){
 			/* Validate Form */
-			var data = {startDay:dialogForm_startDay.value,
-						endDay:dialogForm_endDay.value,
-						startKm:dialogForm_startKm.value,}
-			if(dialogForm_endKm.value != ""){
-				data["endKm"] = dialogForm_endKm.value;
-			} else {
-				labelField_endKm.innerText = "Please select an option";
-			}
-			if(dialogForm_product.value != "null"){
-				data["productId"] = dialogForm_product.value;
-			} else {
-				labelField_product.innerText = "Please select a product";
-			}
-			/* Gọi Ajax Add New Transaction */
+			var data = validateInput('oil');
+			/*Kiểm tra đầu vào nếu hợp lệ gọi Ajax thêm dữ liệu*/
 			if (Object.keys(data).length != 5) {
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
@@ -472,25 +575,11 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 /* Code tính năng sửa đổi bản ghi lịch sử thay dầu */
 	if (typeof(btnUpdate)!== 'undefined') {
 		btnUpdate.addEventListener('click',function(){
-			if (isCorrectInput.length !== 0) {
-				showModal(dialog[0]);
-				if (isCorrectInput.indexOf("dialogForm_startKm")!=-1) {
-					labelField_startKm.innerText = "Invalid number format";
-				}
-				if (isCorrectInput.indexOf("dialogForm_endKm")!=-1) {
-					labelField_endKm.innerText = "Invalid number format";
-				}
-				if (isCorrectInput.indexOf("dialogForm_product")!=-1) {
-					labelField_product.innerText = "Please select an option";
-				}	
+			var data = validateInput('oil');
+			if (Object.keys(data).length != 5) {
+				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else{
-				var data = {transId:btnUpdate.getAttribute("transactionId"),
-				startDay:dialogForm_startDay.value,
-				endDay:dialogForm_endDay.value,
-				startKm:dialogForm_startKm.value,
-				endKm:dialogForm_endKm.value,
-				productId:dialogForm_product.value};
-
+				data["transId"] = btnUpdate.getAttribute("transactionId");
 				let xhr = new XMLHttpRequest();
 				let url = './Ajax/updateRecord';
 				let method = "POST";
@@ -759,15 +848,14 @@ if(entries,btnNextPage,btnPreviousPage){
 /*==================================================================================================================*/
 /*                                        -- Code For Wallet/Category --           	         			  			*/
 /*==================================================================================================================*/
-var btnaddCategory = document.querySelectorAll('.add__category-button');
-var btneditCategory = document.querySelector('.edit__category-button');
 var categoryType = document.getElementById('form__add-cat_type');
 var categoryName = document.getElementById('form__add-cat_name');
 var categoryColor = document.getElementById('form__add-cat_color');
 var categoryIcons = document.getElementsByName("icon");
 var catNameInfor = document.getElementById("category_name_info");
 var catTypeInfor = document.getElementById("category_type_info");
-var viewChange = document.querySelector(".changeview-button"); 
+var catColorInfor = document.getElementById("category_color_info");
+var btnChange = document.querySelector(".change__button"); 
 
 window.onload = function(){
 	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
@@ -841,9 +929,8 @@ function addCategory(data){
 
 function showModal_editCategory(event){
 	showModal(dialog[0]);
-	retitleDialog(titleDialog,"Update Category",[btneditCategory],[btnaddCategory[1]]);
-	catTypeInfor.innerText = "";
-	catNameInfor.innerText = "";
+	retitleDialog(titleDialog,"Update Category",btnUpdate,btnCreate);
+	retitleLabel('category');
 	var target = event.target;
 	let categoryId;
 	while(target && target !== document.querySelector('tbody')){
@@ -870,7 +957,7 @@ function showModal_editCategory(event){
 					categotyIcon.removeAttribute("checked");
 				}
 			}
-			btneditCategory.setAttribute("idC",categoryId);
+			btnUpdate.setAttribute("idC",categoryId);
 		}
 	}
 }
@@ -911,7 +998,7 @@ function showModal_deleteCategory(){
 		delFormContent.style.top = ((window.innerHeight/2) - (delFormContent.offsetHeight/2))+'px';
 		document.querySelector(".dialog__form").style.gridTemplateColumns = "1fr";
 		showModal(dialog[1]);
-		btndeleteCategory.setAttribute("catId",catId);
+		btnDelete.setAttribute("catId",catId);
 	}
 }
 
@@ -932,80 +1019,75 @@ function deleteCategory(data){
 }
 
 if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
-	if (typeof(btnaddCategory[0])!=='undefined') {
-		btnaddCategory[0].style.background  = "#6259ca";
-		btnaddCategory[0].addEventListener('click',function(){
+	if (typeof(btnAdd)!=='undefined') {
+		btnAdd.addEventListener('click',function(){
 			showModal(dialog[0]);
-			catNameInfor.innerText = "";
-			catTypeInfor.innerText = "";
+			retitleDialog(titleDialog,"Add a new category",btnCreate,btnUpdate);
+			retitleLabel('category');
 			categoryType.value = "";
 			categoryName.value = "";
 			categoryColor.value = "#12D370";
-			for(let categotyIcon of categoryIcons){
-				if (categotyIcon.value == "sack-dollar") {
-					categotyIcon.setAttribute("checked","checked");
-				} else{
-					categotyIcon.removeAttribute("checked");
-				}
-			}
-			retitleDialog(titleDialog,"Add a new category",[btnaddCategory[1]],[btneditCategory]);
 		})
 	}
 
-	if (typeof(btnaddCategory[1])!=='undefined') {
-		btnaddCategory[1].addEventListener('click',function(){
-			var categoryData = {"type":categoryType.value,
-								"name":categoryName.value,
-								"color":categoryColor.value};
-			if (categoryType.value != "") {
-				categoryData["type"] = categoryType.value;
-			} else {
-				catTypeInfor.innerText = "Category Type cannot be empty";
-			}
-			if (categoryType.value != "") {
-				categoryData["name"] = categoryName.value;
-			}else{
-				catNameInfor.innerText = "Category Name cannot be empty";
-			}
+	if (typeof(btnCreate)!=='undefined') {
+		btnCreate.addEventListener('click',function(){
+			var categoryData = validateInput('category');
 			for (var i = 0; i < categoryIcons.length; i++) {
 				if (categoryIcons[i].checked) {
 					categoryData["icon"] = categoryIcons[i].value;
 				}
 			}
-			let url = '../Ajax/AddANewCategory';
-			let method = "POST";
-			sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
-			let initUrl = '../Ajax/TotalCategory';
-			let initMethod = "GET";
-			sendAjaxRequest(initUrl,initMethod,initializeView);
+			/*Nếu không có icon nào được chọn thì mặc định chọn icon đầu tiên*/
+			if (!categoryData.hasOwnProperty('icon')) {
+				categoryData["icon"] = 'sack-dollar';
+			}
+			//console.log(categoryData);
+			if(Object.keys(categoryData).length != 4){
+				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
+			} else {
+				let url = '../Ajax/AddANewCategory';
+				let method = "POST";
+				sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
+
+				let initUrl = '../Ajax/TotalCategory';
+				let initMethod = "GET";
+				sendAjaxRequest(initUrl,initMethod,initializeView);
+			}
 		})
 	}
 
-	on('table', 'click', '.table__action-edit', showModal_editCategory);
+	on('table', 'click', '.edit__button', showModal_editCategory);
 
-	if (btneditCategory!== 'undefined') {
-		btneditCategory.addEventListener("click",function(){
-			var data = {cat_id:btneditCategory.getAttribute("idC"),
-			cat_type:categoryType.value,
-			cat_name:categoryName.value,
-			cat_color:categoryColor.value};
-			for (var i = 0; i < categoryIcons.length ; i++) {
+	if (btnUpdate!== 'undefined') {
+		btnUpdate.addEventListener("click",function(){
+			var categoryData = validateInput('category');
+			categoryData["cat_id"] = btnUpdate.getAttribute("idC");
+			for (var i = 0; i < categoryIcons.length; i++) {
 				if (categoryIcons[i].checked) {
-					data["cat_icon"] = categoryIcons[i].value;
+					categoryData["icon"] = categoryIcons[i].value;
 				}
 			}
-			let url = "../Ajax/editCategory";
-			let method = "POST";
-			sendAjaxRequest(url,method,editCategory,JSON.stringify(data));
+			/*Nếu không có icon nào được chọn thì mặc định chọn icon đầu tiên*/
+			if (!categoryData.hasOwnProperty('icon')) {
+				categoryData["icon"] = 'sack-dollar';
+			}
+			//console.log(categoryData);
+			if(Object.keys(categoryData).length != 5){
+				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
+			} else {
+				let url = "../Ajax/editCategory";
+				let method = "POST";
+				sendAjaxRequest(url,method,editCategory,JSON.stringify(categoryData));
+			}
 		})
 	}
 
-	on('table', 'click', '.table__action-delete',showModal_deleteCategory);
-	var btndeleteCategory = document.querySelector(".delete__category-button");
+	on('table', 'click', '.remove__button',showModal_deleteCategory);
 
-	if (typeof(btndeleteCategory)!== 'undefined') {
-		btndeleteCategory.addEventListener('click',()=>{
-			var catid = btndeleteCategory.getAttribute("catid");
+	if (typeof(btnDelete)!== 'undefined') {
+		btnDelete.addEventListener('click',()=>{
+			var catid = btnDelete.getAttribute("catid");
 			var data = JSON.stringify({cat_id:catid});
 			let method = "POST";
 			let url = '../Ajax/deleteCategory';
@@ -1014,15 +1096,15 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 		})
 	}
 
-	viewChange.addEventListener("click",function(){
+	btnChange.addEventListener("click",function(){
 		let categoryView = document.querySelector('.category__content');
 		let listView = document.querySelector('#list__content');
 		let old_tbody = document.querySelector('tbody');
-		if (viewChange.value == "category view") {
-			viewChange.value = "list view";
-			viewChange.style.width = "calc(90rem / 16)";
-			viewChange.querySelector("i").setAttribute("class","fa-solid fa-table-list");
-			viewChange.querySelector("span").innerText = "List View";
+		if (btnChange.value == "category view") {
+			btnChange.value = "list view";
+			btnChange.style.width = "calc(90rem / 16)";
+			btnChange.querySelector("i").setAttribute("class","fa-solid fa-table-list");
+			btnChange.querySelector("span").innerText = "List View";
 			 categoryView.style.display = "grid";
 			 listView.style.display = "none";
 			var new_tbody = document.createElement('tbody');
@@ -1032,11 +1114,11 @@ if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
 				let method = "GET";
 				sendAjaxRequest(url,method,showCategoryView);
 			}
-		}else if(viewChange.value == "list view") {
-			viewChange.value = "category view";
-			viewChange.style.width = "calc(90rem / 12)";
-			viewChange.querySelector("i").setAttribute("class","fa-solid fa-clipboard");
-			viewChange.querySelector("span").innerText = "Category View";
+		}else if(btnChange.value == "list view") {
+			btnChange.value = "category view";
+			btnChange.style.width = "calc(90rem / 12)";
+			btnChange.querySelector("i").setAttribute("class","fa-solid fa-clipboard");
+			btnChange.querySelector("span").innerText = "Category View";
 			 categoryView.style.display = "none";
 			 listView.style.display = "block";
 			let oldCat = categoryView.children;
@@ -1067,27 +1149,25 @@ function showStatistical(data){
 		let templateFragRoot = document.querySelector("#statistical__list").content;
 		var status_noti;
 		var operator;
-		var difference;
 		var id;
 		for (var i = 0; i < responseData.length; i++) {
 			if (responseData[i].receipt < responseData[i].expenditures) {
 				status_noti = "expired";
 				operator = "-";
-				difference = responseData[i].expenditures - responseData[i].receipt;
 			} else {
 				status_noti = "good";
 				operator = "+";
-				difference = responseData[i].receipt - responseData[i].expenditures;
 			}
+			var difference = responseData[i].expenditures - responseData[i].receipt;
 			//console.log("receipt"+responseData[i].receipt,"expenditures"+responseData[i].expenditures,"difference"+difference);
 			let templateFrag = templateFragRoot.cloneNode(true);
 			id = i + 1;
 			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id : id +'.';
 			templateFrag.querySelector("a").innerText = responseData[i].date;
 			templateFrag.querySelector("a").href = 'Detail/'+ responseData[i].date;
-			templateFrag.querySelector("td:nth-child(3)").innerText = responseData[i].receipt;
-			templateFrag.querySelector("td:nth-child(4)").innerText = responseData[i].expenditures;
-			templateFrag.querySelector("td:nth-child(5)").innerText = operator+difference;
+			templateFrag.querySelector("td:nth-child(3)").innerText = numberWithCommas(responseData[i].receipt);
+			templateFrag.querySelector("td:nth-child(4)").innerText = numberWithCommas(responseData[i].expenditures);
+			templateFrag.querySelector("td:nth-child(5)").innerText = vndCurrency(difference);
 			templateFrag.querySelector("td:nth-child(5)").setAttribute("class","table__status table__status-"+status_noti);
 			new_tbody.appendChild(templateFrag);
 		}
@@ -1204,6 +1284,7 @@ var labelField_transName = document.getElementById("transname_info");
 var labelField_category = document.getElementById("category_info");
 var labelField_transDesc = document.getElementById("transdesc_info");
 var labelField_transAmount = document.getElementById("transamount_info");
+var labelField_transDate = document.getElementById("transdate_info");
 
 var currentDate = new Date();
 var currentDay = currentDate.getDate();
@@ -1221,8 +1302,9 @@ window.addEventListener("load",function(){
 		let catUrl = '../Ajax/ShowListCategories';
 		let method = "GET";
 		sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
-		btnAddTransaction[0].addEventListener("click",function(){
+		btnAdd.addEventListener("click",function(){
 			showModal(dialog[0]);
+			retitleLabel('statistical');
 			/*Reload Form*/
 			dialogForm_TransType.value = "null";
 			dialogForm_Category.value = "null";
@@ -1230,14 +1312,9 @@ window.addEventListener("load",function(){
 			dialogForm_TransName.value = "";
 			dialogForm_Description.value = "";
 			dialogForm_TransAmount.value = "";
-			labelField_transType.innerText = "";
-			labelField_category.innerText = "";
-			labelField_transName.innerText = "";
-			labelField_transDesc.innerText = "";
-			labelField_transAmount.innerText = "";
-			labelField_Dialog.innerText = "";
+			
 		})
-
+		/*Autofill Transaction Name*/
 		dialogForm_Category.addEventListener('change',(e)=>{
 			var transValue;
 			var optionList = dialogForm_Category.querySelectorAll('option');
@@ -1248,43 +1325,23 @@ window.addEventListener("load",function(){
 			}
 			dialogForm_TransName.value = transValue;
 		})
-		btnAddTransaction[1].addEventListener("click",function(){
-			let transData = {transDate:dialogForm_TransDate.value}
-			if(dialogForm_TransType.value != "null"){
-				transData["transType"] = dialogForm_TransType.value;
+		/*Thêm 1 transaction*/
+		btnCreate.addEventListener("click",function(){
+			let transData = validateInput('statistical');
+			if (dialogForm_TransDate.getAttribute("type") == "date" && dialogForm_TransDate.value != '') {
+				transData["transDate"] = dialogForm_TransDate.value;
 			} else {
-				labelField_transType.innerText = "Please select an option";
-			}
-			if(dialogForm_Category.value != "null"){
-				transData["transCategory"] = dialogForm_Category.value;
-			} else {
-				labelField_category.innerText = "Please select an option";
-			}
-			if (dialogForm_TransName.value) {
-				transData["transName"] = dialogForm_TransName.value;
-			} else {
-				labelField_transName.innerText = "Transaction Name field can't be empty";
-			}
-			if (dialogForm_TransName.value) {
-				transData["transDesc"] = dialogForm_Description.value;
-			} else {
-				labelField_transDesc.innerText = "Description field can't be empty";
-			}
-			
-			if (dialogForm_TransAmount.value) {
-				transData["transAmount"] = dialogForm_TransAmount.value;
-			} else {
-				labelField_transAmount.innerText = "Amount field can't be empty";
+				labelField_transDate.innerText = "Date field can't be empty";
 			}
 			/*Object.keys(ObjectName).length = số lượng của object*/
 			if (Object.keys(transData).length != 6) {
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
-				labelField_Dialog.innerText = "";
 				let method = "POST";
 				let url = "../Ajax/addTransaction_showDetail";
 				sendAjaxRequest(url,method,addTransaction_showStatistical,JSON.stringify(transData))
 				hideModal(dialog[0]);
+				
 			}
 		})
 

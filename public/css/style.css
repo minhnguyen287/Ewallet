@@ -196,7 +196,7 @@ input:focus {
 
 .export__button, .change__button {
   width: calc(90rem / 16);
-  background: #d4c622; }
+  background: #f82649; }
 
 .add__button, .create__button {
   background: #13bfa6;
@@ -615,7 +615,11 @@ tr:nth-child(even) {
     border-bottom: 1px solid #45455f; }
     .dialog__content-header-label {
       font-size: 1.1rem;
-      font-weight: 600; }
+      font-weight: 600;
+      display: flex;
+      align-items: center; }
+      .dialog__content-header-label h2 {
+        margin-right: 0.5rem; }
     .dialog__content-header-close {
       color: #fff; }
   .dialog__content-body {

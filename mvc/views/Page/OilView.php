@@ -154,20 +154,24 @@
 		<form id="AddNewTransaction" action="" method="POST">
 			<div class="dialog__content">
 				<div class="dialog__content-header">
-					<h2 class="dialog__content-header-label">
-						Add a new transaction
+					<div class="dialog__content-header-label">
+						<h2>Add a new transaction</h2>
 						<span class="input_infor" id="transDialog_info"></span>
-					</h2>
+					</div>					
 					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 				</div>
 				<div class="dialog__content-body">
 					<div class="dialog__form">
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__start-day">Start Day</label>
+							<label class="dialog__form-label" for="form__start-day">Start Day
+								<span class="input_infor" id="start_day_info"></span>
+							</label>
 							<input class="dialog__form-input" type="date" name="startday" id="form__start-day" placeholder="Start day">
 						</div>				
 						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__end-day">End Day</label>
+							<label class="dialog__form-label" for="form__end-day">End Day
+								<span class="input_infor" id="end_day_info"></span>
+							</label>
 							<input class="dialog__form-input" type="date" name="endday" id="form__end-day" placeholder="End day">
 						</div>				
 						<div class="dialog__form-field">

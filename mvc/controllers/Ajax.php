@@ -288,28 +288,28 @@
 					$errors[] = "cat_id";
 				}
 
-				if (!empty($arr['cat_type'])) {
-					$cat_type = $arr['cat_type'];
+				if (!empty($arr['type'])) {
+					$cat_type = $arr['type'];
 				} else{
-					$errors[] = "cat_type";
+					$errors[] = "type";
 				}
 
-				if (!empty($arr['cat_name'])) {
-					$cat_name = $arr['cat_name'];
+				if (!empty($arr['name'])) {
+					$cat_name = $arr['name'];
 				} else{
-					$errors[] = "cat_name";
+					$errors[] = "name";
 				}
 
-				if (!empty($arr['cat_icon'])) {
-					$cat_icon = $arr['cat_icon'];
+				if (!empty($arr['icon'])) {
+					$cat_icon = $arr['icon'];
 				} else{
-					$errors[] = "cat_icon";
+					$errors[] = "icon";
 				}
 
-				if (isset($arr['cat_color'])&&preg_match('/^#[a-z0-9]{6}$/',$arr['cat_color'])) {
-					$cat_color = $arr['cat_color'];
+				if (isset($arr['color'])&&preg_match('/^#[a-z0-9]{6}$/',$arr['color'])) {
+					$cat_color = $arr['color'];
 				} else{
-					$errors[] = "cat_color";
+					$errors[] = "color";
 				}
 			}
 				//2. insert database		
