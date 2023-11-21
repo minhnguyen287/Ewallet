@@ -74,12 +74,12 @@
 								} else {
 									for ($i=0; $i < count($data_list); $i++) { 
 										$status_noti = "good";
-										$operator = "+";
-										$difference = $data_list[$i]->receipt - $data_list[$i]->expenditures;
-										if ($data_list[$i]->receipt < $data_list[$i]->expenditures) {
+										$operator = "+ ";
+										$difference = $data_list[$i]->receipt - $data_list[$i]->expenditure;
+										if ($data_list[$i]->receipt < $data_list[$i]->expenditure) {
 											$status_noti = "expired";
-											$operator = "-";
-											$difference = $data_list[$i]->expenditures - $data_list[$i]->receipt;
+											$operator = "- ";
+											$difference = $data_list[$i]->expenditure - $data_list[$i]->receipt;
 										}
 										$id = $i + 1;
 										$id < 10 ? $id = "0".$id : $id;
@@ -88,7 +88,7 @@
 										echo '<td data-cell="date"><a href="Detail/'.$data_list[$i]->date.'">'.$data_list[$i]->date.'</a></td>';
 										//number_format( $output , 0 , '.' , ',' )
 										echo '<td data-cell="Receipts">'.number_format($data_list[$i]->receipt,0,'.',',').' &#8363'.'</td>';
-										echo '<td data-cell="Expenditure">'.number_format($data_list[$i]->expenditures,0,'.',',').' &#8363'.'</td>';
+										echo '<td data-cell="Expenditure">'.number_format($data_list[$i]->expenditure,0,'.',',').' &#8363'.'</td>';
 										echo '<td data-cell="Difference" class="table__status table__status-'.$status_noti.'">'.$operator.number_format($difference,0,'.',',').' &#8363'.'</td>';
 										echo '</tr>';
 									}
@@ -102,7 +102,7 @@
 								<td data-cell="date"><a href="Detail/">14.05.2023</a></td>
 								<td data-cell="Receipts">100.000</td>
 								<td data-cell="Expenditurese">200.000</td>
-								<td data-cell="Difference" class="table__status table__status-expired">-100.000</td>
+								<td data-cell="Difference" class="table__status table__status-expired">100.000</td>
 							</tr>
 						</template>
 					</table>

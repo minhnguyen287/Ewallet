@@ -8,7 +8,7 @@
 			<span class="header__container-left-link">Detail</span>
 		</div>
 		<div class="detail__container-header-right">
-			<button class="add__transaction-button">
+			<button class="add__button">
 				<i class="fa-solid fa-plus"></i> Add Transaction
 			</button>
 		</div>
@@ -63,13 +63,13 @@
 										echo '<td class="table__detail-column" data-cell="trans name">'.$data_list[$i]->tran_name.'</td>';
 										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'>'.$data_list[$i]->cat_name.'</td>';
 										echo '<td class="table__detail-column" data-cell="description">'.$data_list[$i]->tran_desc.'</td>';
-										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount">'.number_format($data_list[$i]->tran_amount,0,'.',',').' &#8363'.'</td>';
+										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount" value='.$data_list[$i]->tran_amount.'>'.number_format($data_list[$i]->tran_amount,0,'.',',').' &#8363'.'</td>';
 										echo '<td class="table__detail-column" data-cell="Action">
 												<div class="table__action">
-													<button class="table__action-edit">
+													<button class="edit__button">
 														<i class="fa-solid fa-pen fa-sm"></i>
 													</button>
-													<button class="table__action-delete">
+													<button class="remove__button">
 														<i class="fa-solid fa-trash fa-sm"></i>
 													</button>
 												</div>
@@ -89,10 +89,10 @@
 								<td class="table__detail-column table__status table__status-good" data-cell="amount">1.000.000</td>
 								<td class="table__detail-column" data-cell="Action">
 									<div class="table__action">
-										<button class="table__action-edit">
+										<button class="edit__button">
 											<i class="fa-solid fa-pen fa-sm"></i>
 										</button>
-										<button class="table__action-delete">
+										<button class="remove__button">
 											<i class="fa-solid fa-trash fa-sm"></i>
 										</button>
 									</div>
@@ -109,9 +109,10 @@
 <div class="dialog">
 	<div class="dialog__content">
 		<div class="dialog__content-header">
-			<h2 class="dialog__content-header-label">Add a new transaction
+			<div class="dialog__content-header-label">
+				<h2>Add a new transaction</h2>
 				<span class="input_infor" id="transDialog_info"></span>
-			</h2>
+			</div>
 			<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 		</div>
 		<div class="dialog__content-body">
@@ -158,10 +159,10 @@
 			</form>
 		</div>
 		<div class="dialog__content-footer">
-			<button type="button" class="add__transaction-button" name="addTrBtn">
+			<button type="button" class="create__button" name="addTrBtn">
 				<i class="fa-solid fa-plus"></i> Add Transaction
 			</button>
-			<button type="button" class="edit__transaction-button" name="editTrBtn">
+			<button type="button" class="update__button" name="editTrBtn">
 				<i class="fa-solid fa-pen fa-sm"></i> Update Transaction
 			</button>
 		</div>
@@ -183,10 +184,10 @@
 				</div>
 			</div>
 			<div class="dialog__content-footer">
-				<button type="button" class="delete__transaction-button" name="delTrBtn">
+				<button type="button" class="delete__button" name="delTrBtn">
 					<i class="fa-solid fa-trash fa-sm"></i> Delete
 				</button>
-				<button type="button" class="cancel__action-button" name="cancleActBtn">
+				<button type="button" class="cancel__button" name="cancleActBtn">
 					<i class="fa-solid fa-ban fa-sm"></i> Cancel
 				</button>
 			</div>

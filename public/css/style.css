@@ -724,7 +724,7 @@ tr:nth-child(even) {
       .dialog__form-category-field-icon-input {
         display: none; }
         .dialog__form-category-field-icon-input:checked + label {
-          background: #232165;
+          background: #6259ca;
           border: 2px groove #fff; }
       .dialog__form-category-field:first-child {
         grid-area: h1; }

@@ -412,7 +412,7 @@
 					$kq = $this->WalletModel->AddTransaction($transType,$transName,$transCategory,$transDesc,$transAmount,$transDate);
 					if (json_decode($kq) == true) {
 						$arr['status'] = "success";
-						$id = json_decode($this->WalletModel->GetLastTransactionId());
+						$id = json_decode($this->WalletModel->GetLastTransaction());
 						$arr['tranId'] = $id[0]->id;
 						$arr['transCategory'] = $id[0]->cat_name;
 						echo json_encode($arr);

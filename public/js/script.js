@@ -105,7 +105,7 @@ function retitleLabel(page){
 	 		catTypeInfor.innerText = "";
 	 		catColorInfor.innerText = "";
 	 		break;
-	 	case 'statistical' :
+	 	case 'transaction' :
 	 		labelField_transType.innerText = "";
 			labelField_category.innerText = "";
 			labelField_transName.innerText = "";
@@ -434,7 +434,7 @@ function validateInput(page){
 				catColorInfor.innerText = "Category Type cannot be empty";
 			}
 		    break;
-		case 'statistical' :
+		case 'transaction' :
 			if(dialogForm_TransType.value != "null"){
 				data["transType"] = dialogForm_TransType.value;
 			} else {
@@ -1150,15 +1150,17 @@ function showStatistical(data){
 		var status_noti;
 		var operator;
 		var id;
+		var difference = new Number;
 		for (var i = 0; i < responseData.length; i++) {
-			if (responseData[i].receipt < responseData[i].expenditures) {
+			if (parseInt(responseData[i].receipt) < parseInt(responseData[i].expenditure) ) {
 				status_noti = "expired";
-				operator = "-";
+				operator = "- ";
+				difference = parseInt(responseData[i].expenditure) - parseInt(responseData[i].receipt);
 			} else {
 				status_noti = "good";
-				operator = "+";
+				operator = "+ ";
+				difference = parseInt(responseData[i].receipt) - parseInt(responseData[i].expenditure);
 			}
-			var difference = responseData[i].expenditures - responseData[i].receipt;
 			//console.log("receipt"+responseData[i].receipt,"expenditures"+responseData[i].expenditures,"difference"+difference);
 			let templateFrag = templateFragRoot.cloneNode(true);
 			id = i + 1;
@@ -1166,8 +1168,8 @@ function showStatistical(data){
 			templateFrag.querySelector("a").innerText = responseData[i].date;
 			templateFrag.querySelector("a").href = 'Detail/'+ responseData[i].date;
 			templateFrag.querySelector("td:nth-child(3)").innerText = numberWithCommas(responseData[i].receipt);
-			templateFrag.querySelector("td:nth-child(4)").innerText = numberWithCommas(responseData[i].expenditures);
-			templateFrag.querySelector("td:nth-child(5)").innerText = vndCurrency(difference);
+			templateFrag.querySelector("td:nth-child(4)").innerText = numberWithCommas(responseData[i].expenditure);
+			templateFrag.querySelector("td:nth-child(5)").innerText = operator + vndCurrency(difference);
 			templateFrag.querySelector("td:nth-child(5)").setAttribute("class","table__status table__status-"+status_noti);
 			new_tbody.appendChild(templateFrag);
 		}
@@ -1213,12 +1215,14 @@ function addTransaction_showDetail(data){
 			var id = document.querySelectorAll('tr').length;
 			var status = responseData.transType == 'receipt' ? 'good' : 'expired';
 			templateFrag.querySelector('tr').setAttribute('id',responseData.tranId)
-			templateFrag.querySelector('td').innerText = id < 10 ? id = "0"+id : id +'.';
+			templateFrag.querySelector('td').innerText = id < 10 ? id = "0"+id+'.' : id +'.';
 			templateFrag.querySelector('td:nth-child(2)').innerText = responseData.transType;
+			templateFrag.querySelector('td:nth-child(2)').setAttribute('class','table__detail-column table__status table__status-'+status);
 			templateFrag.querySelector('td:nth-child(3)').innerText = responseData.transName;
 			templateFrag.querySelector('td:nth-child(4)').innerText = responseData.transCategory;
 			templateFrag.querySelector('td:nth-child(5)').innerText = responseData.transDesc;
-			templateFrag.querySelector('td:nth-child(6)').innerText = responseData.transAmount;
+			templateFrag.querySelector('td:nth-child(6)').innerText = vndCurrency(responseData.transAmount);
+			templateFrag.querySelector('td:nth-child(6)').value = responseData.transAmount;
 			templateFrag.querySelector('td:nth-child(6)').setAttribute('class','table__detail-column table__status table__status-'+status);
 			document.querySelector('tbody').appendChild(templateFrag);
 			popupMessage("success","add","transaction");
@@ -1304,7 +1308,8 @@ window.addEventListener("load",function(){
 		sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
 		btnAdd.addEventListener("click",function(){
 			showModal(dialog[0]);
-			retitleLabel('statistical');
+			retitleLabel('transaction');	
+			labelField_transDate.innerText = "";
 			/*Reload Form*/
 			dialogForm_TransType.value = "null";
 			dialogForm_Category.value = "null";
@@ -1327,7 +1332,7 @@ window.addEventListener("load",function(){
 		})
 		/*Thêm 1 transaction*/
 		btnCreate.addEventListener("click",function(){
-			let transData = validateInput('statistical');
+			let transData = validateInput('transaction');
 			if (dialogForm_TransDate.getAttribute("type") == "date" && dialogForm_TransDate.value != '') {
 				transData["transDate"] = dialogForm_TransDate.value;
 			} else {
@@ -1338,10 +1343,9 @@ window.addEventListener("load",function(){
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				let method = "POST";
-				let url = "../Ajax/addTransaction_showDetail";
+				let url = "../Ajax/AddANewTransaction";
 				sendAjaxRequest(url,method,addTransaction_showStatistical,JSON.stringify(transData))
 				hideModal(dialog[0]);
-				
 			}
 		})
 
@@ -1441,21 +1445,16 @@ window.addEventListener("load",function(){
 		let catUrl = '/ewallet/Ajax/ShowListCategories';
 		let method = "GET";
 		sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
-		btnAddTransaction[0].addEventListener("click",function(){
+		btnAdd.addEventListener("click",function(){
 			showModal(dialog[0]);
-			retitleDialog(titleDialog,"Add a new transaction",[btnAddTransaction[1]],[btnEditTransaction[0]]);
+			retitleDialog(titleDialog,"Add a new transaction",btnCreate,btnUpdate);
+			retitleLabel('transaction');
 			/*Reload Form*/
 			dialogForm_TransType.value = "null";
 			dialogForm_Category.value = "null";
 			dialogForm_TransName.value = "";
 			dialogForm_Description.value = "";
 			dialogForm_TransAmount.value = "";
-			labelField_transType.innerText = "";
-			labelField_category.innerText = "";
-			labelField_transName.innerText = "";
-			labelField_transDesc.innerText = "";
-			labelField_transAmount.innerText = "";
-			labelField_Dialog.innerText = "";
 		})
 
 		dialogForm_Category.addEventListener('change',(e)=>{
@@ -1468,80 +1467,30 @@ window.addEventListener("load",function(){
 			}
 			dialogForm_TransName.value = transValue;
 		})
-		btnAddTransaction[1].addEventListener("click",function(){
-			let transData = {transDate:urlArray[4]}
-			if(dialogForm_TransType.value != "null"){
-				transData["transType"] = dialogForm_TransType.value;
-			} else {
-				labelField_transType.innerText = "Please select an option";
-			}
-			if(dialogForm_Category.value != "null"){
-				transData["transCategory"] = dialogForm_Category.value;
-			} else {
-				labelField_category.innerText = "Please select an option";
-			}
-			if (dialogForm_TransName.value) {
-				transData["transName"] = dialogForm_TransName.value;
-			} else {
-				labelField_transName.innerText = "Transaction Name field can't be empty";
-			}
-			if (dialogForm_TransName.value) {
-				transData["transDesc"] = dialogForm_Description.value;
-			} else {
-				labelField_transDesc.innerText = "Description field can't be empty";
-			}
-			
-			if (dialogForm_TransAmount.value) {
-				transData["transAmount"] = dialogForm_TransAmount.value;
-			} else {
-				labelField_transAmount.innerText = "Amount field can't be empty";
-			}
+		btnCreate.addEventListener("click",function(){
+			let transData = validateInput('transaction');
+			transData['transDate'] = urlArray[4];
 			/*Object.keys(ObjectName).length = số lượng của object*/
-			if (Object.keys(transData).length != 5) {
+			if (Object.keys(transData).length != 6) {
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				labelField_Dialog.innerText = "";
 				let method = "POST";
-				let url = "/ewallet/Ajax/addTransaction_showDetail";
+				let url = "/ewallet/Ajax/AddANewTransaction";
+				console.log(transData);
 				sendAjaxRequest(url,method,addTransaction_showDetail,JSON.stringify(transData))
 				hideModal(dialog[0]);
 			}
 		})
-		on('table', 'click', '.table__action-edit', showModal_editTransaction);
-		btnEditTransaction[0].addEventListener('click',()=>{
-			let transData = {};
-			//validate
-			if(dialogForm_TransType.value != "null"){
-				transData["transType"] = dialogForm_TransType.value;
-			} else {
-				labelField_transType.innerText = "Please select an option";
-			}
-			if(dialogForm_Category.value != "null"){
-				transData["transCategory"] = dialogForm_Category.value;
-			} else {
-				labelField_category.innerText = "Please select an option";
-			}
-			if (dialogForm_TransName.value) {
-				transData["transName"] = dialogForm_TransName.value;
-			} else {
-				labelField_transName.innerText = "Transaction Name field can't be empty";
-			}
-			if (dialogForm_TransName.value) {
-				transData["transDesc"] = dialogForm_Description.value;
-			} else {
-				labelField_transDesc.innerText = "Description field can't be empty";
-			}
-			
-			if (dialogForm_TransAmount.value) {
-				transData["transAmount"] = dialogForm_TransAmount.value;
-			} else {
-				labelField_transAmount.innerText = "Amount field can't be empty";
-			}
+		on('table', 'click', '.edit__button', showModal_editTransaction);
+		btnUpdate.addEventListener('click',()=>{
+			let transData = validateInput('transaction');
+			transData['transDate'] = urlArray[4];
 			//send ajax
-			if (Object.keys(transData).length != 5) {
+			if (Object.keys(transData).length != 6) {
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
-				transData["id"] = btnEditTransaction[0].getAttribute("idT");
+				transData["id"] = btnUpdate.getAttribute("idT");
 				labelField_Dialog.innerText = "";
 				let method = "POST";
 				let url = "/ewallet/Ajax/EditTransaction";
@@ -1554,21 +1503,11 @@ window.addEventListener("load",function(){
 	}
 })
 
-
-	dialogForm_TransAmount.addEventListener('keyup',()=>{
-		console.log(dialogForm_TransAmount.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-	})
-
 function showModal_editTransaction(){
 	showModal(dialog[0]);
-	retitleDialog(titleDialog,"Update Transaction",[btnEditTransaction[0]],[btnAddTransaction[1]]);
+	retitleDialog(titleDialog,"Update Transaction",btnUpdate,btnCreate);
+	retitleLabel('transaction');
 	/*Reload infor label*/
-	labelField_transType.innerText = "";
-	labelField_category.innerText = "";
-	labelField_transName.innerText = "";
-	labelField_transDesc.innerText = "";
-	labelField_transAmount.innerText = "";
-	labelField_Dialog.innerText = "";
 	var target = event.target;
 	var rowEdited;
 	while(target && target !== document.querySelector('tbody')){
@@ -1577,21 +1516,21 @@ function showModal_editTransaction(){
 		}
 		target = target.parentNode;
 	}
-	//console.log(rowEdited);
+	/*Load Data Form*/
 	var data = {};
 	data["id"] = rowEdited.getAttribute('id');
 	data["transType"] = rowEdited.querySelector('td:nth-child(2)').getAttribute('value');
 	data["transName"] = rowEdited.querySelector('td:nth-child(3)').innerText;
 	data["transCat"] = rowEdited.querySelector('td:nth-child(4)').getAttribute('value');
 	data["transDesc"] = rowEdited.querySelector('td:nth-child(5)').innerText;
-	data["transAmount"] = rowEdited.querySelector('td:nth-child(6)').innerText;
+	data["transAmount"] = rowEdited.querySelector('td:nth-child(6)').getAttribute('value');
 	//console.log(data);
 	dialogForm_TransType.value = data["transType"];
 	dialogForm_Category.value = data["transCat"];
 	dialogForm_TransName.value = data["transName"];
 	dialogForm_Description.value = data["transDesc"];
 	dialogForm_TransAmount.value = data["transAmount"];
-	btnEditTransaction[0].setAttribute('idT',data["id"]);
+	btnUpdate.setAttribute('idT',data["id"]);
 }
 
 function updateTransaction(data) {
@@ -1599,13 +1538,14 @@ function updateTransaction(data) {
 	if (responseData != "false") {
 		statusNoti = responseData.transType == 'expenditure' ? 'expired' : 'good';
 		/* Update dòng dữ liệu đã được chỉnh sửa */
-		let rowEdited = document.getElementById(btnEditTransaction[0].getAttribute("idT"));
+		let rowEdited = document.getElementById(btnUpdate.getAttribute("idT"));
 		rowEdited.querySelector("td:nth-child(2)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
 		rowEdited.querySelector("td:nth-child(2)").innerText = responseData.transType;
 		rowEdited.querySelector("td:nth-child(3)").innerText = responseData.transName;
 		rowEdited.querySelector("td:nth-child(4)").innerText = responseData.transCategory;
 		rowEdited.querySelector("td:nth-child(5)").innerText = responseData.transDesc;
-		rowEdited.querySelector("td:nth-child(6)").innerText = responseData.transAmount;
+		rowEdited.querySelector("td:nth-child(6)").innerText = vndCurrency(responseData.transAmount);
+		rowEdited.querySelector("td:nth-child(6)").value = responseData.transAmount;
 		rowEdited.querySelector("td:nth-child(6)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
 		/*In ra câu thông báo thành công*/
 		popupMessage("success","edit","transaction");

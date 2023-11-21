@@ -103,7 +103,7 @@
 			$q .= "QUARTER(tran_date) AS 'quarter', ";
 			$q .= "YEAR(tran_date) AS 'year', ";
 			$q .= "SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt', ";
-			$q .= "SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditures' ";
+			$q .= "SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditure' ";
 			$q .= "FROM transaction ";
 			$q .= "WHERE YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput ";
 			$q .= "GROUP BY date ORDER BY date DESC";
@@ -131,9 +131,9 @@
 			return json_encode($arr);
 		}
 
-		public function GetLastTransactionId()
+		public function GetLastTransaction()
 		{
-			$q = "SELECT tran_id AS id, c.category_name AS cat_name FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
+			$q = "SELECT * c.category_name AS cat_name FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
 			$record = $this->con->query($q);
 			$arr = array();
 			while ($result = $record->fetch_array(MYSQLI_ASSOC)) {
@@ -152,7 +152,7 @@
 			$q = "INSERT INTO transaction VALUES (null,'$transType','$transName',$transCategory,'$transDesc',$transAmount,'$transDate')";
 			$result = false;
 			if($this->con->query($q)){
-				$result = true;
+				$result = GetLastTransaction();
 			}
 			return json_encode($result);
 		}
