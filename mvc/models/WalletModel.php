@@ -98,10 +98,10 @@
 			$monthInput = $this->con->real_escape_string(strip_tags($monthInput));
 			//$q = "SELECT DATE_FORMAT(tran_date,'%d-%m-%Y') AS 'date', EXTRACT(week FROM tran_date) AS 'Week', MONTH(tran_date) AS 'month', QUARTER(tran_date) AS 'quarter', YEAR(tran_date) AS 'year',SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt',SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditures' FROM transaction GROUP BY date ORDER BY date DESC";
 			$q = "SELECT DATE_FORMAT(tran_date,'%d-%m-%Y') AS 'date', ";
-			$q .= "EXTRACT(week FROM tran_date) AS 'Week', ";
-			$q .= "MONTH(tran_date) AS 'month', ";
-			$q .= "QUARTER(tran_date) AS 'quarter', ";
-			$q .= "YEAR(tran_date) AS 'year', ";
+			// $q .= "EXTRACT(week FROM tran_date) AS 'Week', ";
+			// $q .= "MONTH(tran_date) AS 'month', ";
+			// $q .= "QUARTER(tran_date) AS 'quarter', ";
+			// $q .= "YEAR(tran_date) AS 'year', ";
 			$q .= "SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt', ";
 			$q .= "SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditure' ";
 			$q .= "FROM transaction ";
@@ -133,7 +133,7 @@
 
 		public function GetLastTransaction()
 		{
-			$q = "SELECT * c.category_name AS cat_name FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
+			$q = "SELECT *, c.category_name AS cat_name FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
 			$record = $this->con->query($q);
 			$arr = array();
 			while ($result = $record->fetch_array(MYSQLI_ASSOC)) {
@@ -152,7 +152,7 @@
 			$q = "INSERT INTO transaction VALUES (null,'$transType','$transName',$transCategory,'$transDesc',$transAmount,'$transDate')";
 			$result = false;
 			if($this->con->query($q)){
-				$result = GetLastTransaction();
+				$result = true;
 			}
 			return json_encode($result);
 		}

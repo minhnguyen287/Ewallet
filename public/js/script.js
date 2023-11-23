@@ -277,7 +277,7 @@ function addNewRecord(data){
 			templateFrag.querySelector(".rowContent td:nth-child(3)").innerText = dateFormat(responseData.end_day);
 			templateFrag.querySelector(".rowContent td:nth-child(4)").innerText = responseData.total_days;
 			templateFrag.querySelector(".rowContent td:nth-child(5)").innerText = numberWithCommas(responseData.total_km);
-			templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = vndCurrency(responseData.product_price)
+			templateFrag.querySelector(".rowContent td:nth-child(6)").innerText = vndCurrency(responseData.product_price);
 			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
 			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+assessmentStatuses(responseData.total_km));
 			document.querySelector("tbody").appendChild(templateFrag);
@@ -1163,6 +1163,7 @@ function showStatistical(data){
 			}
 			//console.log("receipt"+responseData[i].receipt,"expenditures"+responseData[i].expenditures,"difference"+difference);
 			let templateFrag = templateFragRoot.cloneNode(true);
+			console.log(templateFrag.querySelectorAll("td"));
 			id = i + 1;
 			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id : id +'.';
 			templateFrag.querySelector("a").innerText = responseData[i].date;
@@ -1187,6 +1188,63 @@ function loadModal_categoryList(data,output){
 			tmpl.querySelector('option').setAttribute("value",arr[i].cat_id);
 			tmpl.querySelector('option').innerText = arr[i].category_name;
 			output.appendChild(tmpl);
+		}
+	}
+}
+
+function responseHandle(response,viewType){
+	if (typeof(response) == 'string') {
+		responseData = JSON.parse(response);
+		var action = responseData.action;
+		/* Action test */
+		switch (action){
+			case "add-transaction-and-show-statistical":
+				/* ViewType check */
+				if (viewType == "table-view") {
+					/*Handle*/
+					let newView = document.createElement('tbody');
+					let templateFrag = document.querySelector("#statistical__list").content;
+					var status_noti , operator , id;
+					var difference = new Number;
+					for (var i = 0; i < responseData.length; i++) {
+						if (parseInt(responseData[i].receipt) < parseInt(responseData[i].expenditure) ) {
+							status_noti = "expired";
+							operator = "- ";
+							difference = parseInt(responseData[i].expenditure) - parseInt(responseData[i].receipt);
+						} else {
+							status_noti = "good";
+							operator = "+ ";
+							difference = parseInt(responseData[i].receipt) - parseInt(responseData[i].expenditure);
+						}
+						let templateClone = templateFrag.cloneNode(true);
+						let templateColumns = templateClone.querySelectorAll("td");
+						let dataFill = Object.values(responseData);
+						id = i + 1;
+						templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id : id +'.';
+						templateFrag.querySelector("a").innerText = responseData[i].date;
+						templateFrag.querySelector("a").href = 'Detail/'+ responseData[i].date;
+						templateFrag.querySelector("td:nth-child(3)").innerText = numberWithCommas(responseData[i].receipt);
+						templateFrag.querySelector("td:nth-child(4)").innerText = numberWithCommas(responseData[i].expenditure);
+						templateFrag.querySelector("td:nth-child(5)").innerText = operator + vndCurrency(difference);
+						templateFrag.querySelector("td:nth-child(5)").setAttribute("class","table__status table__status-"+status_noti);
+						new_tbody.appendChild(templateFrag);
+					} /*End For loop*/
+					document.querySelector('tbody').parentNode.replaceChild(newView,document.querySelector('tbody'));
+					popupMessage("success","add","transaction");
+				}
+				break;
+			case "add-transaction-and-show-detail":
+				/* ViewType check */
+				/*Handle*/
+				break;
+			case "update-transaction-and-show-detail":
+				/* ViewType check */
+				/*Handle*/
+				break;
+			case "delete-transaction-and-show-detail":
+				/* ViewType check */
+				/*Handle*/
+				break;
 		}
 	}
 }
