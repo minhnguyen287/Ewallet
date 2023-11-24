@@ -113,6 +113,7 @@
 			while ($r = $record->fetch_array(MYSQLI_ASSOC)) {
 				$arr[] = $r;
 			}
+			$arr["action"] = "add-transaction-and-show-statistical";
 			return json_encode($arr);
 		}
 

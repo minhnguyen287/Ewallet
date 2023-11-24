@@ -68,10 +68,15 @@
 						</thead>
 						<tbody>
 							<?php 
-								$data_list = json_decode($data["TransactionList"]);
-								if (empty($data_list)) {
+								//$data_list = json_decode($data["TransactionList"]);
+								$transaction_list = json_decode($data["TransactionList"]);
+								if (empty($transaction_list)) {
 									echo "<tr><td colspan='5'><center>No records</center></td></tr>";
 								} else {
+									if (isset($transaction_list->action)) {
+										unset($transaction_list->action);
+									}
+									$data_list = (array) $transaction_list;
 									for ($i=0; $i < count($data_list); $i++) { 
 										$status_noti = "good";
 										$operator = "+ ";
