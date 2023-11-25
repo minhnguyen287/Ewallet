@@ -1163,7 +1163,7 @@ function showStatistical(data){
 			}
 			//console.log("receipt"+responseData[i].receipt,"expenditures"+responseData[i].expenditures,"difference"+difference);
 			let templateFrag = templateFragRoot.cloneNode(true);
-			console.log(templateFrag.querySelectorAll("td"));
+			//console.log(templateFrag.querySelectorAll("td"));
 			id = i + 1;
 			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id : id +'.';
 			templateFrag.querySelector("a").innerText = responseData[i].date;
@@ -1188,64 +1188,6 @@ function loadModal_categoryList(data,output){
 			tmpl.querySelector('option').setAttribute("value",arr[i].cat_id);
 			tmpl.querySelector('option').innerText = arr[i].category_name;
 			output.appendChild(tmpl);
-		}
-	}
-}
-
-function responseHandle(response,viewType){
-	if (typeof(response) == 'string') {
-		responseData = JSON.parse(response);
-		var action = responseData.action;
-		delete responseData.action;
-		// console.log(action);
-		// console.log(viewType);
-		/* Action test */
-		switch (action){
-			case "add-transaction-and-show-statistical":
-				/* ViewType check */
-				if (viewType == "table-view") {
-					/*Handle*/
-					let newView = document.createElement('tbody');
-					let templateFrag = document.querySelector("#statistical__list").content;
-					var status_noti , operator , id;
-					var difference = new Number;
-					let dataFill = Object.values(responseData);
-					let templateClone = templateFrag.cloneNode(true);
-					let col = templateClone.querySelectorAll('td');
-					
-				// 	for (var i=0; i<dataFill.length; i++) {
-				// 		if (parseInt(dataFill[i].receipt) < parseInt(dataFill[i].expenditure) ) {
-				// 			status_noti = "expired";
-				// 			operator = "- ";
-				// 			difference = parseInt(dataFill[i].expenditure) - parseInt(dataFill[i].receipt);
-				// 		} else {
-				// 			status_noti = "good";
-				// 			operator = "+ ";
-				// 			difference = parseInt(dataFill[i].receipt) - parseInt(dataFill[i].expenditure);
-				// 		}
-				// 		let templateClone = templateFrag.cloneNode(true);
-				// 		let col = templateClone.querySelectorAll('td');
-				// 		console.log(dataFill);
-				// 		console.log(col);
-						
-				// 		newView.appendChild(templateClone);
-				// 	} /*End For loop*/
-				// 	document.querySelector('tbody').parentNode.replaceChild(newView,document.querySelector('tbody'));
-				// 	popupMessage("success","add","transaction");
-				}
-				break;
-			case "add-transaction-and-show-detail":
-				/* ViewType check */
-				/*Handle*/
-				break;
-			case "update-transaction-and-show-detail":
-				/* ViewType check */
-				/*Handle*/
-				break;
-			case "delete-transaction-and-show-detail":
-				/* ViewType check */
-				/*Handle*/
-				break;
 		}
 	}
 }
@@ -1494,7 +1436,7 @@ window.addEventListener("load",function(){
 					hiddenBox(monthBox);
 					timeInput["monthInput"] = Number(month.value);
 					let statisticalUrl = "../Ajax/showStatistical";
-					sendAjaxRequest(statisticalUrl,"POST",response=>responseHandle(response,'table-view'),JSON.stringify(timeInput));
+					sendAjaxRequest(statisticalUrl,"POST",showStatistical,JSON.stringify(timeInput));
 				})
 			})
 		}
@@ -1556,8 +1498,16 @@ window.addEventListener("load",function(){
 				sendAjaxRequest(url,method,updateTransaction,JSON.stringify(transData))
 				hideModal(dialog[0]);
 			}
-			//update database and review
 			
+		})
+		on('table', 'click', '.remove__button', showModal_deleteTransaction);
+		btnDelete.addEventListener('click',()=>{
+			var transId = btnDelete.getAttribute("transId");
+			var data = JSON.stringify({transactionId:transId});
+			let method = "POST";
+			let url = '/ewallet/Ajax/DeleteTransaction';
+			sendAjaxRequest(url, method, deleteTransaction, data);	
+			hideModal(dialog[1]);
 		})
 	}
 })
@@ -1596,15 +1546,19 @@ function updateTransaction(data) {
 	let responseData = JSON.parse(data);
 	if (responseData != "false") {
 		statusNoti = responseData.transType == 'expenditure' ? 'expired' : 'good';
+		let category = JSON.parse(responseData.category);
+		let transCategory = category[0].category_name;
 		/* Update dòng dữ liệu đã được chỉnh sửa */
 		let rowEdited = document.getElementById(btnUpdate.getAttribute("idT"));
 		rowEdited.querySelector("td:nth-child(2)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
+		rowEdited.querySelector("td:nth-child(2)").setAttribute("value",responseData.transType);
 		rowEdited.querySelector("td:nth-child(2)").innerText = responseData.transType;
 		rowEdited.querySelector("td:nth-child(3)").innerText = responseData.transName;
-		rowEdited.querySelector("td:nth-child(4)").innerText = responseData.transCategory;
+		rowEdited.querySelector("td:nth-child(4)").setAttribute("value",responseData.transCategory);
+		rowEdited.querySelector("td:nth-child(4)").innerText = transCategory;
 		rowEdited.querySelector("td:nth-child(5)").innerText = responseData.transDesc;
 		rowEdited.querySelector("td:nth-child(6)").innerText = vndCurrency(responseData.transAmount);
-		rowEdited.querySelector("td:nth-child(6)").value = responseData.transAmount;
+		rowEdited.querySelector("td:nth-child(6)").setAttribute("value",responseData.transAmount);
 		rowEdited.querySelector("td:nth-child(6)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
 		/*In ra câu thông báo thành công*/
 		popupMessage("success","edit","transaction");
@@ -1613,7 +1567,40 @@ function updateTransaction(data) {
 	}
 }
 
-
+function showModal_deleteTransaction(){
+	var target = event.target;
+	var transactionId;
+	while(target && target !== document.querySelector('tbody')){
+		if(target.tagName == "TR"){
+			transactionId = target.getAttribute("id");
+		}
+		target = target.parentNode;
+		/* Reload lại các phần tử dùng để thông báo */
+		headerPopup.setAttribute("class","header__popup");
+		headerPopup.removeAttribute("style");
+		/* Gọi modal Delete*/
+		delFormContent.style.minWidth = "initial";
+		delFormContent.style.minHeight = "initial";
+		delForm.style.gridTemplateColumns = "1fr";
+		showModal(dialog[1]);
+		btnDelete.setAttribute("transId",transactionId);
+	}
+}
+function deleteTransaction(data){
+	if (typeof(data)==="string") {
+		let responseData = JSON.parse(data);
+		if(responseData.status != "false"){
+			/* Hàm rowIndex dùng để lấy ra vị trí của hàng có id = transId trong bảng*/
+			let index = document.getElementById(responseData.transactionId).rowIndex;
+			/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
+			document.querySelector('tbody').deleteRow(index-1);
+			popupMessage("success","delete","record");
+		} else {
+			/*In ra câu thông báo thất bại*/
+			popupMessage("failure","delete","record");
+		}
+	}
+}
 
 /*End */
 

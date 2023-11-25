@@ -5,9 +5,9 @@
 	class Wallet extends Controller
 	{
 		public function __construct()
-			{
-				$this->WalletModel = $this->model("WalletModel");
-			}	
+		{
+			$this->WalletModel = $this->model("WalletModel");
+		}	
 
 		public function Dashboard()
 		{

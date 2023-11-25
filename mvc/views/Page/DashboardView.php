@@ -6,10 +6,10 @@
   			<span class="header__container-left-link">Dashboard 01</span>
   		</div>
   		<div class="header__container-right">
-  			<button class="add__account-button">
+  			<button class="add__button">
   				<i class="fa-solid fa-plus"></i> Add Transaction
   			</button>
-  			<button class="export-button">
+  			<button class="export__button">
   				<i class="fa-solid fa-file-export"></i> Export
   			</button>
   		</div>
@@ -34,10 +34,14 @@
   					</div>
   				</div>
   			</div>
+        <?php 
+          $data_list = json_decode($data['data']);
+          print_r($data_list);
+         ?>
   			<div class="layout__content">
   				<div class="layout__content-left">
-  					<h3 class="layout__content-left-title">Total Leads</h3>
-  					<h2 class="layout__content-left-number">56,992</h2>
+  					<h3 class="layout__content-left-title">Total Cost</h3>
+  					<h2 class="layout__content-left-number"></h2>
   					<div class="layout__content-left-growth">
   						<span class="layout__content-left-growth-icon">
   							<i class="fa-solid fa-circle-chevron-up"></i>
@@ -48,13 +52,14 @@
   				</div>
   				<div class="layout__content-right">
   					<div class="layout__content-right-icon">
-  						<i class="fa-solid fa-rocket fa-2xl"></i>
+              <i class="fa-solid fa-cart-shopping fa-2xl"></i>
+  						<!-- <i class="fa-solid fa-rocket fa-2xl"></i> -->
   					</div>
   				</div>
   			</div>
   			<div class="layout__content">
   				<div class="layout__content-left">
-  					<h3 class="layout__content-left-title">Total Profit</h3>
+  					<h3 class="layout__content-left-title">Wallet Balance</h3>
   					<h2 class="layout__content-left-number">$42,567</h2>
   					<div class="layout__content-left-growth">
   						<span class="layout__content-left-growth-icon">
@@ -72,7 +77,7 @@
   			</div>
   			<div class="layout__content">
   				<div class="layout__content-left">
-  					<h3 class="layout__content-left-title">Total Cost</h3>
+  					<h3 class="layout__content-left-title">Savings Deposit</h3>
   					<h2 class="layout__content-left-number">$34,789</h2>
   					<div class="layout__content-left-growth">
   						<span class="layout__content-left-growth-icon">
@@ -84,7 +89,7 @@
   				</div>
   				<div class="layout__content-right">
   					<div class="layout__content-right-icon">
-  						<i class="fa-solid fa-cart-shopping fa-2xl"></i>
+  						<i class="fa-solid fa-piggy-bank fa-2xl"></i>
   					</div>
   				</div>
   			</div>

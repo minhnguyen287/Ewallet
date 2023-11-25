@@ -419,21 +419,31 @@ input:focus{
 };
 .layout__content:nth-child(3) {
 	.layout__content-right-icon{
-		background-image: linear-gradient(#a46cec,#e861b2);
+		background-image: linear-gradient(#6cecdc, #75e861);
 	}
 	.layout__content-left-growth{
 		&-index,&-icon{
 		color:#09ad95;
 		}
 	}
-};
-.layout__content:last-child {
+};    
+.layout__content:nth-child(4) {
 	.layout__content-right-icon{
-		background-image: linear-gradient(#3ed7d3,#1eabd2);
+		background-image: linear-gradient(#a46cec,#e861b2);
 	}
 	.layout__content-left-growth{
 		&-index,&-icon{
-		color:#f82649;
+		color:#e861b2;
+		}
+	}
+};
+.layout__content:first-child {
+	.layout__content-right-icon{
+		background-image: linear-gradient(#0097ff, #dedefd);
+	}
+	.layout__content-left-growth{
+		&-index,&-icon{
+		color:#0097ff;
 		}
 	}
 };

@@ -4,12 +4,19 @@
 	 */
 	class Home extends Controller
 	{
+		public function __construct()
+		{
+			$this->DashboardModel = $this->model("DashboardModel");
+		}
 		//This is function call default page // function trong controller dong vai tro action o trang dia chi
 		public function Dashboard()
 		{
-			//$dash1 = $this->model("DashboardModel");
+			$yearInput = date("Y");
+			$monthInput = date("m");
+			$dash1 = $this->DashboardModel->ShowDashboard($yearInput,$monthInput);
 			$this->view("MasterLayout",[
 				"Page"=>"DashboardView",
+				"data"=>$dash1,
 				"Dhighlight"=>true]);
 		}
 

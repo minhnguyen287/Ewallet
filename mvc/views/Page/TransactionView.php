@@ -68,15 +68,15 @@
 						</thead>
 						<tbody>
 							<?php 
-								//$data_list = json_decode($data["TransactionList"]);
-								$transaction_list = json_decode($data["TransactionList"]);
-								if (empty($transaction_list)) {
+								$data_list = json_decode($data["TransactionList"]);
+								//$transaction_list = json_decode($data["TransactionList"]);
+								if (empty($data_list)) {
 									echo "<tr><td colspan='5'><center>No records</center></td></tr>";
 								} else {
-									if (isset($transaction_list->action)) {
-										unset($transaction_list->action);
-									}
-									$data_list = (array) $transaction_list;
+									// if (isset($transaction_list->action)) {
+									// 	unset($transaction_list->action);
+									// }
+									// $data_list = (array) $transaction_list;
 									for ($i=0; $i < count($data_list); $i++) { 
 										$status_noti = "good";
 										$operator = "+ ";
@@ -103,11 +103,11 @@
 						</tbody>
 						<template id="statistical__list">
 							<tr>
-								<td data-cell="no">01.</td>
-								<td data-cell="date"><a href="Detail/">14.05.2023</a></td>
-								<td data-cell="Receipts">100.000</td>
-								<td data-cell="Expenditurese">200.000</td>
-								<td data-cell="Difference" class="table__status table__status-expired">100.000</td>
+								<td data-cell="no">{{no}}</td>
+								<td data-cell="date"><a href="Detail/">{{date}}</a></td>
+								<td data-cell="Receipts">{{receipt}}</td>
+								<td data-cell="Expenditurese">{{expenditure}}</td>
+								<td data-cell="Difference" class="table__status table__status-expired">{{difference}}</td>
 							</tr>
 						</template>
 					</table>

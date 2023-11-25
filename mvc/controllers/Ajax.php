@@ -475,10 +475,35 @@
 			if(empty($errors)){		
 				$kq = $this->WalletModel->UpdateTransaction($transId,$transType,$transName,$transCategory,$transDesc,$transAmount);
 				if(json_decode($kq) == true){
-					//$arr['catName'] = $this->WalletModel->ShowACategory($transCategory);
+					$arr['category'] = $this->WalletModel->ShowACategory($transCategory);
 					echo json_encode($arr);
 				} else{
 					echo json_encode($kq);
+				}
+			} else{
+				print_r($errors);
+			}
+		}
+
+		public function DeleteTransaction()
+		{
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["AjaxData"],true);
+			if ( !empty($arr) ) {
+				$errors = array();
+
+				if (isset($arr['transactionId'])&&filter_var($arr['transactionId'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
+					$transaction_id = $arr['transactionId'];
+				} else{
+					$errors[] = "transaction_id";
+				}
+			}
+
+			if(empty($errors)){		
+				$kq = $this->WalletModel->DeleteTransaction($transaction_id);
+				if(json_decode($kq)==true){
+					$arr["status"] = $kq;
+					echo json_encode($arr);
 				}
 			} else{
 				print_r($errors);

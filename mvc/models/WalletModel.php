@@ -113,7 +113,7 @@
 			while ($r = $record->fetch_array(MYSQLI_ASSOC)) {
 				$arr[] = $r;
 			}
-			$arr["action"] = "add-transaction-and-show-statistical";
+			//$arr["action"] = "add-transaction-and-show-statistical";
 			return json_encode($arr);
 		}
 
@@ -173,6 +173,17 @@
 			$q .= "WHERE tran_id = $transId";
 			$result = false;
 			if($this->con->query($q)){
+				$result = true;
+			}
+			return json_encode($result);
+		}
+
+		public function DeleteTransaction($id)
+		{
+			$id = $this->con->real_escape_string(strip_tags($id));
+			$q = "DELETE FROM transaction WHERE tran_id = $id";
+			$result = false;
+			if ($this->con->query($q)) {
 				$result = true;
 			}
 			return json_encode($result);
