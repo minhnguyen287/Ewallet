@@ -91,9 +91,10 @@
 									} elseif ($row[$i]->total_km >= 1500) {
 										$status_noti = "expired";
 									}
-									$row[$i]->och_id < 10 ? $row_id = '0'.$row[$i]->och_id : $row_id = $row[$i]->och_id;
+									$id = $i+1;
+									$id < 10 ? $id = "0".$id : $id;
 									echo'<tr class = "rowContent" id ="'.$row[$i]->och_id.'">';
-									echo'<td data-cell="no">'.$row_id.'.</td>';
+									echo'<td data-cell="no">'.$id.'.</td>';
 									echo'<td data-cell="product name">'.$row[$i]->product_name.'</td>';
 									echo'<td data-cell="change date">'.$row[$i]->end_day.'</td>';
 									echo'<td data-cell="days">'.$row[$i]->total_days.'</td>';

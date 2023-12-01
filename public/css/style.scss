@@ -342,7 +342,7 @@ input:focus{
 		color:#dedefd;
 		&-number{
 			font-weight: 600;
-			font-size: 1.5rem;
+			font-size: 1.2rem;
 			margin:10px 0 10px 0;
 		}
 		&-growth{
@@ -392,6 +392,9 @@ input:focus{
 		&-label{
 			// width: 100%;
 			margin-bottom: 20px;
+			width: 100%;
+   			display: flex;
+    		justify-content: space-between;
 		}
 		&-chart_background{
 			width: 100%;
@@ -1138,7 +1141,7 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 	}
 	.layout{
 		&__content{
-			padding: 0 25px 0 25px;
+			padding: 0 15px 0 15px;
 			&-right{
 				&-icon{
 					width: 60px;

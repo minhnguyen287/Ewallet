@@ -61,7 +61,7 @@
 				//2. insert database		
 				if(empty($errors)){		
 					$kq = $this->OilModel->AddNewRecord($product_id,$start_day,$end_day,$start_km,$end_km);
-					if(json_decode($kq) != true){
+					if(json_decode($kq) == true){
 						echo $this->OilModel->ShowARecordById(0);
 					} else{
 						echo json_encode($kq);
@@ -413,7 +413,7 @@
 					if (json_decode($kq) == true) {
 						$arr['status'] = "success";
 						$id = json_decode($this->WalletModel->GetLastTransaction());
-						$arr['tranId'] = $id[0]->id;
+						$arr['tranId'] = $id[0]->tran_id;
 						$arr['transCategory'] = $id[0]->cat_name;
 						echo json_encode($arr);
 					} else {

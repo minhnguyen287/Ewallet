@@ -277,7 +277,7 @@ input:focus {
     color: #dedefd; }
     .layout__content-left-number {
       font-weight: 600;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       margin: 10px 0 10px 0; }
     .layout__content-left-growth {
       color: #6259ca; }
@@ -315,7 +315,10 @@ input:focus {
     display: flex;
     flex-wrap: wrap; }
     .layout__chart-item-label {
-      margin-bottom: 20px; }
+      margin-bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between; }
     .layout__chart-item-chart_background {
       width: 100%;
       height: 10px;
@@ -900,7 +903,7 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     grid-template-rows: 130px 400px; }
 
   .layout__content {
-    padding: 0 25px 0 25px; }
+    padding: 0 15px 0 15px; }
     .layout__content-right-icon {
       width: 60px;
       height: 60px; }

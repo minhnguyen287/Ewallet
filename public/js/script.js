@@ -268,11 +268,10 @@ function addNewRecord(data){
 		if (responseData != "false") {
 			/*Hiển thị dòng dữ liệu mới thêm vào*/
 			let templateFragRoot = document.querySelector("#newRow").content;
-			let rowId;
 			var templateFrag = templateFragRoot.cloneNode(true);
-			responseData.och_id < 10 ? rowId = '0'+responseData.och_id : rowId = responseData.och_id;
-			templateFrag.querySelector("td").parentNode.setAttribute("id",responseData.och_id);
-			templateFrag.querySelector("td").innerText = rowId+".";
+			let id = document.querySelectorAll('tr').length;
+			templateFrag.querySelector("tr").setAttribute('id',responseData.och_id);
+			templateFrag.querySelector('td').innerText = id < 10 ? id = "0"+id+'.' : id +'.';
 			templateFrag.querySelector(".rowContent td:nth-child(2)").innerText = responseData.product_name;
 			templateFrag.querySelector(".rowContent td:nth-child(3)").innerText = dateFormat(responseData.end_day);
 			templateFrag.querySelector(".rowContent td:nth-child(4)").innerText = responseData.total_days;
@@ -1594,10 +1593,10 @@ function deleteTransaction(data){
 			let index = document.getElementById(responseData.transactionId).rowIndex;
 			/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 			document.querySelector('tbody').deleteRow(index-1);
-			popupMessage("success","delete","record");
+			popupMessage("success","delete","transaction");
 		} else {
 			/*In ra câu thông báo thất bại*/
-			popupMessage("failure","delete","record");
+			popupMessage("failure","delete","transaction");
 		}
 	}
 }

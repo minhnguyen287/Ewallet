@@ -29,7 +29,7 @@
 			$eday = $this->con->real_escape_string(strip_tags($end_day));
 			$skm = $this->con->real_escape_string(strip_tags($start_km));
 			$ekm = $this->con->real_escape_string(strip_tags($end_km));
-			$q = "INSERT INT0 oil VALUES(null,$pid,'$sday','$eday',$skm,$ekm)";
+			$q = "INSERT INTO oil VALUES(null,$pid,'$sday','$eday',$skm,$ekm)";
 			$result = false;
 			if($this->con->query($q)){
 				$result = true;
