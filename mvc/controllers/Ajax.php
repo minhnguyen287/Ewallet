@@ -9,6 +9,7 @@
 		{
 			$this->OilModel = $this->model("OilModel");
 			$this->WalletModel = $this->model("WalletModel");
+			$this->DashboardModel = $this->model("DashboardModel");
 		}
 
 		public function ShowProductInfo(){
@@ -526,6 +527,11 @@
 			}
 			
 			echo $this->WalletModel->GetMonthStatistical($y);
+		}
+
+		public function DrawChart()
+		{
+			echo $this->DashboardModel->DrawChart();
 		}
 	} /* End Class */
 	/*header("Content-Type: application/json"); phải viết đúng từng dấu cách (space) và dấu : (hai chấm) */

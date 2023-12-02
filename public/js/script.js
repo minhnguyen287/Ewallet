@@ -181,7 +181,7 @@ function dateFormat(date){
 }
 
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
-btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
+//btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
 if (btnCloseModal[1]) {
 	btnCloseModal[1].addEventListener("click",()=>hideModal(dialog[1]));
 }
@@ -1599,6 +1599,50 @@ function deleteTransaction(data){
 			popupMessage("failure","delete","transaction");
 		}
 	}
+}
+
+/*==================================================================================================================*/
+
+/*==================================================================================================================*/
+/*                                        -- Code For Dashboard --           	         			  	    */
+/*==================================================================================================================*/
+var dashUrl = "./Ajax/DrawChart";
+sendAjaxRequest(dashUrl,"GET",DrawChart);
+function DrawChart(datas) {
+	//const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+	responseData = JSON.parse(datas);
+	const labels = [];
+	for (var i = 0; i < responseData.length; i++) {
+		labels.push(responseData[i].month);
+	}
+	//console.log(responseData);
+	const data = {
+		labels:labels,
+		datasets:[
+		{
+			label:'Receipt',
+			backgroundColor:'#6259ca',
+			borderColor:'#6259ca',
+			data:[],
+			tension:0.6,
+		},
+		{
+			label:'Expenditure',
+			backgroundColor:'#f99433',
+			borderColor:'#f99433',
+			data:[],
+			tension:0.6,
+		}
+		],
+	}
+	data.datasets[0].data.push(responseData[i].receipt);
+	data.datasets[1].data.push(responseData[i].receipt);
+	const config = {
+		type: 'line',
+		data: data,
+	};
+	const canvas = document.getElementById('myChart');
+	const chart = new Chart(canvas,config);
 }
 
 /*End */

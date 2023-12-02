@@ -104,63 +104,26 @@
   			<div class="layout__content layout__chart">
   				<h2 class="layout__chart-title">Total Transactions</h2>
   				<div class="layout__chart-index">
-  					<i class="fa-solid fa-circle fa-lg"></i> Total Orders
-  					<i class="fa-solid fa-circle fa-lg"></i> Total Sales
+            <canvas id="myChart"></canvas>
   				</div>
   			</div>
   			<div class="layout__content layout__chart">	
   				<h2 class="layout__chart-title">Most Expensive Transaction </h2>
   				<div class="layout__chart-items">
-  					<div class="layout__chart-item">
-              <div class="layout__chart-item-label">
-                <div class="layout__chart-name"><?php echo $most[0]->name; ?></div>
-                <div class="layout__chart-percent-index"><?php echo $most[0]->percent.'%'; ?></div>
-              </div>
-  						
-  						<div class="layout__chart-item-chart_background">
-  							<div class="layout__chart-item-index" style="--percent:<?php echo $most[0]->percent; ?>%;--chart__color:#6259ca"></div>
-  						</div>
-  					</div>
-  					<div class="layout__chart-item">
-              <div class="layout__chart-item-label">
-                <div class="layout__chart-name"><?php echo $most[1]->name; ?></div>
-                <div class="layout__chart-percent-index"><?php echo $most[1]->percent.'%'; ?></div>
-              </div>
-  						
-  						<div class="layout__chart-item-chart_background">
-  							<div class="layout__chart-item-index" style="--percent:<?php echo $most[1]->percent; ?>%;--chart__color:#09ad95"></div>
-  						</div>
-  					</div>
-  					<div class="layout__chart-item">
-              <div class="layout__chart-item-label">
-                <div class="layout__chart-name"><?php echo $most[2]->name; ?></div>
-                <div class="layout__chart-percent-index"><?php echo $most[2]->percent.'%'; ?></div>
-              </div>
-  						
-  						<div class="layout__chart-item-chart_background">
-  							<div class="layout__chart-item-index" style="--percent:<?php echo $most[2]->percent; ?>%;--chart__color:#f7b731"></div>
-  						</div>
-  					</div>
-  					<div class="layout__chart-item">
-              <div class="layout__chart-item-label">
-                <div class="layout__chart-name"><?php echo $most[3]->name; ?></div>
-                <div class="layout__chart-percent-index"><?php echo $most[3]->percent.'%'; ?></div>
-              </div>
-  						
-  						<div class="layout__chart-item-chart_background">
-  							<div class="layout__chart-item-index" style="--percent:<?php echo $most[3]->percent; ?>%;--chart__color:#f82649"></div>
-  						</div>
-  					</div>
-  					<div class="layout__chart-item">
-              <div class="layout__chart-item-label">
-                <div class="layout__chart-name"><?php echo $most[4]->name; ?></div>
-                <div class="layout__chart-percent-index"><?php echo $most[4]->percent.'%'; ?></div>
-              </div>
-  						
-  						<div class="layout__chart-item-chart_background">
-  							<div class="layout__chart-item-index" style="--percent:<?php echo $most[4]->percent; ?>%;--chart__color:#45aaf2"></div>
-  						</div>
-  					</div>
+            <?php 
+              for ($i=0; $i <count($most) ; $i++) { 
+                $color=["#6259ca","#09ad95","#f7b731","#f82649","#45aaf2"];
+                echo '<div class="layout__chart-item">';
+                echo '<div class="layout__chart-item-label">';
+                echo '<div class="layout__chart-name">'.$most[$i]->name.'</div>';
+                echo '<div class="layout__chart-percent-index">'.$most[$i]->percent.'%</div>';
+                echo '</div>';
+                echo '<div class="layout__chart-item-chart_background">';
+                echo '<div class="layout__chart-item-index" style="--percent:'.$most[$i]->percent.'%;--chart__color:'.$color[$i].'"></div>';
+                echo '</div>';
+                echo '</div>';
+              }
+             ?>
   				</div>
   			</div>
   		</div>

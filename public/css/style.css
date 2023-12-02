@@ -255,7 +255,6 @@ input:focus {
     grid-area: h4; }
   .layout__content:nth-child(5) {
     grid-area: h5;
-    background-image: url("../img/chart.jpg");
     flex-direction: column;
     justify-content: flex-start; }
   .layout__content:last-child {
@@ -284,6 +283,9 @@ input:focus {
       .layout__content-left-growth-time {
         color: #6c778e; }
 
+#myChart {
+  width: 100%; }
+
 .layout__chart {
   background-repeat: no-repeat;
   background-size: contain;
@@ -296,12 +298,8 @@ input:focus {
   .layout__chart-index {
     color: #fff;
     align-self: center;
-    padding-top: calc(105px - 25px - 1rem); }
-    .layout__chart-index i:first-child {
-      color: #6259ca; }
-    .layout__chart-index i:last-child {
-      color: #f99433;
-      margin-left: 1rem; }
+    width: 100%;
+    padding: 1rem; }
   .layout__chart-items {
     display: flex;
     color: #fff;

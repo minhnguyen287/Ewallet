@@ -14,7 +14,7 @@
 			$yearInput = date("Y");
 			$monthInput = date("m");
 			$dash1 = $this->DashboardModel->ShowDashboard($yearInput,$monthInput);
-			$dash2 = $this->DashboardModel->Show5LargestAmount();
+			$dash2 = $this->DashboardModel->Show5LargestAmount($yearInput,$monthInput);
 			$this->view("MasterLayout",[
 				"Page"=>"DashboardView",
 				"data"=>$dash1,
