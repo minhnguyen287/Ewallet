@@ -45,11 +45,6 @@ var btnDelete = document.querySelector('.delete__button');
 var btnCancel = document.querySelector('.cancel__button');
 var btnCloseModal = document.querySelectorAll(".dialog__content-header-close");
 
-var btnAddTransaction = document.getElementsByClassName("add__transaction-button");
-var btnEditTransaction = document.getElementsByClassName('edit__transaction-button');
-var btnDeleteTransaction = document.getElementsByClassName('delete__transaction-button');
-
-
 var headerPopup = document.querySelector(".header__popup");
 
 var dialog = document.getElementsByClassName("dialog");
@@ -72,6 +67,35 @@ var labelField_Dialog = document.getElementById("transDialog_info");
 
 const currentUrl = window.location.pathname.toString();
 const urlArray = currentUrl.split("/");
+var currentPage;
+function definePage(){
+	var currentPage;
+	var filteredUrl = urlArray.filter(function (url) {
+		return url != '';
+	});
+	filteredUrl.splice(filteredUrl.indexOf('ewallet'),1);
+	if (filteredUrl.length == 0 || filteredUrl.indexOf('Dashboard')!=1) {
+		currentPage = "dashboard";
+	}
+
+	if (filteredUrl.indexOf("Oil") != -1) {
+		currentPage = "oil";
+	}
+
+	if (filteredUrl.indexOf("Wallet")!=-1 && filteredUrl.indexOf("Category")!=-1) {
+		currentPage = "category";
+	}
+
+	if (filteredUrl.indexOf("Wallet")!=-1 && filteredUrl.indexOf("Transaction")!=-1) {
+		currentPage = "transaction";
+	}
+
+	if (filteredUrl.indexOf("Wallet")!=-1 && filteredUrl.indexOf("Detail")!=-1) {
+		currentPage = "detail";
+	}
+	return currentPage;
+}
+currentPage = definePage();
 
 /* Viết 2 hàm ẩn / hiện bảng modal dialog */
 function showModal(modal){
@@ -201,11 +225,14 @@ window.addEventListener("click",function(event){
 window.onresize = function(){
 	var width = window.screen.width;
     //console.log(width);
-    if (width < 769) {
-    	delFormContent.style.minWidth = calculatePercentage(9,10)+"%";
-    } else {
-    	delFormContent.style.minWidth = "initial";
+    if (currentPage == 'oil' || currentPage == 'category' || currentPage == 'detail') {
+    	if (width < 769) {
+    		delFormContent.style.minWidth = calculatePercentage(9,10)+"%";
+    	} else {
+    		delFormContent.style.minWidth = "initial";
+    	}
     }
+    
 }
 /* Function call AJAX load thông tin sản phẩm */
 function sendAjaxRequest(url,method,callback,data){
@@ -466,7 +493,7 @@ function validateInput(page){
 	return data;
 }
 
-if (urlArray.indexOf("Oil") != -1) {
+if (currentPage == 'oil') {
 /*Tự động load ra thông tin sản phẩm dầu nhớt trong bảng tuỳ chọn thêm 1 bản ghi lịch sử thay dầu 
 ngay khi trang được load. */
 	let method = "GET";
@@ -739,12 +766,12 @@ function initializeView(data) {
 
 /* Khi load Page */
 window.addEventListener("load",function(event){
-	if (urlArray.indexOf("Oil") != -1){
+	if (currentPage == 'oil'){
 		let initUrl = './Ajax/numberOfRecord';
 		let initMethod = "GET";
 		sendAjaxRequest(initUrl,initMethod,initializeView);
 	} 
-	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
+	if (currentPage == 'category'){
 		let initUrl = '../Ajax/TotalCategory';
 		let initMethod = "GET";
 		sendAjaxRequest(initUrl,initMethod,initializeView);
@@ -823,14 +850,14 @@ if(entries,btnNextPage,btnPreviousPage){
 				disableButton(btnPreviousPage);
 			}
 			enableButton(btnNextPage);
-			if (urlArray.indexOf("Oil")!=-1) {
+			if (currentPage == 'oil') {
 				let data = JSON.stringify({
 					"start":pagination.startIndex,
 					"display":pagination.display,
 					"pagi_for":"oil" });
 				sendAjaxRequest(paginationUrl,paginationMethod,customizeView,data);
 			}
-			if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1) {
+			if (currentPage == 'category') {
 				let data = JSON.stringify({
 					"start":pagination.startIndex,
 					"display":pagination.display,
@@ -857,7 +884,7 @@ var catColorInfor = document.getElementById("category_color_info");
 var btnChange = document.querySelector(".change__button"); 
 
 window.onload = function(){
-	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Category") != -1){
+	if (currentPage == 'category'){
 		let url = '../Ajax/ShowListCategories';
 		let method = "GET";
 		sendAjaxRequest(url,method,showCategoryView);
@@ -1017,7 +1044,7 @@ function deleteCategory(data){
 	}
 }
 
-if (urlArray.indexOf("Wallet")!=-1 && urlArray.indexOf("Category")!=-1) {
+if (currentPage == 'category') {
 	if (typeof(btnAdd)!=='undefined') {
 		btnAdd.addEventListener('click',function(){
 			showModal(dialog[0]);
@@ -1302,7 +1329,7 @@ if (currentDay < 10) currentDay = "0" + currentDay;
 var today = currentYear + "-" + currentMonth + "-" + currentDay;
 
 window.addEventListener("load",function(){
-	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Transaction") != -1){
+	if (currentPage == 'transaction'){
 		let catUrl = '../Ajax/ShowListCategories';
 		let method = "GET";
 		sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
@@ -1441,7 +1468,7 @@ window.addEventListener("load",function(){
 		}
 	}
 
-	if (urlArray.indexOf("Wallet") != -1 && urlArray.indexOf("Detail") != -1){
+	if (currentPage == 'detail'){
 		let catUrl = '/ewallet/Ajax/ShowListCategories';
 		let method = "GET";
 		sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
@@ -1606,43 +1633,58 @@ function deleteTransaction(data){
 /*==================================================================================================================*/
 /*                                        -- Code For Dashboard --           	         			  	    */
 /*==================================================================================================================*/
-var dashUrl = "./Ajax/DrawChart";
-sendAjaxRequest(dashUrl,"GET",DrawChart);
-function DrawChart(datas) {
-	//const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-	responseData = JSON.parse(datas);
-	const labels = [];
-	for (var i = 0; i < responseData.length; i++) {
-		labels.push(responseData[i].month);
-	}
-	//console.log(responseData);
-	const data = {
-		labels:labels,
-		datasets:[
-		{
-			label:'Receipt',
-			backgroundColor:'#6259ca',
-			borderColor:'#6259ca',
-			data:[],
-			tension:0.6,
-		},
-		{
-			label:'Expenditure',
-			backgroundColor:'#f99433',
-			borderColor:'#f99433',
-			data:[],
-			tension:0.6,
+if (currentPage == 'dashboard'){
+	var dashUrl = "./Ajax/DrawChart";
+	sendAjaxRequest(dashUrl,"GET",DrawChart);
+	function DrawChart(datas) {
+		responseData = JSON.parse(datas);
+		const labels = [];
+		const data = {
+			labels:labels,
+			datasets:[
+			{
+				label:' Receipt',
+				backgroundColor:'#6259ca',
+				borderColor:'#6259ca',
+				data:[],
+				tension:0.4,
+			},
+			{
+				label:' Expenditure',
+				backgroundColor:'#f99433',
+				borderColor:'#f99433',
+				data:[],
+				tension:0.6,
+			}
+			],
 		}
-		],
+		const config = {
+			type: 'line',
+			data: data,
+			options: {
+				plugins:{
+					legend: {
+						labels: {
+							usePointStyle: true,
+							boxWidth: 6,
+							pointStyle:'circle'
+						}
+					}
+				}
+			}
+		};
+		for (var i = 0; i < responseData.length; i++) {
+
+			labels.push(responseData[i].month);
+			data.datasets[0].data.push(responseData[i].receipt);
+			data.datasets[1].data.push(responseData[i].expenditure);
+		}
+		const canvas = document.getElementById('myChart');
+		const chart = new Chart(canvas,config);
 	}
-	data.datasets[0].data.push(responseData[i].receipt);
-	data.datasets[1].data.push(responseData[i].receipt);
-	const config = {
-		type: 'line',
-		data: data,
-	};
-	const canvas = document.getElementById('myChart');
-	const chart = new Chart(canvas,config);
+	btnAdd.addEventListener('click',()=>{
+		showModal(dialog[0]);
+	})
 }
 
 /*End */

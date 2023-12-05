@@ -18,7 +18,7 @@
 			$q = "SELECT MONTH(tr.tran_date) AS 'month', ";
 			$q.= "lst.lastmonth_receipt,lst.lastmonth_expenditure, ";
 			$q.= "SUM(CASE WHEN tran_type = 'receipt' THEN tr.tran_amount ELSE 0 END) AS 'receipt', ";
-			$q.= "SUM(CASE WHEN tran_type = 'expenditure' THEN tr.tran_amount ELSE 0 END) AS 'expenditure', ";			
+			$q.= "SUM(CASE WHEN tran_type = 'expenditure' AND cat_id != 24 THEN tr.tran_amount ELSE 0 END) AS 'expenditure', ";			
 			$q.= "tt.total_receipt,tt.total_expenditure, ";
 			$q.= "sv.saving_deposit ";
 			$q.= "FROM transaction tr CROSS JOIN ";
@@ -45,7 +45,7 @@
 				$q1 = "SELECT MONTH(tr.tran_date) AS 'month', ";
 				$q1.= "lst.lastmonth_receipt,lst.lastmonth_expenditure, ";
 				$q1.= "SUM(CASE WHEN tran_type = 'receipt' THEN tr.tran_amount ELSE 0 END) AS 'receipt', ";
-				$q1.= "SUM(CASE WHEN tran_type = 'expenditure' THEN tr.tran_amount ELSE 0 END) AS 'expenditure', ";			
+				$q1.= "SUM(CASE WHEN tran_type = 'expenditure' AND cat_id != 24 THEN tr.tran_amount ELSE 0 END) AS 'expenditure', ";			
 				$q1.= "tt.total_receipt,tt.total_expenditure, ";
 				$q1.= "sv.saving_deposit ";
 				$q1.= "FROM transaction tr CROSS JOIN ";
@@ -104,9 +104,9 @@
 
 		public function DrawChart()
 		{
-			$q = "SELECT MONTH(tran_date) AS 'month', ";
+			$q = "SELECT LEFT({fn MONTHNAME(tran_date)},3) AS 'month', ";
 			$q.= "SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt',"; 
-			$q.= "SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'expenditure' ";
+			$q.= "SUM(CASE WHEN tran_type = 'expenditure' AND cat_id != 24 THEN tran_amount ELSE 0 END) AS 'expenditure' ";
 			$q.= "FROM transaction ";
 			$q.= "GROUP BY MONTH(tran_date)";
 			$record = $this->con->query($q);
@@ -144,25 +144,4 @@
 	}
  ?>
 
-<!-- SELECT MONTH(tr.tran_date) AS 'month', 
-lst.lastmonth_receipt,lst.lastmonth_expenditure, 
-SUM(CASE WHEN tran_type = 'receipt' THEN tr.tran_amount ELSE 0 END) AS 'receipt', 
-SUM(CASE WHEN tran_type = 'expenditure' THEN tr.tran_amount ELSE 0 END) AS 'expenditure', 			
-tt.total_receipt,tt.total_expenditure, 
-sv.saving_deposit 
-FROM transaction tr CROSS JOIN 
 
-(SELECT SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'lastmonth_receipt', 
-SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'lastmonth_expenditure' 
-FROM transaction 
-WHERE YEAR(tran_date) = 2023 AND MONTH(tran_date) = 11 ) lst CROSS JOIN 
-
-(SELECT SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'total_receipt', 
-SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'total_expenditure' 
-FROM transaction) tt CROSS JOIN 
-(SELECT SUM(tran_amount) AS 'saving_deposit' FROM transaction WHERE cat_id = 24) sv 
-
-WHERE YEAR(tr.tran_date) = 2023 AND MONTH(tr.tran_date) = 12 
-GROUP BY MONTH(tr.tran_date),
-lst.lastmonth_receipt,lst.lastmonth_expenditure,
-tt.total_receipt,tt.total_expenditure -->
