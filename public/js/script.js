@@ -205,7 +205,7 @@ function dateFormat(date){
 }
 
 /* Ẩn Modal thêm bản ghi khi click vào dấu X */
-//btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
+btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
 if (btnCloseModal[1]) {
 	btnCloseModal[1].addEventListener("click",()=>hideModal(dialog[1]));
 }
@@ -1682,9 +1682,67 @@ if (currentPage == 'dashboard'){
 		const canvas = document.getElementById('myChart');
 		const chart = new Chart(canvas,config);
 	}
-	btnAdd.addEventListener('click',()=>{
-		showModal(dialog[0]);
+	let catUrl = './Ajax/ShowListCategories';
+	let method = "GET";
+	sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
+	btnAdd.addEventListener("click",function(){
+		showModal(dialog[0]);	
+		labelField_transDate.innerText = "";
+		/*Reload Form*/
+		dialogForm_TransType.value = "null";
+		dialogForm_Category.value = "null";
+		dialogForm_TransDate.value = today;
+		dialogForm_TransName.value = "";
+		dialogForm_Description.value = "";
+		dialogForm_TransAmount.value = "";
+
 	})
+	/*Autofill Transaction Name*/
+	dialogForm_Category.addEventListener('change',(e)=>{
+		var transValue;
+		var optionList = dialogForm_Category.querySelectorAll('option');
+		for (var i = 0; i < optionList.length; i++) {
+			if (optionList[i].getAttribute('value') == dialogForm_Category.value) {
+				transValue = optionList[i].innerText;
+			}
+		}
+		dialogForm_TransName.value = transValue;
+	})
+	/*Thêm 1 transaction*/
+	btnCreate.addEventListener("click",function(){
+		let transData = validateInput('transaction');
+		if (dialogForm_TransDate.getAttribute("type") == "date" && dialogForm_TransDate.value != '') {
+			transData["transDate"] = dialogForm_TransDate.value;
+		} else {
+			labelField_transDate.innerText = "Date field can't be empty";
+		}
+		/*Object.keys(ObjectName).length = số lượng của object*/
+		if (Object.keys(transData).length != 6) {
+			labelField_Dialog.innerText = "Please complete all Field before submit Form !";
+		} else {
+			let method = "POST";
+			let url = "./Ajax/AddANewTransaction";
+			sendAjaxRequest(url,method,addTransaction_showDashboard,JSON.stringify(transData))
+			hideModal(dialog[0]);
+		}
+	})
+}
+
+function addTransaction_showDashboard(data){
+	if (typeof(data) == 'string') {
+		responseData = JSON.parse(data);
+		if (responseData != "false" && responseData.status == 'success') {
+			// let url = './Ajax/showDashboard';
+			// let method = "GET";
+			// sendAjaxRequest(url,method,showStatistical);
+			popupMessage("success","add","transaction");
+			setTimeout(()=>{
+				location.reload();
+			},2500);
+		} else {
+			popupMessage("failure","add","transaction");
+		}
+	}
 }
 
 /*End */

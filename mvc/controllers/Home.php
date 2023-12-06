@@ -29,8 +29,6 @@
 			$dash2=$this->model("DashboardModel"); // 2 dong tren duoc thay the bang dong nay
 			echo $dash2->ShowTong($a,$b);
 		}
-		
-		
 	}
 
  ?>

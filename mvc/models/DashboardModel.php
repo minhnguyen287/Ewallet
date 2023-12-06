@@ -136,11 +136,6 @@
 		{
 			return $number1 + $number2;
 		}
-		public function GetPost(){
-			$q = "SELECT * FROM post";
-			return $this->con->query($q);
-		}
-		
 	}
  ?>
 
