@@ -364,7 +364,11 @@ input:focus{
 		align-self:start;
 		color:#fff;
 		font-size:1rem;
-		padding:25px 30px 0 0;
+		padding-top:15px;
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		align-items: center;
 	}
 	&-index{
 		color: #fff;
@@ -713,6 +717,27 @@ tr{
 }
 .default-list{
 	width: 100%;
+}
+.chart-box{
+	width: auto;
+}
+.input-chart{
+	width: auto;
+	height: auto;
+	background: none;
+	padding: 8px 8px;
+	margin-right: 0px !important;
+	display: flex;
+	align-items: center;
+	width: 96px;
+	color:rgba(255, 255, 255, 0.7);
+	&::before{
+		color: rgba(255, 255, 255, 0.5);
+	};
+	&:empty::after{
+		content: "Select year";
+		color: rgba(255, 255, 255, 0.5);
+	};
 }
 .table__body-footer{
 	display: flex;
@@ -1817,11 +1842,6 @@ td{
 	}
 	.right__show{
 		margin-bottom: 0;
-	}
-	.layout__chart{
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: bottom;
 	}
 	.header__menu-item-toggle:checked ~ ul.header__menu-right-bars{
 		// display: flex;

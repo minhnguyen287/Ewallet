@@ -102,7 +102,21 @@
 </div>
 </div>
 <div class="layout__content layout__chart">
-  <h2 class="layout__chart-title">Total Transactions</h2>
+  <div class="layout__chart-title">
+    <h2>Total Transactions</h2>
+      <div class="table__body-dropdown chart-box">
+        <div class="table__body-dropdown input-box input-chart"></div>
+        <div class="table__body-dropdown option-list option-year-list">
+          <!-- List of Year -->
+        </div>  
+        <template id="list-of-year">
+          <input class="year-list" type="radio" name="year" id="y3">
+          <label for="y3">2023</label>
+        </template>
+      </div>
+  </div>
+  
+  
   <div class="layout__chart-index">
     <canvas id="myChart"></canvas>
   </div>

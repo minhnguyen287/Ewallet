@@ -102,12 +102,17 @@
 			return json_encode($arr);
 		}
 
-		public function DrawChart()
+		public function DrawChart($y)
 		{
 			$q = "SELECT LEFT({fn MONTHNAME(tran_date)},3) AS 'month', ";
 			$q.= "SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'receipt',"; 
 			$q.= "SUM(CASE WHEN tran_type = 'expenditure' AND cat_id != 24 THEN tran_amount ELSE 0 END) AS 'expenditure' ";
 			$q.= "FROM transaction ";
+			if ($y == "current_year") {
+				$q .= "WHERE YEAR(tran_date) = YEAR(CURDATE()) ";
+			} else {
+				$q .= "WHERE YEAR(tran_date) = $y ";
+			}
 			$q.= "GROUP BY MONTH(tran_date)";
 			$record = $this->con->query($q);
 			$arr = array();

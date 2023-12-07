@@ -1270,10 +1270,10 @@ function showSelectBox_yearList(data){
 			tmpl.querySelector('input').setAttribute("id","y"+arr[i].year);
 			tmpl.querySelector('label').innerText = arr[i].year;
 			tmpl.querySelector('label').setAttribute("for","y"+arr[i].year)
-			if (arr[i].year == arr[i].current_year) {
-				tmpl.querySelector('input').setAttribute("checked","checked");
-				document.querySelector(".year-box").innerText = arr[i].year;
-			}
+			// if (arr[i].year == arr[i].current_year) {
+			// 	tmpl.querySelector('input').setAttribute("checked","checked");
+			// 	document.querySelector(".year-box").innerText = arr[i].year;
+			// }
 			document.querySelector(".option-year-list").appendChild(tmpl);
 		}
 	}
@@ -1292,12 +1292,12 @@ function showSelectBox_monthList(data){
 			tmpl.querySelector('input').setAttribute("id","m"+arr[i].month);
 			tmpl.querySelector('label').innerText = "Tháng "+arr[i].month;
 			tmpl.querySelector('label').setAttribute("for","m"+arr[i].month)
-			if (arr[i].month == arr[i].current_month) {
-				tmpl.querySelector('input').setAttribute("checked","checked");
-				document.querySelector(".month-box").innerText = "Tháng "+arr[i].month;
-			} else {
-				document.querySelector(".month-box").innerText = "";
-			}
+			// if (arr[i].month == arr[i].current_month) {
+			// 	tmpl.querySelector('input').setAttribute("checked","checked");
+			// 	document.querySelector(".month-box").innerText = "Tháng "+arr[i].month;
+			// } else {
+			// 	document.querySelector(".month-box").innerText = "";
+			// }
 			newMonthList.appendChild(tmpl);
 		}
 		document.querySelector(".option-month-list").replaceChild(newMonthList,document.querySelector('.default-list'))
@@ -1375,16 +1375,6 @@ window.addEventListener("load",function(){
 				hideModal(dialog[0]);
 			}
 		})
-
-		function hiddenBox(box){
-			box.nextElementSibling.style.maxHeight = null;
-			box.nextElementSibling.style.boxShadow = null;
-		}
-
-		function showBox(box){
-			box.nextElementSibling.style.maxHeight = box.nextElementSibling.scrollHeight + "px";;
-			box.nextElementSibling.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
-		}
 
 		let yearUrl = "../Ajax/GetYearStatistical";
 		sendAjaxRequest(yearUrl,method,showSelectBox_yearList);
@@ -1537,6 +1527,16 @@ window.addEventListener("load",function(){
 		})
 	}
 })
+/*Funtion ẩn/ hiện ô select box*/
+function hiddenBox(box){
+	box.nextElementSibling.style.maxHeight = null;
+	box.nextElementSibling.style.boxShadow = null;
+}
+
+function showBox(box){
+	box.nextElementSibling.style.maxHeight = box.nextElementSibling.scrollHeight + "px";;
+	box.nextElementSibling.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
+}
 
 function showModal_editTransaction(){
 	showModal(dialog[0]);
@@ -1654,13 +1654,19 @@ if (currentPage == 'dashboard'){
 				backgroundColor:'#f99433',
 				borderColor:'#f99433',
 				data:[],
+				segment : {
+					borderDash : [6,6]
+				},
 				tension:0.6,
+				//fill:true
 			}
 			],
 		}
 		const config = {
 			type: 'line',
 			data: data,
+			responsive:true,
+   			maintainAspectRatio: false,
 			options: {
 				plugins:{
 					legend: {
@@ -1681,12 +1687,63 @@ if (currentPage == 'dashboard'){
 		}
 		const canvas = document.getElementById('myChart');
 		const chart = new Chart(canvas,config);
+		/*Update Chart By Year*/
+		let yearUrl = "./Ajax/GetYearStatistical";
+		sendAjaxRequest(yearUrl,method,showSelectBox_yearList);
+		var inputBox = document.querySelector(".input-box");
+		inputBox.addEventListener("click",function(e){
+			e.stopPropagation();
+			this.classList.toggle("show-list");
+			var hiddenList = this.nextElementSibling;
+			if (hiddenList.style.maxHeight) {
+				hiddenList.style.maxHeight = null;
+				hiddenList.style.boxShadow = null;
+			} else {
+				hiddenList.style.maxHeight = hiddenList.scrollHeight + "px";
+				hiddenList.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
+			}
+		});
+		/* Khi click ra ngoài màn hình thì tự động đóng 2 box */
+		document.addEventListener('click',function(){
+			hiddenBox(inputBox);
+			if (inputBox.classList.contains('show-list')) {
+				inputBox.classList.remove('show-list')
+			}
+		})
+		on(".option-year-list",'click','.year-list',selectYearDrawChart);
+
+		function selectYearDrawChart(){
+			var yearList = document.querySelectorAll(".year-list");
+			yearList.forEach((year)=>{
+				year.addEventListener("change",(e)=>{
+					inputBox.innerText = year.nextElementSibling.innerText;
+			// hiddenBox(inputBox);
+			console.log(inputBox.innerText);
+			let data = JSON.stringify({"y":year.nextElementSibling.innerText});
+			let chartUrl = "./Ajax/DrawChart";
+			sendAjaxRequest(chartUrl,"POST",(data1)=>{
+				var responseData = JSON.parse(data1);
+				chart.data.labels = [];
+				chart.data.datasets[0].data = [];
+				chart.data.datasets[1].data = [];
+				for (var i = 0; i < responseData.length; i++) {
+					chart.data.labels.push(responseData[i].month);
+					chart.data.datasets[0].data.push(responseData[i].receipt);
+					chart.data.datasets[1].data.push(responseData[i].expenditure);
+				}
+				chart.update();
+			},data);
+			// timeInput["yearInput"] = Number(yearBox.innerText);
+		})
+			})
+		}
 	}
 	let catUrl = './Ajax/ShowListCategories';
 	let method = "GET";
 	sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));
 	btnAdd.addEventListener("click",function(){
 		showModal(dialog[0]);	
+		retitleLabel('transaction');
 		labelField_transDate.innerText = "";
 		/*Reload Form*/
 		dialogForm_TransType.value = "null";
@@ -1732,9 +1789,6 @@ function addTransaction_showDashboard(data){
 	if (typeof(data) == 'string') {
 		responseData = JSON.parse(data);
 		if (responseData != "false" && responseData.status == 'success') {
-			// let url = './Ajax/showDashboard';
-			// let method = "GET";
-			// sendAjaxRequest(url,method,showStatistical);
 			popupMessage("success","add","transaction");
 			setTimeout(()=>{
 				location.reload();
@@ -1744,6 +1798,8 @@ function addTransaction_showDashboard(data){
 		}
 	}
 }
+
+
 
 /*End */
 

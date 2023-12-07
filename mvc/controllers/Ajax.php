@@ -531,7 +531,19 @@
 
 		public function DrawChart()
 		{
-			echo $this->DashboardModel->DrawChart();
+			header("Content-Type: application/json");
+			if(isset($_POST["AjaxData"])){
+				$arr = json_decode($_POST["AjaxData"],true);
+				$y = $arr['y'];
+			} else {
+				$y = "current_year";
+			}
+			echo $this->DashboardModel->DrawChart($y);
+		}
+
+		public function showDashboard()
+		{
+			echo $this->DashboardModel->ShowDashboard();
 		}
 	} /* End Class */
 	/*header("Content-Type: application/json"); phải viết đúng từng dấu cách (space) và dấu : (hai chấm) */
