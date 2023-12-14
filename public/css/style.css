@@ -284,7 +284,7 @@ input:focus {
         color: #6c778e; }
 
 #myChart {
-  width: 100%; }
+  position: absolute; }
 
 .layout__chart {
   background-repeat: no-repeat;
@@ -303,7 +303,11 @@ input:focus {
     color: #fff;
     align-self: center;
     width: 100%;
-    padding: 1rem; }
+    position: relative;
+    padding: 1rem;
+    height: 100%;
+    display: flex;
+    justify-content: center; }
   .layout__chart-items {
     display: flex;
     color: #fff;
@@ -530,6 +534,7 @@ tr:nth-child(even) {
   position: absolute;
   top: 100%;
   left: 0;
+  z-index: 1;
   width: 100%;
   height: fit-content;
   margin-top: 10px;
@@ -1222,10 +1227,10 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     .header__container-right {
       flex: 1; }
 
-  .add__account-button, .changeview-button, .export-button, .changeview-button {
+  .add__button, .export__button, .change__button {
     width: 100%; }
 
-  .add__account-button {
+  .add__button {
     margin-bottom: 0.5rem; }
 
   .header__menu-item-toggle:checked ~ ul.header__menu-right-bars {
@@ -1365,10 +1370,16 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     grid-gap: 15px; }
 
   .dialog__content {
-    top: 18%; }
+    top: 40%; }
 
   .dialog__category {
-    top: 45%; } }
+    top: 45%; }
+
+  .dialog__content-body input, .dialog__content-body select {
+    max-width: unset; }
+
+  .dialog__category {
+    top: 14%; } }
 @media screen and (max-width: 411px) {
   .wrapper {
     width: 390px; }

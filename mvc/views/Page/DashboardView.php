@@ -22,6 +22,9 @@
       for ($i=0; $i<count($data_list) ; $i++) { 
         $data_list[$i]->receipt>$data_list[$i]->lastmonth_receipt ? $receipt_index='up' : $receipt_index='down';
         $data_list[$i]->expenditure>$data_list[$i]->lastmonth_expenditure ? $expenditure_index='up' : $expenditure_index='down';
+        $data_list[$i]->lastmonth_receipt==0 ? $data_list[$i]->lastmonth_receipt = 1 : $data_list[$i]->lastmonth_receipt;
+        $data_list[$i]->lastmonth_expenditure ==0 ? $data_list[$i]->lastmonth_expenditure =1 : $data_list[$i]->lastmonth_expenditure;
+        
         $receipt_diff = round($data_list[$i]->receipt/$data_list[$i]->lastmonth_receipt, 2)*100;
         $expenditure_diff = round($data_list[$i]->expenditure/$data_list[$i]->lastmonth_expenditure ,2)*100;
         $receipt = $data_list[$i]->receipt;

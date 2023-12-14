@@ -225,12 +225,13 @@ window.addEventListener("click",function(event){
 window.onresize = function(){
 	var width = window.screen.width;
     //console.log(width);
-    if (currentPage == 'oil' || currentPage == 'category' || currentPage == 'detail') {
+    if (currentPage == 'oil' || currentPage == 'category' || currentPage == 'detail' || currentPage == 'transaction') {
     	if (width < 769) {
     		delFormContent.style.minWidth = calculatePercentage(9,10)+"%";
-    	} else {
-    		delFormContent.style.minWidth = "initial";
-    	}
+    	} 
+    	// else {
+    	// 	delFormContent.style.minWidth = "initial";
+    	// }
     }
     
 }
@@ -282,9 +283,14 @@ function showModal_addDialog(data){
 	/*Fill data */
 	let curentDate = new Date().toJSON().slice(0, 10);
 	var responseData = JSON.parse(data);
-	dialogForm_startDay.value = responseData.end_day;
+	if (responseData == null) {
+		dialogForm_startDay.value = curentDate;
+		dialogForm_startKm.value = null;
+	}else {
+		dialogForm_startDay.value = responseData.end_day;
+		dialogForm_startKm.value = responseData.end_km;
+	}
 	dialogForm_endDay.value = curentDate;		
-	dialogForm_startKm.value = responseData.end_km;
 	dialogForm_endKm.value = null;
 	dialogForm_product.value = null;
 }
@@ -420,7 +426,7 @@ function validateInput(page){
 			if(dialogForm_startDay.getAttribute("type") == "date" && dialogForm_startDay.value != ''){
 				data["startDay"] = dialogForm_startDay.value;
 			} else {
-				labelField_starDay.innerText = "Invalid date forrmat";
+				labelField_startDay.innerText = "Invalid date forrmat";
 			}
 			if(dialogForm_endDay.getAttribute("type") == "date" && dialogForm_endDay.value != ''){
 				data["endDay"] = dialogForm_endDay.value;
@@ -1270,12 +1276,14 @@ function showSelectBox_yearList(data){
 			tmpl.querySelector('input').setAttribute("id","y"+arr[i].year);
 			tmpl.querySelector('label').innerText = arr[i].year;
 			tmpl.querySelector('label').setAttribute("for","y"+arr[i].year)
-			// if (arr[i].year == arr[i].current_year) {
+			 if (arr[i].year == arr[i].current_year) {
 			// 	tmpl.querySelector('input').setAttribute("checked","checked");
-			// 	document.querySelector(".year-box").innerText = arr[i].year;
-			// }
+		 		document.querySelector(".input-box").innerText = arr[i].year;
+			 }
 			document.querySelector(".option-year-list").appendChild(tmpl);
 		}
+		// let new_tbody = document.createElement('tbody');
+		// document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));
 	}
 }
 
@@ -1292,9 +1300,9 @@ function showSelectBox_monthList(data){
 			tmpl.querySelector('input').setAttribute("id","m"+arr[i].month);
 			tmpl.querySelector('label').innerText = "Tháng "+arr[i].month;
 			tmpl.querySelector('label').setAttribute("for","m"+arr[i].month)
-			// if (arr[i].month == arr[i].current_month) {
+			 if (arr[i].month == arr[i].current_month) {
 			// 	tmpl.querySelector('input').setAttribute("checked","checked");
-			// 	document.querySelector(".month-box").innerText = "Tháng "+arr[i].month;
+			 	document.querySelector(".month-box").innerText = "Tháng "+arr[i].month;}
 			// } else {
 			// 	document.querySelector(".month-box").innerText = "";
 			// }
