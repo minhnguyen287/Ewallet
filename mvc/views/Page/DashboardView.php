@@ -18,30 +18,32 @@
       <?php 
       $data_list = json_decode($data['data']);
       $data_list2 = json_decode($data['data2']);
-
+      // echo "<pre>";
+      // print_r($data_list2);
+      // echo "</pre>";
       for ($i=0; $i<count($data_list) ; $i++) { 
         $data_list[$i]->receipt >= $data_list[$i]->lastmonth_receipt?$receipt_index='up':$receipt_index='down';
         $data_list[$i]->expenditure >= $data_list[$i]->lastmonth_expenditure?$expenditure_index='up':$expenditure_index='down';
         $data_list[$i]->lastmonth_receipt==0 ? $data_list[$i]->lastmonth_receipt = 1 : $data_list[$i]->lastmonth_receipt;
         $data_list[$i]->lastmonth_expenditure ==0 ? $data_list[$i]->lastmonth_expenditure =1 : $data_list[$i]->lastmonth_expenditure;
         
-        $receipt_diff = 100-(round($data_list[$i]->receipt/$data_list[$i]->lastmonth_receipt, 2)*100);
-        $expenditure_diff = round($data_list[$i]->expenditure/$data_list[$i]->lastmonth_expenditure ,2)*100;
+        $receipt_diff = abs(round($data_list[$i]->receipt/$data_list[$i]->lastmonth_receipt*100,2)-100);
+        $expenditure_diff = abs(round($data_list[$i]->expenditure/$data_list[$i]->lastmonth_expenditure*100,2)-100);
         $receipt = $data_list[$i]->receipt;
         $expenditure = $data_list[$i]->expenditure;
         $difference = number_format($data_list[$i]->receipt-$data_list[$i]->expenditure,0,'.',',').' &#8363';
         $saving_deposit = number_format($data_list[$i]->saving_deposit,0,'.',',').' &#8363';
       }
-      $most = array();
-      for($i=0; $i<count($data_list2);$i++){
-        if ($data_list2[$i]->tran_type == 'receipt') {
-          $data_list2[$i]->percent = round($data_list2[$i]->largest_amount/$receipt,4)*100;
-        } else {
-          $data_list2[$i]->percent = round($data_list2[$i]->largest_amount/$expenditure,4)*100;
-        }    
-        $most[] = (object) ['name'=>$data_list2[$i]->tran_name,
-        'percent'=>$data_list2[$i]->percent];
-      }
+      // $most = array();
+      // for($i=0; $i<count($data_list2);$i++){
+      //   if ($data_list2[$i]->tran_type == 'receipt') {
+      //     $data_list2[$i]->percent = round($data_list2[$i]->largest_amount/$receipt,4)*100;
+      //   } else {
+      //     $data_list2[$i]->percent = round($data_list2[$i]->largest_amount/$expenditure,4)*100;
+      //   }    
+      //   $most[] = (object) ['name'=>$data_list2[$i]->tran_name,
+      //   'percent'=>$data_list2[$i]->percent];
+      // }
       ?> 
       <div class="dashboard__content">
        <div class="layout__content">
@@ -125,23 +127,40 @@
   </div>
 </div>
 <div class="layout__content layout__chart">	
-  <h2 class="layout__chart-title">Most Expensive Transaction </h2>
+  <div class="layout__chart-header">
+    <h2 class="layout__chart-title">Most Expensive Transaction </h2>
+    <label class="btn_toggle">
+      <input type="checkbox" id="checkboxType">
+      <span class="btn_toggle-slider"></span>
+    </label>
+  </div>
   <div class="layout__chart-items">
     <?php 
-    for ($i=0; $i <count($most) ; $i++) { 
+    for ($i=0; $i <count($data_list2) ; $i++) { 
       $color=["#6259ca","#09ad95","#f7b731","#f82649","#45aaf2"];
       echo '<div class="layout__chart-item">';
       echo '<div class="layout__chart-item-label">';
-      echo '<div class="layout__chart-name">'.$most[$i]->name.'</div>';
-      echo '<div class="layout__chart-percent-index">'.$most[$i]->percent.'%</div>';
+      echo '<div class="layout__chart-name">'.$data_list2[$i]->tran_name.'</div>';
+      echo '<div class="layout__chart-percent-index">'.($data_list2[$i]->percent*100).'%</div>';
       echo '</div>';
       echo '<div class="layout__chart-item-chart_background">';
-      echo '<div class="layout__chart-item-index" style="--percent:'.$most[$i]->percent.'%;--chart__color:'.$color[$i].'"></div>';
+      echo '<div class="layout__chart-item-index" style="--percent:'.($data_list2[$i]->percent*100).'%;--chart__color:'.$color[$i].'"></div>';
       echo '</div>';
       echo '</div>';
     }
     ?>
   </div>
+  <template id="chart-item">
+    <div class="layout__chart-item">
+      <div class="layout__chart-item-label">
+        <div class="layout__chart-name">Salary</div>
+        <div class="layout__chart-percent-index">60%</div>
+      </div>
+      <div class="layout__chart-item-chart_background">
+        <div class="layout__chart-item-index" style="--percent:70%;--chart__color:#6259ca"></div>
+      </div>
+    </div>
+  </template>
 </div>
 </div>
 </div>

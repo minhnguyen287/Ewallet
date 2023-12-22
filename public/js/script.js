@@ -1791,6 +1791,8 @@ if (currentPage == 'dashboard'){
 			hideModal(dialog[0]);
 		}
 	})
+	var checkboxType = document.querySelector('#checkboxType');
+	checkboxType.addEventListener('change',changeType_showMiniChart);
 }
 
 function addTransaction_showDashboard(data){
@@ -1805,6 +1807,39 @@ function addTransaction_showDashboard(data){
 			popupMessage("failure","add","transaction");
 		}
 	}
+}
+
+function changeType_showMiniChart(){
+	if (document.querySelector('#checkboxType').checked) {
+		var contentType = getComputedStyle(document.querySelector('.btn_toggle-slider'), ':before').getPropertyValue('content');
+		if (contentType = 'sale') {
+			data = JSON.stringify({type:'receipt'});
+			var url = './Ajax/Show5LargestAmount';
+			sendAjaxRequest(url,'POST',drawMiniChart,data);
+		} 
+	} else {
+		data = JSON.stringify({type:'expenditure'});
+		var url = './Ajax/Show5LargestAmount';
+		sendAjaxRequest(url,'POST',drawMiniChart,data);
+	}
+}
+
+function drawMiniChart(data){
+	var responseData = JSON.parse(data);
+	console.log(responseData)
+	let templateFragRoot = document.querySelector('#chart-item').content;
+	let newItemsList = document.createElement('div');
+		newItemsList.setAttribute("class","layout__chart-items");
+	var color=["#6259ca","#09ad95","#f7b731","#f82649","#45aaf2"];
+	for (var i = 0; i < responseData.length; i++) {
+		let templateFrag = templateFragRoot.cloneNode(true);
+		templateFrag.querySelector('.layout__chart-name').innerText = responseData[i].tran_name;
+		templateFrag.querySelector('.layout__chart-percent-index').innerText = (responseData[i].percent*100).toFixed(2)+'%';
+		templateFrag.querySelector('.layout__chart-item-index').style.setProperty('--percent',responseData[i].percent*100+'%');
+		templateFrag.querySelector('.layout__chart-item-index').style.setProperty('--chart__color',color[i]);
+		newItemsList.appendChild(templateFrag);
+	}
+	document.querySelector('.layout__chart-items').parentNode.replaceChild(newItemsList,document.querySelector('.layout__chart-items'));
 }
 
 

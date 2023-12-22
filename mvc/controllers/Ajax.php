@@ -541,10 +541,16 @@
 			echo $this->DashboardModel->DrawChart($y);
 		}
 
-		public function showDashboard()
+		public function Show5LargestAmount()
 		{
-			echo $this->DashboardModel->ShowDashboard();
+			header("Content-Type: application/json");
+			$arr = json_decode($_POST["AjaxData"],true);
+			$type = $arr['type'];
+			$yearInput = date("Y");
+			$monthInput = date("m");
+			echo $this->DashboardModel->Show5LargestAmount($yearInput,$monthInput,$type);
 		}
+
 	} /* End Class */
 	/*header("Content-Type: application/json"); phải viết đúng từng dấu cách (space) và dấu : (hai chấm) */
  ?>

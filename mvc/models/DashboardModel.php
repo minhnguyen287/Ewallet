@@ -26,7 +26,7 @@
 			$q.= "(SELECT SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'lastmonth_receipt', ";
 			$q.= "SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'lastmonth_expenditure' ";
 			$q.= "FROM transaction ";
-			$q.= "WHERE YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $lastMonthInput ) lst CROSS JOIN ";
+			$q.= "WHERE cat_id != 24 AND YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $lastMonthInput ) lst CROSS JOIN ";
 
 			$q.= "(SELECT SUM(CASE WHEN tran_type = 'receipt' THEN tran_amount ELSE 0 END) AS 'total_receipt', ";
 			$q.= "SUM(CASE WHEN tran_type = 'expenditure' THEN tran_amount ELSE 0 END) AS 'total_expenditure' ";
@@ -77,19 +77,45 @@
 			return json_encode($arr);
 		}	
 
-		public function Show5LargestAmount($yearInput,$monthInput)
+		public function Show5LargestAmount($yearInput,$monthInput,$type)
 		{	$yearInput = $this->con->real_escape_string(strip_tags($yearInput));
 			$monthInput = $this->con->real_escape_string(strip_tags($monthInput));
 			if ($monthInput == 1) {
 				$yearInput = $yearInput-1;
 				$monthInput = 12;
 			}
-			$q = "SELECT tran_type, tran_name, SUM(tran_amount) AS 'largest_amount' FROM transaction WHERE cat_id != 24 AND YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput  GROUP BY cat_id ORDER BY largest_amount DESC LIMIT 5";
+			$q = "SELECT tran_name, SUM(tran_amount)/tt.$type AS 'percent' ";
+			/*$q.= ",SUM(tran_amount) AS 'largest_amount', tt.$type AS 'total' ";*/
+			$q.= "FROM transaction CROSS JOIN ";
+			$q.= "(SELECT SUM(CASE WHEN tran_type = '$type' ";
+			if ($type == 'expenditure') {
+				$q .= "AND cat_id != 24 ";
+			}
+			$q.= "THEN tran_amount ELSE 0 END) AS '$type' FROM transaction ";
+			$q.= "WHERE YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput) tt ";
+			$q.= "WHERE YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput AND tran_type = '$type' ";
+			if ($type == 'expenditure') {
+				$q .= "AND cat_id != 24 ";
+			}
+			$q.= "GROUP BY cat_id ORDER BY SUM(tran_amount) DESC LIMIT 5";
 			$record = $this->con->query($q);
 			$arr = array();
 			if ($record->num_rows==0) {
 				$monthInput = $monthInput-1;
-				$q1 = "SELECT tran_type, tran_name, SUM(tran_amount) AS 'largest_amount' FROM transaction WHERE cat_id != 24 AND YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput  GROUP BY cat_id ORDER BY largest_amount DESC LIMIT 5";
+				$q1 = "SELECT tran_name, SUM(tran_amount)/tt.$type AS 'percent' ";
+				/*$q1.= ",SUM(tran_amount) AS 'largest_amount', tt.$type AS 'total' ";*/
+				$q1.= "FROM transaction CROSS JOIN ";
+				$q1.= "(SELECT SUM(CASE WHEN tran_type = '$type' ";
+				if ($type == 'expenditure') {
+					$q1 .= "AND cat_id != 24 ";
+				}
+				$q1.= "THEN tran_amount ELSE 0 END) AS '$type' FROM transaction ";
+				$q1.= "WHERE YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput) tt ";
+				$q1.= "WHERE YEAR(tran_date) = $yearInput AND MONTH(tran_date) = $monthInput AND tran_type = '$type' ";
+				if ($type == 'expenditure') {
+					$q1 .= "AND cat_id != 24 ";
+				}
+				$q1.= "GROUP BY cat_id ORDER BY SUM(tran_amount) DESC LIMIT 5";
 				$record1 = $this->con->query($q1);
 				while ($r = $record1->fetch_array(MYSQLI_ASSOC)) {
 					$arr[] = $r;

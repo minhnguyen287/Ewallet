@@ -290,6 +290,9 @@ input:focus {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: bottom; }
+  .layout__chart-header {
+    display: flex;
+    align-items: center; }
   .layout__chart-title {
     align-self: start;
     color: #fff;
@@ -297,7 +300,7 @@ input:focus {
     padding-top: 15px;
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 70%;
     align-items: center; }
   .layout__chart-index {
     color: #fff;
@@ -335,6 +338,41 @@ input:focus {
       height: 10px;
       background: var(--chart__color);
       border-radius: 10px; }
+
+.btn_toggle {
+  position: relative;
+  width: 60px;
+  height: 18px;
+  flex: 1; }
+  .btn_toggle input {
+    width: 0;
+    height: 0;
+    opacity: 0; }
+    .btn_toggle input:checked + .btn_toggle-slider {
+      background-color: #09ad95; }
+    .btn_toggle input:focus + .btn_toggle-slider {
+      box-shadow: 0 0 1px #09ad95; }
+    .btn_toggle input:checked + .btn_toggle-slider:before {
+      content: "sale";
+      left: 19px; }
+  .btn_toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f82649;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px; }
+    .btn_toggle-slider:before {
+      position: absolute;
+      content: "expend";
+      left: 9px;
+      bottom: 4px;
+      -webkit-transition: .4s;
+      transition: .4s; }
 
 .layout__content:nth-child(2) .layout__content-right-icon {
   background-image: linear-gradient(#f29e5a, #f54742); }
@@ -1250,7 +1288,7 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     font-size: 1rem; }
     .layout__content-left-number {
       font-weight: 600;
-      font-size: 2rem;
+      font-size: 1.8rem;
       margin: 10px 0 10px 0; }
   .layout__content-right-icon {
     width: 90px;
