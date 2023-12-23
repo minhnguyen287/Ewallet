@@ -222,19 +222,19 @@ window.addEventListener("click",function(event){
 	}
 });
 
-window.onresize = function(){
-	var width = window.screen.width;
-    //console.log(width);
-    if (currentPage == 'oil' || currentPage == 'category' || currentPage == 'detail' || currentPage == 'transaction') {
-    	if (width < 769) {
-    		delFormContent.style.minWidth = calculatePercentage(9,10)+"%";
-    	} 
-    	// else {
-    	// 	delFormContent.style.minWidth = "initial";
-    	// }
-    }
+// window.onresize = function(){
+// 	var width = window.screen.width;
+//     //console.log(width);
+//     if (currentPage == 'oil' || currentPage == 'category' || currentPage == 'detail' || currentPage == 'transaction') {
+//     	if (width < 769) {
+//     		delFormContent.style.minWidth = calculatePercentage(9,10)+"%";
+//     	} 
+//     	// else {
+//     	// 	delFormContent.style.minWidth = "initial";
+//     	// }
+//     }
     
-}
+// }
 /* Function call AJAX load thông tin sản phẩm */
 function sendAjaxRequest(url,method,callback,data){
 	let xhttp = new XMLHttpRequest();
@@ -395,7 +395,7 @@ function showModal_deleteDialog(){
 		headerPopup.setAttribute("class","header__popup");
 		headerPopup.removeAttribute("style");
 		/* Gọi modal Delete*/
-		delFormContent.style.minWidth = "initial";
+		// delFormContent.style.minWidth = "initial";
 		delFormContent.style.minHeight = "initial";
 		delForm.style.gridTemplateColumns = "1fr";
 		showModal(dialog[1]);
@@ -1025,7 +1025,7 @@ function showModal_deleteCategory(){
 		headerPopup.setAttribute("class","header__popup");
 		headerPopup.removeAttribute("style");
 		/* Gọi modal Delete*/
-		delFormContent.style.minWidth = "initial";
+		// delFormContent.style.minWidth = "initial";
 		delFormContent.style.minHeight = "initial";
 		delFormContent.style.top = ((window.innerHeight/2) - (delFormContent.offsetHeight/2))+'px';
 		document.querySelector(".dialog__form").style.gridTemplateColumns = "1fr";
@@ -1613,7 +1613,7 @@ function showModal_deleteTransaction(){
 		headerPopup.setAttribute("class","header__popup");
 		headerPopup.removeAttribute("style");
 		/* Gọi modal Delete*/
-		delFormContent.style.minWidth = "initial";
+		// delFormContent.style.minWidth = "initial";
 		delFormContent.style.minHeight = "initial";
 		delForm.style.gridTemplateColumns = "1fr";
 		showModal(dialog[1]);
@@ -1793,6 +1793,14 @@ if (currentPage == 'dashboard'){
 	})
 	var checkboxType = document.querySelector('#checkboxType');
 	checkboxType.addEventListener('change',changeType_showMiniChart);
+	const loader = document.querySelector('.loader');
+	loader.classList.add('loader-hidden');
+	checkboxType.addEventListener('click',()=>{
+		loader.classList.remove('loader-hidden');
+	})
+	loader.addEventListener('transitionend',()=>{
+		loader.classList.add('loader-hidden');
+	})
 }
 
 function addTransaction_showDashboard(data){
@@ -1826,7 +1834,7 @@ function changeType_showMiniChart(){
 
 function drawMiniChart(data){
 	var responseData = JSON.parse(data);
-	console.log(responseData)
+	//console.log(responseData)
 	let templateFragRoot = document.querySelector('#chart-item').content;
 	let newItemsList = document.createElement('div');
 		newItemsList.setAttribute("class","layout__chart-items");

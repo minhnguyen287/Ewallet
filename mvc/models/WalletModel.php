@@ -120,9 +120,10 @@
 		public function ShowDetailTransaction($date)
 		{
 			$date = $this->con->real_escape_string(strip_tags($date));
-			$q = "SELECT tran_id,tran_type, tran_name,cat_id,c.category_name AS 'cat_name',tran_desc,tran_amount ";
-			$q .= "FROM transaction AS t JOIN category AS c USING (cat_id) ";
-			$q .= "WHERE DATE_FORMAT(tran_date,'%d-%m-%Y') = '$date'";
+			$q = "SELECT tran_id,tran_type, tran_name,cat_id,c.category_name AS 'cat_name', ";
+			$q.= "c.color AS 'cat_color',c.icon AS 'cat_icon',tran_desc,tran_amount ";
+			$q.= "FROM transaction AS t JOIN category AS c USING (cat_id) ";
+			$q.= "WHERE DATE_FORMAT(tran_date,'%d-%m-%Y') = '$date'";
 
 			$record = $this->con->query($q);
 			$arr = array();

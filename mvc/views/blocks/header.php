@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Dòng này thêm vào để khi ấn vào ô nhập liệu trên iphone không bị zoom màn hình -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+	<!-- ============================================================================== -->
 	<title>Mint Wallet</title>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"

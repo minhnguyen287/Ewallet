@@ -128,7 +128,7 @@
 </div>
 <div class="layout__content layout__chart">	
   <div class="layout__chart-header">
-    <h2 class="layout__chart-title">Most Expensive Transaction </h2>
+    <h2 class="layout__chart-title mini-chart">Most Expensive Transaction </h2>
     <label class="btn_toggle">
       <input type="checkbox" id="checkboxType">
       <span class="btn_toggle-slider"></span>
@@ -161,6 +161,7 @@
       </div>
     </div>
   </template>
+  <div class="loader"></div>
 </div>
 </div>
 </div>

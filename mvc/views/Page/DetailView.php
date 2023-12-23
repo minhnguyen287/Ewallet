@@ -61,7 +61,7 @@
 										echo '<td class="table__detail-column" data-cell="no">'.$id.'.</td>';
 										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="trans type" value='.$data_list[$i]->tran_type.'>'.$data_list[$i]->tran_type.'</td>';
 										echo '<td class="table__detail-column" data-cell="trans name">'.$data_list[$i]->tran_name.'</td>';
-										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'>'.$data_list[$i]->cat_name.'</td>';
+										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'><center><div class="cat__list"><i style="background:'.$data_list[$i]->cat_color.';"class="fa-solid fa-'.$data_list[$i]->cat_icon.' fa-2xl"></i></center></div></td>';
 										echo '<td class="table__detail-column" data-cell="description">'.$data_list[$i]->tran_desc.'</td>';
 										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount" value='.$data_list[$i]->tran_amount.'>'.number_format($data_list[$i]->tran_amount,0,'.',',').' &#8363'.'</td>';
 										echo '<td class="table__detail-column" data-cell="Action">
