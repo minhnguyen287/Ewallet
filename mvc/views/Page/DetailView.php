@@ -61,7 +61,8 @@
 										echo '<td class="table__detail-column" data-cell="no">'.$id.'.</td>';
 										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="trans type" value='.$data_list[$i]->tran_type.'>'.$data_list[$i]->tran_type.'</td>';
 										echo '<td class="table__detail-column" data-cell="trans name">'.$data_list[$i]->tran_name.'</td>';
-										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'><center><div class="cat__list"><i style="background:'.$data_list[$i]->cat_color.';"class="fa-solid fa-'.$data_list[$i]->cat_icon.' fa-2xl"></i></center></div></td>';
+										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'><center>
+										<div class="cat__list" style="background:'.$data_list[$i]->cat_color.';"><i class="fa-solid fa-'.$data_list[$i]->cat_icon.' fa-lg"></i></center></div></td>';
 										echo '<td class="table__detail-column" data-cell="description">'.$data_list[$i]->tran_desc.'</td>';
 										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount" value='.$data_list[$i]->tran_amount.'>'.number_format($data_list[$i]->tran_amount,0,'.',',').' &#8363'.'</td>';
 										echo '<td class="table__detail-column" data-cell="Action">
@@ -84,7 +85,11 @@
 								<td class="table__detail-column" data-cell="no">01.</td>
 								<td class="table__detail-column table__status table__status-good" data-cell="trans type">reject</td>
 								<td class="table__detail-column" data-cell="trans name">salary of 10th frt</td>
-								<td class="table__detail-column" data-cell="category">Salary</td>
+								<td class="table__detail-column" data-cell="category">
+									<center><div class="cat__list" style="background:red;">
+										<i class="fa-solid fa-sack-dollar fa-lg"></i>
+									</div></center>
+								</td>
 								<td class="table__detail-column" data-cell="description">No comment</td>
 								<td class="table__detail-column table__status table__status-good" data-cell="amount">1.000.000</td>
 								<td class="table__detail-column" data-cell="Action">
@@ -171,7 +176,7 @@
 
 <div class="dialog">
 	<form id="DeleteTransaction" action="" method="POST">
-		<div class="dialog__content">
+		<div class="dialog__content dialog__content-del">
 			<div class="dialog__content-header">
 				<h2 class="dialog__content-header-label">Delete transaction</h2>
 				<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>

@@ -1252,7 +1252,8 @@ function addTransaction_showDetail(data){
 			templateFrag.querySelector('td:nth-child(2)').innerText = responseData.transType;
 			templateFrag.querySelector('td:nth-child(2)').setAttribute('class','table__detail-column table__status table__status-'+status);
 			templateFrag.querySelector('td:nth-child(3)').innerText = responseData.transName;
-			templateFrag.querySelector('td:nth-child(4)').innerText = responseData.transCategory;
+			templateFrag.querySelector('.cat__list').style.background = responseData.transColor;
+			templateFrag.querySelector('td:nth-child(4) i').setAttribute('class',"fa-solid fa-"+responseData.transIcon+" fa-lg");
 			templateFrag.querySelector('td:nth-child(5)').innerText = responseData.transDesc;
 			templateFrag.querySelector('td:nth-child(6)').innerText = vndCurrency(responseData.transAmount);
 			templateFrag.querySelector('td:nth-child(6)').value = responseData.transAmount;
@@ -1582,6 +1583,9 @@ function updateTransaction(data) {
 		statusNoti = responseData.transType == 'expenditure' ? 'expired' : 'good';
 		let category = JSON.parse(responseData.category);
 		let transCategory = category[0].category_name;
+		let transIcon = category[0].icon;
+		let transColor = category[0].color;
+		console.log(category);
 		/* Update dòng dữ liệu đã được chỉnh sửa */
 		let rowEdited = document.getElementById(btnUpdate.getAttribute("idT"));
 		rowEdited.querySelector("td:nth-child(2)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
@@ -1589,7 +1593,8 @@ function updateTransaction(data) {
 		rowEdited.querySelector("td:nth-child(2)").innerText = responseData.transType;
 		rowEdited.querySelector("td:nth-child(3)").innerText = responseData.transName;
 		rowEdited.querySelector("td:nth-child(4)").setAttribute("value",responseData.transCategory);
-		rowEdited.querySelector("td:nth-child(4)").innerText = transCategory;
+		rowEdited.querySelector(".cat__list").style.backgroundColor = transColor;
+		rowEdited.querySelector("i").setAttribute("class","fa-solid fa-" + transIcon + " fa-lg");
 		rowEdited.querySelector("td:nth-child(5)").innerText = responseData.transDesc;
 		rowEdited.querySelector("td:nth-child(6)").innerText = vndCurrency(responseData.transAmount);
 		rowEdited.querySelector("td:nth-child(6)").setAttribute("value",responseData.transAmount);

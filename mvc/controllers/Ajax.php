@@ -413,9 +413,11 @@
 					$kq = $this->WalletModel->AddTransaction($transType,$transName,$transCategory,$transDesc,$transAmount,$transDate);
 					if (json_decode($kq) == true) {
 						$arr['status'] = "success";
-						$id = json_decode($this->WalletModel->GetLastTransaction());
-						$arr['tranId'] = $id[0]->tran_id;
-						$arr['transCategory'] = $id[0]->cat_name;
+						$extra = json_decode($this->WalletModel->GetLastTransaction());
+						$arr['tranId'] = $extra[0]->tran_id;
+						$arr['transCategory'] = $extra[0]->cat_name;
+						$arr['transIcon'] = $extra[0]->cat_icon;
+						$arr['transColor'] = $extra[0]->cat_color;
 						echo json_encode($arr);
 					} else {
 						echo json_encode($kq);

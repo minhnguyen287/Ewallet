@@ -223,7 +223,7 @@
 	
 	<div class="dialog">
 		<form id="DeleteCategory" action="" method="POST">
-			<div class="dialog__content">
+			<div class="dialog__content dialog__content-del">
 				<div class="dialog__content-header">
 					<h2 class="dialog__content-header-label">Delete category</h2>
 					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>

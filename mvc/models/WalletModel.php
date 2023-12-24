@@ -135,7 +135,7 @@
 
 		public function GetLastTransaction()
 		{
-			$q = "SELECT *, c.category_name AS cat_name FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
+			$q = "SELECT *, c.category_name AS cat_name,c.color AS 'cat_color',c.icon AS 'cat_icon' FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
 			$record = $this->con->query($q);
 			$arr = array();
 			while ($result = $record->fetch_array(MYSQLI_ASSOC)) {
