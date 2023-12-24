@@ -9,6 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;600&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	<!-- <base href="/ewallet/" /> -->
 	<link rel="stylesheet" href="/ewallet/public/css/reset.css">
@@ -35,7 +36,7 @@
 							<li class="nav__categories-list"><h2>MAIN</h2>
 								<ul class="nav__categories-list-menu">
 									<li class="nav__categories-list-menu-item">
-										<a href="/ewallet/" class="nav__categories-link list__item-active">
+										<a href="/ewallet/" class=<?php echo '"categories__link '; echo isset($data["Dhighlight"])?'list__item-active"':'"'; ?>>
 											<i class="fa-solid fa-house fa-sm categories__list-icon"></i>Dashboard 
 										</a> 
 									</li>
@@ -44,14 +45,14 @@
 							<li class="nav__categories-list">ADDITIONAL
 								<ul class="nav__categories-list-menu">
 									<li class="nav__categories-list-menu-item">
-										<a href="/ewallet/Oil" class="nav__categories-link">
-											<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
+										<a href="/ewallet/Oil" class=<?php echo '"categories__link '; echo isset($data["Ohighlight"])?'list__item-active"':'"'; ?>>
+											<i class="fa-solid fa-oil-can fa-sm categories__list-icon"></i>Oil Change History
 										</a> 
 									</li>
 									<li class="categories__list-menu-item">
 										<input type="checkbox" class="categories__list-show-hide" id="categories__list-show-hide">
-										<label for="categories__list-show-hide" style="color:#fff" class="categories__label">
-											<i class="fa-solid fa-money-check-dollar fa-sm categories__list-icon"></i>My Wallet
+										<label for="categories__list-show-hide" class=<?php echo '"categories__label '; echo isset($data["Whighlight"])?'list__item-active"':'"'; ?>>
+											<i class="bx bxs-wallet-alt categories__list-icon"></i>My Wallet
 											<div class="categories__list-submenu">
 												<i class="fa-solid fa-chevron-right show__submenu"></i>
 												<i class="fa-solid fa-chevron-down hide__submenu"></i>

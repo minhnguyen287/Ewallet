@@ -197,7 +197,7 @@
 					</div>	
 					<div class="dialog__form-category-field">
 						<?php 
-							$icon_array = ["sack-dollar","money-bill-transfer","money-bill-trend-up","hand-holding-dollar","piggy-bank","file-invoice-dollar","house","lightbulb","faucet-drip","fire","earth-asia","tv","mobile-screen","utensils","bowl-rice","mug-hot","cart-shopping","gas-pump","motorcycle","screwdriver-wrench","gift","envelope","heart","skull","hand-holding-heart","capsules","briefcase-medical","hospital","tooth","gamepad","graduation-cap","handshake","person-walking-luggage","hotel","dumbbell","scissors"];
+							$icon_array = ["sack-dollar","money-bill-transfer","money-bill-wheat","money-bill-trend-up","hand-holding-dollar","piggy-bank","file-invoice-dollar","house","lightbulb","faucet-drip","fire","earth-asia","tv","mobile-screen","comments-dollar","phone-volume","utensils","bowl-rice","mug-hot","martini-glass-citrus","cart-shopping","gas-pump","motorcycle","screwdriver-wrench","gift","envelope","heart","skull","hand-holding-heart","capsules","briefcase-medical","hospital","tooth","gamepad","graduation-cap","handshake","person-walking-luggage","hotel","dumbbell","scissors"];
 							for ($i=0; $i < count($icon_array) ; $i++) { 
 								echo '<div class="dialog__form-category-field-icon">';
 								echo '<input class="dialog__form-category-field-icon-input" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';

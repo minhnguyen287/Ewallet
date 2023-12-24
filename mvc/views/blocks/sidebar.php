@@ -13,13 +13,13 @@
 			<ul class="categories__list-menu">
 				<li class="categories__list-menu-item">
 					<a href="/ewallet/Oil" class=<?php echo '"categories__link '; echo isset($data["Ohighlight"])?'list__item-active"':'"'; ?> >
-						<i class="fa-solid fa-gas-pump fa-sm categories__list-icon"></i>Oil Change History
+						<i class="fa-solid fa-oil-can fa-sm categories__list-icon"></i>Oil Change History
 					</a> 
 				</li>
 				<li class="categories__list-menu-item">
 					<input type="checkbox" class="categories__list-show-hide" id="categories__list-show-hide-2nd">
 					<label for="categories__list-show-hide-2nd" class=<?php echo '"categories__label '; echo isset($data["Whighlight"])?'list__item-active"':'"'; ?> >
-						<i class="fa-solid fa-money-check-dollar fa-sm categories__list-icon"></i>My Wallet
+						<i class="bx bxs-wallet-alt categories__list-icon"></i>My Wallet
 						<div class="categories__list-submenu">
 							<i class="fa-solid fa-chevron-right show__submenu"></i>
 							<i class="fa-solid fa-chevron-down hide__submenu"></i>

@@ -19,7 +19,8 @@
 		public function Category(){
 			$list = $this->WalletModel->ShowLimitCategory(0,10);
 			$this->view("MasterLayout",["Page"=>"CategoryView",
-									   "CategoryList"=>$list]);
+									   "CategoryList"=>$list,
+									   "Whighlight"=>true]);
 		}
 
 		public function Transaction(){
@@ -27,7 +28,8 @@
 			$monthInput = date("m");
 			$list = $this->WalletModel->ShowStatistical($yearInput,$monthInput);
 			$this->view("MasterLayout",["Page"=>"TransactionView",
-										"TransactionList"=>$list]);
+										"TransactionList"=>$list,
+									    "Whighlight"=>true]);
 		}
 
 		public function Detail()
@@ -36,7 +38,8 @@
 			$date = $param[2];
 			$list = $this->WalletModel->ShowDetailTransaction($date);
 			$this->view("MasterLayout2",["Page"=>"DetailView",
-										"DetailList"=>$list]);
+										"DetailList"=>$list,
+										"Whighlight"=>true]);
 		}
 
 	}
