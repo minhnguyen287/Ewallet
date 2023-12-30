@@ -453,17 +453,17 @@ function validateInput(page){
 			if (categoryType.value != "") {
 				data["type"] = categoryType.value;
 			} else {
-				catTypeInfor.innerText = "Category Type cannot be empty";
+				catTypeInfor.innerText = "cannot be empty";
 			}
 			if (categoryType.value != "") {
 				data["name"] = categoryName.value;
 			}else{
-				catNameInfor.innerText = "Category color cannot be empty";
+				catNameInfor.innerText = "cannot be empty";
 			}
 			if (categoryColor.value != "") {
 				data["color"] = categoryColor.value;
 			} else {
-				catColorInfor.innerText = "Category Type cannot be empty";
+				catColorInfor.innerText = "cannot be empty";
 			}
 		    break;
 		case 'transaction' :
@@ -910,7 +910,7 @@ function showCategoryView(data){
 				categoryTemp.querySelector('.category__content-item').setAttribute('style','background-image:linear-gradient(to right,#024fa0 0%,#024fa0 32%,#f2721e 33%  ,#f2721e 66%,#50b846 67%, #50b846 100%)');
 			}
 			categoryTemp.querySelector("h1").innerText = responseData[i].category_name;
-			categoryTemp.querySelector('.category__content-item-left-desc').innerText = responseData[i].category_type;
+			// categoryTemp.querySelector('.category__content-item-left-desc').innerText = responseData[i].category_type;
 			categoryTemp.querySelector("i").setAttribute('class',"fa-solid fa-"+responseData[i].icon+" fa-sm");
 			categoriesList.appendChild(categoryTemp);
 		}
@@ -928,7 +928,7 @@ function showListView(data){
 			var newRow = templateFrag.cloneNode(true);
 			newRow.querySelector("tr").setAttribute("id",responseData[i].cat_id);
 			newRow.querySelector("td").innerText = responseData[i].cat_id;
-			newRow.querySelector("td:nth-child(2)").innerText = responseData[i].category_type;
+			// newRow.querySelector("td:nth-child(2)").innerText = responseData[i].category_type;
 			newRow.querySelector("td:nth-child(3) span").innerText = responseData[i].category_name;
 			newRow.querySelector("td:nth-child(3) span").style.background = responseData[i].color;
 			newRow.querySelector("i").setAttribute("class","fa-solid fa-"+responseData[i].icon+" fa-sm");
@@ -945,7 +945,7 @@ function addCategory(data){
 			let templateFragRoot = document.querySelector("#category__template").content;
 			let templateFrag = templateFragRoot.cloneNode(true);
 			templateFrag.querySelector(".category__content-item").setAttribute('style',"background:"+responseData.color)
-			templateFrag.querySelector("h1").innerText = responseData.type;
+			// templateFrag.querySelector("h1").innerText = responseData.type;
 			templateFrag.querySelector(".category__content-item-left-desc").innerText = responseData.name;
 			templateFrag.querySelector("i").setAttribute("class","fa-solid fa-"+responseData.icon+" fa-sm");
 			document.querySelector(".category__content").appendChild(templateFrag);
@@ -1049,16 +1049,71 @@ function deleteCategory(data){
 		}
 	}
 }
+function showColorPanel(value) {
+	categoryColor2 = document.getElementById('form__add-cat_color2');
+	categoryColor3 = document.getElementById('form__add-cat_color3');
+	colorFrame = document.querySelector('.color-frame');
+	colorPanel = document.querySelector('.color-panel');
+	switch(value){
+		case "2":{
+			categoryColor2.style.opacity = "1";
+			categoryColor2.style.visibility = "visible";
+			categoryColor2.style.height = "auto";
+			categoryColor2.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
+
+			categoryColor3.style.opacity = "0";
+			categoryColor3.style.visibility = "hidden";
+			categoryColor3.style.height = "0";
+
+			colorFrame.style.width = "66%";
+			colorPanel.style.gridTemplateColumns = "1fr 1fr";
+			colorPanel.style.gridGap = "0";
+			break
+		}
+		case "3":{
+			categoryColor2.style.opacity = 1;
+			categoryColor2.style.visibility = "visible";
+			categoryColor2.style.height = "auto";
+
+			categoryColor3.style.opacity = 1;
+			categoryColor3.style.visibility = "visible";
+			categoryColor3.style.height = "auto";
+			categoryColor2.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
+
+			colorFrame.style.width = "100%";
+			colorPanel.style.gridTemplateColumns = "1fr 1fr 1fr";
+			colorPanel.style.gridGap = "20px";
+			break;
+		}
+		default:{
+			categoryColor2.style.opacity = 0;
+			categoryColor2.style.visibility = "hidden";
+			categoryColor2.style.height = 0;
+			categoryColor2.style.transition = "unset";
+
+			categoryColor3.style.opacity = 0;
+			categoryColor3.style.visibility = "hidden";
+			categoryColor3.style.height = 0;
+			categoryColor3.style.transition = "unset";
+
+			colorFrame.style.width = "40%";
+			colorPanel.style.gridTemplateColumns = "1fr";
+			colorPanel.style.gridGap = "0";
+		}
+	}
+}
 
 if (currentPage == 'category') {
+		categoryType.addEventListener('change',()=>{
+		showColorPanel(categoryType.value);
+	})
 	if (typeof(btnAdd)!=='undefined') {
 		btnAdd.addEventListener('click',function(){
 			showModal(dialog[0]);
 			retitleDialog(titleDialog,"Add a new category",btnCreate,btnUpdate);
 			retitleLabel('category');
-			categoryType.value = "";
 			categoryName.value = "";
-			categoryColor.value = "#12D370";
+			categoryColor.value = "#024fa0";
 		})
 	}
 

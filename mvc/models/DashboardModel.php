@@ -85,7 +85,8 @@
 				$monthInput = 12;
 			}
 			$q = "SELECT tran_name, SUM(tran_amount)/tt.$type AS 'percent' ";
-			/*$q.= ",SUM(tran_amount) AS 'largest_amount', tt.$type AS 'total' ";*/
+			$q.= ",SUM(tran_amount) AS 'largest_amount' "; 
+			//$q.= ",tt.$type AS 'total' ";
 			$q.= "FROM transaction CROSS JOIN ";
 			$q.= "(SELECT SUM(CASE WHEN tran_type = '$type' ";
 			if ($type == 'expenditure') {

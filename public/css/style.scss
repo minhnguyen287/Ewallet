@@ -511,6 +511,53 @@ input:focus{
     justify-content: center;
     border-radius: 20%;
 }
+.tooltip {
+  position: relative;
+  display: inline-block;
+  //border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  font-family: "Poppins";
+  visibility: hidden;
+  width: fit-content;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 3px 5px;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  // left: 50%;
+  // margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
 .layout__content:nth-child(2) {
 	.layout__content-right-icon{
 		background-image: linear-gradient(#f29e5a,#f54742);
@@ -1005,13 +1052,16 @@ tr{
 		display: grid;
     	grid-template-columns: 1fr 1fr 1fr;
     	grid-template-areas: 
-    	"h1 h1 h3"
-    	"h2 h2 h3"
-    	"h4 h4 h4";
+    	"h1 h1 h1"
+    	"h2 h2 h2"
+    	"h3 h3 h3";
     	grid-gap: 30px;
     	&-field{
     		display: flex;
     		align-items: center;
+    		justify-content: space-between;
+    		position: relative;
+    		width: calc(50% - 15px);
     		&-label{
     			width: 30%;
     			&[for="catcolor"]{
@@ -1023,13 +1073,27 @@ tr{
     			height: 45px;
     			padding-left: 0.5rem;
     			&[type="color"]{
-    				height: 120px;
+    				width: 120px;
+   					height: 120px;
+   					margin: 0 auto;
     				appearance: none;
     				background: transparent;
     				cursor: pointer;
     				&::-webkit-color-swatch{
     					border-radius: 50%;
     					border: 0.5rem double #fff; 
+    				}
+    				&:nth-child(2){
+    					opacity: 0;
+    					visibility: hidden;
+    					height: 0;
+    					 transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out ;
+    				}
+    				&:last-child{
+    					opacity: 0;
+    					visibility: hidden;
+    					height: 0;
+    					transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out;
     				}
     			}
     		}	
@@ -1056,25 +1120,60 @@ tr{
     					border: 2px groove #fff;
     				}
     			}
-
     		}
+    		&:first-child{
+    			&::after{
+    				content: "expand_more";
+    				font-family: "Material Icons";
+    				position: absolute;
+    				transform: translate(0, -50%);
+    				top: 50%;
+    				right: 10px;
+    				width: fit-content;
+    				height: fit-content;
+    				font-weight: 600;
+    				color: #000;
+    			}
+    		}
+    	}
+    	&-box{
+    		display: flex;
+    		width: 100%;
+    		justify-content: space-between;
     		&:first-child{
     			grid-area: h1 ;
     		}
     		&:nth-child(2){
     			grid-area: h2;
-    		}
-    		&:nth-child(3){
-    			grid-area: h3;
+    			flex-direction: column;
+    			background-image: linear-gradient(90deg, #0f0c29, #302b63,#24243e);
+    			padding: 20px;
+    			border-radius: 20px;
+    			box-sizing: border-box;
+    			box-shadow: 0 0 20px #0ef;
     		}
     		&:last-child{
-    			grid-area: h4;
+    			grid-area: h3;
     			display: grid;
     			grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     			grid-gap:10px;
     		}
+    		&-color{
+    			&-panel{
+	    			width: 100%;
+	    			display: grid;
+	    			grid-template-columns: 1fr;
+	    		}
+    		}
     	}
     }
+.color-frame{
+	width: 40%;
+	transition: width .5s linear;
+	&-label{
+		width:100%;
+		padding-bottom: 10px;
+	}
 }
 
 input:checked ~ label .dialog__form-category-field-icon-label{
@@ -1488,7 +1587,7 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 	}
 	.dialog__form{
 		&-category{
-			&-field{
+			&-box{
 				&:last-child{
 					grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 				}
@@ -1680,6 +1779,18 @@ td{
 	.oil__table-action, .category__table-action{
 		text-align: left;
 	}
+	.dialog__form{
+		&-category{
+			&-box{
+				&:first-child{
+					flex-direction: row;
+				}
+				&:nth-child(2){
+					box-shadow:0 0 12px #0ef;
+				}
+			}
+		}
+	}
 }
 
 @media screen and (max-width: 767px) {
@@ -1768,18 +1879,27 @@ td{
 			"h4 h4 h4";
 			grid-gap: 10px;
 			&-field{
+				width: 100%;
+				&:first-child{
+					margin-bottom: 10px;
+				}
 				&:nth-child(3){
 					flex-direction: row-reverse;
 				}
 				&-label{
 					&[for="catcolor"]{
-						width: 70%;
+						width: 100%;
 						text-align: center;
+						margin-bottom: 20px;
+						font-size: 1.2rem;
+						font-weight: 600;
 					}
 				}
 				&-input{
 					&[type="color"]{
-						height: 100px;
+						height: 85px;
+						width: 85px;
+						padding: 0;
 						appearance: none;
 						background: transparent;
 						cursor: pointer;
@@ -1789,9 +1909,20 @@ td{
 						}
 					}
 				}
+			}
+			&-box{
 				&:last-child{
 					grid-gap:18px;
 					overflow-x: scroll;
+				}
+			}
+		}
+	}
+	.dialog__form{
+		&-category{
+			&-box{
+				&:first-child{
+					flex-direction: column;
 				}
 			}
 		}
@@ -2009,15 +2140,15 @@ td{
 	.header__menu-right-bars {
 		margin-right: 0;
 	}
-	.dialog__form{
-		&-category{
-			&-field{
-				&:last-child{
-					grid-gap:15px;
-				}
-			}
-		}
-	}
+	// .dialog__form{
+	// 	&-category{
+	// 		&-field{
+	// 			&:last-child{
+	// 				grid-gap:15px;
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
 
 @media screen and (max-width: 389px) {

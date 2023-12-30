@@ -91,7 +91,7 @@
 									$row[$i]->cat_id < 10 ? $row_id = '0'.$row[$i]->cat_id : $row_id = $row[$i]->cat_id;
 									echo'<tr class = "rowContent" id ="'.$row[$i]->cat_id.'">';
 									echo'<td data-cell="no">'.$row_id.'.</td>';
-									echo'<td data-cell="category type">'.$row[$i]->category_type.'</td>';
+									// echo'<td data-cell="category type">'.$row[$i]->category_type.'</td>';
 									echo'<td data-cell="category name"><span style="border-radius:20px;padding:10px;padding-left:20px;padding-right:20px;background:'.$row[$i]->color.'">'.$row[$i]->category_name.'</span></td>';
 									echo'<td data-cell="icon"><i style="font-size:2rem;" class="fa-solid fa-'.$row[$i]->icon.' fa-sm"></i></td>';
 									echo '<td data-cell="Action">
@@ -126,7 +126,7 @@
 		<template id="newRow">
 			<tr class="rowContent">
 				<td data-cell="no">01.</td>
-				<td data-cell="category type">Salary</td>
+				<!-- <td data-cell="category type">Salary</td> -->
 				<td data-cell="category name">
 					<span style="border-radius:20px;padding:10px;padding-left:20px;padding-right:20px;
 					background:#6259ca">
@@ -153,7 +153,7 @@
 			<div class="category__content-item">
 				<div class="category__content-item-left">
 					<div class="category__content-item-left-header"><h1>Salary</h1></div>
-					<div class="category__content-item-left-desc">Salary of FRT</div>
+					<!-- <div class="category__content-item-left-desc">Salary of FRT</div> -->
 				</div>
 				<div class="category__content-item-right">
 					<div class="category__content-item-right-icon">
@@ -177,25 +177,37 @@
 			</div>
 			<div class="dialog__content-body">
 				<form action="#" class="dialog__form-category">
-					<div class="dialog__form-category-field">
-						<label class="dialog__form-category-field-label" for="catname">Type of Category
-							<span class="input_infor" id="category_type_info"></span>
-						</label>
-						<input class="dialog__form-category-field-input" type="text" name="cattype" id="form__add-cat_type" placeholder="Type of Category">
+					<div class="dialog__form-category-box">
+						<div class="dialog__form-category-field">
+							<label class="dialog__form-category-field-label" for="form__add-cat_type">Type of Category
+								<span class="input_infor" id="category_type_info"></span>
+							</label>
+							<select class="dialog__form-category-field-input" name="cattype" id="form__add-cat_type">
+								<option value="1" selected require >Monochromatic</option>
+								<option value="2">Gradient</option>
+								<option value="3">Color mixed</option>
+							</select>
+						</div>					
+						<div class="dialog__form-category-field">
+							<label class="dialog__form-category-field-label" for="form__add-cat_name">Category Name
+								<span class="input_infor" id="category_name_info"></span>
+							</label>
+							<input class="dialog__form-category-field-input" type="text" name="catname" id="form__add-cat_name" placeholder="Category Name">
+						</div>
 					</div>					
-					<div class="dialog__form-category-field">
-						<label class="dialog__form-category-field-label" for="catdesc">Category Name
-							<span class="input_infor" id="category_name_info"></span>
-						</label>
-						<input class="dialog__form-category-field-input" type="text" name="catname" id="form__add-cat_name" placeholder="Category Name">
-					</div>					
-					<div class="dialog__form-category-field">
-						<label class="dialog__form-category-field-label" for="catcolor">Color of Category
+					<div class="dialog__form-category-box color-frame">
+						<label class="dialog__form-category-field-label color-frame-label">Color Panel
 							<span class="input_infor" id="category_color_info"></span>
 						</label>
-						<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color" value="#45aaf2" >
-					</div>	
-					<div class="dialog__form-category-field">
+						<div class="dialog__form-category-box-color-panel color-panel">
+							<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color" value="#024fa0" >
+
+							<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color2" value="#f2721e" >
+
+							<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color3" value="#50b846" >
+						</div>
+					</div>
+					<div class="dialog__form-category-box">
 						<?php 
 							$icon_array = ["sack-dollar","money-bill-transfer","money-bill-wheat","money-bill-trend-up","hand-holding-dollar","piggy-bank","file-invoice-dollar","house","lightbulb","faucet-drip","fire","earth-asia","tv","mobile-screen","comments-dollar","phone-volume","utensils","bowl-rice","mug-hot","martini-glass-citrus","cart-shopping","gas-pump","motorcycle","screwdriver-wrench","gift","envelope","heart","skull","hand-holding-heart","capsules","briefcase-medical","hospital","tooth","gamepad","graduation-cap","handshake","person-walking-luggage","hotel","dumbbell","scissors"];
 							for ($i=0; $i < count($icon_array) ; $i++) { 

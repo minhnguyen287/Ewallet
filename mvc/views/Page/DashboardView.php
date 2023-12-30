@@ -18,6 +18,10 @@
       <?php 
       $data_list = json_decode($data['data']);
       $data_list2 = json_decode($data['data2']);
+      function vndCurrency($value)
+      {
+        return number_format($value,0,'.',',').' &#8363';
+      }
       // echo "<pre>";
       // print_r($data_list2);
       // echo "</pre>";
@@ -31,8 +35,8 @@
         $expenditure_diff = abs(round($data_list[$i]->expenditure/$data_list[$i]->lastmonth_expenditure*100,2)-100);
         $receipt = $data_list[$i]->receipt;
         $expenditure = $data_list[$i]->expenditure;
-        $difference = number_format($data_list[$i]->receipt-$data_list[$i]->expenditure,0,'.',',').' &#8363';
-        $saving_deposit = number_format($data_list[$i]->saving_deposit,0,'.',',').' &#8363';
+        $difference = vndCurrency($data_list[$i]->receipt-$data_list[$i]->expenditure);
+        $saving_deposit = vndCurrency($data_list[$i]->saving_deposit);
       }
       // $most = array();
       // for($i=0; $i<count($data_list2);$i++){
@@ -49,7 +53,7 @@
        <div class="layout__content">
         <div class="layout__content-left">
          <h3 class="layout__content-left-title">Total Sales</h3>
-         <h2 class="layout__content-left-number"><?php echo number_format($receipt,0,'.',',').' &#8363'; ?></h2>
+         <h2 class="layout__content-left-number"><?php echo vndCurrency($receipt); ?></h2>
          <div class="layout__content-left-growth">
           <span class="layout__content-left-growth-icon">
            <i class="fa-solid fa-circle-chevron-<?php echo $receipt_index; ?>"></i>
@@ -68,7 +72,7 @@
   <div class="layout__content">
     <div class="layout__content-left">
      <h3 class="layout__content-left-title">Total Cost</h3>
-     <h2 class="layout__content-left-number"><?php echo number_format($expenditure,0,'.',',').' &#8363'; ?></h2>
+     <h2 class="layout__content-left-number"><?php echo vndCurrency($expenditure); ?></h2>
      <div class="layout__content-left-growth">
       <span class="layout__content-left-growth-icon">
        <i class="fa-solid fa-circle-chevron-<?php echo $expenditure_index; ?>"></i>
@@ -143,7 +147,8 @@
       echo '<div class="layout__chart-name">'.$data_list2[$i]->tran_name.'</div>';
       echo '<div class="layout__chart-percent-index">'.($data_list2[$i]->percent*100).'%</div>';
       echo '</div>';
-      echo '<div class="layout__chart-item-chart_background">';
+      echo '<div class="layout__chart-item-chart_background tooltip">';
+      echo '<span class ="tooltiptext">'.vndCurrency($data_list2[$i]->largest_amount).'</span>';
       echo '<div class="layout__chart-item-index" style="--percent:'.($data_list2[$i]->percent*100).'%;--chart__color:'.$color[$i].'"></div>';
       echo '</div>';
       echo '</div>';
