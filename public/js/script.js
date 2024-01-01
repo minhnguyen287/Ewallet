@@ -1899,13 +1899,19 @@ function drawMiniChart(data){
 	let newItemsList = document.createElement('div');
 		newItemsList.setAttribute("class","layout__chart-items");
 	var color=["#6259ca","#09ad95","#f7b731","#f82649","#45aaf2"];
-	for (var i = 0; i < responseData.length; i++) {
-		let templateFrag = templateFragRoot.cloneNode(true);
-		templateFrag.querySelector('.layout__chart-name').innerText = responseData[i].tran_name;
-		templateFrag.querySelector('.layout__chart-percent-index').innerText = (responseData[i].percent*100).toFixed(2)+'%';
-		templateFrag.querySelector('.layout__chart-item-index').style.setProperty('--percent',responseData[i].percent*100+'%');
-		templateFrag.querySelector('.layout__chart-item-index').style.setProperty('--chart__color',color[i]);
-		newItemsList.appendChild(templateFrag);
+	if (responseData.length!=0) {
+		for (var i = 0; i < responseData.length; i++) {
+			let templateFrag = templateFragRoot.cloneNode(true);
+			templateFrag.querySelector('.layout__chart-name').innerText = responseData[i].tran_name;
+			templateFrag.querySelector('.layout__chart-percent-index').innerText = (responseData[i].percent*100).toFixed(2)+'%';
+			templateFrag.querySelector('.layout__chart-item-index').style.setProperty('--percent',responseData[i].percent*100+'%');
+			templateFrag.querySelector('.layout__chart-item-index').style.setProperty('--chart__color',color[i]);
+			newItemsList.appendChild(templateFrag);
+		}
+	} else{
+		let para = document.createElement('p');
+		para.innerText = 'Hi Admin, Have a good month ^_^ !';
+		newItemsList.appendChild(para);
 	}
 	document.querySelector('.layout__chart-items').parentNode.replaceChild(newItemsList,document.querySelector('.layout__chart-items'));
 }

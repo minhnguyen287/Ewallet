@@ -15,10 +15,12 @@
 			$monthInput = date("m");
 			$dash1 = $this->DashboardModel->ShowDashboard($yearInput,$monthInput);
 			$dash2 = $this->DashboardModel->Show5LargestAmount($yearInput,$monthInput,'expenditure');
+			$dash3 = $this->DashboardModel->GetRealtimeIndex();
 			$this->view("MasterLayout",[
 				"Page"=>"DashboardView",
 				"data"=>$dash1,
 				"data2"=>$dash2,
+				"data3"=>$dash3,
 				"Dhighlight"=>true]);
 		}
 

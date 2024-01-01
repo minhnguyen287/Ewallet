@@ -18,36 +18,31 @@
       <?php 
       $data_list = json_decode($data['data']);
       $data_list2 = json_decode($data['data2']);
+      $data_list3 = json_decode($data['data3']);
       function vndCurrency($value)
       {
         return number_format($value,0,'.',',').' &#8363';
       }
       // echo "<pre>";
-      // print_r($data_list2);
+      // print_r($data_list);
       // echo "</pre>";
-      for ($i=0; $i<count($data_list) ; $i++) { 
-        $data_list[$i]->receipt >= $data_list[$i]->lastmonth_receipt?$receipt_index='up':$receipt_index='down';
-        $data_list[$i]->expenditure >= $data_list[$i]->lastmonth_expenditure?$expenditure_index='up':$expenditure_index='down';
-        $data_list[$i]->lastmonth_receipt==0 ? $data_list[$i]->lastmonth_receipt = 1 : $data_list[$i]->lastmonth_receipt;
-        $data_list[$i]->lastmonth_expenditure ==0 ? $data_list[$i]->lastmonth_expenditure =1 : $data_list[$i]->lastmonth_expenditure;
-        
-        $receipt_diff = abs(round($data_list[$i]->receipt/$data_list[$i]->lastmonth_receipt*100,2)-100);
-        $expenditure_diff = abs(round($data_list[$i]->expenditure/$data_list[$i]->lastmonth_expenditure*100,2)-100);
-        $receipt = $data_list[$i]->receipt;
-        $expenditure = $data_list[$i]->expenditure;
-        $difference = vndCurrency($data_list[$i]->receipt-$data_list[$i]->expenditure);
-        $saving_deposit = vndCurrency($data_list[$i]->saving_deposit);
-      }
-      // $most = array();
-      // for($i=0; $i<count($data_list2);$i++){
-      //   if ($data_list2[$i]->tran_type == 'receipt') {
-      //     $data_list2[$i]->percent = round($data_list2[$i]->largest_amount/$receipt,4)*100;
-      //   } else {
-      //     $data_list2[$i]->percent = round($data_list2[$i]->largest_amount/$expenditure,4)*100;
-      //   }    
-      //   $most[] = (object) ['name'=>$data_list2[$i]->tran_name,
-      //   'percent'=>$data_list2[$i]->percent];
-      // }
+      
+      $receipt = isset($data_list[0]->receipt) ? $data_list[0]->receipt : 0 ;
+      $expenditure = isset($data_list[0]->expenditure) ? $data_list[0]->expenditure : 0;
+
+      $lastmonth_receipt = isset($data_list[0]->lastmonth_receipt) ? $data_list[0]->lastmonth_receipt : 1;
+      $lastmonth_expenditure = isset($data_list[0]->lastmonth_expenditure) ? $data_list[0]->lastmonth_expenditure : 1;
+
+      $receipt_diff = abs(round($receipt/$lastmonth_receipt*100,2)-100);
+      $expenditure_diff = abs(round($expenditure/$lastmonth_expenditure*100,2)-100);
+      $saving_deposit = vndCurrency($data_list[0]->saving_deposit);
+      $wallet_balance = vndCurrency($data_list3[0]->wallet_balance);
+
+     
+
+      $receipt >= $lastmonth_receipt ? $receipt_index='up' : $receipt_index='down';
+      $expenditure>= $lastmonth_expenditure ? $expenditure_index='up' : $expenditure_index='down';
+      
       ?> 
       <div class="dashboard__content">
        <div class="layout__content">
@@ -91,7 +86,7 @@
 <div class="layout__content">
   <div class="layout__content-left">
    <h3 class="layout__content-left-title">Wallet Balance</h3>
-   <h2 class="layout__content-left-number"><?php echo $difference; ?></h2>
+   <h2 class="layout__content-left-number"><?php echo $wallet_balance; ?></h2>
  </div>
  <div class="layout__content-right">
    <div class="layout__content-right-icon">
@@ -140,19 +135,23 @@
   </div>
   <div class="layout__chart-items">
     <?php 
-    for ($i=0; $i <count($data_list2) ; $i++) { 
-      $color=["#6259ca","#09ad95","#f7b731","#f82649","#45aaf2"];
-      echo '<div class="layout__chart-item">';
-      echo '<div class="layout__chart-item-label">';
-      echo '<div class="layout__chart-name">'.$data_list2[$i]->tran_name.'</div>';
-      echo '<div class="layout__chart-percent-index">'.($data_list2[$i]->percent*100).'%</div>';
-      echo '</div>';
-      echo '<div class="layout__chart-item-chart_background tooltip">';
-      echo '<span class ="tooltiptext">'.vndCurrency($data_list2[$i]->largest_amount).'</span>';
-      echo '<div class="layout__chart-item-index" style="--percent:'.($data_list2[$i]->percent*100).'%;--chart__color:'.$color[$i].'"></div>';
-      echo '</div>';
-      echo '</div>';
-    }
+    if(!empty($data_list2)){
+        for ($i=0; $i <count($data_list2) ; $i++) { 
+          $color=["#6259ca","#09ad95","#f7b731","#f82649","#45aaf2"];
+          echo '<div class="layout__chart-item">';
+          echo '<div class="layout__chart-item-label">';
+          echo '<div class="layout__chart-name">'.$data_list2[$i]->tran_name.'</div>';
+          echo '<div class="layout__chart-percent-index">'.($data_list2[$i]->percent*100).'%</div>';
+          echo '</div>';
+          echo '<div class="layout__chart-item-chart_background tooltip">';
+          echo '<span class ="tooltiptext">'.vndCurrency($data_list2[$i]->largest_amount).'</span>';
+          echo '<div class="layout__chart-item-index" style="--percent:'.($data_list2[$i]->percent*100).'%;--chart__color:'.$color[$i].'"></div>';
+          echo '</div>';
+          echo '</div>';
+        }
+      } else {
+        echo "<p>Hi Admin, Have a good month ^_^ !</p>";
+      }
     ?>
   </div>
   <template id="chart-item">
