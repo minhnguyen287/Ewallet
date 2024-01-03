@@ -201,11 +201,20 @@
 							<span class="input_infor" id="category_color_info"></span>
 						</label>
 						<div class="dialog__form-category-box-color-panel color-panel">
-							<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color" value="#024fa0" >
+							<div class="color-box">
+								<label for="form__add-cat_color"><i class="fa-solid fa-palette fa-2xl"></i></label>
+								<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color" value="#024fa0" >
+							</div>
 
-							<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color2" value="#f2721e" >
+							<div class="color-box">
+								<label for="form__add-cat_color2"><i class="fa-solid fa-palette fa-2xl"></i></label>
+								<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color2" value="#f2721e" >
+							</div>
 
-							<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color3" value="#50b846" >
+							<div class="color-box">
+								<label for="form__add-cat_color3"><i class="fa-solid fa-palette fa-2xl"></i></label>
+								<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color3" value="#50b846" >
+							</div>
 						</div>
 					</div>
 					<div class="dialog__form-category-box">

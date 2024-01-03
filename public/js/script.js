@@ -220,8 +220,10 @@ window.addEventListener("click",function(event){
 	if (event.target == dialog[1]) {
 		hideModal(dialog[1]);
 	}
-	if (event.target != document.querySelector('#form__add-cat_type')){
-		document.querySelector('.cat-type-arrow').classList.remove("show-list");
+	if (currentPage == "category") {
+		if (event.target != document.querySelector('#form__add-cat_type')){
+			document.querySelector('.cat-type-arrow').classList.remove("show-list");
+		}
 	}
 });
 
@@ -886,6 +888,9 @@ if(entries,btnNextPage,btnPreviousPage){
 var categoryType = document.getElementById('form__add-cat_type');
 var categoryName = document.getElementById('form__add-cat_name');
 var categoryColor = document.getElementById('form__add-cat_color');
+var categoryColor2 = document.getElementById('form__add-cat_color2');
+var categoryColor3 = document.getElementById('form__add-cat_color3');
+colorBox = document.querySelectorAll('.color-box');
 var categoryIcons = document.getElementsByName("icon");
 var catNameInfor = document.getElementById("category_name_info");
 var catTypeInfor = document.getElementById("category_type_info");
@@ -898,9 +903,6 @@ window.onload = function(){
 		let method = "GET";
 		sendAjaxRequest(url,method,showCategoryView);
 	}
-	categoryType.addEventListener('click',()=>{
-		document.querySelector('.cat-type-arrow').classList.toggle("show-list");
-	})
 }
 
 function showCategoryView(data){
@@ -1056,20 +1058,21 @@ function deleteCategory(data){
 	}
 }
 function showColorPanel(value) {
-	categoryColor2 = document.getElementById('form__add-cat_color2');
-	categoryColor3 = document.getElementById('form__add-cat_color3');
+	colorBox2 = colorBox[1];
+	colorBox3 = colorBox[2];
 	colorFrame = document.querySelector('.color-frame');
 	colorPanel = document.querySelector('.color-panel');
 	switch(value){
 		case "2":{
-			categoryColor2.style.opacity = "1";
-			categoryColor2.style.visibility = "visible";
-			categoryColor2.style.height = "auto";
-			categoryColor2.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
+			colorBox2.style.opacity = "1";
+			colorBox2.style.visibility = "visible";
+			colorBox2.style.height = "auto";
+			colorBox2.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
 
-			categoryColor3.style.opacity = "0";
-			categoryColor3.style.visibility = "hidden";
-			categoryColor3.style.height = "0";
+			colorBox3.style.opacity = "0";
+			colorBox3.style.visibility = "hidden";
+			colorBox3.style.height = "0";
+			colorBox3.style.transition = "height .0s ease-out, visibility .0s ease-out,opacity .0s ease-out";
 
 			colorFrame.style.width = "66%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr";
@@ -1077,14 +1080,14 @@ function showColorPanel(value) {
 			break
 		}
 		case "3":{
-			categoryColor2.style.opacity = 1;
-			categoryColor2.style.visibility = "visible";
-			categoryColor2.style.height = "auto";
+			colorBox2.style.opacity = 1;
+			colorBox2.style.visibility = "visible";
+			colorBox2.style.height = "auto";
 
-			categoryColor3.style.opacity = 1;
-			categoryColor3.style.visibility = "visible";
-			categoryColor3.style.height = "auto";
-			categoryColor2.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
+			colorBox3.style.opacity = 1;
+			colorBox3.style.visibility = "visible";
+			colorBox3.style.height = "auto";
+			colorBox3.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
 
 			colorFrame.style.width = "100%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr 1fr";
@@ -1092,15 +1095,15 @@ function showColorPanel(value) {
 			break;
 		}
 		default:{
-			categoryColor2.style.opacity = 0;
-			categoryColor2.style.visibility = "hidden";
-			categoryColor2.style.height = 0;
-			categoryColor2.style.transition = "unset";
+			colorBox2.style.opacity = 0;
+			colorBox2.style.visibility = "hidden";
+			colorBox2.style.height = 0;
+			colorBox2.style.transition = "unset";
 
-			categoryColor3.style.opacity = 0;
-			categoryColor3.style.visibility = "hidden";
-			categoryColor3.style.height = 0;
-			categoryColor3.style.transition = "unset";
+			colorBox3.style.opacity = 0;
+			colorBox3.style.visibility = "hidden";
+			colorBox3.style.height = 0;
+			colorBox3.style.transition = "unset";
 
 			colorFrame.style.width = "40%";
 			colorPanel.style.gridTemplateColumns = "1fr";
@@ -1110,9 +1113,22 @@ function showColorPanel(value) {
 }
 
 if (currentPage == 'category') {
-		categoryType.addEventListener('change',()=>{
+	categoryType.addEventListener('change',()=>{
 		showColorPanel(categoryType.value);
 	})
+	categoryType.addEventListener('click',()=>{
+		document.querySelector('.cat-type-arrow').classList.toggle("show-list");
+	})
+	categoryColor.addEventListener('change',()=>{
+		colorBox.style.color = categoryColor.value;
+	})
+	categoryColor2.addEventListener('change',()=>{
+		colorBox2.style.color = categoryColor2.value;
+	})
+	categoryColor3.addEventListener('change',()=>{
+		colorBox3.style.color = categoryColor3.value;
+	})
+
 	if (typeof(btnAdd)!=='undefined') {
 		btnAdd.addEventListener('click',function(){
 			showModal(dialog[0]);

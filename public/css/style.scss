@@ -1093,28 +1093,29 @@ tr{
     			height: 45px;
     			padding-left: 0.5rem;
     			&[type="color"]{
-    				width: 120px;
-   					height: 120px;
-   					margin: 0 auto;
-    				appearance: none;
-    				background: transparent;
-    				cursor: pointer;
-    				&::-webkit-color-swatch{
-    					border-radius: 50%;
-    					border: 0.5rem double #fff; 
-    				}
-    				&:nth-child(2){
-    					opacity: 0;
-    					visibility: hidden;
-    					height: 0;
-    					 transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out ;
-    				}
-    				&:last-child{
-    					opacity: 0;
-    					visibility: hidden;
-    					height: 0;
-    					transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out;
-    				}
+    				display: none;
+    				// width: 120px;
+   					// height: 120px;
+   					// margin: 0 auto;
+    				// appearance: none;
+    				// background: transparent;
+    				// cursor: pointer;
+    				// &::-webkit-color-swatch{
+    				// 	border-radius: 50%;
+    				// 	border: 0.5rem double #fff; 
+    				// }
+    				// &:nth-child(2){
+    				// 	opacity: 0;
+    				// 	visibility: hidden;
+    				// 	height: 0;
+    				// 	 transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out ;
+    				// }
+    				// &:last-child{
+    				// 	opacity: 0;
+    				// 	visibility: hidden;
+    				// 	height: 0;
+    				// 	transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out;
+    				// }
     			}
     		}	
     		&-icon{
@@ -1175,6 +1176,33 @@ tr{
     	}
     }
 }
+.color-box{
+	font-size: 2.5rem;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    margin-top: 20px;
+    color:#024fa0;
+	&:nth-child(2){
+		opacity: 0;
+    	visibility: hidden;
+    	height: 0;
+    	transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out ;
+		color:#f2721e;
+		margin: 0;
+	}
+	&:nth-child(3){
+		opacity: 0;
+    	visibility: hidden;
+    	height: 0;
+    	transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out ;
+		color:#50b846;
+		margin: 0;
+	}
+}
+
 .color-frame{
 	width: 40%;
 	transition: width .5s linear;
@@ -1723,9 +1751,9 @@ td{
 		&-category{
 			&-field{
 				&-input{
-					&[type="color"]{
-						height: 110px;
-					}
+					// &[type="color"]{
+					// 	height: 110px;
+					// }
 				}
 			}
 		}
@@ -1902,19 +1930,19 @@ td{
 					}
 				}
 				&-input{
-					&[type="color"]{
-						height: 100px;
-						appearance: none;
-						background: transparent;
-						cursor: pointer;
-						&::-webkit-color-swatch{
-							border-radius: 0.5rem;
-							border: none;
-						}
-						width: 100px;
-						box-sizing: border-box;
-						padding: 0;
-					}
+					// &[type="color"]{
+					// 	height: 100px;
+					// 	appearance: none;
+					// 	background: transparent;
+					// 	cursor: pointer;
+					// 	&::-webkit-color-swatch{
+					// 		border-radius: 0.5rem;
+					// 		border: none;
+					// 	}
+					// 	width: 100px;
+					// 	box-sizing: border-box;
+					// 	padding: 0;
+					// }
 				}
 			}
 			&-box{
@@ -1935,6 +1963,9 @@ td{
 			padding-left: 10px;
 			//padding-top: 5px;
 		}
+	}
+	.color-box{
+		font-size: 2rem;
 	}
 
 //================================OIL===================================
