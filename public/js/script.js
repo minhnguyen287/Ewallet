@@ -220,6 +220,9 @@ window.addEventListener("click",function(event){
 	if (event.target == dialog[1]) {
 		hideModal(dialog[1]);
 	}
+	if (event.target != document.querySelector('#form__add-cat_type')){
+		document.querySelector('.cat-type-arrow').classList.remove("show-list");
+	}
 });
 
 // window.onresize = function(){
@@ -895,6 +898,9 @@ window.onload = function(){
 		let method = "GET";
 		sendAjaxRequest(url,method,showCategoryView);
 	}
+	categoryType.addEventListener('click',()=>{
+		document.querySelector('.cat-type-arrow').classList.toggle("show-list");
+	})
 }
 
 function showCategoryView(data){
@@ -1067,7 +1073,7 @@ function showColorPanel(value) {
 
 			colorFrame.style.width = "66%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr";
-			colorPanel.style.gridGap = "0";
+			// colorPanel.style.gridGap = "10px";
 			break
 		}
 		case "3":{
@@ -1082,7 +1088,7 @@ function showColorPanel(value) {
 
 			colorFrame.style.width = "100%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr 1fr";
-			colorPanel.style.gridGap = "20px";
+			// colorPanel.style.gridGap = "0px";
 			break;
 		}
 		default:{
@@ -1098,7 +1104,7 @@ function showColorPanel(value) {
 
 			colorFrame.style.width = "40%";
 			colorPanel.style.gridTemplateColumns = "1fr";
-			colorPanel.style.gridGap = "0";
+			// colorPanel.style.gridGap = "0";
 		}
 	}
 }

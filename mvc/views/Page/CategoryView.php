@@ -187,6 +187,7 @@
 								<option value="2">Gradient</option>
 								<option value="3">Color mixed</option>
 							</select>
+							<span class="cat-type-arrow"></span>
 						</div>					
 						<div class="dialog__form-category-field">
 							<label class="dialog__form-category-field-label" for="form__add-cat_name">Category Name

@@ -932,6 +932,26 @@ tr{
     animation-name: fadeIn;
   	animation-duration: 0.4s
 }
+.cat-type-arrow{
+	position: relative;
+	&::after{
+		content: "expand_more";
+		font-family: "Material Icons";
+		position: absolute;
+		transform: translate(0, -50%);
+		top: 50%;
+		right: 20px;
+		width: fit-content;
+		height: fit-content;
+		font-weight: 600;
+		color: #000;
+	}
+	&.show-list{
+		&::after{
+			content: "";
+		}
+	}
+}
 .dialog__content{
 	display: flex;
 	flex-direction: column;
@@ -1120,20 +1140,7 @@ tr{
     					border: 2px groove #fff;
     				}
     			}
-    		}
-    		&:first-child{
-    			&::after{
-    				content: "expand_more";
-    				font-family: "Material Icons";
-    				position: absolute;
-    				transform: translate(0, -50%);
-    				top: 50%;
-    				right: 10px;
-    				width: fit-content;
-    				height: fit-content;
-    				font-weight: 600;
-    				color: #000;
-    			}
+
     		}
     	}
     	&-box{
@@ -1167,6 +1174,7 @@ tr{
     		}
     	}
     }
+}
 .color-frame{
 	width: 40%;
 	transition: width .5s linear;
@@ -1175,7 +1183,6 @@ tr{
 		padding-bottom: 10px;
 	}
 }
-
 input:checked ~ label .dialog__form-category-field-icon-label{
 	background: lime;
 	font-size: 100%;
@@ -1861,7 +1868,6 @@ td{
 			}
 		}
 	}
-
 	.table__transaction{
 		grid-template-columns: 1fr;
 		grid-gap: 15px;
@@ -1897,9 +1903,7 @@ td{
 				}
 				&-input{
 					&[type="color"]{
-						height: 85px;
-						width: 85px;
-						padding: 0;
+						height: 100px;
 						appearance: none;
 						background: transparent;
 						cursor: pointer;
@@ -1907,10 +1911,16 @@ td{
 							border-radius: 0.5rem;
 							border: none;
 						}
+						width: 100px;
+						box-sizing: border-box;
+						padding: 0;
 					}
 				}
 			}
 			&-box{
+				&:first-child{
+					flex-direction: column;
+				}
 				&:last-child{
 					grid-gap:18px;
 					overflow-x: scroll;
@@ -1918,13 +1928,12 @@ td{
 			}
 		}
 	}
-	.dialog__form{
-		&-category{
-			&-box{
-				&:first-child{
-					flex-direction: column;
-				}
-			}
+	.color-frame{
+		// width: 100%;
+		padding: 5px;
+		&-label{
+			padding-left: 10px;
+			//padding-top: 5px;
 		}
 	}
 
@@ -2140,15 +2149,6 @@ td{
 	.header__menu-right-bars {
 		margin-right: 0;
 	}
-	// .dialog__form{
-	// 	&-category{
-	// 		&-field{
-	// 			&:last-child{
-	// 				grid-gap:15px;
-	// 			}
-	// 		}
-	// 	}
-	// }
 }
 
 @media screen and (max-width: 389px) {
