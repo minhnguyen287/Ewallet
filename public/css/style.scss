@@ -1073,7 +1073,7 @@ tr{
     	grid-template-columns: 1fr 1fr 1fr;
     	grid-template-areas: 
     	"h1 h1 h1"
-    	"h2 h2 h2"
+    	"h2 h2 h4"
     	"h3 h3 h3";
     	grid-gap: 30px;
     	&-field{
@@ -1117,6 +1117,9 @@ tr{
     				// 	transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out;
     				// }
     			}
+    			&#form__add-color-direction{
+    				max-width: 100%;
+    			}
     		}	
     		&-icon{
     			&-label{
@@ -1159,6 +1162,25 @@ tr{
     			border-radius: 20px;
     			box-sizing: border-box;
     			box-shadow: 0 0 20px #0ef;
+    		}
+    		&:nth-child(3){
+    			grid-area:h4;
+    			flex-direction: column;
+    			width: 100%;
+    			justify-content: center;
+    			align-items: center;
+    			border-radius: 20px;
+    			box-sizing: border-box;
+    			box-shadow: 0 0 20px #0ef;
+    			height: 0;
+    			opacity: 0;
+    			visibility: hidden;
+    			transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out ;
+    			& .direction-frame-label{
+    				width: 100%;
+    				padding-bottom: 10px;
+    				text-align: center;
+    			}
     		}
     		&:last-child{
     			grid-area: h3;
@@ -1302,7 +1324,6 @@ input:checked ~ label .dialog__form-category-field-icon-label{
 		//padding: $component__space;
 		height: 128px;
 		border-radius: 10px;
-		background-image:linear-gradient(to right,#024fa0 0%,#024fa0 32%,#f2721e 33%  ,#f2721e 66%,#50b846 67%, #50b846 100%);
 		&-right{
 			width: 30%;
 			height: 100%;
@@ -1908,9 +1929,8 @@ td{
 		&-category{
 			grid-template-areas:
 			"h1 h1 h1"
-			"h2 h2 h2"
-			"h3 h3 h3"
-			"h4 h4 h4";
+			"h2 h2 h4"
+			"h3 h3 h3";
 			grid-gap: 10px;
 			&-field{
 				width: 100%;
@@ -1957,7 +1977,7 @@ td{
 		}
 	}
 	.color-frame{
-		// width: 100%;
+		width: 60%;
 		padding: 5px;
 		&-label{
 			padding-left: 10px;
@@ -1965,7 +1985,7 @@ td{
 		}
 	}
 	.color-box{
-		font-size: 2rem;
+		font-size: 1.5rem;
 	}
 
 //================================OIL===================================

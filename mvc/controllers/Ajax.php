@@ -249,6 +249,8 @@
 					$errors[] = "name"; 
 				}
 
+				$direction = $arr['direction'];
+
 				if (!empty($arr['color'])) {
 					$color = $arr['color'];
 				} else {
@@ -262,7 +264,7 @@
 				}
 
 				if (empty($errors)) {
-					$kq = $this->WalletModel->AddCategory($type,$name,$color,$icon);
+					$kq = $this->WalletModel->AddCategory($type,$name,$direction,$color,$icon);
 					if (json_decode($kq) == true) {
 						echo json_encode($arr);
 					} else {

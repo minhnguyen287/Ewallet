@@ -62,13 +62,13 @@
 											<i class="fa-solid fa-arrow-down-long"></i>
 										</div>
 									</td>
-									<td class="table__label">
+									<!-- <td class="table__label">
 										<h2 class="table__label-text">CATEGORY TYPE</h2>
 										<div class="table__label-icon">
 											<i class="fa-solid fa-arrow-up-long"></i>
 											<i class="fa-solid fa-arrow-down-long"></i>
 										</div>
-									</td>
+									</td> -->
 									<td class="table__label">
 										<h2 class="table__label-text">CATEGORY NAME</h2>
 										<div class="table__label-icon">
@@ -215,6 +215,19 @@
 								<label for="form__add-cat_color3"><i class="fa-solid fa-palette fa-2xl"></i></label>
 								<input class="dialog__form-category-field-input" name="catcolor" type="color" id="form__add-cat_color3" value="#50b846" >
 							</div>
+						</div>
+					</div>
+					<div class="dialog__form-category-box direction-frame">
+						<label class="dialog__form-category-field-label direction-frame-label">Color Direction
+							<span class="input_infor" id="direction_color_info"></span>
+						</label>
+						<div class="dialog__form-category-box-direction-panel direction-panel">
+							<select class="dialog__form-category-field-input" name="direction" id="form__add-color-direction">
+								<option value="to right" require >to right</option>
+								<option value="to left">to left</option>
+								<option value="to top">to top</option>
+								<option value="to bottom">to bottom</option>
+							</select>
 						</div>
 					</div>
 					<div class="dialog__form-category-box">

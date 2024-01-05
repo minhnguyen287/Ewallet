@@ -30,12 +30,13 @@
 			return json_encode($arr);
 		}
 
-		public function AddCategory($type,$name,$color,$icon){
+		public function AddCategory($type,$name,$direction,$color,$icon){
 			$type = $this->con->real_escape_string(strip_tags($type));
 			$name = $this->con->real_escape_string(strip_tags($name));
+			$direction = $this->con->real_escape_string(strip_tags($direction));
 			$color = $this->con->real_escape_string(strip_tags($color));
 			$icon = $this->con->real_escape_string(strip_tags($icon));			
-			$q = "INSERT INTO category VALUES (null,'$type','$name','$color','$icon')";
+			$q = "INSERT INTO category VALUES (null,'$type','$name','$direction','$color','$icon')";
 			$result = false;
 			if($this->con->query($q)){
 				$result = true;

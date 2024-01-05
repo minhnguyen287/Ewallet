@@ -457,18 +457,45 @@ function validateInput(page){
 		case 'category':
 			if (categoryType.value != "") {
 				data["type"] = categoryType.value;
+				if(categoryType.value == 1) {
+					if (categoryColor.value != "") {
+						data["color"] = categoryColor.value;
+					} else {
+						catColorInfor.innerText = "cannot be empty";
+					}
+					data['direction'] = null;
+				}
+				if(categoryType.value == 2){
+					if (categoryColor2.value != "") {
+						data["color"] = categoryColor.value+","+categoryColor2.value;
+					} else {
+						catColorInfor.innerText = "2 cannot be empty";
+					}
+					if(colorDirection.value != ""){
+						data['direction'] = colorDirection.value;
+					} else{
+						colorDirectionInfor.innerText = "cannot be empty";
+					}
+				}
+				if(categoryType.value == 3){
+					if (categoryColor3.value != "") {
+						data["color"] = categoryColor.value+","+categoryColor2.value+","+categoryColor3.value;
+					} else {
+						catColorInfor.innerText = "cannot be empty";
+					}
+					if(colorDirection.value != ""){
+						data['direction'] = colorDirection.value;
+					} else{
+						colorDiractionInfor.innerText = "cannot be empty";
+					}
+				} 
 			} else {
 				catTypeInfor.innerText = "cannot be empty";
 			}
-			if (categoryType.value != "") {
+			if (categoryName.value != "") {
 				data["name"] = categoryName.value;
 			}else{
 				catNameInfor.innerText = "cannot be empty";
-			}
-			if (categoryColor.value != "") {
-				data["color"] = categoryColor.value;
-			} else {
-				catColorInfor.innerText = "cannot be empty";
 			}
 		    break;
 		case 'transaction' :
@@ -743,9 +770,20 @@ function customizeView(data){
 				responseData[i].cat_id < 10 ? rowId = '0' + responseData[i].cat_id : rowId = responseData[i].cat_id;
 				templ.querySelector(".rowContent").setAttribute("id",responseData[i].cat_id);
 				templ.querySelector("td").innerText = rowId+".";
-				templ.querySelector(".rowContent td:nth-child(2)").innerText = responseData[i].category_type;
-				templ.querySelector(".rowContent td:nth-child(3) span").innerText = responseData[i].category_name;
-				templ.querySelector(".rowContent td:nth-child(3) span").style.background = responseData[i].color;
+				templ.querySelector(".rowContent td:nth-child(2) span").innerText = responseData[i].category_name;
+				if (responseData[i].category_type == 1 ) {
+					templ.querySelector(".rowContent td:nth-child(2) span").style.background = responseData[i].color;
+				}
+				if(responseData[i].category_type == 2){
+					templ.querySelector(".rowContent td:nth-child(2) span").style.backgroundImage = "linear-gradient("+responseData[i].direction+","+responseData[i].color;
+				}
+				if(responseData[i].category_type == 3){
+					let colorArr = responseData[i].color.split(',');
+					color1 = colorArr[0];
+					color2 = colorArr[1];
+					color3 = colorArr[2];
+					templ.querySelector(".rowContent td:nth-child(2) span").style.backgroundImage = "linear-gradient("+responseData[i].direction+","+color1+" 0%,"+color1+" 32%,"+color2+" 33%,"+color2+" 66%,"+color3+" 67%,"+color3+" 100%)";
+				}
 				templ.querySelector("i").setAttribute("class","fa-solid fa-"+responseData[i].icon+" fa-sm");
 				new_tbody.appendChild(templ);
 			}
@@ -887,14 +925,20 @@ if(entries,btnNextPage,btnPreviousPage){
 /*==================================================================================================================*/
 var categoryType = document.getElementById('form__add-cat_type');
 var categoryName = document.getElementById('form__add-cat_name');
+var colorDirection = document.querySelector('#form__add-color-direction');
 var categoryColor = document.getElementById('form__add-cat_color');
 var categoryColor2 = document.getElementById('form__add-cat_color2');
 var categoryColor3 = document.getElementById('form__add-cat_color3');
-colorBox = document.querySelectorAll('.color-box');
+var colorBox = document.querySelectorAll('.color-box');
+colorBox1 = colorBox[0];
+colorBox2 = colorBox[1];
+colorBox3 = colorBox[2];
+
 var categoryIcons = document.getElementsByName("icon");
 var catNameInfor = document.getElementById("category_name_info");
 var catTypeInfor = document.getElementById("category_type_info");
 var catColorInfor = document.getElementById("category_color_info");
+var colorDirectionInfor = document.getElementById("direction_color_info");
 var btnChange = document.querySelector(".change__button"); 
 
 window.onload = function(){
@@ -913,12 +957,20 @@ function showCategoryView(data){
 		for (let i = 0; i < responseData.length; i++) {
 			var categoryTemp = templateFrag.cloneNode(true);
 			categoryTemp.querySelector('.category__content-item').setAttribute('id','category'+responseData[i].cat_id)
-			categoryTemp.querySelector('.category__content-item').setAttribute('style','background:'+responseData[i].color);
-			if (i == 0) {
-				categoryTemp.querySelector('.category__content-item').setAttribute('style','background-image:linear-gradient(to right,#024fa0 0%,#024fa0 32%,#f2721e 33%  ,#f2721e 66%,#50b846 67%, #50b846 100%)');
+			if (responseData[i].category_type == 1 ) {
+				categoryTemp.querySelector(".category__content-item").setAttribute('style',"background:"+responseData[i].color);
+			}
+			if(responseData[i].category_type == 2){
+				categoryTemp.querySelector(".category__content-item").setAttribute('style',"background-image:linear-gradient("+responseData[i].direction+","+responseData[i].color);
+			}
+			if(responseData[i].category_type == 3){
+				let colorArr = responseData[i].color.split(',');
+				color1 = colorArr[0];
+				color2 = colorArr[1];
+				color3 = colorArr[2];
+				categoryTemp.querySelector(".category__content-item").setAttribute('style',"background-image:linear-gradient("+responseData[i].direction+","+color1+" 0%,"+color1+" 32%,"+color2+" 33%,"+color2+" 66%,"+color3+" 67%,"+color3+" 100%)");
 			}
 			categoryTemp.querySelector("h1").innerText = responseData[i].category_name;
-			// categoryTemp.querySelector('.category__content-item-left-desc').innerText = responseData[i].category_type;
 			categoryTemp.querySelector("i").setAttribute('class',"fa-solid fa-"+responseData[i].icon+" fa-sm");
 			categoriesList.appendChild(categoryTemp);
 		}
@@ -936,9 +988,21 @@ function showListView(data){
 			var newRow = templateFrag.cloneNode(true);
 			newRow.querySelector("tr").setAttribute("id",responseData[i].cat_id);
 			newRow.querySelector("td").innerText = responseData[i].cat_id;
-			// newRow.querySelector("td:nth-child(2)").innerText = responseData[i].category_type;
-			newRow.querySelector("td:nth-child(3) span").innerText = responseData[i].category_name;
-			newRow.querySelector("td:nth-child(3) span").style.background = responseData[i].color;
+			newRow.querySelector("td:nth-child(2) span").innerText = responseData[i].category_name;
+			if (responseData[i].category_type == 1 ) {
+				newRow.querySelector("td:nth-child(2) span").style.background = responseData[i].color;
+			}
+			if(responseData[i].category_type == 2){
+				newRow.querySelector("td:nth-child(2) span").style.backgroundImage = "linear-gradient("+responseData[i].direction+","+responseData[i].color;
+			}
+			if(responseData[i].category_type == 3){
+				let colorArr = responseData[i].color.split(',');
+				color1 = colorArr[0];
+				color2 = colorArr[1];
+				color3 = colorArr[2];
+				newRow.querySelector("td:nth-child(2) span").style.backgroundImage = "linear-gradient("+responseData[i].direction+","+color1+" 0%,"+color1+" 32%,"+color2+" 33%,"+color2+" 66%,"+color3+" 67%,"+color3+" 100%)";
+			}
+			newRow.querySelector("td:nth-child(2) span").style.background = responseData[i].color;
 			newRow.querySelector("i").setAttribute("class","fa-solid fa-"+responseData[i].icon+" fa-sm");
 			new_tbody.appendChild(newRow);
 		}
@@ -950,11 +1014,23 @@ function addCategory(data){
 	if (typeof('data')==="string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
+			console.log(responseData);
 			let templateFragRoot = document.querySelector("#category__template").content;
 			let templateFrag = templateFragRoot.cloneNode(true);
-			templateFrag.querySelector(".category__content-item").setAttribute('style',"background:"+responseData.color)
-			// templateFrag.querySelector("h1").innerText = responseData.type;
-			templateFrag.querySelector(".category__content-item-left-desc").innerText = responseData.name;
+			if (responseData.type == 1 ) {
+				templateFrag.querySelector(".category__content-item").setAttribute('style',"background:"+responseData.color);
+			}
+			if(responseData.type == 2){
+				templateFrag.querySelector(".category__content-item").setAttribute('style',"background-image:linear-gradient("+responseData.direction+","+responseData.color);
+			}
+			if(responseData.type == 3){
+				let colorArr = responseData.color.split(',');
+				color1 = colorArr[0];
+				color2 = colorArr[1];
+				color3 = colorArr[2];
+				templateFrag.querySelector(".category__content-item").setAttribute('style',"background-image:linear-gradient("+responseData.direction+","+color1+" 0%,"+color1+" 32%,"+color2+" 33%,"+color2+" 66%,"+color3+" 67%,"+color3+" 100%)");
+			}
+			templateFrag.querySelector("h1").innerText = responseData.name
 			templateFrag.querySelector("i").setAttribute("class","fa-solid fa-"+responseData.icon+" fa-sm");
 			document.querySelector(".category__content").appendChild(templateFrag);
 			popupMessage("success","add","category");
@@ -989,7 +1065,36 @@ function showModal_editCategory(event){
 			responseData = JSON.parse(data);
 			categoryType.value = responseData[0].category_type;
 			categoryName.value = responseData[0].category_name;
-			categoryColor.value = responseData[0].color;
+
+			showColorPanel(responseData[0].category_type);
+			if (responseData[0].category_type == 1 ) {
+				categoryColor.value = responseData[0].color;
+				colorBox1.style.color = responseData[0].color;
+			}
+			if(responseData[0].category_type == 2){
+				let colorArr = responseData[0].color.split(',');
+				color1 = colorArr[0];
+				color2 = colorArr[1];
+				categoryColor.value = color1;
+				colorBox1.style.color = color1;
+
+				categoryColor2.value = color2;
+				colorBox2.style.color = color2;
+			}
+			if(responseData[0].category_type == 3){
+				let colorArr = responseData[0].color.split(',');
+				color1 = colorArr[0];
+				color2 = colorArr[1];
+				color3 = colorArr[2];
+				categoryColor.value = color1;
+				colorBox1.style.color = color1;
+
+				categoryColor2.value = color2;
+				colorBox2.style.color = color2;
+
+				categoryColor3.value = color3;
+				colorBox3.style.color = color3;
+			}
 			for(let categotyIcon of categoryIcons){
 				if (categotyIcon.value == responseData[0].icon) {
 					categotyIcon.setAttribute("checked","checked");
@@ -1058,8 +1163,7 @@ function deleteCategory(data){
 	}
 }
 function showColorPanel(value) {
-	colorBox2 = colorBox[1];
-	colorBox3 = colorBox[2];
+	directionFrame = document.querySelector('.direction-frame');
 	colorFrame = document.querySelector('.color-frame');
 	colorPanel = document.querySelector('.color-panel');
 	switch(value){
@@ -1074,7 +1178,13 @@ function showColorPanel(value) {
 			colorBox3.style.height = "0";
 			colorBox3.style.transition = "height .0s ease-out, visibility .0s ease-out,opacity .0s ease-out";
 
-			colorFrame.style.width = "66%";
+			directionFrame.style.opacity = 1;
+			directionFrame.style.visibility = "visible";
+			directionFrame.style.height = "auto";
+			directionFrame.style.width = "100%";
+			directionFrame.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
+
+			colorFrame.style.width = "70%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr";
 			// colorPanel.style.gridGap = "10px";
 			break
@@ -1088,6 +1198,12 @@ function showColorPanel(value) {
 			colorBox3.style.visibility = "visible";
 			colorBox3.style.height = "auto";
 			colorBox3.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
+
+			directionFrame.style.opacity = 1;
+			directionFrame.style.visibility = "visible";
+			directionFrame.style.height = "auto";
+			directionFrame.style.width = "100%";
+			directionFrame.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
 
 			colorFrame.style.width = "100%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr 1fr";
@@ -1105,7 +1221,13 @@ function showColorPanel(value) {
 			colorBox3.style.height = 0;
 			colorBox3.style.transition = "unset";
 
-			colorFrame.style.width = "40%";
+			directionFrame.style.opacity = 0;
+			directionFrame.style.visibility = "hidden";
+			directionFrame.style.height = 0;
+			directionFrame.style.width = 0;
+			directionFrame.style.transition = "height 0s ease-out, visibility 0s ease-out,opacity 0s ease-out";
+
+			colorFrame.style.width = "60%";
 			colorPanel.style.gridTemplateColumns = "1fr";
 			// colorPanel.style.gridGap = "0";
 		}
@@ -1120,7 +1242,7 @@ if (currentPage == 'category') {
 		document.querySelector('.cat-type-arrow').classList.toggle("show-list");
 	})
 	categoryColor.addEventListener('change',()=>{
-		colorBox.style.color = categoryColor.value;
+		colorBox1.style.color = categoryColor.value;
 	})
 	categoryColor2.addEventListener('change',()=>{
 		colorBox2.style.color = categoryColor2.value;
@@ -1135,7 +1257,11 @@ if (currentPage == 'category') {
 			retitleDialog(titleDialog,"Add a new category",btnCreate,btnUpdate);
 			retitleLabel('category');
 			categoryName.value = "";
+			categoryType.value = 1;
 			categoryColor.value = "#024fa0";
+			categoryColor2.value = "#f2721e";
+			categoryColor3.value = "#50b846";
+			colorDirection.value = "to right";
 		})
 	}
 
@@ -1151,10 +1277,10 @@ if (currentPage == 'category') {
 			if (!categoryData.hasOwnProperty('icon')) {
 				categoryData["icon"] = 'sack-dollar';
 			}
-			//console.log(categoryData);
-			if(Object.keys(categoryData).length != 4){
+			if(Object.keys(categoryData).length != 5){
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
-			} else {
+			}else {
+				// console.log(categoryData);
 				let url = '../Ajax/AddANewCategory';
 				let method = "POST";
 				sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
