@@ -1287,14 +1287,14 @@ if (currentPage == 'category') {
 			if(Object.keys(categoryData).length != 5){
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			}else {
-				console.log(categoryData);
-				// let url = '../Ajax/AddANewCategory';
-				// let method = "POST";
-				// sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
+				// console.log(categoryData);
+				let url = '../Ajax/AddANewCategory';
+				let method = "POST";
+				sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
 
-				// let initUrl = '../Ajax/TotalCategory';
-				// let initMethod = "GET";
-				// sendAjaxRequest(initUrl,initMethod,initializeView);
+				let initUrl = '../Ajax/TotalCategory';
+				let initMethod = "GET";
+				sendAjaxRequest(initUrl,initMethod,initializeView);
 			}
 		})
 	}

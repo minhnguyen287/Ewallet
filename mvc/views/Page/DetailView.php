@@ -54,6 +54,17 @@
 									echo "<tr><td colspan='5'><center>No records</center></td></tr>";
 								} else {
 									for ($i=0; $i < count($data_list); $i++) {
+										if($data_list[$i]->cat_type ==1){
+											$color_style = "background:".$data_list[$i]->cat_color;
+										} else if($data_list[$i]->cat_type ==2){
+											$color_style = "background-image:linear-gradient(".$data_list[$i]->cat_direction.",".$data_list[$i]->cat_color.')';
+										} else {
+											$arr = explode(",",$data_list[$i]->cat_color);
+											$color1 = $arr[0];
+											$color2 = $arr[1];
+											$color3 = $arr[2];
+											$color_style = "background-image:linear-gradient(".$data_list[$i]->cat_direction.",".$color1." 0%,".$color1." 32%,".$color2." 33%,".$color2." 66%,".$color3." 67%,".$color3." 100%)";
+										}
 										$data_list[$i]->tran_type == 'receipt'? $status_noti = "good":$status_noti = "expired";
 										$id = $i + 1;
 										$id < 10 ? $id = "0".$id : $id;
@@ -62,7 +73,7 @@
 										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="trans type" value='.$data_list[$i]->tran_type.'>'.$data_list[$i]->tran_type.'</td>';
 										echo '<td class="table__detail-column" data-cell="trans name">'.$data_list[$i]->tran_name.'</td>';
 										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'><center>
-										<div class="cat__list" style="background:'.$data_list[$i]->cat_color.';"><i class="fa-solid fa-'.$data_list[$i]->cat_icon.' fa-lg"></i></center></div></td>';
+										<div class="cat__list" style="'.$color_style.';"><i class="fa-solid fa-'.$data_list[$i]->cat_icon.' fa-lg"></i></center></div></td>';
 										echo '<td class="table__detail-column" data-cell="description">'.$data_list[$i]->tran_desc.'</td>';
 										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount" value='.$data_list[$i]->tran_amount.'>'.number_format($data_list[$i]->tran_amount,0,'.',',').' &#8363'.'</td>';
 										echo '<td class="table__detail-column" data-cell="Action">
