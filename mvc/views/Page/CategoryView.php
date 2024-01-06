@@ -222,12 +222,47 @@
 							<span class="input_infor" id="direction_color_info"></span>
 						</label>
 						<div class="dialog__form-category-box-direction-panel direction-panel">
-							<select class="dialog__form-category-field-input" name="direction" id="form__add-color-direction">
+							<!-- <select class="dialog__form-category-field-input" name="direction" id="form__add-color-direction">
 								<option value="to right" require >to right</option>
 								<option value="to left">to left</option>
 								<option value="to top">to top</option>
 								<option value="to bottom">to bottom</option>
-							</select>
+							</select> -->
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value="315deg" id="direction8">
+								<label for="direction8"><i class="fa-solid fa-arrow-up"></i></label>
+							</div>
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value="0deg" id="direction1">
+								<label for="direction1"><i class="fa-solid fa-arrow-up"></i></label>
+							</div>
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value="45deg" id="direction2">
+								<label for="direction2"><i class="fa-solid fa-arrow-up"></i></label>
+							</div>							
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value="270deg" id="direction7">
+								<label for="direction7"><i class="fa-solid fa-arrow-up"></i></label>
+							</div>
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value="90deg" id="direction3">
+								<label for="direction3"><i class="fa-solid fa-arrow-up"></i></label>
+							</div>
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value="225deg" id="direction6">
+								<label for="direction6"><i class="fa-solid fa-arrow-up"></i></label>
+							</div>	
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value="180deg" id="direction5">
+								<label for="direction5"><i class="fa-solid fa-arrow-up"></i></label>
+							</div>
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value= null id="direction0">
+							</div>
+							<div class="dialog__form-category-field-input direction-icon">
+								<input type="radio" name="direction" value="135deg" id="direction4">
+								<label for="direction4"><i class="fa-solid fa-arrow-up"></i></label>
+							</div>
 						</div>
 					</div>
 					<div class="dialog__form-category-box">

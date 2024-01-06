@@ -1128,6 +1128,7 @@ tr{
 				    display: flex;
 				    font-family: 'FONTAWESOME';
 				    border: 1px solid #fff;
+				    box-sizing: border-box;
 				    justify-content: center;
 				    align-items: center;
 				    cursor: pointer;
@@ -1140,8 +1141,8 @@ tr{
     			&-input{
     				display: none;
     				&:checked + label {
-    					background: #6259ca;
-    					border: 2px groove #fff;
+    					background: #544ea7;
+    					border: 3px solid #fff;
     				}
     			}
 
@@ -1178,8 +1179,17 @@ tr{
     			transition:height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out ;
     			& .direction-frame-label{
     				width: 100%;
-    				padding-bottom: 10px;
+    				padding-bottom: 5px;
+    				padding-top: 5px;
     				text-align: center;
+    			}
+    			& .direction-panel{
+    				display: grid;
+					grid-template-columns: 1fr 1fr 1fr;
+    				grid-template-areas: 
+    				"h1 h2 h3"
+    				"h4 h0 h5"
+    				"h6 h7 h8"; 
     			}
     		}
     		&:last-child{
@@ -1232,6 +1242,81 @@ tr{
 		width:100%;
 		padding-bottom: 10px;
 	}
+}
+.direction-icon{
+	height: unset;
+    padding: 0;
+    margin: 2.5px;
+    & label{
+    	display: flex;
+    	align-items: center;
+    	justify-content: center;
+    	width: 30px;
+    	height: 30px;
+    	box-sizing: border-box;
+    	border-radius: 6px;
+    	outline: 1px solid #74747c;
+    	&:hover{
+    		outline-color: #fff;
+    		background: #544ea7;
+    	}
+    }
+    
+    &:first-child{
+    	grid-area: h1;
+    	& i{
+    		transform:rotate(315deg);
+    	}
+    }
+    &:nth-child(2){
+    	grid-area: h2;
+    }
+    &:nth-child(3){
+    	grid-area: h3;
+    	& i{
+    		transform:rotate(45deg);
+    	}
+    }
+    &:nth-child(4){
+    	grid-area: h4;
+    	& i{
+    		transform:rotate(270deg);
+    	}
+    }
+    &:nth-child(5){
+    	grid-area: h5;
+    	& i{
+    		transform:rotate(90deg);
+    	}
+    }
+    &:nth-child(6){
+    	grid-area: h6;
+    	& i{
+    		transform:rotate(225deg);
+    	}
+    }
+    &:nth-child(7){
+    	grid-area: h7;
+    	& i{
+    		transform:rotate(180deg);
+    	}
+    }&:nth-child(8){
+    	grid-area: h0;
+    }
+    &:last-child{
+    	grid-area: h8;
+    	& i{
+    		transform:rotate(135deg);
+    	}
+    }
+
+    & input{
+    	display: none;
+    	&:checked + label {
+    		background: #544ea7;
+    		border: 1px solid #fff;
+    	}
+    }
 }
 input:checked ~ label .dialog__form-category-field-icon-label{
 	background: lime;
@@ -1986,6 +2071,20 @@ td{
 	}
 	.color-box{
 		font-size: 1.5rem;
+	}
+	.direction{
+		&-frame{
+			&-label{
+				font-size: 0.75rem;
+			}
+		}
+		&-icon{
+			margin: 2px;
+			& label{
+				width: 25px;
+				height: 25px;
+			}
+		}
 	}
 
 //================================OIL===================================

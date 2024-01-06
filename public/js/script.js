@@ -471,11 +471,9 @@ function validateInput(page){
 					} else {
 						catColorInfor.innerText = "2 cannot be empty";
 					}
-					if(colorDirection.value != ""){
-						data['direction'] = colorDirection.value;
-					} else{
-						colorDirectionInfor.innerText = "cannot be empty";
-					}
+					if(data['direction']==null){
+						data['direction'] = '90deg';
+					} 
 				}
 				if(categoryType.value == 3){
 					if (categoryColor3.value != "") {
@@ -483,10 +481,8 @@ function validateInput(page){
 					} else {
 						catColorInfor.innerText = "cannot be empty";
 					}
-					if(colorDirection.value != ""){
-						data['direction'] = colorDirection.value;
-					} else{
-						colorDiractionInfor.innerText = "cannot be empty";
+					if(data['direction']==null){
+						data['direction'] = '90deg';
 					}
 				} 
 			} else {
@@ -925,7 +921,6 @@ if(entries,btnNextPage,btnPreviousPage){
 /*==================================================================================================================*/
 var categoryType = document.getElementById('form__add-cat_type');
 var categoryName = document.getElementById('form__add-cat_name');
-var colorDirection = document.querySelector('#form__add-color-direction');
 var categoryColor = document.getElementById('form__add-cat_color');
 var categoryColor2 = document.getElementById('form__add-cat_color2');
 var categoryColor3 = document.getElementById('form__add-cat_color3');
@@ -935,6 +930,7 @@ colorBox2 = colorBox[1];
 colorBox3 = colorBox[2];
 
 var categoryIcons = document.getElementsByName("icon");
+var colorDirections = document.getElementsByName("direction");
 var catNameInfor = document.getElementById("category_name_info");
 var catTypeInfor = document.getElementById("category_type_info");
 var catColorInfor = document.getElementById("category_color_info");
@@ -1186,6 +1182,7 @@ function showColorPanel(value) {
 
 			colorFrame.style.width = "70%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr";
+			colorDirections[4].setAttribute("checked","checked");
 			// colorPanel.style.gridGap = "10px";
 			break
 		}
@@ -1207,6 +1204,7 @@ function showColorPanel(value) {
 
 			colorFrame.style.width = "100%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr 1fr";
+			colorDirections[4].setAttribute("checked","checked");
 			// colorPanel.style.gridGap = "0px";
 			break;
 		}
@@ -1229,6 +1227,7 @@ function showColorPanel(value) {
 
 			colorFrame.style.width = "60%";
 			colorPanel.style.gridTemplateColumns = "1fr";
+			colorDirections[4].removeAttribute("checked");
 			// colorPanel.style.gridGap = "0";
 		}
 	}
@@ -1261,7 +1260,7 @@ if (currentPage == 'category') {
 			categoryColor.value = "#024fa0";
 			categoryColor2.value = "#f2721e";
 			categoryColor3.value = "#50b846";
-			colorDirection.value = "to right";
+			categoryIcons[0].setAttribute("checked","checked");
 		})
 	}
 
@@ -1273,21 +1272,29 @@ if (currentPage == 'category') {
 					categoryData["icon"] = categoryIcons[i].value;
 				}
 			}
+			for (var i = 0; i < colorDirections.length; i++) {
+				if (colorDirections[i].checked) {
+					categoryData['direction'] = colorDirections[i].value;
+				}
+			}
 			/*Nếu không có icon nào được chọn thì mặc định chọn icon đầu tiên*/
 			if (!categoryData.hasOwnProperty('icon')) {
 				categoryData["icon"] = 'sack-dollar';
 			}
+			if (!categoryData.hasOwnProperty('direction')) {
+				categoryData["direction"] = null;
+			}
 			if(Object.keys(categoryData).length != 5){
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			}else {
-				// console.log(categoryData);
-				let url = '../Ajax/AddANewCategory';
-				let method = "POST";
-				sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
+				console.log(categoryData);
+				// let url = '../Ajax/AddANewCategory';
+				// let method = "POST";
+				// sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
 
-				let initUrl = '../Ajax/TotalCategory';
-				let initMethod = "GET";
-				sendAjaxRequest(initUrl,initMethod,initializeView);
+				// let initUrl = '../Ajax/TotalCategory';
+				// let initMethod = "GET";
+				// sendAjaxRequest(initUrl,initMethod,initializeView);
 			}
 		})
 	}
