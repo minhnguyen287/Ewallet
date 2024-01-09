@@ -293,10 +293,40 @@
 
 				if (!empty($arr['type'])) {
 					$cat_type = $arr['type'];
+					switch ($cat_type) {
+						case 1:
+							if (isset($arr['color'])&&preg_match('/^#[a-z0-9]{6}$/',$arr['color'])) {
+								$cat_color = $arr['color'];
+							}
+							$cat_direction = null;
+							break;
+						case 2:
+							if (isset($arr['color'])&&preg_match('/^#[a-z0-9]{6}\,#[a-z0-9]{6}$/',$arr['color'])) {
+								$cat_color = $arr['color'];
+							}
+							if (!empty($arr['direction'])&&$arr['direction']!="null") {
+								$cat_direction = $arr['direction'];
+							} else{
+								$cat_direction = '90deg';
+							}
+							break;
+						case 3:
+							if (isset($arr['color'])&&preg_match('/^#[a-z0-9]{6}\,#[a-z0-9]{6}\,#[a-z0-9]{6}$/',$arr['color'])) {
+								$cat_color = $arr['color'];
+							}
+							if (!empty($arr['direction'])&&$arr['direction']!="null") {
+								$cat_direction = $arr['direction'];
+							} else{
+								$cat_direction = '90deg';
+							}
+							break;	
+						default:
+							$errors[] = "color";
+							break;
+					}/*End Switch*/			
 				} else{
 					$errors[] = "type";
 				}
-
 				if (!empty($arr['name'])) {
 					$cat_name = $arr['name'];
 				} else{
@@ -308,21 +338,16 @@
 				} else{
 					$errors[] = "icon";
 				}
-
-				if (isset($arr['color'])&&preg_match('/^#[a-z0-9]{6}$/',$arr['color'])) {
-					$cat_color = $arr['color'];
-				} else{
-					$errors[] = "color";
-				}
 			}
 				//2. insert database		
 				if(empty($errors)){		
-					$kq = $this->WalletModel->UpdateCategory($cat_id,$cat_type,$cat_name,$cat_color,$cat_icon);
+					$kq = $this->WalletModel->UpdateCategory($cat_id,$cat_type,$cat_name,$cat_direction,$cat_color,$cat_icon);
 					if(json_decode($kq) == true){
 						echo $this->WalletModel->ShowACategory($cat_id);
 					} else{
 						echo json_encode($kq);
 					}
+					// echo $cat_direction;
 				} else{
 					print_r($errors);
 				}
@@ -417,7 +442,9 @@
 						$arr['status'] = "success";
 						$extra = json_decode($this->WalletModel->GetLastTransaction());
 						$arr['tranId'] = $extra[0]->tran_id;
-						$arr['transCategory'] = $extra[0]->cat_name;
+						$arr['transCategoryID'] = $extra[0]->cat_id;
+						$arr['transCategory'] = $extra[0]->cat_type;
+						$arr['transDirection'] = $extra[0]->cat_direction;
 						$arr['transIcon'] = $extra[0]->cat_icon;
 						$arr['transColor'] = $extra[0]->cat_color;
 						echo json_encode($arr);

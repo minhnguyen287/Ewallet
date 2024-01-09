@@ -166,7 +166,7 @@
 					<label class="dialog__form-label" for="amount">Amount
 						<span class="input_infor" id="transamount_info"></span>
 					</label>
-					<input class="dialog__form-input" name="amount" type="number" id="form__add-transaction-amount" min="1000" step="1000" placeholder="Amount">
+					<input class="dialog__form-input" name="amount" type="text" id="form__add-transaction-amount" data-type="currency" placeholder="Amount">
 				</div>				
 
 				<div class="dialog__form-field">

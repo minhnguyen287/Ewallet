@@ -91,7 +91,6 @@
 									$row[$i]->cat_id < 10 ? $row_id = '0'.$row[$i]->cat_id : $row_id = $row[$i]->cat_id;
 									echo'<tr class = "rowContent" id ="'.$row[$i]->cat_id.'">';
 									echo'<td data-cell="no">'.$row_id.'.</td>';
-									// echo'<td data-cell="category type">'.$row[$i]->category_type.'</td>';
 									echo'<td data-cell="category name"><span style="border-radius:20px;padding:10px;padding-left:20px;padding-right:20px;background:'.$row[$i]->color.'">'.$row[$i]->category_name.'</span></td>';
 									echo'<td data-cell="icon"><i style="font-size:2rem;" class="fa-solid fa-'.$row[$i]->icon.' fa-sm"></i></td>';
 									echo '<td data-cell="Action">
@@ -153,7 +152,6 @@
 			<div class="category__content-item">
 				<div class="category__content-item-left">
 					<div class="category__content-item-left-header"><h1>Salary</h1></div>
-					<!-- <div class="category__content-item-left-desc">Salary of FRT</div> -->
 				</div>
 				<div class="category__content-item-right">
 					<div class="category__content-item-right-icon">
@@ -267,7 +265,7 @@
 					</div>
 					<div class="dialog__form-category-box">
 						<?php 
-							$icon_array = ["sack-dollar","money-bill-transfer","money-bill-wheat","money-bill-trend-up","hand-holding-dollar","piggy-bank","file-invoice-dollar","house","lightbulb","faucet-drip","fire","earth-asia","tv","mobile-screen","comments-dollar","phone-volume","utensils","bowl-rice","mug-hot","martini-glass-citrus","cart-shopping","gas-pump","motorcycle","screwdriver-wrench","gift","envelope","heart","skull","hand-holding-heart","capsules","briefcase-medical","hospital","tooth","gamepad","graduation-cap","handshake","person-walking-luggage","hotel","dumbbell","scissors"];
+							$icon_array = ["sack-dollar","money-bill-transfer","money-bill-wheat","money-bill-trend-up","hand-holding-dollar","piggy-bank","file-invoice-dollar","house","lightbulb","faucet-drip","fire","earth-asia","tv","mobile-screen","comments-dollar","phone-volume","utensils","bowl-rice","mug-hot","martini-glass-citrus","cart-shopping","gas-pump","motorcycle","screwdriver-wrench","gift","envelope","heart","skull","hand-holding-heart","capsules","briefcase-medical","hospital","tooth","gamepad","graduation-cap","handshake","person-walking-luggage","plane-arrival","print","hotel","dumbbell","scissors"];
 							for ($i=0; $i < count($icon_array) ; $i++) { 
 								echo '<div class="dialog__form-category-field-icon">';
 								echo '<input class="dialog__form-category-field-icon-input" name="icon" id="icon'.$i.'" type="radio" value="'.$icon_array[$i].'">';

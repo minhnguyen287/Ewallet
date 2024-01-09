@@ -10,6 +10,8 @@
 	https://www.youtube.com/watch?v=cNdJLapVQMo
 	https://homiedev.com/tim-hieu-javascript-classlist-add-remove-and-toggle/
 	https://stackoverflow.com/questions/11459998/using-number-format-to-add-thousand-separator
+	Tạo hàm khi nhập số tự động chuyển sang giá trị tiền tệ
+	https://codepen.io/559wade/pen/LRzEjj
 */
 
 /* Chú thích 
@@ -198,6 +200,92 @@ function numberWithCommas(x) {
 function vndCurrency(x) {
    return x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+" ₫";
 }
+function formatNumber(n) {
+  // format number 1000000 to 1,234,567
+  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
+function formatCurrency(input, blur) {
+  // appends $ to value, validates decimal side
+  // and puts cursor back in right position.
+  
+  // get input value
+  var input_val = input.value;
+ // console.log(input);
+  // don't validate empty input
+  if (input_val === "") { return; }
+  
+  // original length
+  var original_len = input_val.length;
+
+  // initial caret position 
+  var caret_pos = input.getAttribute("selectionStart");
+    
+  // check for decimal
+  // if (input_val.indexOf(".") >= 0) {
+
+  //   // get position of first decimal
+  //   // this prevents multiple decimals from
+  //   // being entered
+  //   var decimal_pos = input_val.indexOf(".");
+
+  //   // split number by decimal point
+  //   var left_side = input_val.substring(0, decimal_pos);
+  //   var right_side = input_val.substring(decimal_pos);
+
+  //   // add commas to left side of number
+  //   left_side = formatNumber(left_side);
+
+  //   // validate right side
+  //   right_side = formatNumber(right_side);
+    
+  //   // On blur make sure 2 numbers after decimal
+  //   if (blur === "blur") {
+  //     right_side += "00 ₫";
+  //   }
+    
+  //   // Limit decimal to only 2 digits
+  //   right_side = right_side.substring(0, 2);
+
+  //   // join number by .
+  //   input_val = left_side + "." + right_side;
+
+   // } else {
+    // no decimal entered
+    // add commas to number
+    // remove all non-digits
+    input_val = formatNumber(input_val);
+    input_val = input_val;
+    original_val = input_val.replace(',','');
+    
+    // final formatting
+    if (blur === "blur") {
+      input_val += " ₫";
+      input.setAttribute("real_val",original_val);
+    }
+  // }
+  
+  // send updated string to input
+  input.value = input_val;
+
+  // put caret back in the right position
+  // var updated_len = input_val.length;
+  // caret_pos = updated_len - original_len + caret_pos;
+  // input.setSelectionRange(caret_pos, caret_pos);
+}
+document.querySelector("input[data-type='currency']").addEventListener('keyup',()=>{
+	formatCurrency(dialogForm_TransAmount);
+});
+document.querySelector("input[data-type='currency']").addEventListener('blur',()=>{ 
+	formatCurrency(dialogForm_TransAmount, "blur");
+});
+
+document.querySelector("input[data-type='currency']").addEventListener('click',()=>{ 
+	if (dialogForm_TransAmount.value.indexOf('₫')!==-1) {
+		dialogForm_TransAmount.value = dialogForm_TransAmount.value.substring(0,dialogForm_TransAmount.value.length-2);
+	}	
+});
+
 function dateFormat(date){
 	return date.split('-').reverse().join('-')
 	/*Chuỗi gốc 2023-10-25
@@ -517,7 +605,7 @@ function validateInput(page){
 			}
 			
 			if (dialogForm_TransAmount.value) {
-				data["transAmount"] = dialogForm_TransAmount.value;
+				data["transAmount"] = dialogForm_TransAmount.getAttribute('real_val');
 			} else {
 				labelField_transAmount.innerText = "Amount field can't be empty";
 			}
@@ -1098,6 +1186,13 @@ function showModal_editCategory(event){
 					categotyIcon.removeAttribute("checked");
 				}
 			}
+			for(let colorDirection of colorDirections){
+				if (colorDirection.value == responseData[0].direction) {
+					colorDirection.setAttribute("checked","checked");
+				} else{
+					colorDirection.removeAttribute("checked");
+				}
+			}
 			btnUpdate.setAttribute("idC",categoryId);
 		}
 	}
@@ -1108,9 +1203,22 @@ function editCategory(data){
 		responseData = JSON.parse(data);
 		if(responseData != "false"){
 			let rowEdited = document.getElementById(responseData[0].cat_id);
-			rowEdited.querySelector("td:nth-child(2)").innerText = responseData[0].category_type;
-			rowEdited.querySelector("td:nth-child(3) span").innerText = responseData[0].category_name;
-			rowEdited.querySelector("td:nth-child(3) span").style.background = responseData[0].color;
+			rowEdited.querySelector("td:nth-child(2) span").innerText = responseData[0].category_name;
+			if (responseData[0].category_type == 1 ) {
+				rowEdited.querySelector("td:nth-child(2) span").style.background = responseData[0].color;
+			}
+			if(responseData[0].category_type == 2){
+				let color_style = "linear-gradient("+responseData[0].direction+","+responseData[0].color;
+				rowEdited.querySelector("td:nth-child(2) span").style.background = color_style;
+			}
+			if(responseData[0].category_type == 3){
+				let colorArr = responseData[0].color.split(',');
+				color1 = colorArr[0];
+				color2 = colorArr[1];
+				color3 = colorArr[2];
+				let color_style = "linear-gradient("+responseData[0].direction+","+color1+" 0%,"+color1+" 32%,"+color2+" 33%,"+color2+" 66%,"+color3+" 67%,"+color3+" 100%)";
+				rowEdited.querySelector("td:nth-child(2) span").style.background = color_style;
+			}
 			rowEdited.querySelector("i").setAttribute("class","fa-solid fa-"+responseData[0].icon+" fa-sm");
 			popupMessage('success','edit','category');
 		} else {
@@ -1255,12 +1363,6 @@ if (currentPage == 'category') {
 			showModal(dialog[0]);
 			retitleDialog(titleDialog,"Add a new category",btnCreate,btnUpdate);
 			retitleLabel('category');
-			categoryName.value = "";
-			categoryType.value = 1;
-			categoryColor.value = "#024fa0";
-			categoryColor2.value = "#f2721e";
-			categoryColor3.value = "#50b846";
-			categoryIcons[0].setAttribute("checked","checked");
 		})
 	}
 
@@ -1295,6 +1397,13 @@ if (currentPage == 'category') {
 				let initUrl = '../Ajax/TotalCategory';
 				let initMethod = "GET";
 				sendAjaxRequest(initUrl,initMethod,initializeView);
+				categoryName.value = "";
+				categoryType.value = 1;
+				categoryColor.value = "#024fa0";
+				categoryColor2.value = "#f2721e";
+				categoryColor3.value = "#50b846";
+				categoryIcons[0].setAttribute("checked","checked");
+				showColorPanel(categoryType.value);
 			}
 		})
 	}
@@ -1310,17 +1419,23 @@ if (currentPage == 'category') {
 					categoryData["icon"] = categoryIcons[i].value;
 				}
 			}
+			for (var i = 0; i < colorDirections.length; i++) {
+				if (colorDirections[i].checked) {
+					categoryData["direction"] = colorDirections[i].value;
+				}
+			}
 			/*Nếu không có icon nào được chọn thì mặc định chọn icon đầu tiên*/
 			if (!categoryData.hasOwnProperty('icon')) {
 				categoryData["icon"] = 'sack-dollar';
 			}
 			//console.log(categoryData);
-			if(Object.keys(categoryData).length != 5){
+			if(Object.keys(categoryData).length != 6){
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				let url = "../Ajax/editCategory";
 				let method = "POST";
 				sendAjaxRequest(url,method,editCategory,JSON.stringify(categoryData));
+				// console.log(categoryData);
 			}
 		})
 	}
@@ -1460,13 +1575,29 @@ function addTransaction_showDetail(data){
 			templateFrag.querySelector('tr').setAttribute('id',responseData.tranId)
 			templateFrag.querySelector('td').innerText = id < 10 ? id = "0"+id+'.' : id +'.';
 			templateFrag.querySelector('td:nth-child(2)').innerText = responseData.transType;
+			templateFrag.querySelector('td:nth-child(2)').setAttribute("value",responseData.transType);
 			templateFrag.querySelector('td:nth-child(2)').setAttribute('class','table__detail-column table__status table__status-'+status);
 			templateFrag.querySelector('td:nth-child(3)').innerText = responseData.transName;
-			templateFrag.querySelector('.cat__list').style.background = responseData.transColor;
+			if (responseData.transCategory == 1 ) {
+				templateFrag.querySelector('.cat__list').style.background = responseData.color;
+			}
+			if(responseData.transCategory == 2){
+				let color_style = "linear-gradient("+responseData.transDirection+","+responseData.transColor;
+				templateFrag.querySelector('.cat__list').style.background = color_style;
+			}
+			if(responseData.transCategory == 3){
+				let colorArr = responseData.transColor.split(',');
+				color1 = colorArr[0];
+				color2 = colorArr[1];
+				color3 = colorArr[2];
+				let color_style = "linear-gradient("+responseData.transDirection+","+color1+" 0%,"+color1+" 32%,"+color2+" 33%,"+color2+" 66%,"+color3+" 67%,"+color3+" 100%)";
+				templateFrag.querySelector('.cat__list').style.background = color_style;
+			}
+			templateFrag.querySelector('td:nth-child(4)').setAttribute("value",responseData.transCategoryID);
 			templateFrag.querySelector('td:nth-child(4) i').setAttribute('class',"fa-solid fa-"+responseData.transIcon+" fa-lg");
 			templateFrag.querySelector('td:nth-child(5)').innerText = responseData.transDesc;
 			templateFrag.querySelector('td:nth-child(6)').innerText = vndCurrency(responseData.transAmount);
-			templateFrag.querySelector('td:nth-child(6)').value = responseData.transAmount;
+			templateFrag.querySelector('td:nth-child(6)').setAttribute("value",responseData.transAmount);
 			templateFrag.querySelector('td:nth-child(6)').setAttribute('class','table__detail-column table__status table__status-'+status);
 			document.querySelector('tbody').appendChild(templateFrag);
 			popupMessage("success","add","transaction");
@@ -1792,10 +1923,12 @@ function updateTransaction(data) {
 	if (responseData != "false") {
 		statusNoti = responseData.transType == 'expenditure' ? 'expired' : 'good';
 		let category = JSON.parse(responseData.category);
+		let transCategoryType = category[0].category_type;
 		let transCategory = category[0].category_name;
 		let transIcon = category[0].icon;
+		let transDirection = category[0].direction;
 		let transColor = category[0].color;
-		console.log(category);
+		// console.log(category);
 		/* Update dòng dữ liệu đã được chỉnh sửa */
 		let rowEdited = document.getElementById(btnUpdate.getAttribute("idT"));
 		rowEdited.querySelector("td:nth-child(2)").setAttribute("class","table__detail-column table__status table__status-"+statusNoti);
@@ -1803,7 +1936,21 @@ function updateTransaction(data) {
 		rowEdited.querySelector("td:nth-child(2)").innerText = responseData.transType;
 		rowEdited.querySelector("td:nth-child(3)").innerText = responseData.transName;
 		rowEdited.querySelector("td:nth-child(4)").setAttribute("value",responseData.transCategory);
-		rowEdited.querySelector(".cat__list").style.backgroundColor = transColor;
+		if (transCategoryType == 1 ) {
+			rowEdited.querySelector('.cat__list').style.background = transColor;
+		}
+		if(transCategoryType == 2){
+			let color_style = "linear-gradient("+transDirection+","+transColor;
+			rowEdited.querySelector('.cat__list').style.backgroundImage = color_style;
+		}
+		if(transCategoryType == 3){
+			let colorArr = transColor.split(',');
+			color1 = colorArr[0];
+			color2 = colorArr[1];
+			color3 = colorArr[2];
+			let color_style = "linear-gradient("+transDirection+","+color1+" 0%,"+color1+" 32%,"+color2+" 33%,"+color2+" 66%,"+color3+" 67%,"+color3+" 100%)";
+			rowEdited.querySelector('.cat__list').style.backgroundImage = color_style;
+		}
 		rowEdited.querySelector("i").setAttribute("class","fa-solid fa-" + transIcon + " fa-lg");
 		rowEdited.querySelector("td:nth-child(5)").innerText = responseData.transDesc;
 		rowEdited.querySelector("td:nth-child(6)").innerText = vndCurrency(responseData.transAmount);
@@ -2081,3 +2228,9 @@ Khi dùng thẻ template thì trước khi thêm sửa xoá, phải dùng hàm c
 classList sử dụng contains,remove,add, replace class gần giống setAttribute
 
 */
+
+
+
+
+
+

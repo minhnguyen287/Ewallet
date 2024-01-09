@@ -886,7 +886,12 @@ tr:nth-child(even) {
         height: 45px;
         padding-left: 0.5rem; }
         .dialog__form-category-field-input[type="color"] {
-          display: none; }
+          opacity: 0;
+          height: 0;
+          z-index: -1;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%); }
         .dialog__form-category-field-input#form__add-color-direction {
           max-width: 100%; }
       .dialog__form-category-field-icon-label {
@@ -955,6 +960,7 @@ tr:nth-child(even) {
         grid-template-columns: 1fr; }
 
 .color-box {
+  position: relative;
   font-size: 2.5rem;
   align-items: center;
   display: flex;
@@ -1749,5 +1755,14 @@ input:checked ~ label .dialog__form-category-field-icon-label {
 
   .dashboard__content {
     padding-top: 1rem; } }
+#form__add-transaction-amount2 {
+  position: relative; }
+  #form__add-transaction-amount2::before {
+    content: attr(data-before);
+    /* value that that refers to CSS 'content' */
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: red; }
 
 /*# sourceMappingURL=style.css.map */

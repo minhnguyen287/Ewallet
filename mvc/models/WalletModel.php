@@ -44,15 +44,17 @@
 			return json_encode($result);
 		}
 
-		public function UpdateCategory($cat_id,$type,$name,$color,$icon){
+		public function UpdateCategory($cat_id,$type,$name,$direction,$color,$icon){
 			$cat_id = $this->con->real_escape_string(strip_tags($cat_id));
 			$type = $this->con->real_escape_string(strip_tags($type));
 			$name = $this->con->real_escape_string(strip_tags($name));
+			$direction = $this->con->real_escape_string(strip_tags($direction));
 			$color = $this->con->real_escape_string(strip_tags($color));
 			$icon = $this->con->real_escape_string(strip_tags($icon));
 			$q = "UPDATE category SET ";
 			$q .= "category_type = '$type', ";
 			$q .= "category_name = '$name', ";
+			$q .= "direction = '$direction',";
 			$q .= "color = '$color', ";
 			$q .= "icon = '$icon' ";
 			$q .= "WHERE cat_id = $cat_id";
@@ -137,7 +139,7 @@
 
 		public function GetLastTransaction()
 		{
-			$q = "SELECT *, c.category_name AS cat_name,c.color AS 'cat_color',c.icon AS 'cat_icon' FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
+			$q = "SELECT *,c.cat_id AS cat_id,c.direction AS 'cat_direction',c.category_type AS 'cat_type',c.color AS 'cat_color',c.icon AS 'cat_icon' FROM transaction JOIN category AS c USING (cat_id) ORDER BY tran_id DESC LIMIT 1";
 			$record = $this->con->query($q);
 			$arr = array();
 			while ($result = $record->fetch_array(MYSQLI_ASSOC)) {

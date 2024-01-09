@@ -1093,7 +1093,14 @@ tr{
     			height: 45px;
     			padding-left: 0.5rem;
     			&[type="color"]{
-    				display: none;
+    				opacity: 0;
+    				//visibility: hidden;
+    				height: 0;
+    				z-index: -1;
+    				position: absolute;
+				    top: 50%;
+				    transform: translateY(-50%);
+    				// display: none;
     				// width: 120px;
    					// height: 120px;
    					// margin: 0 auto;
@@ -1209,6 +1216,7 @@ tr{
     }
 }
 .color-box{
+	position: relative;
 	font-size: 2.5rem;
     align-items: center;
     display: flex;
@@ -2342,5 +2350,15 @@ td{
 	}
 	.dashboard__content{
 		padding-top: 1rem;
+	}
+}
+#form__add-transaction-amount2{
+	position: relative;
+	&::before{
+		content: attr(data-before); /* value that that refers to CSS 'content' */
+		position:absolute;
+		top: 0;
+		left: 0;
+		background: red;
 	}
 }
