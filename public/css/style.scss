@@ -2,6 +2,9 @@ $icon__size:50px;
 $component__space:30px;
 $line__color:#45455f;
 $link__color:#0097ff;
+$green_text_color:#0dad95;
+$red_text_color:#f8264a;
+
 
 @font-face {
  font-family:Poppinss;
@@ -654,6 +657,29 @@ tr{
 		// max-width: 100%;
 		// overflow-x: auto;
 	}
+	&-general{
+		font-size: 1.5rem;
+		font-weight: 600;
+		display: flex;
+		&-receipt{
+			display: flex;
+			width: fit-content;
+			color:$green_text_color;
+			&::before{
+				content:"arrow_drop_up";
+				font-family: "Material Icons";
+			}
+		}
+		&-expenditure{
+			display: flex;
+			color:$red_text_color;
+			&::before{
+				content:"arrow_drop_down";
+				font-family: "Material Icons";
+				margin-left: $component__space;
+			}
+		}
+	}
 }
 .detail__table{
 	&-header{
@@ -699,13 +725,13 @@ tr{
 .table__status{
 	text-transform: capitalize;
 	&-good{
-		color: #0dad95;
+		color: $green_text_color;
 	}
 	&-warning{
 		color:#313db6;
 	}
 	&-expired{
-		color:#f8264a;
+		color:$red_text_color;
 	}
 }
 
@@ -2128,13 +2154,17 @@ td{
 	.table__body{
 		&-header{
 			// flex-direction: row-reverse;
+			flex-direction: column;
+			align-items: flex-start;
 			padding: 0;
 			width: 95%;
-			margin: 0 auto;
+			margin-left: 15px;
 			padding-top: 10px;
 			&-search{
 				display: none;
 			}
+		}&-general{
+			padding-top: 15px;
 		}
 		&-footer{
 			padding: 10px;

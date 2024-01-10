@@ -1,3 +1,36 @@
+<?php 
+$data_list = json_decode($data["TransactionList"]);
+//$transaction_list = json_decode($data["TransactionList"]);
+if (empty($data_list)) {
+	$new_record = "<tr><td colspan='5'><center>No records</center></td></tr>";
+} else {
+	$new_record = "";
+	$total_sales = 0;
+	$total_cost = 0;
+	for ($i=0; $i < count($data_list); $i++) { 
+		$status_noti = "good";
+		$operator = "+ ";
+		$difference = $data_list[$i]->receipt - $data_list[$i]->expenditure;
+		if ($data_list[$i]->receipt < $data_list[$i]->expenditure) {
+			$status_noti = "expired";
+			$operator = "- ";
+			$difference = $data_list[$i]->expenditure - $data_list[$i]->receipt;
+		}
+		$total_sales = $total_sales + $data_list[$i]->receipt;
+		$total_cost = $total_cost + $data_list[$i]->expenditure;
+		$id = $i + 1;
+		$id < 10 ? $id = "0".$id : $id;
+		$new_record .= "<tr>";
+		$new_record .= '<td data-cell="no">'.$id.'.</td>';
+		$new_record .= '<td data-cell="date"><a href="Detail/'.$data_list[$i]->date.'">'.$data_list[$i]->date.'</a></td>';
+		//number_format( $output , 0 , '.' , ',' )
+		$new_record .= '<td data-cell="Receipts">'.number_format($data_list[$i]->receipt,0,'.',',').' &#8363'.'</td>';
+		$new_record .= '<td data-cell="Expenditure">'.number_format($data_list[$i]->expenditure,0,'.',',').' &#8363'.'</td>';
+		$new_record .= '<td data-cell="Difference" class="table__status table__status-'.$status_noti.'">'.$operator.number_format($difference,0,'.',',').' &#8363'.'</td>';
+		$new_record .= '</tr>';
+	}
+}	
+?>
 <div class="container">
 	<div class="header__container">
 		<div class="header__container-left">
@@ -44,6 +77,10 @@
 							</template>
 						</div>
 					</div>
+					<div class="table__body-general">
+						<span class="table__body-general-receipt"><?php echo number_format($total_sales,0,'.',',').' &#8363';?></span>
+						<span class="table__body-general-expenditure"><?php echo number_format($total_cost,0,'.',',').' &#8363'; ?></span>
+					</div>
 				</div>
 				<div class="table__body-content">
 					<table class="statistical">
@@ -68,37 +105,37 @@
 						</thead>
 						<tbody>
 							<?php 
-								$data_list = json_decode($data["TransactionList"]);
-								//$transaction_list = json_decode($data["TransactionList"]);
-								if (empty($data_list)) {
-									echo "<tr><td colspan='5'><center>No records</center></td></tr>";
-								} else {
-									// if (isset($transaction_list->action)) {
-									// 	unset($transaction_list->action);
-									// }
-									// $data_list = (array) $transaction_list;
-									for ($i=0; $i < count($data_list); $i++) { 
-										$status_noti = "good";
-										$operator = "+ ";
-										$difference = $data_list[$i]->receipt - $data_list[$i]->expenditure;
-										if ($data_list[$i]->receipt < $data_list[$i]->expenditure) {
-											$status_noti = "expired";
-											$operator = "- ";
-											$difference = $data_list[$i]->expenditure - $data_list[$i]->receipt;
-										}
-										$id = $i + 1;
-										$id < 10 ? $id = "0".$id : $id;
-										echo "<tr>";
-										echo '<td data-cell="no">'.$id.'.</td>';
-										echo '<td data-cell="date"><a href="Detail/'.$data_list[$i]->date.'">'.$data_list[$i]->date.'</a></td>';
-										//number_format( $output , 0 , '.' , ',' )
-										echo '<td data-cell="Receipts">'.number_format($data_list[$i]->receipt,0,'.',',').' &#8363'.'</td>';
-										echo '<td data-cell="Expenditure">'.number_format($data_list[$i]->expenditure,0,'.',',').' &#8363'.'</td>';
-										echo '<td data-cell="Difference" class="table__status table__status-'.$status_noti.'">'.$operator.number_format($difference,0,'.',',').' &#8363'.'</td>';
-										echo '</tr>';
-									}
-								}
-								
+								echo $new_record;
+								// $data_list = json_decode($data["TransactionList"]);
+								// //$transaction_list = json_decode($data["TransactionList"]);
+								// if (empty($data_list)) {
+								// 	echo "<tr><td colspan='5'><center>No records</center></td></tr>";
+								// } else {
+								// 	// if (isset($transaction_list->action)) {
+								// 	// 	unset($transaction_list->action);
+								// 	// }
+								// 	// $data_list = (array) $transaction_list;
+								// 	for ($i=0; $i < count($data_list); $i++) { 
+								// 		$status_noti = "good";
+								// 		$operator = "+ ";
+								// 		$difference = $data_list[$i]->receipt - $data_list[$i]->expenditure;
+								// 		if ($data_list[$i]->receipt < $data_list[$i]->expenditure) {
+								// 			$status_noti = "expired";
+								// 			$operator = "- ";
+								// 			$difference = $data_list[$i]->expenditure - $data_list[$i]->receipt;
+								// 		}
+								// 		$id = $i + 1;
+								// 		$id < 10 ? $id = "0".$id : $id;
+								// 		echo "<tr>";
+								// 		echo '<td data-cell="no">'.$id.'.</td>';
+								// 		echo '<td data-cell="date"><a href="Detail/'.$data_list[$i]->date.'">'.$data_list[$i]->date.'</a></td>';
+								// 		//number_format( $output , 0 , '.' , ',' )
+								// 		echo '<td data-cell="Receipts">'.number_format($data_list[$i]->receipt,0,'.',',').' &#8363'.'</td>';
+								// 		echo '<td data-cell="Expenditure">'.number_format($data_list[$i]->expenditure,0,'.',',').' &#8363'.'</td>';
+								// 		echo '<td data-cell="Difference" class="table__status table__status-'.$status_noti.'">'.$operator.number_format($difference,0,'.',',').' &#8363'.'</td>';
+								// 		echo '</tr>';
+								// 	}
+								// }	
 							 ?>
 						</tbody>
 						<template id="statistical__list">

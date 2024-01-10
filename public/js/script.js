@@ -273,18 +273,20 @@ function formatCurrency(input, blur) {
   // caret_pos = updated_len - original_len + caret_pos;
   // input.setSelectionRange(caret_pos, caret_pos);
 }
-document.querySelector("input[data-type='currency']").addEventListener('keyup',()=>{
-	formatCurrency(dialogForm_TransAmount);
-});
-document.querySelector("input[data-type='currency']").addEventListener('blur',()=>{ 
-	formatCurrency(dialogForm_TransAmount, "blur");
-});
+if (document.querySelector("input[data-type='currency']")) {
+	document.querySelector("input[data-type='currency']").addEventListener('keyup',()=>{
+		formatCurrency(dialogForm_TransAmount);
+	});
+	document.querySelector("input[data-type='currency']").addEventListener('blur',()=>{ 
+		formatCurrency(dialogForm_TransAmount, "blur");
+	});
 
-document.querySelector("input[data-type='currency']").addEventListener('click',()=>{ 
-	if (dialogForm_TransAmount.value.indexOf('₫')!==-1) {
-		dialogForm_TransAmount.value = dialogForm_TransAmount.value.substring(0,dialogForm_TransAmount.value.length-2);
-	}	
-});
+	document.querySelector("input[data-type='currency']").addEventListener('click',()=>{ 
+		if (dialogForm_TransAmount.value.indexOf('₫')!==-1) {
+			dialogForm_TransAmount.value = dialogForm_TransAmount.value.substring(0,dialogForm_TransAmount.value.length-2);
+		}	
+	});
+}
 
 function dateFormat(date){
 	return date.split('-').reverse().join('-')
@@ -1508,7 +1510,11 @@ function showStatistical(data){
 		var operator;
 		var id;
 		var difference = new Number;
+		var total_sales = 0;
+		var total_cost = 0;
 		for (var i = 0; i < responseData.length; i++) {
+			total_sales += parseInt(responseData[i].receipt);
+			total_cost += parseInt(responseData[i].expenditure);
 			if (parseInt(responseData[i].receipt) < parseInt(responseData[i].expenditure) ) {
 				status_noti = "expired";
 				operator = "- ";
@@ -1525,13 +1531,15 @@ function showStatistical(data){
 			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id : id +'.';
 			templateFrag.querySelector("a").innerText = responseData[i].date;
 			templateFrag.querySelector("a").href = 'Detail/'+ responseData[i].date;
-			templateFrag.querySelector("td:nth-child(3)").innerText = numberWithCommas(responseData[i].receipt);
-			templateFrag.querySelector("td:nth-child(4)").innerText = numberWithCommas(responseData[i].expenditure);
+			templateFrag.querySelector("td:nth-child(3)").innerText = vndCurrency(responseData[i].receipt);
+			templateFrag.querySelector("td:nth-child(4)").innerText = vndCurrency(responseData[i].expenditure);
 			templateFrag.querySelector("td:nth-child(5)").innerText = operator + vndCurrency(difference);
 			templateFrag.querySelector("td:nth-child(5)").setAttribute("class","table__status table__status-"+status_noti);
 			new_tbody.appendChild(templateFrag);
 		}
 		document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));
+		document.querySelector('.table__body-general-receipt').innerText = vndCurrency(total_sales);
+		document.querySelector('.table__body-general-expenditure').innerText = vndCurrency(total_cost);
 	}
 }
 
@@ -1578,14 +1586,14 @@ function addTransaction_showDetail(data){
 			templateFrag.querySelector('td:nth-child(2)').setAttribute("value",responseData.transType);
 			templateFrag.querySelector('td:nth-child(2)').setAttribute('class','table__detail-column table__status table__status-'+status);
 			templateFrag.querySelector('td:nth-child(3)').innerText = responseData.transName;
-			if (responseData.transCategory == 1 ) {
+			if (responseData.transCategoryType == 1 ) {
 				templateFrag.querySelector('.cat__list').style.background = responseData.color;
 			}
-			if(responseData.transCategory == 2){
+			if(responseData.transCategoryType == 2){
 				let color_style = "linear-gradient("+responseData.transDirection+","+responseData.transColor;
 				templateFrag.querySelector('.cat__list').style.background = color_style;
 			}
-			if(responseData.transCategory == 3){
+			if(responseData.transCategoryType == 3){
 				let colorArr = responseData.transColor.split(',');
 				color1 = colorArr[0];
 				color2 = colorArr[1];
@@ -1914,7 +1922,7 @@ function showModal_editTransaction(){
 	dialogForm_Category.value = data["transCat"];
 	dialogForm_TransName.value = data["transName"];
 	dialogForm_Description.value = data["transDesc"];
-	dialogForm_TransAmount.value = data["transAmount"];
+	dialogForm_TransAmount.value = vndCurrency(data["transAmount"]);
 	btnUpdate.setAttribute('idT',data["id"]);
 }
 

@@ -425,7 +425,7 @@
 					$errors[] = "transDesc"; 
 				}
 
-				if (!empty($arr['transAmount'])) {
+				if (!empty($arr['transAmount']) && is_numeric($arr['transAmount'])) {
 					$transAmount = $arr['transAmount'];
 				} else {
 					$errors[] = "transAmount"; 
@@ -442,8 +442,7 @@
 						$arr['status'] = "success";
 						$extra = json_decode($this->WalletModel->GetLastTransaction());
 						$arr['tranId'] = $extra[0]->tran_id;
-						$arr['transCategoryID'] = $extra[0]->cat_id;
-						$arr['transCategory'] = $extra[0]->cat_type;
+						$arr['transCategoryType'] = $extra[0]->cat_type;
 						$arr['transDirection'] = $extra[0]->cat_direction;
 						$arr['transIcon'] = $extra[0]->cat_icon;
 						$arr['transColor'] = $extra[0]->cat_color;
@@ -473,7 +472,7 @@
 					$errors[] = "transId";
 				}
 
-				if (isset($arr['transAmount'])&&filter_var($arr['transAmount'], FILTER_VALIDATE_INT, array('min_range' => 1) ) ) {
+				if (isset($arr['transAmount']) && filter_var($arr['transAmount'], FILTER_VALIDATE_INT, array('min_range' => 1) ) ) {
 					$transAmount = $arr['transAmount'];
 				} else{
 					$errors[] = "transAmount";
