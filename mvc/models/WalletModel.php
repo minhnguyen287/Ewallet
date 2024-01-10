@@ -36,7 +36,7 @@
 			$direction = $this->con->real_escape_string(strip_tags($direction));
 			$color = $this->con->real_escape_string(strip_tags($color));
 			$icon = $this->con->real_escape_string(strip_tags($icon));			
-			$q = "INSERT INTO category VALUES (null,'$type','$name','$direction','$color','$icon')";
+			$q = "INSERT INTO category VALUES (0,'$type','$name','$direction','$color','$icon')";
 			$result = false;
 			if($this->con->query($q)){
 				$result = true;

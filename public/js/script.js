@@ -256,7 +256,7 @@ function formatCurrency(input, blur) {
     // remove all non-digits
     input_val = formatNumber(input_val);
     input_val = input_val;
-    original_val = input_val.replace(',','');
+    original_val = input_val.replaceAll(',','');
     
     // final formatting
     if (blur === "blur") {
@@ -1070,10 +1070,12 @@ function showListView(data){
 		let viewList = document.querySelector('.list__content');
 		let new_tbody = document.createElement('tbody');
 		let old_tbody = document.querySelector('tbody');
+		var id;
 		for (let i = 0; i < responseData.length; i++) {
+			id = i +1 ;
 			var newRow = templateFrag.cloneNode(true);
 			newRow.querySelector("tr").setAttribute("id",responseData[i].cat_id);
-			newRow.querySelector("td").innerText = responseData[i].cat_id;
+			newRow.querySelector("td").innerText = id < 10 ? id = "0"+id+'.' : id +'.';
 			newRow.querySelector("td:nth-child(2) span").innerText = responseData[i].category_name;
 			if (responseData[i].category_type == 1 ) {
 				newRow.querySelector("td:nth-child(2) span").style.background = responseData[i].color;
@@ -1528,7 +1530,7 @@ function showStatistical(data){
 			let templateFrag = templateFragRoot.cloneNode(true);
 			//console.log(templateFrag.querySelectorAll("td"));
 			id = i + 1;
-			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id : id +'.';
+			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id+'.' : id +'.';
 			templateFrag.querySelector("a").innerText = responseData[i].date;
 			templateFrag.querySelector("a").href = 'Detail/'+ responseData[i].date;
 			templateFrag.querySelector("td:nth-child(3)").innerText = vndCurrency(responseData[i].receipt);
@@ -1587,7 +1589,7 @@ function addTransaction_showDetail(data){
 			templateFrag.querySelector('td:nth-child(2)').setAttribute('class','table__detail-column table__status table__status-'+status);
 			templateFrag.querySelector('td:nth-child(3)').innerText = responseData.transName;
 			if (responseData.transCategoryType == 1 ) {
-				templateFrag.querySelector('.cat__list').style.background = responseData.color;
+				templateFrag.querySelector('.cat__list').style.background = responseData.transColor;
 			}
 			if(responseData.transCategoryType == 2){
 				let color_style = "linear-gradient("+responseData.transDirection+","+responseData.transColor;
@@ -1601,7 +1603,7 @@ function addTransaction_showDetail(data){
 				let color_style = "linear-gradient("+responseData.transDirection+","+color1+" 0%,"+color1+" 32%,"+color2+" 33%,"+color2+" 66%,"+color3+" 67%,"+color3+" 100%)";
 				templateFrag.querySelector('.cat__list').style.background = color_style;
 			}
-			templateFrag.querySelector('td:nth-child(4)').setAttribute("value",responseData.transCategoryID);
+			templateFrag.querySelector('td:nth-child(4)').setAttribute("value",responseData.transCategory);
 			templateFrag.querySelector('td:nth-child(4) i').setAttribute('class',"fa-solid fa-"+responseData.transIcon+" fa-lg");
 			templateFrag.querySelector('td:nth-child(5)').innerText = responseData.transDesc;
 			templateFrag.querySelector('td:nth-child(6)').innerText = vndCurrency(responseData.transAmount);
@@ -1923,6 +1925,7 @@ function showModal_editTransaction(){
 	dialogForm_TransName.value = data["transName"];
 	dialogForm_Description.value = data["transDesc"];
 	dialogForm_TransAmount.value = vndCurrency(data["transAmount"]);
+	dialogForm_TransAmount.setAttribute('real_val',data["transAmount"]);
 	btnUpdate.setAttribute('idT',data["id"]);
 }
 
