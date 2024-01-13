@@ -78,8 +78,8 @@ if (empty($data_list)) {
 						</div>
 					</div>
 					<div class="table__body-general">
-						<span class="table__body-general-receipt"><?php echo number_format($total_sales,0,'.',',').' &#8363';?></span>
-						<span class="table__body-general-expenditure"><?php echo number_format($total_cost,0,'.',',').' &#8363'; ?></span>
+						<span class="table__body-general-receipt"><?php echo number_format($total_sales,0,'.',',');?></span>
+						<span class="table__body-general-expenditure"><?php echo number_format($total_cost,0,'.',','); ?></span>
 					</div>
 				</div>
 				<div class="table__body-content">

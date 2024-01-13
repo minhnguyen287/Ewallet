@@ -638,7 +638,7 @@ tr:nth-child(even) {
   min-height: 400px;
 }
 .table__body-general {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
   display: flex;
 }
@@ -651,6 +651,9 @@ tr:nth-child(even) {
   content: "arrow_drop_up";
   font-family: "Material Icons";
 }
+.table__body-general-receipt::after {
+  content: "₫";
+}
 .table__body-general-expenditure {
   display: flex;
   color: #f8264a;
@@ -659,6 +662,9 @@ tr:nth-child(even) {
   content: "arrow_drop_down";
   font-family: "Material Icons";
   margin-left: 30px;
+}
+.table__body-general-expenditure::after {
+  content: "₫";
 }
 
 .detail__table-header {

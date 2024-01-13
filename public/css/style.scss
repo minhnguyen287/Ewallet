@@ -658,7 +658,7 @@ tr{
 		// overflow-x: auto;
 	}
 	&-general{
-		font-size: 1.5rem;
+		font-size: 1.4rem;
 		font-weight: 600;
 		display: flex;
 		&-receipt{
@@ -669,6 +669,9 @@ tr{
 				content:"arrow_drop_up";
 				font-family: "Material Icons";
 			}
+			&::after{
+				content: "₫";
+			}
 		}
 		&-expenditure{
 			display: flex;
@@ -677,6 +680,9 @@ tr{
 				content:"arrow_drop_down";
 				font-family: "Material Icons";
 				margin-left: $component__space;
+			}
+			&::after{
+				content: "₫";
 			}
 		}
 	}

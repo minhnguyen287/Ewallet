@@ -1,44 +1,4 @@
-
-/* Nguồn tham khảo 
-	https://completejavascript.com/chuyen-html-template-sang-dom-node/
-	https://codetot.net/javascript-delegation-event/#Event_Delegation_trong_Plain_Javascript
-	http://bdadam.com/blog/plain-javascript-event-delegation.html
-	https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
-	=//=//=/=//=//= Callback =//=//=/=//=//=
-	https://www.youtube.com/watch?v=W8vJ-yOtSbE&t=236s
-	https://www.youtube.com/watch?v=LUt36WnREm0&t=222s
-	https://www.youtube.com/watch?v=cNdJLapVQMo
-	https://homiedev.com/tim-hieu-javascript-classlist-add-remove-and-toggle/
-	https://stackoverflow.com/questions/11459998/using-number-format-to-add-thousand-separator
-	Tạo hàm khi nhập số tự động chuyển sang giá trị tiền tệ
-	https://codepen.io/559wade/pen/LRzEjj
-*/
-
-/* Chú thích 
-	headerPopup : là phần tử thông báo hànhd dộng thành công hay thất bại mỗi khi submit Form
-
-	dialog : là Modal được gọi khi ấn vào button tương ứng
-	dialog[0] : là modal dùng để add và update transaction
-	dialog[1] : là modal dùng để delete transaction
-
-	delFormContent, delForm là viết tắt của dialog__form[1] và dialog__content[1] khi gọi ra bằng document.getElementsByClassName
-	dùng 2 đối tượng này để custom Form delete của Modal delete vì nó là Modal riêng, ko giông Modal add và update
-
-	btnAddTransaction, btnEditTransaction, btnDeleteTransaction, btnCancel là 4 button action để thực hiện
-	4 tính năng thêm, sửa, xoá, và huỷ hành động xoá của Form trong đó đặc biệt btnAddTransaction ccaafn chú ý
-	btnAddTransaction[0] là button để gọi Form Add (dialof[0])
-	btnAddTransaction[1] dùng để thực hiện hành động add transaction
-
-	btnCloseModal : là button dấu X dùng để đóng modal trong đó :
-	btnCloseModal[0] dùng để đóng modal add và update transaction
-	btnCloseModal[1] dùng để đóng modal delete transaction
-
-	titleDialog dùng để hiển thị tiêu đề của modal
-	AER = Add-Edit-Remove
-	CUD = Creat-Update-Delete
-
-*/
-var btnAdd = document.querySelector('.add__button'); /* och viết tắt của oil change history */
+var btnAdd = document.querySelector('.add__button');
 var btnCreate = document.querySelector('.create__button');
 var btnEdit = document.querySelector('.edit__button');
 var btnUpdate = document.querySelector('.update__button');
@@ -46,12 +6,9 @@ var btnRemove = document.querySelector('.remove__button');
 var btnDelete = document.querySelector('.delete__button');
 var btnCancel = document.querySelector('.cancel__button');
 var btnCloseModal = document.querySelectorAll(".dialog__content-header-close");
-
 var headerPopup = document.querySelector(".header__popup");
-
 var dialog = document.getElementsByClassName("dialog");
 var titleDialog = document.querySelector('.dialog__content-header-label h2'); 
-
 var delFormContent = document.getElementsByClassName("dialog__content")[1];
 var delForm = document.getElementsByClassName("dialog__form")[1];
 var dialogForm_startKm = document.getElementById("form__start-kilometer");
@@ -59,14 +16,12 @@ var dialogForm_endKm = document.getElementById("form__end-kilometer");
 var dialogForm_product = document.getElementById("form__product");
 var dialogForm_startDay = document.getElementById("form__start-day");
 var dialogForm_endDay = document.getElementById("form__end-day");
-
 var labelField_startKm = document.getElementById("start_km_info");
 var labelField_endKm = document.getElementById("end_km_info");
 var labelField_startDay = document.getElementById("start_day_info");
 var labelField_endDay = document.getElementById("end_day_info");
 var labelField_product = document.getElementById("product_info");
 var labelField_Dialog = document.getElementById("transDialog_info");
-
 const currentUrl = window.location.pathname.toString();
 const urlArray = currentUrl.split("/");
 var currentPage;
@@ -98,19 +53,14 @@ function definePage(){
 	return currentPage;
 }
 currentPage = definePage();
-
-/* Viết 2 hàm ẩn / hiện bảng modal dialog */
 function showModal(modal){
 	modal.style.opacity = "1";
 	modal.style.visibility = "visible";
 }
-
 function hideModal(modal) {
 	modal.style.opacity = "0";
 	modal.style.visibility = "hidden";
 }
-
-/* Viết function hiển thị nội dung và các button Form khi click vào button có action tương ứng */
 function retitleDialog(titleDialog,title,btnDisplay,btnHide){
 	titleDialog.innerText = title;
 		btnDisplay.style.display = "";
@@ -140,10 +90,7 @@ function retitleLabel(page){
 			labelField_Dialog.innerText = "";
 			break;
  	}
-	
- }
-
-/*Viết function phân loại trạng thái hiển thị Good/Warning/Expired dựa vào số km */
+}
 function assessmentStatuses (km){
 	let status_noti = "good";
 	if (km >= 1200 && km <= 1500) {
@@ -153,7 +100,6 @@ function assessmentStatuses (km){
 	}
 	return status_noti;
 }
-/* Viết hàm tuỳ chỉnh nội dung popup thông báo thành công hay thất bạt*/
 function popupMessage(status,action,object){
 	var message;
 	if (status == "success") {
@@ -187,91 +133,31 @@ function popupMessage(status,action,object){
 		headerPopup.style.transform = 'translate(-50%,-100px)';
 	},2500);
 }
-
-/* Responsive modal nếu màn hình nhỏ */
 function calculatePercentage(x, y){
 	return (x/y)*100;
 }
-
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 function vndCurrency(x) {
    return x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+" ₫";
 }
 function formatNumber(n) {
-  // format number 1000000 to 1,234,567
   return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
-
 function formatCurrency(input, blur) {
-  // appends $ to value, validates decimal side
-  // and puts cursor back in right position.
-  
-  // get input value
-  var input_val = input.value;
- // console.log(input);
-  // don't validate empty input
-  if (input_val === "") { return; }
-  
-  // original length
-  var original_len = input_val.length;
-
-  // initial caret position 
-  var caret_pos = input.getAttribute("selectionStart");
-    
-  // check for decimal
-  // if (input_val.indexOf(".") >= 0) {
-
-  //   // get position of first decimal
-  //   // this prevents multiple decimals from
-  //   // being entered
-  //   var decimal_pos = input_val.indexOf(".");
-
-  //   // split number by decimal point
-  //   var left_side = input_val.substring(0, decimal_pos);
-  //   var right_side = input_val.substring(decimal_pos);
-
-  //   // add commas to left side of number
-  //   left_side = formatNumber(left_side);
-
-  //   // validate right side
-  //   right_side = formatNumber(right_side);
-    
-  //   // On blur make sure 2 numbers after decimal
-  //   if (blur === "blur") {
-  //     right_side += "00 ₫";
-  //   }
-    
-  //   // Limit decimal to only 2 digits
-  //   right_side = right_side.substring(0, 2);
-
-  //   // join number by .
-  //   input_val = left_side + "." + right_side;
-
-   // } else {
-    // no decimal entered
-    // add commas to number
-    // remove all non-digits
-    input_val = formatNumber(input_val);
-    input_val = input_val;
-    original_val = input_val.replaceAll(',','');
-    
-    // final formatting
-    if (blur === "blur") {
-      input_val += " ₫";
-      input.setAttribute("real_val",original_val);
-    }
-  // }
-  
-  // send updated string to input
-  input.value = input_val;
-
-  // put caret back in the right position
-  // var updated_len = input_val.length;
-  // caret_pos = updated_len - original_len + caret_pos;
-  // input.setSelectionRange(caret_pos, caret_pos);
+	var input_val = input.value;
+	if (input_val === "") { return; }
+	var original_len = input_val.length;
+	var caret_pos = input.getAttribute("selectionStart");
+	input_val = formatNumber(input_val);
+	input_val = input_val;
+	original_val = input_val.replaceAll(',','');
+	if (blur === "blur") {
+		input_val += " ₫";
+		input.setAttribute("real_val",original_val);
+	}
+	input.value = input_val;
 }
 if (document.querySelector("input[data-type='currency']")) {
 	document.querySelector("input[data-type='currency']").addEventListener('keyup',()=>{
@@ -287,14 +173,9 @@ if (document.querySelector("input[data-type='currency']")) {
 		}	
 	});
 }
-
 function dateFormat(date){
 	return date.split('-').reverse().join('-')
-	/*Chuỗi gốc 2023-10-25
-	Kết quả 25-10-2023*/
 }
-
-/* Ẩn Modal thêm bản ghi khi click vào dấu X */
 btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
 if (btnCloseModal[1]) {
 	btnCloseModal[1].addEventListener("click",()=>hideModal(dialog[1]));
@@ -302,7 +183,6 @@ if (btnCloseModal[1]) {
 if (btnCancel) {
 	btnCancel.addEventListener("click",()=>hideModal(dialog[1]));
 }
-/* Ẩn Modal thêm bản ghi khi click vào vị trí bất kỳ trên màn hình */
 window.addEventListener("click",function(event){
 	if (event.target == dialog[0]) {
 		hideModal(dialog[0]);
@@ -316,21 +196,6 @@ window.addEventListener("click",function(event){
 		}
 	}
 });
-
-// window.onresize = function(){
-// 	var width = window.screen.width;
-//     //console.log(width);
-//     if (currentPage == 'oil' || currentPage == 'category' || currentPage == 'detail' || currentPage == 'transaction') {
-//     	if (width < 769) {
-//     		delFormContent.style.minWidth = calculatePercentage(9,10)+"%";
-//     	} 
-//     	// else {
-//     	// 	delFormContent.style.minWidth = "initial";
-//     	// }
-//     }
-    
-// }
-/* Function call AJAX load thông tin sản phẩm */
 function sendAjaxRequest(url,method,callback,data){
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = handleResult;
@@ -349,11 +214,6 @@ function sendAjaxRequest(url,method,callback,data){
 		}
 	}
 }
-
-/*==================================================================================================================*/
-/*                                     -- Code For Oil Change History --                							*/
-/*==================================================================================================================*/
-/*Hàm xử lí dữ liệu load ra các option của thanh select được reponse sau khi gửi AJAX*/
 function loadProductList(data,output){
 	if (typeof(data) == 'string') {
 		var arr = [];
@@ -368,14 +228,11 @@ function loadProductList(data,output){
 	}
 }
 function showModal_addDialog(data){
-	/* Sửa lại Modal phù hợp trước khi hiển thị sau đó gọi modal ra */
 	retitleDialog(titleDialog,'Add a new transaction',btnCreate,btnUpdate);
 	retitleLabel('oil');
 	showModal(dialog[0]);
-	/* Reload lại các phần tử dùng để thông báo */
 	headerPopup.setAttribute("class","header__popup");
 	headerPopup.removeAttribute("style");
-	/*Fill data */
 	let curentDate = new Date().toJSON().slice(0, 10);
 	var responseData = JSON.parse(data);
 	if (responseData == null) {
@@ -389,12 +246,10 @@ function showModal_addDialog(data){
 	dialogForm_endKm.value = null;
 	dialogForm_product.value = null;
 }
-
 function addNewRecord(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
-			/*Hiển thị dòng dữ liệu mới thêm vào*/
 			let templateFragRoot = document.querySelector("#newRow").content;
 			var templateFrag = templateFragRoot.cloneNode(true);
 			let id = document.querySelectorAll('tr').length;
@@ -408,20 +263,15 @@ function addNewRecord(data){
 			templateFrag.querySelector(".rowContent td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
 			templateFrag.querySelector(".rowContent td:nth-child(7)").setAttribute("class","table__status table__status-"+assessmentStatuses(responseData.total_km));
 			document.querySelector("tbody").appendChild(templateFrag);
-			/*In ra câu thông báo thành công*/
 			popupMessage("success","add","record");
 		} else {
 			popupMessage("failure","add","record");
 		}
 	} else {
-		/*In ra câu thông báo thất bại*/
 		popupMessage("failure","add","record");
 	}
 }
-
 function showModal_editDialog(){
-	/*event. target: là phần tử mà user tương tác (click, change)
-	ở đây thì khi user click vào button edit thì target là phần tử user vừa click*/
 	var target = event.target;
 	var transactionId;
 	while(target && target !== document.querySelector('tbody')){
@@ -430,19 +280,15 @@ function showModal_editDialog(){
 		}
 		target = target.parentNode;
 	}
-	/* Reload lại các phần tử dùng để thông báo */
 	headerPopup.setAttribute("class","header__popup");
 	headerPopup.removeAttribute("style");
-	/* Gọi modal Update*/
 	showModal(dialog[0]);
 	retitleDialog(titleDialog,'Edit transaction',btnUpdate,btnCreate);
 	retitleLabel('oil');
-	/* Gọi Ajax load dữ liệu của bản ghi tương ứng với số transactionId khi button Edit được click*/
 	let id = JSON.stringify({"tranId":transactionId});
 	let url = './Ajax/ShowRecordById';
 	let method = "POST";
 	sendAjaxRequest(url,method,loadModal_editDialog,id);
-
 	function loadModal_editDialog(data) {
 		responseData = JSON.parse(data);
 		dialogForm_startDay.value = responseData.start_day;
@@ -453,31 +299,27 @@ function showModal_editDialog(){
 		btnUpdate.setAttribute("transactionId",transactionId);		
 	}		
 }
-
 function updateRecord(data){
 	if (typeof(data)=== "string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
-			/* Update dòng dữ liệu đã được chỉnh sửa */
 			let rowEdited = document.getElementById(btnUpdate.getAttribute("transactionId"));
-			rowEdited.querySelector("td:nth-child(2)").innerText = responseData.product_name;
-			rowEdited.querySelector("td:nth-child(3)").innerText = dateFormat(responseData.end_day);
-			rowEdited.querySelector("td:nth-child(4)").innerText = responseData.total_days;
-			rowEdited.querySelector("td:nth-child(5)").innerText = numberWithCommas(responseData.total_km);
-			rowEdited.querySelector("td:nth-child(6)").innerText = vndCurrency(responseData.product_price);
-			rowEdited.querySelector("td:nth-child(7)").innerText = assessmentStatuses(responseData.total_km);
-			rowEdited.querySelector("td:nth-child(7)").setAttribute("class","table__status table__status-"+assessmentStatuses(responseData.total_km));
-			/*In ra câu thông báo thành công*/
+			let colEdited = rowEdited.querySelectorAll('td');
+			colEdited[1].innerText = responseData.product_name;
+			colEdited[2].innerText = dateFormat(responseData.end_day);
+			colEdited[3].innerText = responseData.total_days;
+			colEdited[4].innerText = numberWithCommas(responseData.total_km);
+			colEdited[5].innerText = vndCurrency(responseData.product_price);
+			colEdited[6].innerText = assessmentStatuses(responseData.total_km);
+			colEdited[6].setAttribute("class","table__status table__status-"+assessmentStatuses(responseData.total_km));
 			popupMessage("success","edit","record");
 		} else {
 			popupMessage("failure","edit","record");
 		}
 	} else {
-		/*In ra câu thông báo thất bại*/
 		popupMessage("failure","edit","record");
 	}
 }
-
 function showModal_deleteDialog(){
 	var target = event.target;
 	var transactionId;
@@ -486,18 +328,14 @@ function showModal_deleteDialog(){
 			transactionId = target.getAttribute("id");
 		}
 		target = target.parentNode;
-		/* Reload lại các phần tử dùng để thông báo */
 		headerPopup.setAttribute("class","header__popup");
 		headerPopup.removeAttribute("style");
-		/* Gọi modal Delete*/
-		// delFormContent.style.minWidth = "initial";
 		delFormContent.style.minHeight = "initial";
 		delForm.style.gridTemplateColumns = "1fr";
 		showModal(dialog[1]);
 		btnDelete.setAttribute("transId",transactionId);
 	}
 }
-
 function deleteRecord(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
@@ -513,7 +351,6 @@ function deleteRecord(data){
 		}
 	}
 }
-/* Validate dữ liệu nhập vào form Modal thêm 1 bản ghi lịch sử thay dầu*/
 function validateInput(page){
 	var data = new Object;
 	switch(page){
@@ -613,22 +450,14 @@ function validateInput(page){
 			}
 			break;    
 	}
-	
 	return data;
 }
 
 if (currentPage == 'oil') {
-/*Tự động load ra thông tin sản phẩm dầu nhớt trong bảng tuỳ chọn thêm 1 bản ghi lịch sử thay dầu 
-ngay khi trang được load. */
 	let method = "GET";
 	let url = './Ajax/ShowProductInfo';
 	sendAjaxRequest(url,method,data => loadProductList(data,dialogForm_product));
-/* data => loadProductList(data,dialogForm_product)) đóng vai trò là hàm callback 
-được truyền trong hàm sendAjaxRequest(url,method,callback) */
-
-/* Validate dữ liệu khi nhập form*/
 	let pattern = /^[0-9]+$/;
-
 	dialogForm_product.addEventListener("change",function(){
 		if(pattern.test(dialogForm_product.value)){
 			labelField_product.innerText = "";
@@ -636,7 +465,6 @@ ngay khi trang được load. */
 			labelField_product.innerText = "Please select an option";
 		}
 	})
-
 	dialogForm_startKm.addEventListener('keyup',function(){
 		if(pattern.test(dialogForm_startKm.value)){
 			labelField_startKm.innerText = "";
@@ -644,7 +472,6 @@ ngay khi trang được load. */
 			labelField_startKm.innerText = "Invalid number format";
 		}
 	})
-
 	dialogForm_endKm.addEventListener('keyup',function(){
 		if(pattern.test(dialogForm_endKm.value)){
 			labelField_endKm.innerText = "";
@@ -652,41 +479,32 @@ ngay khi trang được load. */
 			labelField_endKm.innerText = "Invalid number format";
 		}
 	})	
-
 	dialogForm_startDay.addEventListener("change",()=>{
 		if(dialogForm_startDay.value != ''){
 			labelField_starDay.innerText = "";
 		}
 	})
-
 	dialogForm_endDay.addEventListener("change",()=>{
 		if(dialogForm_endDay.value != ''){
 			labelField_endDay.innerText = "";
 		}
 	})
-
-/* Hiện Modal thêm 1 bản ghi lịch sử thay dầu khi click vào nút "Add Transaction" */
 	if (typeof(btnAdd)!=='undefined') {
 		btnAdd.onclick = function(){
-			/* Gọi Ajax */
 			let url = ('./Ajax/ShowLastOption');
 			let method = "GET";
 			sendAjaxRequest(url,method,showModal_addDialog);
 		};
 	}
-/* Code tính năng thêm 1 bản ghi lịch sử thay dầu */
 	if (typeof(btnCreate)!== 'undefined') {
 		btnCreate.addEventListener("click",function(){
-			/* Validate Form */
 			var data = validateInput('oil');
-			/*Kiểm tra đầu vào nếu hợp lệ gọi Ajax thêm dữ liệu*/
 			if (Object.keys(data).length != 5) {
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				let url = './Ajax/addNewRecord';
 				let method = "POST";		
 				sendAjaxRequest(url,method,addNewRecord,JSON.stringify(data));
-				/*Cập nhật lại chỉ số phân trang*/
 				let initUrl = './Ajax/numberOfRecord';
 				let initMethod = "GET";
 				sendAjaxRequest(initUrl,initMethod,initializeView);
@@ -694,35 +512,19 @@ ngay khi trang được load. */
 			}
 		})
 	}
-
-/* Code phần hiện modal tính năng sửa đổi bản ghi lịch sử thay dầu 
-Kết hợp event delegation (Sẽ bắt sự kiện click cho các phần tử mới được thêm vào trang sau khi đã tải xong) nguồn tham khảo :
-https://codetot.net/javascript-delegation-event/#Event_Delegation_trong_Plain_Javascript
-http://bdadam.com/blog/plain-javascript-event-delegation.html
-
-Ý tưởng : khi phần tử con "BUTTON" được click tương đương với việc phần tử cha của nó "TBODY" cũng đc click
-Khi phần tử TBODY được click ta sẽ xác định đối tượng được click qua biến target = event.target
-"event. target: là phần tử mà user tương tác (click, change).
-Ở đây thì khi user click vào button edit thì target là button vừa click".
-Ta sẽ tiến hành kiểm tra xem phần tử vừa được click (selector = target) có phải là button Edit hay không
-Nếu có thì sẽ gọi hàm showModal_editDialog qua phương thức call { showModal_editDialog.call() }
-Lưu ý : khi kiểm tra phần tử đang được tương tác (target) trong for thì phải tạo ra 1 biến selector để kiểm tra.
-Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên trong TBODY
-*/
 	var oilTable = document.querySelector('table');
 	oilTable.onclick = function(event){
 		var btnEdits =  document.querySelectorAll('.edit__button');
-		var target = event.target; // Chỉ ra phần tử đang được tương tác
+		var target = event.target;
 		btnEdits.forEach((btnEdit)=>{
-			var selector = target; // bắt buộc phải có phần tử selector, không được so sánh trực tiếp phần tử target
+			var selector = target;
 			while(selector && selector !== oilTable){
 				if (selector === btnEdit) {
-					return showModal_editDialog.call();// Chỗ này mở ngoặc nhọn {} rồi viết funtion xử lí cũng được nhưng nên tách ra cho gọn
+					return showModal_editDialog.call();
 				} selector = selector.parentNode;	
 			}
 		})
 	}
-/* Code tính năng sửa đổi bản ghi lịch sử thay dầu */
 	if (typeof(btnUpdate)!== 'undefined') {
 		btnUpdate.addEventListener('click',function(){
 			var data = validateInput('oil');
@@ -738,11 +540,7 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 			} 
 		});
 	}
-
-/* Dùng hàm on() được viết lại từ cách sử dụng event delegation để áp dụng event cho các button delete được thêm sau khi load trang*/
 	on('table','click','.remove__button',showModal_deleteDialog);
-
-/* Code tính năng xoá 1 bản ghi lịch sử thay dầu */
 	if (typeof(btnDelete)!== 'undefined') {
 		btnDelete.addEventListener('click',()=>{
 			var transId = btnDelete.getAttribute("transId");
@@ -754,8 +552,6 @@ Nếu không sẽ chỉ lấy được phần tử button Edit đầu tiên tron
 		})
 	}
 }
-/* Viết lại function show dialog cho tất cả các phần tử, kể cả phần tử được thêm vào sau khi load page 
-để tái sử dụng, ( áp dụng cho button delete ) (tham khảo event delegation trong jquery)*/
 function on(parentSelector, eventName, selector, fn) {
 	var element = document.querySelector(parentSelector);
 	if (element){
@@ -775,60 +571,43 @@ function on(parentSelector, eventName, selector, fn) {
 		});
 	}
 }
-/* Syntax exam : on('tbody', 'click', '.table__action-edit', showModal_editDialog); */
-/*==================================================================================================================*/
-
-/*==================================================================================================================*/
-/*                                        -- Code For Pagination --           	         							*/
-/*==================================================================================================================*/
-
-/*Tính số bản ghi sẽ hiển thị trong 1 trang 
-Viết funtion hiển thị dòng thông báo show bao nhiêu record*/
 var pagination = {
-		startIndex: null,
-		endIndex : null,
-		display: null,
-		totalRecords: null,
-		pages: 1,
-		currentPage: 1
-	}
+	startIndex: null,
+	endIndex : null,
+	display: null,
+	totalRecords: null,
+	pages: 1,
+	currentPage: 1
+}
 var btnCurrentPage = document.getElementById("current_page");
 var btnPreviousPage = document.getElementById("previous_page");
 var btnNextPage = document.getElementById("next_page");
 var entries = document.querySelector('#table_record');
-
 function numberOfRecord(start,display,totalEntries){
 	let recordCounting = document.getElementById("count__record");
 	recordCounting.innerHTML = "Showing "+start+" to "+display+" of "+totalEntries+" entries";
 }
-
 function disableButton(button) {
 	if (button.getAttribute("class") == "btn__enable") {
 		button.removeAttribute("class");
 	}
 	button.setAttribute("disabled","disabled");
 }
-
 function enableButton(button) {
 	if (button.getAttribute("disabled") == "disabled") {
 		button.removeAttribute("disabled");
 	}
 	button.setAttribute("class","btn__enable");
 }
-
 function determineTheIndex(){
 	pagination.display = Number(entries.value);
-
 	pagination.endIndex = pagination.startIndex + pagination.display - 1;
 	if (pagination.endIndex > pagination.totalRecords) {
 		pagination.endIndex = pagination.totalRecords;
 	}
-
 	pagination.pages = Math.ceil(pagination.totalRecords/pagination.display);
-
 	return pagination.display,pagination.endIndex,pagination.pages;
 }
-
 function customizeView(data){
 	if (typeof(data)==="string") {
 		responseData = JSON.parse(data);
@@ -836,7 +615,6 @@ function customizeView(data){
 		let templateFrag = document.querySelector("#newRow").content;
 		if (urlArray.indexOf("Oil")!=-1) {
 			for (var i = 0 ; i < responseData.length ;i++){
-			//Sử dụng cloneNode để sao chép toàn bộ phần tử template 
 				var templ = templateFrag.cloneNode(true);
 				responseData[i].och_id < 10 ? rowId = '0' + responseData[i].och_id : rowId = responseData[i].och_id;
 				templ.querySelector(".rowContent").setAttribute("id",responseData[i].och_id);
@@ -877,7 +655,6 @@ function customizeView(data){
 		document.querySelector('tbody').parentNode.replaceChild(new_tbody,document.querySelector('tbody'));	
 	}
 }
-
 function initializeView(data) {
 	pagination.display = Number(entries.value);
 	if (typeof(data)==="string") {
@@ -892,14 +669,11 @@ function initializeView(data) {
 		pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
 	}
 	numberOfRecord(pagination.startIndex,pagination.display,pagination.totalRecords);
-	/* Nếu số trang lớn hơn 1 thì tiến hành phân trang */
 	if (pagination.pages > 1) {
 		pagination.currentPage = Number(btnCurrentPage.innerText);
 		enableButton(btnNextPage);
 	}
 }	
-
-/* Khi load Page */
 window.addEventListener("load",function(event){
 	if (currentPage == 'oil'){
 		let initUrl = './Ajax/numberOfRecord';
@@ -943,10 +717,8 @@ if(entries,btnNextPage,btnPreviousPage){
 		}
 		numberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 	})
-	/* Code khi click btnNextPage */
 	btnNextPage.addEventListener("click",function(){
 		if(pagination.currentPage < pagination.pages){
-			/* Show current page index */
 			pagination.currentPage++;
 			btnCurrentPage.innerText = pagination.currentPage;
 			pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
@@ -973,10 +745,8 @@ if(entries,btnNextPage,btnPreviousPage){
 			numberOfRecord(pagination.startIndex,pagination.endIndex,pagination.totalRecords);
 		}		
 	})
-	/* Code khi click btnNextPage */
 	btnPreviousPage.addEventListener("click",function(){
 		if(pagination.currentPage > 1){
-			/* Show current page index */
 			pagination.currentPage--;
 			btnCurrentPage.innerText = pagination.currentPage;
 			pagination.startIndex = ((pagination.currentPage - 1) * pagination.display) + 1;
@@ -1004,11 +774,6 @@ if(entries,btnNextPage,btnPreviousPage){
 		}		
 	})
 }
-/*==================================================================================================================*/
-
-/*==================================================================================================================*/
-/*                                        -- Code For Wallet/Category --           	         			  			*/
-/*==================================================================================================================*/
 var categoryType = document.getElementById('form__add-cat_type');
 var categoryName = document.getElementById('form__add-cat_name');
 var categoryColor = document.getElementById('form__add-cat_color');
@@ -1018,7 +783,6 @@ var colorBox = document.querySelectorAll('.color-box');
 colorBox1 = colorBox[0];
 colorBox2 = colorBox[1];
 colorBox3 = colorBox[2];
-
 var categoryIcons = document.getElementsByName("icon");
 var colorDirections = document.getElementsByName("direction");
 var catNameInfor = document.getElementById("category_name_info");
@@ -1026,7 +790,6 @@ var catTypeInfor = document.getElementById("category_type_info");
 var catColorInfor = document.getElementById("category_color_info");
 var colorDirectionInfor = document.getElementById("direction_color_info");
 var btnChange = document.querySelector(".change__button"); 
-
 window.onload = function(){
 	if (currentPage == 'category'){
 		let url = '../Ajax/ShowListCategories';
@@ -1034,7 +797,6 @@ window.onload = function(){
 		sendAjaxRequest(url,method,showCategoryView);
 	}
 }
-
 function showCategoryView(data){
 	if (typeof(data)==="string") {
 		responseData = JSON.parse(data);
@@ -1062,7 +824,6 @@ function showCategoryView(data){
 		}
 	}
 }
-
 function showListView(data){
 	if (typeof(data)==="string") {
 		responseData = JSON.parse(data);
@@ -1097,7 +858,6 @@ function showListView(data){
 		old_tbody.parentNode.replaceChild(new_tbody,old_tbody);
 	}
 }
-
 function addCategory(data){
 	if (typeof('data')==="string") {
 		let responseData = JSON.parse(data);
@@ -1130,7 +890,6 @@ function addCategory(data){
 	}
 	hideModal(dialog[0]);
 }
-
 function showModal_editCategory(event){
 	showModal(dialog[0]);
 	retitleDialog(titleDialog,"Update Category",btnUpdate,btnCreate);
@@ -1147,13 +906,11 @@ function showModal_editCategory(event){
 	let method = 'POST';
 	let catId = JSON.stringify({"categoryId":categoryId});
 	sendAjaxRequest(url,method,loadModal_CategoryDialog,catId);
-
 	function loadModal_CategoryDialog(data) {
 		if(typeof(data)==="string"){
 			responseData = JSON.parse(data);
 			categoryType.value = responseData[0].category_type;
 			categoryName.value = responseData[0].category_name;
-
 			showColorPanel(responseData[0].category_type);
 			if (responseData[0].category_type == 1 ) {
 				categoryColor.value = responseData[0].color;
@@ -1165,7 +922,6 @@ function showModal_editCategory(event){
 				color2 = colorArr[1];
 				categoryColor.value = color1;
 				colorBox1.style.color = color1;
-
 				categoryColor2.value = color2;
 				colorBox2.style.color = color2;
 			}
@@ -1176,10 +932,8 @@ function showModal_editCategory(event){
 				color3 = colorArr[2];
 				categoryColor.value = color1;
 				colorBox1.style.color = color1;
-
 				categoryColor2.value = color2;
 				colorBox2.style.color = color2;
-
 				categoryColor3.value = color3;
 				colorBox3.style.color = color3;
 			}
@@ -1201,7 +955,6 @@ function showModal_editCategory(event){
 		}
 	}
 }
-
 function editCategory(data){
 	if (typeof(data)=="string") {
 		responseData = JSON.parse(data);
@@ -1233,7 +986,6 @@ function editCategory(data){
 	}
 	hideModal(dialog[0]);
 }
-
 function showModal_deleteCategory(){
 	var target = event.target;
 	var catId;
@@ -1242,11 +994,8 @@ function showModal_deleteCategory(){
 			catId = target.getAttribute("id");
 		}
 		target = target.parentNode;
-		/* Reload lại các phần tử dùng để thông báo */
 		headerPopup.setAttribute("class","header__popup");
 		headerPopup.removeAttribute("style");
-		/* Gọi modal Delete*/
-		// delFormContent.style.minWidth = "initial";
 		delFormContent.style.minHeight = "initial";
 		delFormContent.style.top = ((window.innerHeight/2) - (delFormContent.offsetHeight/2))+'px';
 		document.querySelector(".dialog__form").style.gridTemplateColumns = "1fr";
@@ -1254,18 +1003,14 @@ function showModal_deleteCategory(){
 		btnDelete.setAttribute("catId",catId);
 	}
 }
-
 function deleteCategory(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
 		if(responseData.status != "false"){
-			/* Hàm rowIndex dùng để lấy ra vị trí của hàng có id = catId trong bảng*/
 			let index = document.getElementById(responseData.cat_id).rowIndex;
-			/* Hàm deleteRow dùng để xoá 1 hàng có vị trí index-1 trong bảng vì bảng bắt đầu bằng row 0*/
 			document.querySelector('tbody').deleteRow(index-1);
 			popupMessage("success","delete","category");
 		} else {
-			/*In ra câu thông báo thất bại*/
 			popupMessage("failure","delete","category");
 		}
 	}
@@ -1280,44 +1025,36 @@ function showColorPanel(value) {
 			colorBox2.style.visibility = "visible";
 			colorBox2.style.height = "auto";
 			colorBox2.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
-
 			colorBox3.style.opacity = "0";
 			colorBox3.style.visibility = "hidden";
 			colorBox3.style.height = "0";
 			colorBox3.style.transition = "height .0s ease-out, visibility .0s ease-out,opacity .0s ease-out";
-
 			directionFrame.style.opacity = 1;
 			directionFrame.style.visibility = "visible";
 			directionFrame.style.height = "auto";
 			directionFrame.style.width = "100%";
 			directionFrame.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
-
 			colorFrame.style.width = "70%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr";
 			colorDirections[4].setAttribute("checked","checked");
-			// colorPanel.style.gridGap = "10px";
 			break
 		}
 		case "3":{
 			colorBox2.style.opacity = 1;
 			colorBox2.style.visibility = "visible";
 			colorBox2.style.height = "auto";
-
 			colorBox3.style.opacity = 1;
 			colorBox3.style.visibility = "visible";
 			colorBox3.style.height = "auto";
 			colorBox3.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
-
 			directionFrame.style.opacity = 1;
 			directionFrame.style.visibility = "visible";
 			directionFrame.style.height = "auto";
 			directionFrame.style.width = "100%";
 			directionFrame.style.transition = "height 1.5s ease-out, visibility 1.5s ease-out,opacity 1.5s ease-out";
-
 			colorFrame.style.width = "100%";
 			colorPanel.style.gridTemplateColumns = "1fr 1fr 1fr";
 			colorDirections[4].setAttribute("checked","checked");
-			// colorPanel.style.gridGap = "0px";
 			break;
 		}
 		default:{
@@ -1325,18 +1062,15 @@ function showColorPanel(value) {
 			colorBox2.style.visibility = "hidden";
 			colorBox2.style.height = 0;
 			colorBox2.style.transition = "unset";
-
 			colorBox3.style.opacity = 0;
 			colorBox3.style.visibility = "hidden";
 			colorBox3.style.height = 0;
 			colorBox3.style.transition = "unset";
-
 			directionFrame.style.opacity = 0;
 			directionFrame.style.visibility = "hidden";
 			directionFrame.style.height = 0;
 			directionFrame.style.width = 0;
 			directionFrame.style.transition = "height 0s ease-out, visibility 0s ease-out,opacity 0s ease-out";
-
 			colorFrame.style.width = "60%";
 			colorPanel.style.gridTemplateColumns = "1fr";
 			colorDirections[4].removeAttribute("checked");
@@ -1344,7 +1078,6 @@ function showColorPanel(value) {
 		}
 	}
 }
-
 if (currentPage == 'category') {
 	categoryType.addEventListener('change',()=>{
 		showColorPanel(categoryType.value);
@@ -1361,7 +1094,6 @@ if (currentPage == 'category') {
 	categoryColor3.addEventListener('change',()=>{
 		colorBox3.style.color = categoryColor3.value;
 	})
-
 	if (typeof(btnAdd)!=='undefined') {
 		btnAdd.addEventListener('click',function(){
 			showModal(dialog[0]);
@@ -1369,7 +1101,6 @@ if (currentPage == 'category') {
 			retitleLabel('category');
 		})
 	}
-
 	if (typeof(btnCreate)!=='undefined') {
 		btnCreate.addEventListener('click',function(){
 			var categoryData = validateInput('category');
@@ -1383,7 +1114,6 @@ if (currentPage == 'category') {
 					categoryData['direction'] = colorDirections[i].value;
 				}
 			}
-			/*Nếu không có icon nào được chọn thì mặc định chọn icon đầu tiên*/
 			if (!categoryData.hasOwnProperty('icon')) {
 				categoryData["icon"] = 'sack-dollar';
 			}
@@ -1393,7 +1123,6 @@ if (currentPage == 'category') {
 			if(Object.keys(categoryData).length != 5){
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			}else {
-				// console.log(categoryData);
 				let url = '../Ajax/AddANewCategory';
 				let method = "POST";
 				sendAjaxRequest(url,method,addCategory,JSON.stringify(categoryData));
@@ -1411,9 +1140,7 @@ if (currentPage == 'category') {
 			}
 		})
 	}
-
 	on('table', 'click', '.edit__button', showModal_editCategory);
-
 	if (btnUpdate!== 'undefined') {
 		btnUpdate.addEventListener("click",function(){
 			var categoryData = validateInput('category');
@@ -1428,24 +1155,19 @@ if (currentPage == 'category') {
 					categoryData["direction"] = colorDirections[i].value;
 				}
 			}
-			/*Nếu không có icon nào được chọn thì mặc định chọn icon đầu tiên*/
 			if (!categoryData.hasOwnProperty('icon')) {
 				categoryData["icon"] = 'sack-dollar';
 			}
-			//console.log(categoryData);
 			if(Object.keys(categoryData).length != 6){
 				labelField_Dialog.innerText = "Please complete all Field before submit Form !";
 			} else {
 				let url = "../Ajax/editCategory";
 				let method = "POST";
 				sendAjaxRequest(url,method,editCategory,JSON.stringify(categoryData));
-				// console.log(categoryData);
 			}
 		})
 	}
-
 	on('table', 'click', '.remove__button',showModal_deleteCategory);
-
 	if (typeof(btnDelete)!== 'undefined') {
 		btnDelete.addEventListener('click',()=>{
 			var catid = btnDelete.getAttribute("catid");
@@ -1456,7 +1178,6 @@ if (currentPage == 'category') {
 			hideModal(dialog[1]);
 		})
 	}
-
 	btnChange.addEventListener("click",function(){
 		let categoryView = document.querySelector('.category__content');
 		let listView = document.querySelector('#list__content');
@@ -1498,11 +1219,6 @@ if (currentPage == 'category') {
 		}
 	})
 }
-/*==================================================================================================================*/
-
-/*==================================================================================================================*/
-/*                                        -- Code For Wallet/Transaction --           	         			  	    */
-/*==================================================================================================================*/
 function showStatistical(data){
 	if (typeof(data) == 'string') {
 		responseData = JSON.parse(data);
@@ -1526,9 +1242,7 @@ function showStatistical(data){
 				operator = "+ ";
 				difference = parseInt(responseData[i].receipt) - parseInt(responseData[i].expenditure);
 			}
-			//console.log("receipt"+responseData[i].receipt,"expenditures"+responseData[i].expenditures,"difference"+difference);
 			let templateFrag = templateFragRoot.cloneNode(true);
-			//console.log(templateFrag.querySelectorAll("td"));
 			id = i + 1;
 			templateFrag.querySelector("td").innerText = id < 10 ? id = "0"+id+'.' : id +'.';
 			templateFrag.querySelector("a").innerText = responseData[i].date;
@@ -2228,20 +1942,3 @@ function drawMiniChart(data){
 	}
 	document.querySelector('.layout__chart-items').parentNode.replaceChild(newItemsList,document.querySelector('.layout__chart-items'));
 }
-
-
-
-/*End */
-
-/*
-Trong trang window.onload chỉ được gọi 1 lần, còn lại nên dùng window.addEventListener("load",function());
-Khi dùng thẻ template thì trước khi thêm sửa xoá, phải dùng hàm cloneNode(true) để có thể sử dụng template đó nhiều lần
-classList sử dụng contains,remove,add, replace class gần giống setAttribute
-
-*/
-
-
-
-
-
-
