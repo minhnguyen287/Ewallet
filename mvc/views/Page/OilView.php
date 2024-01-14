@@ -85,11 +85,15 @@
 							<?php 
 								$row = json_decode($data["DataRow"]);
 								for ($i=0; $i < count($row) ; $i++) { 
-									$status_noti = "good";
-									if ($row[$i]->total_km >= 1200 && $row[$i]->total_km <= 1500) {
-										$status_noti = "warning";
-									} elseif ($row[$i]->total_km >= 1500) {
-										$status_noti = "expired";
+									if ($row[$i]->total_km >= 1500) {
+										$status = "expired";
+										$textColor = "#f8264a";
+									} elseif ($row[$i]->total_km <= 1200) {
+										$status = "good";
+										$textColor = "#0dad95";
+									} else{
+										$status = "warning";
+										$textColor = "#313db6";
 									}
 									$id = $i+1;
 									$id < 10 ? $id = "0".$id : $id;
@@ -100,7 +104,7 @@
 									echo'<td data-cell="days">'.$row[$i]->total_days.'</td>';
 									echo'<td data-cell="total km">'.number_format($row[$i]->total_km,0,'.',',').'</td>';
 									echo'<td data-cell="amount">'.number_format($row[$i]->product_price,0,'.',',').' &#8363'.'</td>';
-									echo'<td data-cell="status" class="table__status table__status-'.$status_noti.'">'.$status_noti.'</td>';
+									echo'<td data-cell="status" class="table__status" style="color:'.$textColor.'">'.$status.'</td>';
 									echo '<td data-cell="Action">
 										<div class="table__action">
 										<button class="edit__button">
@@ -238,54 +242,3 @@
 			</div>
 		</form>
 	</div>	
-	<!-- <div class="dialog">
-		<form id="EditTransaction" action="" method="POST">
-			<div class="dialog__content">
-				<div class="dialog__content-header">
-					<h2 class="dialog__content-header-label">Edit transaction</h2>
-					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
-				</div>
-				<div class="dialog__content-body">
-					<div class="dialog__form">
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__edit-start_day">Start Day</label>
-							<input class="dialog__form-input" type="date" name="startday" id="form__edit-start_day" placeholder="Start day">
-						</div>				
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__edit-end_day">End Day</label>
-							<input class="dialog__form-input" type="date" name="endday" id="form__edit-end_day" placeholder="End day">
-						</div>				
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__edit-start_kilometer">Start Kilometer
-								<span class="input_infor" id="start_km_info"></span>
-							</label>
-							<input class="dialog__form-input" name="startkilometer" type="text" id="form__edit-start_kilometer" placeholder="Start kilometer">
-						</div>				
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__edit-end_kilometer">End Kilometer
-								<span class="input_infor" id="end_km_info"></span>
-							</label>
-							<input class="dialog__form-input" name="endkilometer" type="text" id="form__edit-end_kilometer" placeholder="End kilometer">
-						</div>				
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__edit-oil_product-name">Oil Product
-								<span class="input_infor" id="product_info"></span>
-							</label>
-							<select class="dialog__form-input" name="product" id="form__edit-oil_product-name">
-								<option value="" selected="selected">-- Choose one --</option>
-								
-							</select>
-							<template id="product-option">
-								<option value="{{value}}">{{name}}</option>
-							</template>
-						</div>
-					</div>
-				</div>
-				<div class="dialog__content-footer">
-					<button type="button" class="edit__transaction-button" name="editTrBtn" disabled="disabled">
-						<i class="fa-solid fa-pen fa-sm"></i> Update Transaction
-					</button>
-				</div>
-			</div>
-		</form>
-	</div> -->

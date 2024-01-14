@@ -8,11 +8,11 @@ if (empty($data_list)) {
 	$total_sales = 0;
 	$total_cost = 0;
 	for ($i=0; $i < count($data_list); $i++) { 
-		$status_noti = "good";
+		$textColor = "#0dad95";
 		$operator = "+ ";
 		$difference = $data_list[$i]->receipt - $data_list[$i]->expenditure;
 		if ($data_list[$i]->receipt < $data_list[$i]->expenditure) {
-			$status_noti = "expired";
+			$textColor = "#f8264a";
 			$operator = "- ";
 			$difference = $data_list[$i]->expenditure - $data_list[$i]->receipt;
 		}
@@ -26,7 +26,7 @@ if (empty($data_list)) {
 		//number_format( $output , 0 , '.' , ',' )
 		$new_record .= '<td data-cell="Receipts">'.number_format($data_list[$i]->receipt,0,'.',',').' &#8363'.'</td>';
 		$new_record .= '<td data-cell="Expenditure">'.number_format($data_list[$i]->expenditure,0,'.',',').' &#8363'.'</td>';
-		$new_record .= '<td data-cell="Difference" class="table__status table__status-'.$status_noti.'">'.$operator.number_format($difference,0,'.',',').' &#8363'.'</td>';
+		$new_record .= '<td data-cell="Difference" class="table__status" style="color:'.$textColor.'">'.$operator.number_format($difference,0,'.',',').' &#8363'.'</td>';
 		$new_record .= '</tr>';
 	}
 }	

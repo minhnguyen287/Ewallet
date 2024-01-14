@@ -1,3 +1,4 @@
+<span class="realtime_clock clock2">03:00:00 - 14/01/2024</span>
 <footer class="footer">
 	<span class="footer__text">
 		Copyright &copy 2023. Designed width 

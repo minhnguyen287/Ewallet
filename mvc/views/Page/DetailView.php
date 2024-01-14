@@ -65,17 +65,17 @@
 											$color3 = $arr[2];
 											$color_style = "background-image:linear-gradient(".$data_list[$i]->cat_direction.",".$color1." 0%,".$color1." 32%,".$color2." 33%,".$color2." 66%,".$color3." 67%,".$color3." 100%)";
 										}
-										$data_list[$i]->tran_type == 'receipt'? $status_noti = "good":$status_noti = "expired";
+										$data_list[$i]->tran_type == 'receipt'? $textColor = "#0dad95":$textColor = "#f8264a";
 										$id = $i + 1;
 										$id < 10 ? $id = "0".$id : $id;
 										echo '<tr class="table__detail-row" id="'.$data_list[$i]->tran_id.'">';
 										echo '<td class="table__detail-column" data-cell="no">'.$id.'.</td>';
-										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="trans type" value='.$data_list[$i]->tran_type.'>'.$data_list[$i]->tran_type.'</td>';
+										echo '<td class="table__detail-column table__status" style="color:'.$textColor.'" data-cell="trans type" value='.$data_list[$i]->tran_type.'>'.$data_list[$i]->tran_type.'</td>';
 										echo '<td class="table__detail-column" data-cell="trans name">'.$data_list[$i]->tran_name.'</td>';
 										echo '<td class="table__detail-column" data-cell="category" value='.$data_list[$i]->cat_id.'><center>
 										<div class="cat__list" style="'.$color_style.';"><i class="fa-solid fa-'.$data_list[$i]->cat_icon.' fa-lg"></i></center></div></td>';
 										echo '<td class="table__detail-column" data-cell="description">'.$data_list[$i]->tran_desc.'</td>';
-										echo '<td class="table__detail-column table__status table__status-'.$status_noti.'" data-cell="amount" value='.$data_list[$i]->tran_amount.'>'.number_format($data_list[$i]->tran_amount,0,'.',',').' &#8363'.'</td>';
+										echo '<td class="table__detail-column table__status" style="color:'.$textColor.'" data-cell="amount" value='.$data_list[$i]->tran_amount.'>'.number_format($data_list[$i]->tran_amount,0,'.',',').' &#8363'.'</td>';
 										echo '<td class="table__detail-column" data-cell="Action">
 												<div class="table__action">
 													<button class="edit__button">
@@ -102,7 +102,7 @@
 									</div></center>
 								</td>
 								<td class="table__detail-column" data-cell="description">No comment</td>
-								<td class="table__detail-column table__status table__status-good" data-cell="amount">1.000.000</td>
+								<td class="table__detail-column table__status" data-cell="amount">1.000.000</td>
 								<td class="table__detail-column" data-cell="Action">
 									<div class="table__action">
 										<button class="edit__button">
