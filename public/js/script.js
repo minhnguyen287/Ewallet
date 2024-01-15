@@ -1373,8 +1373,8 @@ function showRealtimeClock(){
 	var currentHours = currentDate.getHours() < 10 ? '0'+currentDate.getHours() : currentDate.getHours(); 
 	var currentMinutes = currentDate.getMinutes() < 10 ? '0'+currentDate.getMinutes() : currentDate.getMinutes();
 	var currentSeconds = currentDate.getSeconds() < 10 ? '0'+currentDate.getSeconds() : currentDate.getSeconds();
-	realtimeClock.textContent = currentHours+":"+currentMinutes+":"+currentSeconds+" - "+currentDay+"/"+currentMonth+"/"+currentYear;
-	realtimeClock2.textContent = currentDate.toLocaleTimeString();
+	// realtimeClock.textContent = currentHours+":"+currentMinutes+":"+currentSeconds+" - "+currentDay+"/"+currentMonth+"/"+currentYear;
+	realtimeClock.textContent = currentDate.toLocaleTimeString();
 }
 window.addEventListener("load",function(){
 	setInterval(showRealtimeClock,1000);

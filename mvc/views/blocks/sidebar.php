@@ -37,5 +37,4 @@
 			</ul>
 		</li>
 	</ul>
-	<span class="realtime_clock"></span>
 </div>

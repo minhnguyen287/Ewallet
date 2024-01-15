@@ -1459,8 +1459,12 @@ input:checked ~ label .dialog__form-category-field-icon-label {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   padding: 30px 0 30px 0;
   border-top: 1px solid #45455f;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
 }
 
 .realtime_clock {
@@ -1475,15 +1479,11 @@ input:checked ~ label .dialog__form-category-field-icon-label {
   flex-direction: row;
   width: 100%;
   justify-content: center;
-  padding: 30px 0 30px 0;
-}
-
-.clock2 {
-  height: 0;
-  padding: 0;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.75s, visibility 0.75s;
+  height: 0;
+  box-sizing: border-box;
+  transition: opacity 0.7s, visibility 0.7s;
 }
 
 .nav__categories, .nav__toggle {
@@ -1663,20 +1663,8 @@ input:checked ~ label .dialog__form-category-field-icon-label {
     z-index: 3;
   }
   .footer {
-    padding: 5px 0 15px 0;
+    padding: 30px 0 30px 0;
     border: none;
-  }
-  .clock2 {
-    height: auto;
-    border-top: 1px solid #45455f;
-    grid-column: 1/span 4;
-    position: sticky;
-    bottom: 0;
-    box-sizing: border-box;
-    padding: 15px 0 10px 0;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s, visibility 0.3s;
   }
 }
 @media screen and (max-width: 1023px) {
@@ -2099,6 +2087,20 @@ input:checked ~ label .dialog__form-category-field-icon-label {
   .btn_toggle input:checked + .btn_toggle-slider:before {
     content: "total sales";
     left: 20px;
+  }
+  .footer {
+    padding: 0;
+  }
+  .footer__text {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+  }
+  .realtime_clock {
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    padding: 15px 0 15px 0;
   }
 }
 @media screen and (max-width: 427px) {
