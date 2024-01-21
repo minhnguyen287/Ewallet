@@ -1367,7 +1367,6 @@ if (currentMonth < 10) currentMonth = "0" + currentMonth;
 if (currentDay < 10) currentDay = "0" + currentDay;
 var today = currentYear + "-" + currentMonth + "-" + currentDay;
 var realtimeClock = document.querySelector('.realtime_clock');
-var realtimeClock2 = document.querySelector('.clock2');
 function showRealtimeClock(){
 	var currentDate = new Date();
 	var currentHours = currentDate.getHours() < 10 ? '0'+currentDate.getHours() : currentDate.getHours(); 
@@ -1650,10 +1649,7 @@ function deleteTransaction(data){
 	}
 }
 if (currentPage == 'dashboard'){
-	var dashUrl = "./Ajax/DrawChart";
-	sendAjaxRequest(dashUrl,"GET",DrawChart);
-	function DrawChart(datas) {
-		responseData = JSON.parse(datas);
+	
 		const labels = [];
 		const data = {
 			labels:labels,
@@ -1694,18 +1690,30 @@ if (currentPage == 'dashboard'){
 				}
 			}
 		};
-		for (var i = 0; i < responseData.length; i++) {
-			labels.push(responseData[i].month);
-			data.datasets[0].data.push(responseData[i].receipt);
-			data.datasets[1].data.push(responseData[i].expenditure);
-		}
+		
 		const canvas = document.getElementById('myChart');
 		const chart = new Chart(canvas,config);
+
+		function updateChart(data){
+			responseData = JSON.parse(data);
+			chart.data.labels = [];
+			chart.data.datasets[0].data = [];
+			chart.data.datasets[1].data = [];
+			for (var i = 0; i < responseData.length; i++) {
+				chart.data.labels.push(responseData[i].month);
+				chart.data.datasets[0].data.push(responseData[i].receipt);
+				chart.data.datasets[1].data.push(responseData[i].expenditure);
+			}chart.update();
+		}
+		var rs1;
+		var dashUrl = "./Ajax/DrawChart";
+		sendAjaxRequest(dashUrl,"GET",updateChart);
+		
 		let yearUrl = "./Ajax/GetYearStatistical";
-		sendAjaxRequest(yearUrl,method,showSelectBox_yearList);
+		sendAjaxRequest(yearUrl,"GET",showSelectBox_yearList);
 		var inputBox = document.querySelector(".input-box");
 		inputBox.addEventListener("click",function(e){
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			this.classList.toggle("show-list");
 			var hiddenList = this.nextElementSibling;
 			if (hiddenList.style.maxHeight) {
@@ -1728,25 +1736,13 @@ if (currentPage == 'dashboard'){
 			yearList.forEach((year)=>{
 				year.addEventListener("change",(e)=>{
 					inputBox.innerText = year.nextElementSibling.innerText;
-			console.log(inputBox.innerText);
-			let data = JSON.stringify({"y":year.nextElementSibling.innerText});
-			let chartUrl = "./Ajax/DrawChart";
-			sendAjaxRequest(chartUrl,"POST",(data1)=>{
-				var responseData = JSON.parse(data1);
-				chart.data.labels = [];
-				chart.data.datasets[0].data = [];
-				chart.data.datasets[1].data = [];
-				for (var i = 0; i < responseData.length; i++) {
-					chart.data.labels.push(responseData[i].month);
-					chart.data.datasets[0].data.push(responseData[i].receipt);
-					chart.data.datasets[1].data.push(responseData[i].expenditure);
-				}
-				chart.update();
-			},data);
-		})
+					let data = JSON.stringify({"y":year.nextElementSibling.innerText});
+					let chartUrl = "./Ajax/DrawChart";
+					sendAjaxRequest(chartUrl,"POST",updateChart,data);
+				})
 			})
 		}
-	}
+	
 	let catUrl = './Ajax/ShowListCategories';
 	let method = "GET";
 	sendAjaxRequest(catUrl,method,data => loadModal_categoryList(data,dialogForm_Category));

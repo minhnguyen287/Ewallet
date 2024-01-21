@@ -108,7 +108,7 @@
 <div class="layout__content layout__chart">
   <div class="layout__chart-title">
     <h2>Total Transactions</h2>
-      <div class="table__body-dropdown chart-box">
+      <anchor class="table__body-dropdown chart-box">
         <div class="table__body-dropdown input-box input-chart"></div>
         <div class="table__body-dropdown option-list option-year-list">
           <!-- List of Year -->
@@ -117,7 +117,7 @@
           <input class="year-list" type="radio" name="year" id="y3">
           <label for="y3">2023</label>
         </template>
-      </div>
+      </anchor>
   </div>
   
   

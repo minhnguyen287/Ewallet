@@ -837,6 +837,7 @@ tr{
 	border-radius: 2mm;
 	background: #fff;
 	position: relative;
+	cursor: pointer;
 	&::before{
 		content: "expand_more";
 		font-family: "Material Icons";
@@ -857,6 +858,9 @@ tr{
 		content: "-- Select year --";
 		font-size: 0.7rem;
 		color:rgba(0, 0, 0, 0.5);
+	}
+	&:hover{
+		outline: 1px solid #fff;
 	}
 }
 .month-box:empty::after{
@@ -936,6 +940,7 @@ tr{
 		content: "Select year";
 		color: rgba(255, 255, 255, 0.5);
 	};
+	appearance:none;
 }
 .table__body-footer{
 	display: flex;

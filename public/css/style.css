@@ -811,6 +811,7 @@ tr:nth-child(even) {
   border-radius: 2mm;
   background: #fff;
   position: relative;
+  cursor: pointer;
 }
 .input-box::before {
   content: "expand_more";
@@ -832,6 +833,9 @@ tr:nth-child(even) {
   content: "-- Select year --";
   font-size: 0.7rem;
   color: rgba(0, 0, 0, 0.5);
+}
+.input-box:hover {
+  outline: 1px solid #fff;
 }
 
 .month-box:empty::after {
@@ -906,6 +910,7 @@ tr:nth-child(even) {
   align-items: center;
   width: 96px;
   color: rgba(255, 255, 255, 0.7);
+  appearance: none;
 }
 .input-chart::before {
   color: rgba(255, 255, 255, 0.5);
