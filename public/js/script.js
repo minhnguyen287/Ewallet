@@ -241,10 +241,10 @@ function addNewRecord(data){
 	if (typeof(data)==="string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
-			if (responseData.total_km <= 1200) {
+			if (responseData.total_km <= 1500) {
 				status = "good";
 				textColor = "#0dad95";
-			} else if (responseData.total_km >= 1500){
+			} else if (responseData.total_km >= 2000){
 				status = "expired";
 				textColor = "#f8264a";
 			} else{
@@ -306,10 +306,10 @@ function updateRecord(data){
 	if (typeof(data)=== "string") {
 		let responseData = JSON.parse(data);
 		if (responseData != "false") {
-			if (responseData.total_km <= 1200) {
+			if (responseData.total_km <= 1500) {
 				status = "good";
 				textColor = "#0dad95";
-			} else if (responseData.total_km >= 1500){
+			} else if (responseData.total_km >= 2000){
 				status = "expired";
 				textColor = "#f8264a";
 			} else{
@@ -1649,7 +1649,6 @@ function deleteTransaction(data){
 	}
 }
 if (currentPage == 'dashboard'){
-	
 		const labels = [];
 		const data = {
 			labels:labels,
@@ -1691,8 +1690,8 @@ if (currentPage == 'dashboard'){
 			}
 		};
 		
-		const canvas = document.getElementById('myChart');
-		const chart = new Chart(canvas,config);
+		const canvas = document.getElementById('myChart').getContext('2d');
+		var chart = new Chart(canvas,config);
 
 		function updateChart(data){
 			responseData = JSON.parse(data);
@@ -1705,7 +1704,6 @@ if (currentPage == 'dashboard'){
 				chart.data.datasets[1].data.push(responseData[i].expenditure);
 			}chart.update();
 		}
-		var rs1;
 		var dashUrl = "./Ajax/DrawChart";
 		sendAjaxRequest(dashUrl,"GET",updateChart);
 		

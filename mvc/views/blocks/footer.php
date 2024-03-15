@@ -7,7 +7,7 @@
 	<span class="realtime_clock"></span>
 </footer>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="/ewallet/public/js/chart.js"></script>
 <script type="text/javascript" src="/ewallet/public/js/script.js"></script>
 </body>
 </html>

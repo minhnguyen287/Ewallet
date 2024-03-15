@@ -85,10 +85,10 @@
 							<?php 
 								$row = json_decode($data["DataRow"]);
 								for ($i=0; $i < count($row) ; $i++) { 
-									if ($row[$i]->total_km >= 1500) {
+									if ($row[$i]->total_km >= 2000) {
 										$status = "expired";
 										$textColor = "#f8264a";
-									} elseif ($row[$i]->total_km <= 1200) {
+									} elseif ($row[$i]->total_km <= 1500) {
 										$status = "good";
 										$textColor = "#0dad95";
 									} else{

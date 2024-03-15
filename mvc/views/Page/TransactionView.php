@@ -1,12 +1,12 @@
 <?php 
 $data_list = json_decode($data["TransactionList"]);
 //$transaction_list = json_decode($data["TransactionList"]);
+$total_sales = 0;
+$total_cost = 0;
 if (empty($data_list)) {
 	$new_record = "<tr><td colspan='5'><center>No records</center></td></tr>";
 } else {
 	$new_record = "";
-	$total_sales = 0;
-	$total_cost = 0;
 	for ($i=0; $i < count($data_list); $i++) { 
 		$textColor = "#0dad95";
 		$operator = "+ ";
