@@ -17,7 +17,7 @@
 		<!-- Code something -->
 		<main class="layout-content">
 			<section class="detail__table-header">
-				<h2><a href='/ewallet/Wallet/Transaction'><i class="fa-solid fa-arrow-left-long fa-sm"></i> Back</a></h2>
+				<h2><a href='/ewallet/Wallet/Transaction' class="go-to-back"><i class="fa-solid fa-arrow-left-long fa-sm"></i> Back</a></h2>
 			</section>
 			<section class="detail__table-body">
 				<div class="detail__table-body-content">

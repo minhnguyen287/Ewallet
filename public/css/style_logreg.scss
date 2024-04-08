@@ -1,7 +1,7 @@
 $neon-blue:#0ef;
 $background-color:#081b29;
 body{
-	font-family: "Popins", sans-serif;
+	font-family: "Poppins", sans-serif;
 	font-size: 12px;
 	width: 100%;
 	min-height: 100vh;
@@ -20,113 +20,135 @@ body{
 	overflow: hidden;
 	box-shadow: 0 0 25px $neon-blue;
 }
-.form__box{
-	&-login{
+.form-box{
 		position: absolute;
 		top :0;
-		left: 0;
-		padding: 0 60px 0 40px;
+		
 		box-sizing: border-box;
 		width: 50%;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		&-header{
-			font-size: 32px;
-			color: #fff;
-			text-align: center;
-		}
-		& .input__box{
+	.form-group{
+		width: 100%;
+		height: 50px;
+		margin: 25px 0;
+		position: relative;
+		& input{
 			width: 100%;
-			height: 50px;
-			margin: 25px 0;
-			position: relative;
+			height: 100%;
+			border: none;
+			outline: none;
+			color: #fff;
+			font-size: 16px;
+			font-weight: 500;
+			padding-right: 25px;
+			box-sizing: border-box;
+			background: transparent;
+			border-bottom: 2px solid #fff;
+			&:focus~label{
+				top:-5px;
+				color: $neon-blue;
+				font-size: 13px;
+			}
+			&:valid~label{
+				top:-5px;
+				color: $neon-blue;
+				font-size: 13px;
+			}
+			&:focus~i{
+				color: $neon-blue;
+			}
+			&:valid~i{
+				color: $neon-blue;
+			}
+		}
+		& label,i{
+			position: absolute;
+			top:50%;
+			left: 0;
+			transform: translateY(-50%);
+			font-size: 16px;
+			color: #fff;
+			pointer-events: none;
+			transition: .5s;
+		}
+		& i{
+			font-size: 18px;
+			right: 0;
+			left: unset;
+		}
+	}
+	&-login{
+		left: 0;
+		padding: 0 60px 0 40px;
+	}
+	&-register{
+		right: 0;
+		padding: 0 40px 0 60px;
+		& .form-group{
+			margin: 15px 0;
 			& input{
-				width: 100%;
-				height: 100%;
-				border: none;
-				outline: none;
-				color: #fff;
-				font-size: 16px;
-				font-weight: 500;
-				padding-right: 25px;
-				box-sizing: border-box;
-				background: transparent;
-				border-bottom: 2px solid #fff;
 				&:focus~label{
-					top:-5px;
+					top:0;
 					color: $neon-blue;
 					font-size: 13px;
 				}
 				&:valid~label{
-					top:-5px;
+					top:0;
 					color: $neon-blue;
 					font-size: 13px;
 				}
-				&:focus~i{
-					color: $neon-blue;
-				}
-				&:valid~i{
-					color: $neon-blue;
-				}
-			}
-			& label,i{
-				position: absolute;
-				top:50%;
-				left: 0;
-				transform: translateY(-50%);
-				font-size: 16px;
-				color: #fff;
-				pointer-events: none;
-				transition: .5s;
-			}
-			& i{
-				font-size: 18px;
-				right: 0;
-				left: unset;
 			}
 		}
-		& .btn{
+		display: none;
+	}
+	&-header{
+		font-size: 32px;
+		color: #fff;
+		text-align: center;
+		font-weight: bolder;
+	}
+	& .btn{
+		width: 100%;
+		height: 45px;
+		border-radius: 40px;
+		border: 2px solid $neon-blue;
+		cursor: pointer;
+		background: transparent;
+		outline: none;
+		color: #fff;
+		font-weight: 600;
+		position: relative;
+		z-index: 1;
+		overflow: hidden;
+		&::before{
+			content: '';
+			position: absolute;
+			top:-100%;
+			left: 0;
+			background: linear-gradient($background-color,$neon-blue,$background-color,$neon-blue);
 			width: 100%;
-			height: 45px;
-			border-radius: 40px;
-			border: 2px solid $neon-blue;
-			cursor: pointer;
-			background: transparent;
-			outline: none;
-			color: #fff;
-			font-weight: 600;
-			position: relative;
-			z-index: 1;
-			overflow: hidden;
-			&::before{
-				content: '';
-				position: absolute;
-				top:-100%;
-				left: 0;
-				background: linear-gradient($background-color,$neon-blue,$background-color,$neon-blue);
-				width: 100%;
-				height: 300%;
-				z-index: -1;
-				transition: .5s;
-			}
-			&:hover::before{
-				top:0;
-			}
+			height: 300%;
+			z-index: -1;
+			transition: .5s;
 		}
-		& .logreg__link{
-			font-size: 14.5px;
-			color: #fff;
-			text-align: center;
-			margin: 20px 0 10px;
-			& a{
-				color: $neon-blue;
-				text-decoration: none;
-				font-weight: 600;
-				&:hover{
-					text-decoration: underline;
-				}
+		&:hover::before{
+			top:0;
+		}
+	}
+	.log-or-reg-link{
+		font-size: 14.5px;
+		color: #fff;
+		text-align: center;
+		margin: 20px 0 10px;
+		& a{
+			color: $neon-blue;
+			text-decoration: none;
+			font-weight: 600;
+			&:hover{
+				text-decoration: underline;
 			}
 		}
 	}
@@ -139,11 +161,12 @@ body{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	&.login{
+	&-login{
 		right: 0;
 		text-align: right;
 		padding: 0 40px 60px 150px;
 		box-sizing: border-box;
+		
 	}
 	& h2{
 		font-size: 36px;
@@ -156,15 +179,75 @@ body{
 		font-size: 16px;
 		color: #fff;
 	}
+	&-register{
+		left: 0;
+		text-align: left;
+		padding: 0 150px 0px 40px;
+		box-sizing: border-box;
+		display: none;
+	}
 }
 .bg-animate{
 	position: absolute;
-	top:0;
+	top:-4px;
 	right: 0;
 	width: 850px;
 	height: 600px;
 	background: linear-gradient(45deg,$background-color,$neon-blue);
 	border-bottom:3px solid $neon-blue;
 	transform: rotate(10deg) skewY(40deg);
+	//transform: rotate(0) skewY(0);
 	transform-origin: bottom right;
+}
+.bg-animate2{
+	position: absolute;
+	top:100%;
+	left: 250px;
+	width: 850px;
+	height: 700px;
+	background: $background-color;
+	border-bottom:3px solid $neon-blue;
+	//transform: rotate(-11deg) skewY(-41deg);
+	transform: rotate(0) skewY(0);
+	transform-origin: bottom left;
+}
+.wrapper{
+	& .form-box-login,.info-text-login{
+		& .animation{
+			transform: translateX(0);
+			transition: .7s ease;
+			opacity: 1;
+			filter: blur(0px);
+		}
+	}
+	
+	& .bg-animate{
+		
+	}
+	& .bg-animate2{
+		
+	}
+}
+.wrapper.active{
+	& .form-box-login,.info-text-login{
+		& .animation{
+			transform: translateX(-120%);
+			transition-delay: calc(.1s * var(--i)); 
+			opacity: 0;
+			filter: blur(10px);
+		}
+	}
+	& .info-text-login{
+		& .animation{
+			transform: translateX(120%);
+		}
+	}
+
+	& .bg-animate{
+		transform: rotate(0) skewY(0);
+	}
+	& .bg-animate2{
+		transform: rotate(-11deg) skewY(-41deg);
+	}
+	
 }

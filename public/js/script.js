@@ -1552,6 +1552,15 @@ window.addEventListener("load",function(){
 			sendAjaxRequest(url, method, deleteTransaction, data);	
 			hideModal(dialog[1]);
 		})
+
+		var urlDate = urlArray.pop().toString().split('-');
+		var urlYear = urlDate.pop();
+		var urlMonth = urlDate.pop();
+		var gotoBack = document.querySelector('.go-to-back');
+		// gotoBack.addEventListener('click',(e)=>{
+		// 	localStorage.setItem('previousYear',urlYear);
+		// 	localStorage.setItem('previousMonth',urlMonth);
+		// })
 	}
 })
 function hiddenBox(box){
@@ -1656,14 +1665,12 @@ if (currentPage == 'dashboard'){
 			datasets:[
 			{
 				label:' Receipt',
-				backgroundColor:'#6259ca',
 				borderColor:'#6259ca',
 				data:[],
 				tension:0.4,
 			},
 			{
 				label:' Expenditure',
-				backgroundColor:'#f99433',
 				borderColor:'#f99433',
 				data:[],
 				segment : {
@@ -1691,7 +1698,7 @@ if (currentPage == 'dashboard'){
 			}
 		};
 		
-		const canvas = document.getElementById('myChart');
+		const canvas = document.getElementById('myChart').getContext('2d');
 		const chart = new Chart(canvas,config);
 
 		function updateChart(data){
@@ -1703,7 +1710,8 @@ if (currentPage == 'dashboard'){
 				chart.data.labels.push(responseData[i].month);
 				chart.data.datasets[0].data.push(responseData[i].receipt);
 				chart.data.datasets[1].data.push(responseData[i].expenditure);
-			}chart.update();
+			}
+			chart.update();
 		}
 		var rs1;
 		var dashUrl = "./Ajax/DrawChart";

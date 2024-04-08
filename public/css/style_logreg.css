@@ -1,5 +1,5 @@
 body {
-  font-family: "Popins", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 12px;
   width: 100%;
   min-height: 100vh;
@@ -17,27 +17,21 @@ body {
   overflow: hidden;
   box-shadow: 0 0 25px #0ef; }
 
-.form__box-login {
+.form-box {
   position: absolute;
   top: 0;
-  left: 0;
-  padding: 0 60px 0 40px;
   box-sizing: border-box;
   width: 50%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center; }
-  .form__box-login-header {
-    font-size: 32px;
-    color: #fff;
-    text-align: center; }
-  .form__box-login .input__box {
+  .form-box .form-group {
     width: 100%;
     height: 50px;
     margin: 25px 0;
     position: relative; }
-    .form__box-login .input__box input {
+    .form-box .form-group input {
       width: 100%;
       height: 100%;
       border: none;
@@ -49,19 +43,19 @@ body {
       box-sizing: border-box;
       background: transparent;
       border-bottom: 2px solid #fff; }
-      .form__box-login .input__box input:focus ~ label {
+      .form-box .form-group input:focus ~ label {
         top: -5px;
         color: #0ef;
         font-size: 13px; }
-      .form__box-login .input__box input:valid ~ label {
+      .form-box .form-group input:valid ~ label {
         top: -5px;
         color: #0ef;
         font-size: 13px; }
-      .form__box-login .input__box input:focus ~ i {
+      .form-box .form-group input:focus ~ i {
         color: #0ef; }
-      .form__box-login .input__box input:valid ~ i {
+      .form-box .form-group input:valid ~ i {
         color: #0ef; }
-    .form__box-login .input__box label, .form__box-login .input__box i {
+    .form-box .form-group label, .form-box .form-group i {
       position: absolute;
       top: 50%;
       left: 0;
@@ -70,11 +64,33 @@ body {
       color: #fff;
       pointer-events: none;
       transition: .5s; }
-    .form__box-login .input__box i {
+    .form-box .form-group i {
       font-size: 18px;
       right: 0;
       left: unset; }
-  .form__box-login .btn {
+  .form-box-login {
+    left: 0;
+    padding: 0 60px 0 40px; }
+  .form-box-register {
+    right: 0;
+    padding: 0 40px 0 60px;
+    display: none; }
+    .form-box-register .form-group {
+      margin: 15px 0; }
+      .form-box-register .form-group input:focus ~ label {
+        top: 0;
+        color: #0ef;
+        font-size: 13px; }
+      .form-box-register .form-group input:valid ~ label {
+        top: 0;
+        color: #0ef;
+        font-size: 13px; }
+  .form-box-header {
+    font-size: 32px;
+    color: #fff;
+    text-align: center;
+    font-weight: bolder; }
+  .form-box .btn {
     width: 100%;
     height: 45px;
     border-radius: 40px;
@@ -87,7 +103,7 @@ body {
     position: relative;
     z-index: 1;
     overflow: hidden; }
-    .form__box-login .btn::before {
+    .form-box .btn::before {
       content: '';
       position: absolute;
       top: -100%;
@@ -97,18 +113,18 @@ body {
       height: 300%;
       z-index: -1;
       transition: .5s; }
-    .form__box-login .btn:hover::before {
+    .form-box .btn:hover::before {
       top: 0; }
-  .form__box-login .logreg__link {
+  .form-box .log-or-reg-link {
     font-size: 14.5px;
     color: #fff;
     text-align: center;
     margin: 20px 0 10px; }
-    .form__box-login .logreg__link a {
+    .form-box .log-or-reg-link a {
       color: #0ef;
       text-decoration: none;
       font-weight: 600; }
-      .form__box-login .logreg__link a:hover {
+      .form-box .log-or-reg-link a:hover {
         text-decoration: underline; }
 
 .info-text {
@@ -119,7 +135,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center; }
-  .info-text.login {
+  .info-text-login {
     right: 0;
     text-align: right;
     padding: 0 40px 60px 150px;
@@ -133,10 +149,16 @@ body {
   .info-text p {
     font-size: 16px;
     color: #fff; }
+  .info-text-register {
+    left: 0;
+    text-align: left;
+    padding: 0 150px 0px 40px;
+    box-sizing: border-box;
+    display: none; }
 
 .bg-animate {
   position: absolute;
-  top: 0;
+  top: -4px;
   right: 0;
   width: 850px;
   height: 600px;
@@ -144,5 +166,34 @@ body {
   border-bottom: 3px solid #0ef;
   transform: rotate(10deg) skewY(40deg);
   transform-origin: bottom right; }
+
+.bg-animate2 {
+  position: absolute;
+  top: 100%;
+  left: 250px;
+  width: 850px;
+  height: 700px;
+  background: #081b29;
+  border-bottom: 3px solid #0ef;
+  transform: rotate(0) skewY(0);
+  transform-origin: bottom left; }
+
+.wrapper .form-box-login .animation, .wrapper .info-text-login .animation {
+  transform: translateX(0);
+  transition: .7s ease;
+  opacity: 1;
+  filter: blur(0px); }
+
+.wrapper.active .form-box-login .animation, .wrapper.active .info-text-login .animation {
+  transform: translateX(-120%);
+  transition-delay: calc(.1s * var(--i));
+  opacity: 0;
+  filter: blur(10px); }
+.wrapper.active .info-text-login .animation {
+  transform: translateX(120%); }
+.wrapper.active .bg-animate {
+  transform: rotate(0) skewY(0); }
+.wrapper.active .bg-animate2 {
+  transform: rotate(-11deg) skewY(-41deg); }
 
 /*# sourceMappingURL=style_logreg.css.map */
