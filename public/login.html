@@ -17,14 +17,14 @@
 		<span class="bg-animate2"></span>
 		<div class="form-box form-box-login">
 			<h2 class="form-box-header form-box-header-login animation" style="--i:0; --j:21;">Login</h2>
-			<form action="#">
+			<form id="form-login" action="#">
 				<div class="form-group animation" style="--i:1; --j:22;">
-					<input type="text" required>
+					<input id="username-login" type="text" required>
 					<label>Username</label>
 					<i class='bx bxs-user'></i>
 				</div>
 				<div class="form-group animation" style="--i:2; --j:23;">
-					<input type="Password" required>
+					<input id="password-login" type="Password" required>
 					<label>Password</label>
 					<i class='bx bxs-lock-alt' ></i>
 				</div>
@@ -41,28 +41,28 @@
 
 		<div class="form-box form-box-register">
 			<h2 class="form-box-header form-box-header-register animation" style="--i:17; --j:0;">Sign Up</h2>
-			<form action="#">
+			<form id="form-register" action="#">
 				<div class="form-group animation" style="--i:18; --j:1;">
-					<input type="text" required>
+					<input id="username" type="text" required>
 					<label>Username</label>
 					<i class='bx bxs-user'></i>
 				</div>
 				<div class="form-group animation" style="--i:19; --j:2;">
-					<input type="password" required>
+					<input id="password" type="password" required>
 					<label>Password</label>
 					<i class='bx bxs-lock' ></i>
 				</div>
 				<div class="form-group animation" style="--i:20; --j:3;">
-					<input type="password" required>
+					<input id="repassword" type="password" required>
 					<label>Re-Password</label>
 					<i class='bx bxs-lock' ></i>
 				</div>
 				<div class="form-group animation" style="--i:21; --j:4;">
-					<input type="email" required>
+					<input id="email" type="email" required>
 					<label>Email</label>
 					<i class='bx bxs-envelope'></i>
 				</div>
-				<button type="submit" class="btn animation" style="--i:22; --j:5;">Register</button>
+				<button type="submit" id="btn-submit" class="btn animation" style="--i:22; --j:5;">Register</button>
 				<div class="log-or-reg-link animation" style="--i:23; --j:6;">
 					<p>Already have an account? <a href="google.com" class="login-link">Sign in</a></p>
 				</div>
@@ -73,6 +73,7 @@
 			<p class="animation" style="--i:18; --j:1;">Please sign up to use services !</p>
 		</div>
 	</div>
+	<script src="js/validator.js"></script>
 	<script>
 		var wrapper = document.querySelector(".wrapper");
 		var loginLink = document.querySelector(".login-link");
@@ -85,6 +86,14 @@
 			e.preventDefault()
 			wrapper.classList.add('active');
 		})
+
+		Validator({
+			form:"#form-login",
+			rules:[
+				Validator.isRequired("#username-login"),
+				Validator.isRequired("#password-login")
+			]
+		});
 	</script>
 </body>
 </html>
