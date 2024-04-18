@@ -74,6 +74,7 @@ body{
 			pointer-events: none;
 			transition: .5s;
 		}
+		
 		& i{
 			font-size: 18px;
 			right: 0;
@@ -151,6 +152,14 @@ body{
 				text-decoration: underline;
 			}
 		}
+	}
+}
+.form-group.invalid{
+	& input{
+		border-bottom-color: #e60a41;
+	}
+	& i,label{
+		color:#e60a41;
 	}
 }
 .info-text{
