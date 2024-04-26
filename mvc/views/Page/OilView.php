@@ -6,10 +6,10 @@
 			<span class="header__container-left-link">Oil Change History</span>
 		</div>
 		<div class="header__container-right">
-			<button class="add__button">
+			<button class="btn btn-add">
 				<i class="fa-solid fa-plus"></i> Add Transaction
 			</button>
-			<button class="export__button">
+			<button class="btn btn-export">
 				<i class="fa-solid fa-file-export"></i> Export
 			</button>
 		</div>
@@ -107,10 +107,10 @@
 									echo'<td data-cell="status" class="table__status" style="color:'.$textColor.'">'.$status.'</td>';
 									echo '<td data-cell="Action">
 										<div class="table__action">
-										<button class="edit__button">
+										<button class="btn-edit">
 										<i class="fa-solid fa-pen fa-sm"></i>
 										</button>
-										<button class="remove__button">
+										<button class="btn-remove">
 										<i class="fa-solid fa-trash fa-sm"></i>
 										</button>
 										</div>
@@ -155,47 +155,47 @@
 			</section>
 		</main>
 	</div>
-	<div class="dialog">
-		<form id="AddNewTransaction" action="" method="POST">
-			<div class="dialog__content">
-				<div class="dialog__content-header">
-					<div class="dialog__content-header-label">
+	<div class="dialog" id="dialog-1">
+		<form id="form-add-record" action="" method="POST">
+			<div class="dialog-content">
+				<div class="dialog-content-header">
+					<div class="dialog-content-header-label">
 						<h2>Add a new transaction</h2>
 						<span class="input_infor" id="transDialog_info"></span>
 					</div>					
-					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
+					<a href="#" class="btn-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 				</div>
-				<div class="dialog__content-body">
-					<div class="dialog__form">
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__start-day">Start Day
+				<div class="dialog-content-body">
+					<div class="form-content">
+						<div class="form-group">
+							<label class="form-group-label" for="form__start-day">Start Day
 								<span class="input_infor" id="start_day_info"></span>
 							</label>
-							<input class="dialog__form-input" type="date" name="startday" id="form__start-day" placeholder="Start day">
+							<input class="form-group-input" type="date" name="startday" id="form__start-day" placeholder="Start day">
 						</div>				
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__end-day">End Day
+						<div class="form-group">
+							<label class="form-group-label" for="form__end-day">End Day
 								<span class="input_infor" id="end_day_info"></span>
 							</label>
-							<input class="dialog__form-input" type="date" name="endday" id="form__end-day" placeholder="End day">
+							<input class="form-group-input" type="date" name="endday" id="form__end-day" placeholder="End day">
 						</div>				
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__start-kilometer">Start Kilometer
+						<div class="form-group">
+							<label class="form-group-label" for="form__start-kilometer">Start Kilometer
 								<span class="input_infor" id="start_km_info"></span>
 							</label>
-							<input class="dialog__form-input" name="startkilometer" type="number" step="1" id="form__start-kilometer" placeholder="Start kilometer">
+							<input class="form-group-input" name="startkilometer" type="number" step="1" id="form__start-kilometer" placeholder="Start kilometer">
 						</div>				
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__end-kilometer">End Kilometer
-							<span class="input_infor" id="end_km_info"></span>
-						</label>
-							<input class="dialog__form-input" name="endkilometer" type="number" step="1" id="form__end-kilometer" placeholder="End kilometer">
+						<div class="form-group">
+							<label class="form-group-label" for="form__end-kilometer">End Kilometer
+								<span class="input_infor" id="end_km_info"></span>
+							</label>
+							<input class="form-group-input" name="endkilometer" type="number" step="1" id="form__end-kilometer" placeholder="End kilometer">
 						</div>				
-						<div class="dialog__form-field">
-							<label class="dialog__form-label" for="form__product">Oil Product
+						<div class="form-group">
+							<label class="form-group-label" for="form__product">Oil Product
 								<span class="input_infor" id="product_info"></span>
 							</label>
-							<select class="dialog__form-input" name="product" id="form__product">
+							<select class="form-group-input" name="product" id="form__product">
 								<option value="null" selected="selected">-- Choose one --</option>
 								<template id="product-option">
 									<option value="{{value}}">{{name}}</option>
@@ -204,11 +204,11 @@
 						</div>
 					</div>
 				</div>
-				<div class="dialog__content-footer">
-					<button type="button" class="create__button" name="addOchBtn">
+				<div class="dialog-content-footer">
+					<button type="button" class="btn btn-create" name="addOchBtn">
 						<i class="fa-solid fa-plus"></i> Add Transaction
 					</button>
-					<button type="button" class="update__button" name="editOchBtn">
+					<button type="button" class="btn btn-update" name="editOchBtn">
 						<i class="fa-solid fa-pen fa-sm"></i> Update Transaction
 					</button>
 				</div>
@@ -216,14 +216,14 @@
 		</form>
 	</div>	
 
-	<div class="dialog">
+	<div class="dialog" id="dialog-2">
 		<form id="DeleteTransaction" action="" method="POST">
-			<div class="dialog__content dialog__content-del">
-				<div class="dialog__content-header">
-					<h2 class="dialog__content-header-label">Delete transaction</h2>
-					<a href="#" class="dialog__content-header-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
+			<div class="dialog-content" style="min-height: initial;min-width: initial;">
+				<div class="dialog-content-header">
+					<h2 class="dialog-content-header-label">Delete transaction</h2>
+					<a href="#" class="btn-close"><i class="fa-regular fa-circle-xmark fa-2xl"></i></a>
 				</div>
-				<div class="dialog__content-body">
+				<div class="dialog-content-body">
 					<div class="dialog__form">
 						<div class="dialog__form-field">
 							<span>Are you sure delete record of this transaction ?</span>
@@ -231,11 +231,11 @@
 						
 					</div>
 				</div>
-				<div class="dialog__content-footer">
-					<button type="button" class="delete__button" name="delOchBtn">
+				<div class="dialog-content-footer">
+					<button type="button" class="btn btn-delete" name="delOchBtn">
 						<i class="fa-solid fa-trash fa-sm"></i> Delete
 					</button>
-					<button type="button" class="cancel__button" name="cancleActBtn">
+					<button type="button" class="btn btn-cancel" name="cancleActBtn">
 						<i class="fa-solid fa-ban fa-sm"></i> Cancel
 					</button>
 				</div>

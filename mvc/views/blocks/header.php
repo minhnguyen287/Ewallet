@@ -13,7 +13,8 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	<!-- <base href="/ewallet/" /> -->
 	<link rel="stylesheet" href="/ewallet/public/css/reset.css">
-	<link rel="stylesheet" href="/ewallet/public/css/style.css">
+	<!-- <link rel="stylesheet" href="/ewallet/public/css/style.css"> -->
+	<link rel="stylesheet" href="/ewallet/public/css/style2.css">
 </head>
 <body>
 	<div class="wrapper">

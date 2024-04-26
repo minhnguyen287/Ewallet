@@ -265,6 +265,8 @@ input:focus {
   color: #fff;
   border: none;
   border-radius: 5px;
+}
+.btn-edit::hover, .btn-remove::hover {
   cursor: pointer;
 }
 .btn-edit {
@@ -2191,4 +2193,4 @@ input:checked ~ label .form-content-category-field-icon-label {
   background: red;
 }
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=style2.css.map */

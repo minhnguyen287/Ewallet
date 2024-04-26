@@ -1,14 +1,6 @@
-var btnAdd = document.querySelector('.add__button');
-var btnCreate = document.querySelector('.create__button');
-var btnEdit = document.querySelector('.edit__button');
-var btnUpdate = document.querySelector('.update__button');
-var btnRemove = document.querySelector('.remove__button');
-var btnDelete = document.querySelector('.delete__button');
-var btnCancel = document.querySelector('.cancel__button');
-var btnCloseModal = document.querySelectorAll(".dialog__content-header-close");
 var headerPopup = document.querySelector(".header__popup");
 var dialog = document.getElementsByClassName("dialog");
-var titleDialog = document.querySelector('.dialog__content-header-label h2'); 
+var titleDialog = document.querySelector('.dialog-content-header-label h2'); 
 var delFormContent = document.getElementsByClassName("dialog__content")[1];
 var delForm = document.getElementsByClassName("dialog__form")[1];
 var dialogForm_startKm = document.getElementById("form__start-kilometer");
@@ -167,13 +159,28 @@ if (document.querySelector("input[data-type='currency']")) {
 function dateFormat(date){
 	return date.split('-').reverse().join('-')
 }
-btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
-if (btnCloseModal[1]) {
-	btnCloseModal[1].addEventListener("click",()=>hideModal(dialog[1]));
-}
-if (btnCancel) {
-	btnCancel.addEventListener("click",()=>hideModal(dialog[1]));
-}
+
+// console.log(btnClose)
+btnCloses.forEach(function(btnClose){
+	btnClose.addEventListener('click',function(){
+		element = btnClose;
+		while(element.parentNode){
+			if(element.parentNode.matches('.dialog')){
+				hideModal(element.parentNode)
+				break;
+			}
+			element = element.parentNode;
+		}
+	})
+})
+
+// btnCloseModal[0].addEventListener("click",()=>hideModal(dialog[0]));
+// if (btnCloseModal[1]) {
+// 	btnCloseModal[1].addEventListener("click",()=>hideModal(dialog[1]));
+// }
+// if (btnCancel) {
+// 	btnCancel.addEventListener("click",()=>hideModal(dialog[1]));
+// }
 window.addEventListener("click",function(event){
 	if (event.target == dialog[0]) {
 		hideModal(dialog[0]);
@@ -522,7 +529,7 @@ if (currentPage == 'oil') {
 	}
 	var oilTable = document.querySelector('table');
 	oilTable.onclick = function(event){
-		var btnEdits =  document.querySelectorAll('.edit__button');
+		var btnEdits =  document.querySelectorAll('.btn-edit');
 		var target = event.target;
 		btnEdits.forEach((btnEdit)=>{
 			var selector = target;
@@ -548,7 +555,7 @@ if (currentPage == 'oil') {
 			} 
 		});
 	}
-	on('table','click','.remove__button',showModal_deleteDialog);
+	on('table','click','.btn-remove',showModal_deleteDialog);
 	if (typeof(btnDelete)!== 'undefined') {
 		btnDelete.addEventListener('click',()=>{
 			var transId = btnDelete.getAttribute("transId");
@@ -1698,11 +1705,7 @@ if (currentPage == 'dashboard'){
 		};
 		
 		const canvas = document.getElementById('myChart').getContext('2d');
-<<<<<<< HEAD
 		const chart = new Chart(canvas,config);
-=======
-		var chart = new Chart(canvas,config);
->>>>>>> 762c305b0f7098993b7600261a713e81589371dd
 
 		function updateChart(data){
 			responseData = JSON.parse(data);
